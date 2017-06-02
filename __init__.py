@@ -4,4 +4,4 @@
 
 from .fetch import Fetcher
 
-__all__ = ("Fetcher", "LaunchError")
+__all__ = ("Fetcher",)

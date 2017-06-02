@@ -1,13 +1,14 @@
 #!/usr/bin/env python
+# coding=utf-8
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, division, print_function, unicode_literals
 
-import configparser
 import argparse
+import configparser
 import io
 import logging
 import os
@@ -21,8 +22,7 @@ import zipfile
 
 import requests
 
-log = logging.getLogger('fetch')  # pylint: disable=invalid-name
-logging.getLogger('requests').setLevel(logging.WARNING)
+log = logging.getLogger('fuzzfetch')  # pylint: disable=invalid-name
 
 
 def _get_url(url):
@@ -337,11 +337,9 @@ class Fetcher(object):
 
         type_group = parser.add_argument_group('Build')
         type_group.add_argument('--build', dest='build', metavar='DATE|REV',
-                                help=('Specify the build to download, (default: %(default)s)'
-                                      ' Accepts values in format YYYY-MM-DD (2017-01-01)'
-                                      ' revision (57b37213d81150642f5139764e7044b07b9dccc3)'
-                                      )
-                                )
+                                help='Specify the build to download, (default: %(default)s)'
+                                     ' Accepts values in format YYYY-MM-DD (2017-01-01)'
+                                     ' revision (57b37213d81150642f5139764e7044b07b9dccc3)')
 
         branch_group = parser.add_argument_group('Branch')
         branch_args = branch_group.add_mutually_exclusive_group()
@@ -390,6 +388,7 @@ class Fetcher(object):
             log_level = logging.DEBUG
             log_fmt = '%(levelname).1s %(name)s [%(asctime)s] %(message)s'
         logging.basicConfig(format=log_fmt, datefmt='%Y-%m-%d %H:%M:%S', level=log_level)
+        logging.getLogger('requests').setLevel(logging.WARNING)
 
         args = cls.parse_args()
         obj = cls(args.target, args.branch, args.build, args.asan, args.debug, args.tests, args.symbols)
