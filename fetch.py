@@ -226,7 +226,7 @@ class Fetcher(object):
         if self._target == 'js':
             self.extract_zip('jsshell.zip', path=os.path.join(path))
         else:
-            if sys.platform == 'linux2':
+            if sys.platform.startswith('linux'):
                 self.extract_tar(path)
             elif sys.platform == 'darwin':
                 self.extract_dmg(os.path.join(path))
@@ -423,7 +423,7 @@ class Fetcher(object):
 
 
 if __name__ == '__main__':
-    if sys.platform not in ['linux2', 'darwin']:
+    if sys.platform not in {'linux', 'linux2', 'darwin'}:
         log.error('Unknown platform: %s', sys.platform)
         exit(1)
 
