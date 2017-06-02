@@ -9,6 +9,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 import configparser
+import glob
 import io
 import logging
 import os
@@ -250,7 +251,12 @@ class Fetcher(object):
         old_dir = os.getcwd()
         os.chdir(os.path.join(path))
         os.mkdir('dist')
-        os.symlink(os.pardir, os.path.join('dist', 'bin'))
+        if sys.platform == 'darwin':
+            ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
+            assert len(ff_loc) == 1
+            os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])), os.path.join('dist', 'bin'))
+        else:
+            os.symlink(os.pardir, os.path.join('dist', 'bin'))
         os.mkdir('download')
         # Simulates 'touch' to create an empty file
         open(os.path.join('download', 'firefox-.txt'), 'w').close()
@@ -269,7 +275,7 @@ class Fetcher(object):
         output.set('Metadata', 'buildFlags', '')
 
         fm_name = '%s.fuzzmanagerconf' % self._target
-        with open(os.path.join(path, fm_name), 'w') as conf_fp:
+        with open(os.path.join(path, 'dist', 'bin', fm_name), 'w') as conf_fp:
             output.write(conf_fp)
 
     def extract_zip(self, suffix, path='.'):
