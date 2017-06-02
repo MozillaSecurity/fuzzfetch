@@ -251,7 +251,7 @@ class Fetcher(object):
         old_dir = os.getcwd()
         os.chdir(os.path.join(path))
         os.mkdir('dist')
-        if sys.platform == 'darwin':
+        if sys.platform == 'darwin' and self._target == 'firefox':
             ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
             assert len(ff_loc) == 1
             os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])), os.path.join('dist', 'bin'))
