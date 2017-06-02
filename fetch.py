@@ -1,6 +1,12 @@
-#!/usr/bin/env python2
-# coding=utf-8
-import ConfigParser as configparser
+#!/usr/bin/env python
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this file,
+# You can obtain one at http://mozilla.org/MPL/2.0/.
+
+from __future__ import absolute_import, division, print_function
+
+import configparser
 import argparse
 import io
 import logging
@@ -36,7 +42,7 @@ def _extract_file(zf, info, path):
     zf.extract(info.filename, path=path)
     out_path = os.path.join(path, info.filename)
 
-    perm = info.external_attr >> 16L
+    perm = info.external_attr >> 16
     os.chmod(out_path, perm)
 
 

@@ -1,14 +1,16 @@
 from setuptools import setup
 
-setup(
-    name='fuzzfetch',
-    version='0.1',
-    packages=['fuzzfetch'],
-    package_dir={'fuzzfetch': ''},
-    url='https://github.com/MozillaSecurity/fuzzfetch',
-    license='',
-    author='Jesse Schwartzentruber, Jason Kratzer',
-    author_email='',
-    description='Downloader for firefox/jsshell builds',
-    entry_points={"console_scripts": ["fuzzfetch = fuzzfetch:Fetcher.main"]},
-)
+if __name__ == '__main__':
+    with open('requirements.txt') as f:
+        requires = f.read().strip().splitlines()
+    setup(
+        name='fuzzfetch',
+        version='0.1',
+        packages=['fuzzfetch'],
+        package_dir={'fuzzfetch': ''},
+        url='https://github.com/MozillaSecurity/fuzzfetch',
+        license='MPL 2.0',
+        author='Jesse Schwartzentruber, Jason Kratzer',
+        description='Downloader for firefox/jsshell builds',
+        entry_points={"console_scripts": ["fuzzfetch = fuzzfetch:Fetcher.main"]},
+    )
