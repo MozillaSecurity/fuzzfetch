@@ -8,6 +8,7 @@ if __name__ == '__main__':
         version='0.1',
         packages=['fuzzfetch'],
         package_dir={'fuzzfetch': ''},
+        install_requires=requires,
         url='https://github.com/MozillaSecurity/fuzzfetch',
         license='MPL 2.0',
         author='Jesse Schwartzentruber, Jason Kratzer',
