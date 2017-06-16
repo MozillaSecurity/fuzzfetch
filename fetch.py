@@ -73,7 +73,7 @@ class Fetcher(object):
         self.rank = task['rank']
 
         # Download build information of Firefox
-        self._artifacts_url = 'https://queue.taskcluster.net/v1/task/%s/artifacts' % self.task_id
+        self._artifacts_url = 'https://queue.taskcluster.net/v1/task/{}/artifacts'.format(self.task_id)
         self._artifacts = self._get_artifacts()
         self._artifact_base = self._get_artifact_base()
 
@@ -109,15 +109,13 @@ class Fetcher(object):
         """
         url_base = 'https://index.taskcluster.net/v1/namespaces/gecko.v2.mozilla-{0}.pushdate.{1}'.format(
             self._branch,
-            build_arg
-        )
+            build_arg)
 
         # Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both
         build_strings = [
             '{0}{1}'.format(
                 '-asan' if self._asan else '',
-                '-debug' if self._debug else '-opt'
-            ),
+                '-debug' if self._debug else '-opt'),
             '{0}{1}'.format(
                 '-asan' if self._asan else '',
                 '-debug' if self._debug else '')
@@ -126,8 +124,8 @@ class Fetcher(object):
         try:
             base = HTTP_SESSION.post(url_base, json={})
             base.raise_for_status()
-        except requests.exceptions.RequestException as e:
-            raise FetcherException(e)
+        except requests.exceptions.RequestException as exc:
+            raise FetcherException(exc)
 
         json = base.json()
         for ns in json['namespaces']:
@@ -135,8 +133,7 @@ class Fetcher(object):
                 url = 'https://index.taskcluster.net/v1/task/{0}.firefox.{1}{2}'.format(
                     ns['namespace'],
                     target_platform,
-                    build_string
-                )
+                    build_string)
 
                 try:
                     data = HTTP_SESSION.get(url)
@@ -144,10 +141,10 @@ class Fetcher(object):
                 except requests.exceptions.RequestException:
                     pass
                 else:
-                    log.debug('Found archive for pushdate %s' % build_arg)
+                    log.debug('Found archive for pushdate %s', build_arg)
                     return url
 
-        raise FetcherException('Unable to find usable archive for pushdate %s' % build_arg)
+        raise FetcherException('Unable to find usable archive for pushdate ' + build_arg)
 
     def _get_revision_url(self, build_arg, target_platform):
         """
@@ -156,15 +153,13 @@ class Fetcher(object):
         """
         url_base = 'https://index.taskcluster.net/v1/task/gecko.v2.mozilla-{0}.revision.{1}.firefox'.format(
             self._branch,
-            build_arg
-        )
+            build_arg)
 
         # Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both
         build_strings = [
             '{0}{1}'.format(
                 '-asan' if self._asan else '',
-                '-debug' if self._debug else '-opt'
-            ),
+                '-debug' if self._debug else '-opt'),
             '{0}{1}'.format(
                 '-asan' if self._asan else '',
                 '-debug' if self._debug else '')
@@ -174,8 +169,7 @@ class Fetcher(object):
             url = '{0}.{1}{2}'.format(
                 url_base,
                 target_platform,
-                build_string
-            )
+                build_string)
 
             try:
                 data = HTTP_SESSION.get(url)
@@ -183,10 +177,10 @@ class Fetcher(object):
             except requests.exceptions.RequestException:
                 pass
             else:
-                log.debug('Found archive for pushdate %s' % build_arg)
+                log.debug('Found archive for pushdate %s', build_arg)
                 return url
 
-        raise FetcherException('Unable to find usable archive for pushdate %s' % build_arg)
+        raise FetcherException('Unable to find usable archive for pushdate ' + build_arg)
 
     def _task_url(self):
         """
@@ -209,8 +203,7 @@ class Fetcher(object):
             build_options = '{0}{1}{2}'.format(
                 target_platform,
                 '-asan' if self._asan else '',
-                '-debug' if self._debug else '-opt'
-            )
+                '-debug' if self._debug else '-opt')
 
             task_url = '{}gecko.v2.mozilla-{}.latest.firefox.{}'.format(url_base, self._branch, build_options)
 
@@ -252,8 +245,8 @@ class Fetcher(object):
         return self.build_info['moz_source_stamp']
 
     def artifact_url(self, suffix):
-        path = '%s.%s' % (self._artifact_base, suffix)
-        return '%s/%s' % (self._artifacts_url, path)
+        path = '{}.{}'.format(self._artifact_base, suffix)
+        return '{}/{}'.format(self._artifacts_url, path)
 
     def extract_build(self, path='.'):
         if self._target == 'js':
@@ -298,15 +291,15 @@ class Fetcher(object):
         output = configparser.RawConfigParser()
         output.add_section('Main')
         output.set('Main', 'platform', self.moz_info['processor'].replace('_', '-'))
-        output.set('Main', 'product', 'mozilla-%s' % self._branch)
-        output.set('Main', 'product_version', '%.8s-%.12s' % (self.build_info['buildid'],
-                                                              self.build_info['moz_source_stamp']))
+        output.set('Main', 'product', 'mozilla-' + self._branch)
+        output.set('Main', 'product_version', '{:.8}-{:.12}'.format(self.build_info['buildid'],
+                                                                    self.build_info['moz_source_stamp']))
         output.set('Main', 'os', self.moz_info['os'])
         output.add_section('Metadata')
         output.set('Metadata', 'pathPrefix', self.moz_info['topsrcdir'])
         output.set('Metadata', 'buildFlags', '')
 
-        fm_name = '%s.fuzzmanagerconf' % self._target
+        fm_name = self._target + '.fuzzmanagerconf'
         with open(os.path.join(path, 'dist', 'bin', fm_name), 'w') as conf_fp:
             output.write(conf_fp)
 
@@ -370,7 +363,7 @@ class Fetcher(object):
         else:
             options = ('-asan' if self._asan else '') + ('-debug' if self._debug else '-opt')
 
-        return '{}-{}{}'.format('m-%s' % self._branch[0], self.rank, options)
+        return '{}-{}{}'.format('m-' + self._branch[0], self.rank, options)
 
     @staticmethod
     def parse_args():
@@ -410,7 +403,7 @@ class Fetcher(object):
         test_group = parser.add_argument_group('Test Arguments')
         tests = ['common', 'reftests']
         test_group.add_argument('--tests', nargs='+', metavar='', choices=tests,
-                                help='Download tests associated with this build. Acceptable values are: %s' % tests)
+                                help='Download tests associated with this build. Acceptable values are: ' + str(tests))
         test_group.add_argument('--full-symbols', dest='symbols', action='store_true',
                                 help='Download the full crashreport-symbols.zip archive.')
 
