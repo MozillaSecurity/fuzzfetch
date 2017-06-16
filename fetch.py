@@ -382,10 +382,11 @@ class Fetcher(object):
                                   help='Specify the build target')
 
         type_group = parser.add_argument_group('Build')
-        type_group.add_argument('--build', dest='build', metavar='DATE|REV',
+        type_group.add_argument('--build', dest='build', metavar='DATE|REV|NS',
                                 help='Specify the build to download, (default: %(default)s)'
                                      ' Accepts values in format YYYY-MM-DD (2017-01-01)'
-                                     ' revision (57b37213d81150642f5139764e7044b07b9dccc3)')
+                                     ' revision (57b37213d81150642f5139764e7044b07b9dccc3)'
+                                     ' or TaskCluster namespace (gecko.v2....)')
 
         branch_group = parser.add_argument_group('Branch')
         branch_args = branch_group.add_mutually_exclusive_group()
