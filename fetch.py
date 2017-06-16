@@ -29,12 +29,16 @@ log = logging.getLogger('fuzzfetch')  # pylint: disable=invalid-name
 BUG_URL = 'https://github.com/MozillaSecurity/fuzzfetch/issues/'
 
 
+class FetcherException(Exception):
+    "Exception raised for any Fetcher errors."
+
+
 def _get_url(url):
     try:
         data = requests.get(url, stream=True)
         data.raise_for_status()
-    except requests.exceptions.RequestException:
-        raise
+    except requests.exceptions.RequestException as exc:
+        raise FetcherException(exc)
 
     return data
 
@@ -88,14 +92,14 @@ class Fetcher(object):
 
             # '?' is special case used for unknown build types
             if self._branch != '?' and self._branch not in self._build:
-                raise Exception("'build' and 'branch' arguments do not match. "
-                                "(build={}, branch={})".format(self._build, self._branch))
+                raise FetcherException("'build' and 'branch' arguments do not match. "
+                                       "(build={}, branch={})".format(self._build, self._branch))
             if self._asan and '-asan' not in self._build:
-                raise Exception("'build' is not an asan build, but asan=True given "
-                                "(build={})".format(self._build))
+                raise FetcherException("'build' is not an asan build, but asan=True given "
+                                       "(build={})".format(self._build))
             if self._debug and not ('-dbg' in self._build or '-debug' in self._build):
-                raise Exception("'build' is not a debug build, but debug=True given "
-                                "(build={})".format(self._build))
+                raise FetcherException("'build' is not a debug build, but debug=True given "
+                                       "(build={})".format(self._build))
 
 
     def _get_pushdate_url(self, build_arg, target_platform):
@@ -122,7 +126,7 @@ class Fetcher(object):
             base = requests.post(url_base, json={})
             base.raise_for_status()
         except requests.exceptions.RequestException as e:
-            raise Exception(e)
+            raise FetcherException(e)
 
         json = base.json()
         s = requests.Session()
@@ -143,7 +147,7 @@ class Fetcher(object):
                     log.debug('Found archive for pushdate %s' % build_arg)
                     return url
 
-        raise Exception('Unable to find usable archive for pushdate %s' % build_arg)
+        raise FetcherException('Unable to find usable archive for pushdate %s' % build_arg)
 
     def _get_revision_url(self, build_arg, target_platform):
         """
@@ -183,7 +187,7 @@ class Fetcher(object):
                 log.debug('Found archive for pushdate %s' % build_arg)
                 return url
 
-        raise Exception('Unable to find usable archive for pushdate %s' % build_arg)
+        raise FetcherException('Unable to find usable archive for pushdate %s' % build_arg)
 
     def _task_url(self):
         """
@@ -236,7 +240,7 @@ class Fetcher(object):
                 artifact_base = os.path.splitext(artifact['name'])[0]
                 break
         else:
-            raise Exception('Could not find build info in artifacts')
+            raise FetcherException('Could not find build info in artifacts')
 
         return artifact_base
 
