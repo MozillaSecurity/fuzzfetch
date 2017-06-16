@@ -27,6 +27,7 @@ log = logging.getLogger('fuzzfetch')  # pylint: disable=invalid-name
 
 
 BUG_URL = 'https://github.com/MozillaSecurity/fuzzfetch/issues/'
+HTTP_SESSION = requests.Session()
 
 
 class FetcherException(Exception):
@@ -35,7 +36,7 @@ class FetcherException(Exception):
 
 def _get_url(url):
     try:
-        data = requests.get(url, stream=True)
+        data = HTTP_SESSION.get(url, stream=True)
         data.raise_for_status()
     except requests.exceptions.RequestException as exc:
         raise FetcherException(exc)
@@ -123,13 +124,12 @@ class Fetcher(object):
         ]
 
         try:
-            base = requests.post(url_base, json={})
+            base = HTTP_SESSION.post(url_base, json={})
             base.raise_for_status()
         except requests.exceptions.RequestException as e:
             raise FetcherException(e)
 
         json = base.json()
-        s = requests.Session()
         for ns in json['namespaces']:
             for build_string in build_strings:
                 url = 'https://index.taskcluster.net/v1/task/{0}.firefox.{1}{2}'.format(
@@ -139,7 +139,7 @@ class Fetcher(object):
                 )
 
                 try:
-                    data = s.get(url)
+                    data = HTTP_SESSION.get(url)
                     data.raise_for_status()
                 except requests.exceptions.RequestException:
                     pass
@@ -170,7 +170,6 @@ class Fetcher(object):
                 '-debug' if self._debug else '')
         ]
 
-        s = requests.Session()
         for build_string in build_strings:
             url = '{0}.{1}{2}'.format(
                 url_base,
@@ -179,7 +178,7 @@ class Fetcher(object):
             )
 
             try:
-                data = s.get(url)
+                data = HTTP_SESSION.get(url)
                 data.raise_for_status()
             except requests.exceptions.RequestException:
                 pass
