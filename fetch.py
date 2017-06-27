@@ -58,12 +58,13 @@ def _extract_file(zf, info, path):
 class Fetcher(object):
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
 
-    def __init__(self, target, branch, build, asan, debug, tests=None, symbols=None):
+    def __init__(self, target, branch, build, asan=False, debug=False, fuzzing=False, tests=None, symbols=None):
         self._target = target
         self._branch = branch
         self._build = build
         self._asan = asan
         self._debug = debug
+        self._fuzzing = fuzzing
         self._tests = tests
         self._symbols = symbols
 
@@ -90,6 +91,8 @@ class Fetcher(object):
                 self._debug = '-debug' in self._build or '-dbg' in self._build
             if not self._asan:
                 self._asan = '-asan' in self._build
+            if not self._fuzzing:
+                self._fuzzing = '-fuzzing' in self._build
 
             # '?' is special case used for unknown build types
             if self._branch != '?' and self._branch not in self._build:
@@ -100,6 +103,9 @@ class Fetcher(object):
                                        "(build={})".format(self._build))
             if self._debug and not ('-dbg' in self._build or '-debug' in self._build):
                 raise FetcherException("'build' is not a debug build, but debug=True given "
+                                       "(build={})".format(self._build))
+            if self._fuzzing and '-fuzzing' not in self._build:
+                raise FetcherException("'build' is not a fuzzing build, but fuzzing=True given "
                                        "(build={})".format(self._build))
 
 
@@ -113,12 +119,12 @@ class Fetcher(object):
 
         # Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both
         build_strings = [
-            '{0}{1}'.format(
-                '-asan' if self._asan else '',
-                '-debug' if self._debug else '-opt'),
-            '{0}{1}'.format(
-                '-asan' if self._asan else '',
-                '-debug' if self._debug else '')
+            ('-fuzzing' if self._fuzzing else '') +
+            ('-asan' if self._asan else '') +
+            ('-debug' if self._debug else '-opt'),
+            ('-fuzzing' if self._fuzzing else '') +
+            ('-asan' if self._asan else '') +
+            ('-debug' if self._debug else '')
         ]
 
         try:
@@ -157,19 +163,16 @@ class Fetcher(object):
 
         # Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both
         build_strings = [
-            '{0}{1}'.format(
-                '-asan' if self._asan else '',
-                '-debug' if self._debug else '-opt'),
-            '{0}{1}'.format(
-                '-asan' if self._asan else '',
-                '-debug' if self._debug else '')
+            ('-fuzzing' if self._fuzzing else '') +
+            ('-asan' if self._asan else '') +
+            ('-debug' if self._debug else '-opt'),
+            ('-fuzzing' if self._fuzzing else '') +
+            ('-asan' if self._asan else '') +
+            ('-debug' if self._debug else '')
         ]
 
         for build_string in build_strings:
-            url = '{0}.{1}{2}'.format(
-                url_base,
-                target_platform,
-                build_string)
+            url = (url_base + "." + target_platform + build_string)
 
             try:
                 data = HTTP_SESSION.get(url)
@@ -200,10 +203,10 @@ class Fetcher(object):
             task_url = self._get_revision_url(build_arg, target_platform)
 
         elif self._build == 'latest':
-            build_options = '{0}{1}{2}'.format(
-                target_platform,
-                '-asan' if self._asan else '',
-                '-debug' if self._debug else '-opt')
+            build_options = (target_platform +
+                             ('-fuzzing' if self._fuzzing else '') +
+                             ('-asan' if self._asan else '') +
+                             ('-debug' if self._debug else '-opt'))
 
             task_url = '{}gecko.v2.mozilla-{}.latest.firefox.{}'.format(url_base, self._branch, build_options)
 
@@ -361,7 +364,9 @@ class Fetcher(object):
         if self.moz_info["platform_guess"] in self._build:
             options = self._build.split(self.moz_info["platform_guess"], 1)[1]
         else:
-            options = ('-asan' if self._asan else '') + ('-debug' if self._debug else '-opt')
+            options = (('-fuzzing' if self._fuzzing else '') +
+                       ('-asan' if self._asan else '') +
+                       ('-debug' if self._debug else '-opt'))
 
         return '{}-{}{}'.format('m-' + self._branch[0], self.rank, options)
 
@@ -399,6 +404,8 @@ class Fetcher(object):
                                  help='Get debug builds w/ symbols (default=optimized).')
         build_group.add_argument('-a', '--asan', action='store_true',
                                  help='Download AddressSanitizer builds.')
+        build_group.add_argument('--fuzzing', action='store_true',
+                                 help='Download --enable-fuzzing builds.')
 
         test_group = parser.add_argument_group('Test Arguments')
         tests = ['common', 'reftests']
@@ -424,6 +431,8 @@ class Fetcher(object):
                 parser.error('Cannot specify --build namespace and --debug')
             if args.asan:
                 parser.error('Cannot specify --build namespace and --asan')
+            if args.fuzzing:
+                parser.error('Cannot specify --build namespace and --fuzzing')
 
         # do this default manually so we can error if combined with --build namespace
         #parser.set_defaults(branch='central')
@@ -443,7 +452,12 @@ class Fetcher(object):
         logging.getLogger('requests').setLevel(logging.WARNING)
 
         args = cls.parse_args()
-        obj = cls(args.target, args.branch, args.build, args.asan, args.debug, args.tests, args.symbols)
+        obj = cls(args.target, args.branch, args.build,
+                  fuzzing=args.fuzzing,
+                  asan=args.asan,
+                  debug=args.debug,
+                  tests=args.tests,
+                  symbols=args.symbols)
 
         if args.name is None:
             args.name = obj.get_auto_name()
