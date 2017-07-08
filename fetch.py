@@ -288,7 +288,7 @@ class Fetcher(object):
         os.mkdir('download')
         with open(os.path.join('download', 'firefox-.txt'), 'w') as fp:
             print(self.build_id, file=fp)
-            print('https://hg.mozilla.org/{}/rev/{}'.format(self._branch, self.changeset), file=fp)
+            print('https://hg.mozilla.org/mozilla-{}/rev/{}'.format(self._branch, self.changeset), file=fp)
         os.chdir(old_dir)
 
         # Add fuzzmanagerconf
