@@ -286,8 +286,9 @@ class Fetcher(object):
         else:
             os.symlink(os.pardir, os.path.join('dist', 'bin'))
         os.mkdir('download')
-        # Simulates 'touch' to create an empty file
-        open(os.path.join('download', 'firefox-.txt'), 'w').close()
+        with open(os.path.join('download', 'firefox-.txt'), 'w') as fp:
+            print(self.build_id, file=fp)
+            print('https://hg.mozilla.org/{}/rev/{}'.format(self._branch, self.changeset), file=fp)
         os.chdir(old_dir)
 
         # Add fuzzmanagerconf
@@ -295,8 +296,7 @@ class Fetcher(object):
         output.add_section('Main')
         output.set('Main', 'platform', self.moz_info['processor'].replace('_', '-'))
         output.set('Main', 'product', 'mozilla-' + self._branch)
-        output.set('Main', 'product_version', '{:.8}-{:.12}'.format(self.build_info['buildid'],
-                                                                    self.build_info['moz_source_stamp']))
+        output.set('Main', 'product_version', '{:.8}-{:.12}'.format(self.build_id, self.changeset))
         output.set('Main', 'os', self.moz_info['os'])
         output.add_section('Metadata')
         output.set('Metadata', 'pathPrefix', self.moz_info['topsrcdir'])
