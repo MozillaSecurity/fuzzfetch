@@ -266,6 +266,12 @@ class Fetcher(object):
                 self.extract_zip('common.tests.zip', path=os.path.join(path, 'tests'))
             if 'reftests' in self._tests:
                 self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
+            if 'gtest' in self._tests:
+                self.extract_zip('gtest.tests.zip', path=path)
+                os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', 'libxul.so'),
+                          os.path.join(path, 'gtest', 'libxul.so'))
+                os.symlink(os.path.join('gtest', 'dependentlibs.list.gtest'),
+                           os.path.join(path, 'dependentlibs.list.gtest'))
 
         if self._debug and not self._asan:
             if self._symbols:
@@ -408,7 +414,7 @@ class Fetcher(object):
                                  help='Download --enable-fuzzing builds.')
 
         test_group = parser.add_argument_group('Test Arguments')
-        tests = ['common', 'reftests']
+        tests = ['common', 'reftests', 'gtest']
         test_group.add_argument('--tests', nargs='+', metavar='', choices=tests,
                                 help='Download tests associated with this build. Acceptable values are: ' + str(tests))
         test_group.add_argument('--full-symbols', dest='symbols', action='store_true',
