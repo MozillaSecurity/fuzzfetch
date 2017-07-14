@@ -5,7 +5,7 @@ if __name__ == '__main__':
         requires = f.read().strip().splitlines()
     setup(
         name='fuzzfetch',
-        version='0.4.0',
+        version='0.4.1',
         packages=['fuzzfetch'],
         package_dir={'fuzzfetch': ''},
         install_requires=requires,
