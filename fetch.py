@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
+# pylint: disable=missing-docstring
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -8,9 +9,10 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
-import configparser
+import collections
 import glob
 import io
+import itertools
 import logging
 import os
 import re
@@ -21,6 +23,7 @@ import tarfile
 import tempfile
 import zipfile
 
+import configparser # pylint: disable=wrong-import-order
 import requests
 
 log = logging.getLogger('fuzzfetch')  # pylint: disable=invalid-name
@@ -44,88 +47,93 @@ def _get_url(url):
     return data
 
 
-def _extract_file(zf, info, path):
+def _extract_file(zip_fp, info, path):
     """
     Extract files while explicitly setting the proper permissions
     """
-    zf.extract(info.filename, path=path)
+    zip_fp.extract(info.filename, path=path)
     out_path = os.path.join(path, info.filename)
 
     perm = info.external_attr >> 16
     os.chmod(out_path, perm)
 
 
-class Fetcher(object):
-    re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
+class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing'))):
+    "Flags used to make a build"
 
-    def __init__(self, target, branch, build, asan=False, debug=False, fuzzing=False, tests=None, symbols=None):
-        self._target = target
-        self._branch = branch
-        self._build = build
-        self._asan = asan
-        self._debug = debug
-        self._fuzzing = fuzzing
-        self._tests = tests
-        self._symbols = symbols
-
-        self.task_url = self._task_url()
-        task = _get_url(self.task_url).json()
-        self.task_id = task['taskId']
-        self.rank = task['rank']
-
-        # Download build information of Firefox
-        self._artifacts_url = 'https://queue.taskcluster.net/v1/task/{}/artifacts'.format(self.task_id)
-        self._artifacts = self._get_artifacts()
-        self._artifact_base = self._get_artifact_base()
-
-        self.build_info = _get_url(self.artifact_url('json')).json()
-        self.moz_info = _get_url(self.artifact_url('mozinfo.json')).json()
-
-        # if the build string contains the platform, assume it is a TaskCluster namespace
-        if self.moz_info["platform_guess"] in self._build:
-            # try to set args to match the namespace given
-            if self._branch is None:
-                branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', self._build)
-                self._branch = branch.group('branch') if branch is not None else '?'
-            if not self._debug:
-                self._debug = '-debug' in self._build or '-dbg' in self._build
-            if not self._asan:
-                self._asan = '-asan' in self._build
-            if not self._fuzzing:
-                self._fuzzing = '-fuzzing' in self._build
-
-            # '?' is special case used for unknown build types
-            if self._branch != '?' and self._branch not in self._build:
-                raise FetcherException("'build' and 'branch' arguments do not match. "
-                                       "(build={}, branch={})".format(self._build, self._branch))
-            if self._asan and '-asan' not in self._build:
-                raise FetcherException("'build' is not an asan build, but asan=True given "
-                                       "(build={})".format(self._build))
-            if self._debug and not ('-dbg' in self._build or '-debug' in self._build):
-                raise FetcherException("'build' is not a debug build, but debug=True given "
-                                       "(build={})".format(self._build))
-            if self._fuzzing and '-fuzzing' not in self._build:
-                raise FetcherException("'build' is not a fuzzing build, but fuzzing=True given "
-                                       "(build={})".format(self._build))
+    def build_strings(self):
+        "Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both"
+        yield (('-fuzzing' if self.fuzzing else '') +
+               ('-asan' if self.asan else '') +
+               ('-debug' if self.debug else '-opt'))
+        yield (('-fuzzing' if self.fuzzing else '') +
+               ('-asan' if self.asan else '') +
+               ('-debug' if self.debug else ''))
 
 
-    def _get_pushdate_url(self, build_arg, target_platform):
+class BuildTask(object): # pylint: disable=too-few-public-methods
+    "TaskCluster build metadata"
+    URL_BASE = 'https://index.taskcluster.net/v1/'
+
+    def __init__(self, build, branch, flags):
         """
-        Multiple entries exist per push date. Iterate over all until a working entry is found
+        Retrieve the task JSON object
+        Requires first generating the task URL based on the specified build type and platform
         """
-        url_base = 'https://index.taskcluster.net/v1/namespaces/gecko.v2.mozilla-{0}.pushdate.{1}'.format(
-            self._branch,
-            build_arg)
 
-        # Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both
-        build_strings = [
-            ('-fuzzing' if self._fuzzing else '') +
-            ('-asan' if self._asan else '') +
-            ('-debug' if self._debug else '-opt'),
-            ('-fuzzing' if self._fuzzing else '') +
-            ('-asan' if self._asan else '') +
-            ('-debug' if self._debug else '')
-        ]
+        # Prepare build type
+        target_platform = 'macosx64' if sys.platform == 'darwin' else 'linux64'
+
+        if re.match(r'\d{4}-\d{2}-\d{2}$', build):
+            debug_str = 'pushdate ' + build
+            task_urls = map(''.join,
+                            itertools.product(self._pushdate_urls(build.replace('-', '.'), branch, target_platform),
+                                              flags.build_strings()))
+
+        elif re.match(r'[0-9A-F]{40}$', build, re.IGNORECASE):
+            debug_str = 'revision ' + build
+            task_urls = map(''.join,
+                            itertools.product((self._revision_url(build.lower(), branch, target_platform),),
+                                              flags.build_strings()))
+
+        elif build == 'latest':
+            debug_str = 'latest'
+            namespace = 'gecko.v2.mozilla-' + branch + '.latest'
+            task_urls = map(''.join,
+                            itertools.product((self.URL_BASE + '/task/' + namespace + '.firefox.' + target_platform,),
+                                              flags.build_strings()))
+
+        else:
+            # try to use build argument directly as a namespace
+            debug_str = build
+            if target_platform not in build:
+                log.warning('Cross-platform fetching is not tested. Please report problems to: %s', BUG_URL)
+            task_urls = (self.URL_BASE + '/task/' + build,)
+
+        for url in task_urls:
+            try:
+                data = HTTP_SESSION.get(url)
+                data.raise_for_status()
+            except requests.exceptions.RequestException:
+                pass
+            else:
+                self.url = url
+                self._data = data.json()
+
+                log.debug('Found archive for %s', debug_str)
+                return
+
+        raise FetcherException('Unable to find usable archive for ' + debug_str)
+
+    def __getattr__(self, name):
+        if name in self._data:
+            return self._data[name]
+        raise AttributeError("'%s' object has no attribute '%s'" % (type(self).__name__, name))
+
+    @classmethod
+    def _pushdate_urls(cls, pushdate, branch, target_platform):
+        "Multiple entries exist per push date. Iterate over all until a working entry is found"
+        url_base = cls.URL_BASE + '/namespaces/gecko.v2.mozilla-' + branch + '.pushdate.' + pushdate
 
         try:
             base = HTTP_SESSION.post(url_base, json={})
@@ -134,124 +142,155 @@ class Fetcher(object):
             raise FetcherException(exc)
 
         json = base.json()
-        for ns in json['namespaces']:
-            for build_string in build_strings:
-                url = 'https://index.taskcluster.net/v1/task/{0}.firefox.{1}{2}'.format(
-                    ns['namespace'],
-                    target_platform,
-                    build_string)
+        for namespace in json['namespaces']:
+            yield cls.URL_BASE + '/task/' + namespace['namespace'] + '.firefox.' + target_platform
 
-                try:
-                    data = HTTP_SESSION.get(url)
-                    data.raise_for_status()
-                except requests.exceptions.RequestException:
-                    pass
-                else:
-                    log.debug('Found archive for pushdate %s', build_arg)
-                    return url
+    @classmethod
+    def _revision_url(cls, rev, branch, target_platform):
+        "Retrieve the URL for revision based builds"
+        namespace = 'gecko.v2.mozilla-' + branch + '.revision.' + rev
+        return cls.URL_BASE + '/task/' + namespace + '.firefox.' + target_platform
 
-        raise FetcherException('Unable to find usable archive for pushdate ' + build_arg)
 
-    def _get_revision_url(self, build_arg, target_platform):
+class Fetcher(object):
+    TARGET_CHOICES = {'js', 'firefox'}
+    TEST_CHOICES = {'common', 'reftests', 'gtest'}
+    re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
+
+    def __init__(self, target, branch, build, flags):
         """
-        Retrieve the URL for revision based builds
+        @type target:
+        @param target:
 
+        @type branch:
+        @param branch:
+
+        @type build:
+        @param build:
+
+        @type flags:
+        @param flags:
         """
-        url_base = 'https://index.taskcluster.net/v1/task/gecko.v2.mozilla-{0}.revision.{1}.firefox'.format(
-            self._branch,
-            build_arg)
+        if target not in self.TARGET_CHOICES:
+            raise FetcherException("'%s' is not a supported target" % target)
 
-        # Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both
-        build_strings = [
-            ('-fuzzing' if self._fuzzing else '') +
-            ('-asan' if self._asan else '') +
-            ('-debug' if self._debug else '-opt'),
-            ('-fuzzing' if self._fuzzing else '') +
-            ('-asan' if self._asan else '') +
-            ('-debug' if self._debug else '')
-        ]
+        self._memo = {'_target': target}
+        "memorized values for @properties"
+        self._branch = branch
+        self._flags = BuildFlags(*flags)
+        self._task = BuildTask(build, branch, self._flags)
 
-        for build_string in build_strings:
-            url = (url_base + "." + target_platform + build_string)
+        # if the build string contains the platform, assume it is a TaskCluster namespace
+        if self.moz_info["platform_guess"] in build:
+            # try to set args to match the namespace given
+            if self._branch is None:
+                branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
+                self._branch = branch.group('branch') if branch is not None else '?'
+            asan, debug, fuzzing = self._flags
+            if not debug:
+                debug = '-debug' in build or '-dbg' in build
+            if not asan:
+                asan = '-asan' in build
+            if not fuzzing:
+                fuzzing = '-fuzzing' in build
+            self._flags = BuildFlags(asan, debug, fuzzing)
 
-            try:
-                data = HTTP_SESSION.get(url)
-                data.raise_for_status()
-            except requests.exceptions.RequestException:
-                pass
-            else:
-                log.debug('Found archive for pushdate %s', build_arg)
-                return url
+            # '?' is special case used for unknown build types
+            if self._branch != '?' and self._branch not in build:
+                raise FetcherException("'build' and 'branch' arguments do not match. "
+                                       "(build=%s, branch=%s)" % (build, self._branch))
+            if self._flags.asan and '-asan' not in build:
+                raise FetcherException("'build' is not an asan build, but asan=True given "
+                                       "(build=%s)" % build)
+            if self._flags.debug and not ('-dbg' in build or '-debug' in build):
+                raise FetcherException("'build' is not a debug build, but debug=True given "
+                                       "(build=%s)" % build)
+            if self._flags.fuzzing and '-fuzzing' not in build:
+                raise FetcherException("'build' is not a fuzzing build, but fuzzing=True given "
+                                       "(build=%s)" % build)
 
-        raise FetcherException('Unable to find usable archive for pushdate ' + build_arg)
-
-    def _task_url(self):
-        """
-        Retrieve the task JSON object
-        Requires first generating the task URL based on the specified build type and platform
-        """
-        # Prepare build type
-        url_base = 'https://index.taskcluster.net/v1/task/'
-        target_platform = 'macosx64' if sys.platform == 'darwin' else 'linux64'
-
-        if re.match(r'\d{4}-\d{2}-\d{2}$', self._build):
-            build_arg = self._build.replace('-', '.')
-            task_url = self._get_pushdate_url(build_arg, target_platform)
-
-        elif re.match(r'[0-9A-F]{40}$', self._build, re.IGNORECASE):
-            build_arg = self._build.lower()
-            task_url = self._get_revision_url(build_arg, target_platform)
-
-        elif self._build == 'latest':
-            build_options = (target_platform +
-                             ('-fuzzing' if self._fuzzing else '') +
-                             ('-asan' if self._asan else '') +
-                             ('-debug' if self._debug else '-opt'))
-
-            task_url = '{}gecko.v2.mozilla-{}.latest.firefox.{}'.format(url_base, self._branch, build_options)
-
+        # build the automatic name
+        if self.moz_info["platform_guess"] in build:
+            options = build.split(self.moz_info["platform_guess"], 1)[1]
         else:
-            # try to use build argument directly as a namespace
-            if target_platform not in self._build:
-                log.warning('Cross-platform fetching is not tested. Please report problems to: %s', BUG_URL)
-            task_url = url_base + self._build
+            options = tuple(self._flags.build_strings())[0]
+        self._auto_name = 'm-%s-%d%s' % (self._branch[0], self.rank, options)
 
-        return task_url
+    @property
+    def _artifacts(self):
+        "Retrieve the artifacts json object"
+        if '_artifacts' not in self._memo:
+            json = _get_url(self._artifacts_url).json()
+            self._memo['_artifacts'] = json['artifacts']
+        return self._memo['_artifacts']
 
-    def _get_artifacts(self):
-        """
-        Retrieve the artifacts json object
-        """
-        json = _get_url(self._artifacts_url).json()
-        return json['artifacts']
-
-    def _get_artifact_base(self):
+    @property
+    def _artifact_base(self):
         """
         Build the artifact basename
         Builds are base.tar.bz2, info is base.json, shell is base.jsshell.zip...
         """
-        for artifact in self._artifacts:
-            if self.re_target.search(artifact['name']) is not None:
-                artifact_base = os.path.splitext(artifact['name'])[0]
-                break
-        else:
-            raise FetcherException('Could not find build info in artifacts')
+        if '_artifact_base' not in self._memo:
+            for artifact in self._artifacts:
+                if self.re_target.search(artifact['name']) is not None:
+                    artifact_base = os.path.splitext(artifact['name'])[0]
+                    break
+            else:
+                raise FetcherException('Could not find build info in artifacts')
+            self._memo['_artifact_base'] = artifact_base
+        return self._memo['_artifact_base']
 
-        return artifact_base
+    @property
+    def _artifacts_url(self):
+        return 'https://queue.taskcluster.net/v1/task/%s/artifacts' % self.task_id
 
     @property
     def build_id(self):
         return self.build_info['buildid']
 
     @property
+    def build_info(self):
+        "Download build information of Firefox"
+        if 'build_info' not in self._memo:
+            self._memo['build_info'] = _get_url(self.artifact_url('json')).json()
+        return self._memo['build_info']
+
+    @property
     def changeset(self):
         return self.build_info['moz_source_stamp']
 
-    def artifact_url(self, suffix):
-        path = '{}.{}'.format(self._artifact_base, suffix)
-        return '{}/{}'.format(self._artifacts_url, path)
+    @property
+    def moz_info(self):
+        "Download mozinfo information of Firefox"
+        if 'moz_info' not in self._memo:
+            self._memo['moz_info'] = _get_url(self.artifact_url('mozinfo.json')).json()
+        return self._memo['moz_info']
 
-    def extract_build(self, path='.'):
+    @property
+    def rank(self):
+        return self._task.rank
+
+    @property
+    def _target(self):
+        if '_target' not in self._memo:
+            raise FetcherException('_target not set')
+        return self._memo['_target']
+
+    @property
+    def task_id(self):
+        return self._task.taskId
+
+    @property
+    def task_url(self):
+        return self._task.url
+
+    def artifact_url(self, suffix):
+        return '%s/%s.%s' % (self._artifacts_url, self._artifact_base, suffix)
+
+    def get_auto_name(self):
+        return self._auto_name
+
+    def extract_build(self, path='.', tests=None, full_symbols=False):
         if self._target == 'js':
             self.extract_zip('jsshell.zip', path=os.path.join(path))
         else:
@@ -260,27 +299,37 @@ class Fetcher(object):
             elif sys.platform == 'darwin':
                 self.extract_dmg(os.path.join(path))
 
-        if self._tests:
+        if tests:
+            # validate tests
+            tests = set(tests or [])
+            if not tests.issubset(self.TEST_CHOICES):
+                invalid_test = tuple(tests - self.TEST_CHOICES)[0]
+                raise FetcherException("'%s' is not a supported test type" % invalid_test)
+
             os.mkdir(os.path.join(path, 'tests'))
-            if 'common' in self._tests:
+            if 'common' in tests:
                 self.extract_zip('common.tests.zip', path=os.path.join(path, 'tests'))
-            if 'reftests' in self._tests:
+            if 'reftests' in tests:
                 self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
-            if 'gtest' in self._tests:
+            if 'gtest' in tests:
                 self.extract_zip('gtest.tests.zip', path=path)
                 os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', 'libxul.so'),
                           os.path.join(path, 'gtest', 'libxul.so'))
                 os.symlink(os.path.join('gtest', 'dependentlibs.list.gtest'),
                            os.path.join(path, 'dependentlibs.list.gtest'))
 
-        if self._debug and not self._asan:
-            if self._symbols:
+        if self._flags.debug and not self._flags.asan:
+            if full_symbols:
                 symbols = 'crashreporter-symbols-full.zip'
             else:
                 symbols = 'crashreporter-symbols.zip'
             os.mkdir(os.path.join(path, 'symbols'))
             self.extract_zip(symbols, path=os.path.join(path, 'symbols'))
 
+        self._layout_for_domfuzz(path)
+        self._write_fuzzmanagerconf(path)
+
+    def _layout_for_domfuzz(self, path):
         # Update directory to work with DOMFuzz
         old_dir = os.getcwd()
         os.chdir(os.path.join(path))
@@ -292,17 +341,18 @@ class Fetcher(object):
         else:
             os.symlink(os.pardir, os.path.join('dist', 'bin'))
         os.mkdir('download')
-        with open(os.path.join('download', 'firefox-.txt'), 'w') as fp:
-            print(self.build_id, file=fp)
-            print('https://hg.mozilla.org/mozilla-{}/rev/{}'.format(self._branch, self.changeset), file=fp)
+        with open(os.path.join('download', 'firefox-.txt'), 'w') as txt_fp:
+            print(self.build_id, file=txt_fp)
+            print('https://hg.mozilla.org/mozilla-%s/rev/%s' % (self._branch, self.changeset), file=txt_fp)
         os.chdir(old_dir)
 
+    def _write_fuzzmanagerconf(self, path):
         # Add fuzzmanagerconf
         output = configparser.RawConfigParser()
         output.add_section('Main')
         output.set('Main', 'platform', self.moz_info['processor'].replace('_', '-'))
         output.set('Main', 'product', 'mozilla-' + self._branch)
-        output.set('Main', 'product_version', '{:.8}-{:.12}'.format(self.build_id, self.changeset))
+        output.set('Main', 'product_version', '%.8s-%.12s' % (self.build_id, self.changeset))
         output.set('Main', 'os', self.moz_info['os'])
         output.add_section('Metadata')
         output.set('Metadata', 'pathPrefix', self.moz_info['topsrcdir'])
@@ -316,9 +366,9 @@ class Fetcher(object):
         url = self.artifact_url(suffix)
         log.info('> Downloading and extracting archive: %s ..', url)
         resp = _get_url(self.artifact_url(suffix))
-        with zipfile.ZipFile(io.BytesIO(resp.content)) as zf:
-            for info in zf.infolist():
-                _extract_file(zf, info, path)
+        with zipfile.ZipFile(io.BytesIO(resp.content)) as zip_fp:
+            for info in zip_fp.infolist():
+                _extract_file(zip_fp, info, path)
 
     def extract_tar(self, path='.'):
         """
@@ -328,13 +378,13 @@ class Fetcher(object):
         url = self.artifact_url('tar.bz2')
         log.info('> Downloading and extracting archive: %s ..', url)
         resp = _get_url(url)
-        fd, fn = tempfile.mkstemp(prefix='domfuzz-fetch-', suffix='.tar.bz2')
-        os.close(fd)
+        tar_fd, tar_fn = tempfile.mkstemp(prefix='domfuzz-fetch-', suffix='.tar.bz2')
+        os.close(tar_fd)
         try:
-            with open(fn, 'wb') as out:
+            with open(tar_fn, 'wb') as out:
                 shutil.copyfileobj(resp.raw, out)
 
-            tar = tarfile.open(fn, mode='r:bz2')
+            tar = tarfile.open(tar_fn, mode='r:bz2')
             members = []
             for member in tar.getmembers():
                 if member.path.startswith("firefox/"):
@@ -342,7 +392,7 @@ class Fetcher(object):
                     members.append(member)
             tar.extractall(members=members, path=path)
         finally:
-            os.unlink(fn)
+            os.unlink(tar_fn)
 
     def extract_dmg(self, path='.'):
         url = self.artifact_url('dmg')
@@ -366,27 +416,27 @@ class Fetcher(object):
             shutil.rmtree(out_tmp)
             os.unlink(dmg_fn)
 
-    def get_auto_name(self):
-        if self.moz_info["platform_guess"] in self._build:
-            options = self._build.split(self.moz_info["platform_guess"], 1)[1]
-        else:
-            options = (('-fuzzing' if self._fuzzing else '') +
-                       ('-asan' if self._asan else '') +
-                       ('-debug' if self._debug else '-opt'))
+    @classmethod
+    def from_args(cls, args=None, skip_dir_check=False):
+        """
+        Construct a Fetcher from given command line arguments.
 
-        return '{}-{}{}'.format('m-' + self._branch[0], self.rank, options)
+        @type args: list(String)
+        @param args: Command line arguments (optional). Default is to use args from sys.argv
 
-    @staticmethod
-    def parse_args():
+        @rtype: tuple(Fetcher, output path)
+        @return: Returns a Fetcher object and keyword arguments for extract_build.
+        """
         parser = argparse.ArgumentParser()
         parser.set_defaults(target='firefox', build='latest', tests=None) # branch default is set after parsing
 
         target_group = parser.add_argument_group('Target')
-        target_group.add_argument('--target', choices=['firefox', 'js'], dest='target',
-                                  help='Specify the build target')
+        target_group.add_argument('--target', choices=cls.TARGET_CHOICES,
+                                  help=('Specify the build target. Acceptable values are: ' +
+                                        ', '.join(cls.TARGET_CHOICES)))
 
         type_group = parser.add_argument_group('Build')
-        type_group.add_argument('--build', dest='build', metavar='DATE|REV|NS',
+        type_group.add_argument('--build', metavar='DATE|REV|NS',
                                 help='Specify the build to download, (default: %(default)s)'
                                      ' Accepts values in format YYYY-MM-DD (2017-01-01)'
                                      ' revision (57b37213d81150642f5139764e7044b07b9dccc3)'
@@ -414,10 +464,10 @@ class Fetcher(object):
                                  help='Download --enable-fuzzing builds.')
 
         test_group = parser.add_argument_group('Test Arguments')
-        tests = ['common', 'reftests', 'gtest']
-        test_group.add_argument('--tests', nargs='+', metavar='', choices=tests,
-                                help='Download tests associated with this build. Acceptable values are: ' + str(tests))
-        test_group.add_argument('--full-symbols', dest='symbols', action='store_true',
+        test_group.add_argument('--tests', nargs='+', metavar='', choices=cls.TEST_CHOICES,
+                                help=('Download tests associated with this build. Acceptable values are: ' +
+                                      ', '.join(cls.TEST_CHOICES)))
+        test_group.add_argument('--full-symbols', action='store_true',
                                 help='Download the full crashreport-symbols.zip archive.')
 
         misc_group = parser.add_argument_group('Misc. Arguments')
@@ -426,13 +476,13 @@ class Fetcher(object):
         misc_group.add_argument('-o', '--out', default=os.getcwd(),
                                 help='Specify output directory (default=.)')
 
-        args = parser.parse_args()
+        args = parser.parse_args(args=args)
 
         if re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{40}|latest)$', args.build) is None:
             # this is a custom build
             # ensure conflicting options are not set
             if args.branch is not None:
-                parser.error('Cannot specify --build namespace and branch argument: {}'.format(args.branch))
+                parser.error('Cannot specify --build namespace and branch argument: %s' % args.branch)
             if args.debug:
                 parser.error('Cannot specify --build namespace and --debug')
             if args.asan:
@@ -445,7 +495,23 @@ class Fetcher(object):
         elif args.branch is None:
             args.branch = 'central'
 
-        return args
+        flags = BuildFlags(args.asan, args.debug, args.fuzzing)
+        obj = cls(args.target, args.branch, args.build, flags=flags)
+
+        if args.name is None:
+            args.name = obj.get_auto_name()
+
+        final_dir = os.path.realpath(os.path.join(args.out, args.name))
+        if not skip_dir_check and os.path.exists(final_dir):
+            parser.error('Folder exists: %s .. exiting' % final_dir)
+
+        extract_options = {
+            'out': final_dir,
+            'full_symbols': args.full_symbols,
+            'tests': args.tests
+        }
+
+        return (obj, extract_options)
 
     @classmethod
     def main(cls):
@@ -457,21 +523,7 @@ class Fetcher(object):
         logging.basicConfig(format=log_fmt, datefmt='%Y-%m-%d %H:%M:%S', level=log_level)
         logging.getLogger('requests').setLevel(logging.WARNING)
 
-        args = cls.parse_args()
-        obj = cls(args.target, args.branch, args.build,
-                  fuzzing=args.fuzzing,
-                  asan=args.asan,
-                  debug=args.debug,
-                  tests=args.tests,
-                  symbols=args.symbols)
-
-        if args.name is None:
-            args.name = obj.get_auto_name()
-
-        final_dir = os.path.normpath(os.path.abspath(os.path.join(args.out, args.name)))
-        if os.path.exists(final_dir):
-            log.warning('Folder exists: %s .. exiting', final_dir)
-            exit(1)
+        obj, extract_args = cls.from_args()
 
         log.info('Identified task: %s', obj.task_url)
         log.info('> Task ID: %s', obj.task_id)
@@ -479,11 +531,11 @@ class Fetcher(object):
         log.info('> Changeset: %s', obj.changeset)
         log.info('> Build ID: %s', obj.build_id)
 
-        out_tmp = tempfile.mkdtemp(prefix='domfuzz-fetch-', suffix='.tmp')
+        out_tmp = tempfile.mkdtemp(prefix='fuzz-fetch-', suffix='.tmp')
 
         try:
-            obj.extract_build(out_tmp)
-            shutil.move(os.path.join(out_tmp), final_dir)
+            obj.extract_build(out_tmp, tests=extract_args['tests'], full_symbols=extract_args['full_symbols'])
+            shutil.move(os.path.join(out_tmp), extract_args['out'])
         finally:
             if os.path.isdir(out_tmp):
                 shutil.rmtree(out_tmp)
