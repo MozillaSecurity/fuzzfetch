@@ -318,7 +318,7 @@ class Fetcher(object):
                 os.symlink(os.path.join('gtest', 'dependentlibs.list.gtest'),
                            os.path.join(path, 'dependentlibs.list.gtest'))
 
-        if self._flags.debug and not self._flags.asan:
+        if not self._flags.asan:
             if full_symbols:
                 symbols = 'crashreporter-symbols-full.zip'
             else:
