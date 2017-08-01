@@ -216,7 +216,6 @@ class Fetcher(object):
                 raise FetcherException("'build' is not a coverage build, but coverage=True given "
                                        "(build=%s)" % build)
 
-
         # build the automatic name
         if self.moz_info["platform_guess"] in build:
             options = build.split(self.moz_info["platform_guess"], 1)[1]
@@ -328,15 +327,13 @@ class Fetcher(object):
         if self._flags.coverage:
             self.extract_zip('code-coverage-gcno.zip', path=path)
 
-        if not self._flags.asan:
+        if not (self._flags.asan or self._flags.coverage):
             if full_symbols:
                 symbols = 'crashreporter-symbols-full.zip'
             else:
                 symbols = 'crashreporter-symbols.zip'
-	  
-            if not self._flags.coverage:
-                os.mkdir(os.path.join(path, 'symbols'))
-                self.extract_zip(symbols, path=os.path.join(path, 'symbols'))
+            os.mkdir(os.path.join(path, 'symbols'))
+            self.extract_zip(symbols, path=os.path.join(path, 'symbols'))
 
         self._layout_for_domfuzz(path)
         self._write_fuzzmanagerconf(path)
