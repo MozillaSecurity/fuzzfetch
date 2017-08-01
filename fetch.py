@@ -67,10 +67,10 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
                ('-asan' if self.asan else '') +
                ('-ccov' if self.coverage else '') +
                ('-debug' if self.debug else '-opt'))
-        yield (('-ccov' if self.coverage else '') +
+        yield (('-fuzzing' if self.fuzzing else '') +
                ('-asan' if self.asan else '') +
-               ('-debug' if self.debug else '') +
-               ('-fuzzing' if self.fuzzing else ''))
+               ('-ccov' if self.coverage else '') +
+               ('-debug' if self.debug else ''))
 
 
 class BuildTask(object): # pylint: disable=too-few-public-methods
