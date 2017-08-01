@@ -58,17 +58,19 @@ def _extract_file(zip_fp, info, path):
     os.chmod(out_path, perm)
 
 
-class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing'))):
+class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage'))):
     "Flags used to make a build"
 
     def build_strings(self):
         "Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both"
         yield (('-fuzzing' if self.fuzzing else '') +
                ('-asan' if self.asan else '') +
+               ('-ccov' if self.coverage else '') +
                ('-debug' if self.debug else '-opt'))
-        yield (('-fuzzing' if self.fuzzing else '') +
+        yield (('-ccov' if self.coverage else '') +
                ('-asan' if self.asan else '') +
-               ('-debug' if self.debug else ''))
+               ('-debug' if self.debug else '') +
+               ('-fuzzing' if self.fuzzing else ''))
 
 
 class BuildTask(object): # pylint: disable=too-few-public-methods
@@ -186,13 +188,15 @@ class Fetcher(object):
             if self._branch is None:
                 branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
                 self._branch = branch.group('branch') if branch is not None else '?'
-            asan, debug, fuzzing = self._flags
+            asan, debug, fuzzing, coverage  = self._flags
             if not debug:
                 debug = '-debug' in build or '-dbg' in build
             if not asan:
                 asan = '-asan' in build
             if not fuzzing:
                 fuzzing = '-fuzzing' in build
+            if not coverage:
+                coverage = '-coverage' in build
             self._flags = BuildFlags(asan, debug, fuzzing)
 
             # '?' is special case used for unknown build types
@@ -208,6 +212,10 @@ class Fetcher(object):
             if self._flags.fuzzing and '-fuzzing' not in build:
                 raise FetcherException("'build' is not a fuzzing build, but fuzzing=True given "
                                        "(build=%s)" % build)
+            if self._flags.coverage and '-ccov' not in build:
+                raise FetcherException("'build' is not a coverage build, but coverage=True given "
+                                       "(build=%s)" % build)
+
 
         # build the automatic name
         if self.moz_info["platform_guess"] in build:
@@ -317,14 +325,18 @@ class Fetcher(object):
                           os.path.join(path, 'gtest', 'libxul.so'))
                 os.symlink(os.path.join('gtest', 'dependentlibs.list.gtest'),
                            os.path.join(path, 'dependentlibs.list.gtest'))
+        if self._flags.coverage:
+            self.extract_zip('code-coverage-gcno.zip', path=path)
 
         if not self._flags.asan:
             if full_symbols:
                 symbols = 'crashreporter-symbols-full.zip'
             else:
                 symbols = 'crashreporter-symbols.zip'
-            os.mkdir(os.path.join(path, 'symbols'))
-            self.extract_zip(symbols, path=os.path.join(path, 'symbols'))
+	  
+            if not self._flags.coverage:
+                os.mkdir(os.path.join(path, 'symbols'))
+                self.extract_zip(symbols, path=os.path.join(path, 'symbols'))
 
         self._layout_for_domfuzz(path)
         self._write_fuzzmanagerconf(path)
@@ -462,6 +474,8 @@ class Fetcher(object):
                                  help='Download AddressSanitizer builds.')
         build_group.add_argument('--fuzzing', action='store_true',
                                  help='Download --enable-fuzzing builds.')
+        build_group.add_argument('--coverage', action='store_true',
+                                 help='Download --coverage builds. This also pulls down the *.gcno files')
 
         test_group = parser.add_argument_group('Test Arguments')
         test_group.add_argument('--tests', nargs='+', metavar='', choices=cls.TEST_CHOICES,
@@ -489,13 +503,15 @@ class Fetcher(object):
                 parser.error('Cannot specify --build namespace and --asan')
             if args.fuzzing:
                 parser.error('Cannot specify --build namespace and --fuzzing')
+            if args.coverage:
+                parser.error('Cannot specify --build namespace and --coverage')
 
         # do this default manually so we can error if combined with --build namespace
         #parser.set_defaults(branch='central')
         elif args.branch is None:
             args.branch = 'central'
 
-        flags = BuildFlags(args.asan, args.debug, args.fuzzing)
+        flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage)
         obj = cls(args.target, args.branch, args.build, flags=flags)
 
         if args.name is None:
