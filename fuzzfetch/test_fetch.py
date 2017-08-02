@@ -93,6 +93,6 @@ class FetchTests(unittest.TestCase):
                 continue
             with TempCWD():
                 # download the build
-                fetcher = fetch.Fetcher(target, branch, build, (asan, debug, False))
+                fetcher = fetch.Fetcher(target, branch, build, (asan, debug, False, False))
                 fetcher.extract_build()
                 self.inspect_build(target)
