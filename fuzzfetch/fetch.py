@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # coding=utf-8
 # pylint: disable=missing-docstring
 #
@@ -552,11 +551,3 @@ class Fetcher(object):
         finally:
             if os.path.isdir(out_tmp):
                 shutil.rmtree(out_tmp)
-
-
-if __name__ == '__main__':
-    if sys.platform not in {'linux', 'linux2', 'darwin'}:
-        log.error('Unknown platform: %s', sys.platform)
-        exit(1)
-
-    Fetcher.main()
