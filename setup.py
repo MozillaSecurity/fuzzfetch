@@ -7,7 +7,6 @@ if __name__ == '__main__':
         name='fuzzfetch',
         version='0.4.2',
         packages=['fuzzfetch'],
-        package_dir={'fuzzfetch': ''},
         install_requires=requires,
         url='https://github.com/MozillaSecurity/fuzzfetch',
         license='MPL 2.0',
