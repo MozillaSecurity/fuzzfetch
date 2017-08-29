@@ -84,7 +84,7 @@ class BuildTask(object): # pylint: disable=too-few-public-methods
 
         # Prepare build type
         supported_platforms = {'Darwin': {'x86_64': 'macosx64'},
-                               'Linux': {'x86_64': 'linux64', 'i386': 'linux'},
+                               'Linux': {'x86_64': 'linux64', 'i686': 'linux'},
                                'Windows': {'AMD64': 'win64'}}
         target_platform = supported_platforms[platform.system()][platform.machine()]
 

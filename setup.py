@@ -6,7 +6,7 @@ if __name__ == '__main__':
         requires = f.read().strip().splitlines()
     setup(
         name='fuzzfetch',
-        version='0.5.1',
+        version='0.5.2',
         packages=['fuzzfetch'],
         install_requires=requires,
         url='https://github.com/MozillaSecurity/fuzzfetch',
