@@ -14,10 +14,10 @@ import io
 import itertools
 import logging
 import os
+import platform
 import re
 import shutil
 import subprocess
-import sys
 import tarfile
 import tempfile
 import zipfile
@@ -83,7 +83,10 @@ class BuildTask(object): # pylint: disable=too-few-public-methods
         """
 
         # Prepare build type
-        target_platform = 'macosx64' if sys.platform == 'darwin' else 'linux64'
+        supported_platforms = {'Darwin': {'x86_64': 'macosx64'},
+                               'Linux': {'x86_64': 'linux64', 'i386': 'linux'},
+                               'Windows': {'AMD64': 'win64'}}
+        target_platform = supported_platforms[platform.system()][platform.machine()]
 
         if re.match(r'\d{4}-\d{2}-\d{2}$', build):
             debug_str = 'pushdate ' + build
@@ -300,9 +303,9 @@ class Fetcher(object):
         if self._target == 'js':
             self.extract_zip('jsshell.zip', path=os.path.join(path))
         else:
-            if sys.platform.startswith('linux'):
+            if platform.system() == 'Linux':
                 self.extract_tar(path)
-            elif sys.platform == 'darwin':
+            elif platform.system() == 'Darwin':
                 self.extract_dmg(os.path.join(path))
 
         if tests:
@@ -342,7 +345,7 @@ class Fetcher(object):
         old_dir = os.getcwd()
         os.chdir(os.path.join(path))
         os.mkdir('dist')
-        if sys.platform == 'darwin' and self._target == 'firefox':
+        if platform.system() == 'Darwin' and self._target == 'firefox':
             ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
             assert len(ff_loc) == 1
             os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])), os.path.join('dist', 'bin'))
