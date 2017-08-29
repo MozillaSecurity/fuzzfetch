@@ -190,7 +190,7 @@ class Fetcher(object):
             if self._branch is None:
                 branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
                 self._branch = branch.group('branch') if branch is not None else '?'
-            asan, debug, fuzzing, coverage  = self._flags
+            asan, debug, fuzzing, coverage = self._flags
             if not debug:
                 debug = '-debug' in build or '-dbg' in build
             if not asan:
@@ -199,7 +199,7 @@ class Fetcher(object):
                 fuzzing = '-fuzzing' in build
             if not coverage:
                 coverage = '-coverage' in build
-            self._flags = BuildFlags(asan, debug, fuzzing)
+            self._flags = BuildFlags(asan, debug, fuzzing, coverage)
 
             # '?' is special case used for unknown build types
             if self._branch != '?' and self._branch not in build:
