@@ -1,6 +1,5 @@
 # coding=utf-8
-# pylint: disable=missing-docstring
-#
+"core fuzzfetch implementation"
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -76,7 +75,7 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
                ('-debug' if self.debug else ''))
 
 
-class BuildTask(object): # pylint: disable=too-few-public-methods
+class BuildTask(object):
     "TaskCluster build metadata"
     URL_BASE = 'https://index.taskcluster.net/v1/'
 
@@ -161,6 +160,7 @@ class BuildTask(object): # pylint: disable=too-few-public-methods
 
 
 class Fetcher(object):
+    "Fetcher fetches build artifacts from TaskCluster and unpacks them"
     TARGET_CHOICES = {'js', 'firefox'}
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
@@ -255,10 +255,12 @@ class Fetcher(object):
 
     @property
     def _artifacts_url(self):
+        "Build the artifacts url"
         return 'https://queue.taskcluster.net/v1/task/%s/artifacts' % self.task_id
 
     @property
     def build_id(self):
+        "Get the build id (date stamp)"
         return self.build_info['buildid']
 
     @property
@@ -270,6 +272,7 @@ class Fetcher(object):
 
     @property
     def changeset(self):
+        "Get the hg changeset"
         return self.build_info['moz_source_stamp']
 
     @property
@@ -281,29 +284,52 @@ class Fetcher(object):
 
     @property
     def rank(self):
+        "Get the rank"
         return self._task.rank
 
     @property
     def _target(self):
+        "Get the target"
         if '_target' not in self._memo:
             raise FetcherException('_target not set')
         return self._memo['_target']
 
     @property
     def task_id(self):
+        "Get the TaskCluster id"
         return self._task.taskId
 
     @property
     def task_url(self):
+        "Get the TaskCluster base url"
         return self._task.url
 
     def artifact_url(self, suffix):
+        """
+        Get the Taskcluster artifact url
+
+        @type suffix:
+        @param suffix:
+        """
         return '%s/%s.%s' % (self._artifacts_url, self._artifact_base, suffix)
 
     def get_auto_name(self):
+        "Get the automatic directory name"
         return self._auto_name
 
     def extract_build(self, path='.', tests=None, full_symbols=False):
+        """
+        Download and extract the build and requested extra artifacts
+
+        @type path:
+        @param path:
+
+        @type tests:
+        @param tests:
+
+        @type full_symbols:
+        @param full_symbols:
+        """
         if self._target == 'js':
             self.extract_zip('jsshell.zip', path=os.path.join(path))
         else:
@@ -378,6 +404,15 @@ class Fetcher(object):
             output.write(conf_fp)
 
     def extract_zip(self, suffix, path='.'):
+        """
+        Download and extract a zip artifact
+
+        @type suffix:
+        @param suffix:
+
+        @type path:
+        @param path:
+        """
         url = self.artifact_url(suffix)
         log.info('> Downloading and extracting archive: %s ..', url)
         resp = _get_url(self.artifact_url(suffix))
@@ -389,6 +424,9 @@ class Fetcher(object):
         """
         Extract builds with .tar.bz2 extension
         Only extracts the top-level directory "firefox"
+
+        @type path:
+        @param path:
         """
         url = self.artifact_url('tar.bz2')
         log.info('> Downloading and extracting archive: %s ..', url)
@@ -410,6 +448,14 @@ class Fetcher(object):
             os.unlink(tar_fn)
 
     def extract_dmg(self, path='.'):
+        """
+        Extract builds with .dmg extension
+
+        Will only work if `hdiutil` is available.
+
+        @type path:
+        @param path:
+        """
         url = self.artifact_url('dmg')
         log.info('> Downloading and extracting archive: %s ..', url)
         resp = _get_url(url)
@@ -443,7 +489,7 @@ class Fetcher(object):
         @return: Returns a Fetcher object and keyword arguments for extract_build.
         """
         parser = argparse.ArgumentParser()
-        parser.set_defaults(target='firefox', build='latest', tests=None) # branch default is set after parsing
+        parser.set_defaults(target='firefox', build='latest', tests=None)  # branch default is set after parsing
 
         target_group = parser.add_argument_group('Target')
         target_group.add_argument('--target', choices=cls.TARGET_CHOICES,
@@ -510,7 +556,7 @@ class Fetcher(object):
                 parser.error('Cannot specify --build namespace and --coverage')
 
         # do this default manually so we can error if combined with --build namespace
-        #parser.set_defaults(branch='central')
+        # parser.set_defaults(branch='central')
         elif args.branch is None:
             args.branch = 'central'
 
@@ -534,6 +580,11 @@ class Fetcher(object):
 
     @classmethod
     def main(cls):
+        """
+        fuzzfetch main entry point
+
+        Run with --help for usage
+        """
         log_level = logging.INFO
         log_fmt = '[%(asctime)s] %(message)s'
         if bool(os.getenv('DEBUG')):

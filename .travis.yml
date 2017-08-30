@@ -1,0 +1,12 @@
+language: python
+python:
+    - 2.7
+    - 3.4
+    - 3.5
+    - 3.6
+before_script:
+    - pip install -U pytest-flake8 pytest-pylint pytest-cov codecov
+script:
+    - pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing
+after_success:
+    - codecov

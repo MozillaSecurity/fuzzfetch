@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
-#
+"fuzzfetch tests"
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -18,6 +18,7 @@ import fuzzfetch
 log = logging.getLogger("fuzzfetch_test")  # pylint: disable=invalid-name
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("requests").setLevel(logging.WARNING)
+logging.getLogger("flake8").setLevel(logging.WARNING)
 
 
 def format_elapsed(elapsed):
