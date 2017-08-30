@@ -14,4 +14,5 @@ if __name__ == '__main__':
         author='Jesse Schwartzentruber, Jason Kratzer',
         description='Downloader for firefox/jsshell builds',
         entry_points={"console_scripts": ["fuzzfetch = fuzzfetch:Fetcher.main"]},
+        package_dir={"": "src"}
     )

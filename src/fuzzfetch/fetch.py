@@ -22,8 +22,12 @@ import tarfile
 import tempfile
 import zipfile
 
-import configparser # pylint: disable=wrong-import-order
+import configparser  # pylint: disable=wrong-import-order
 import requests
+
+
+__all__ = ("Fetcher", "FetcherException", "BuildFlags")
+
 
 log = logging.getLogger('fuzzfetch')  # pylint: disable=invalid-name
 
