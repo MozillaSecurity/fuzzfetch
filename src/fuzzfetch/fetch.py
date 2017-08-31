@@ -20,11 +20,10 @@ import subprocess
 import tarfile
 import tempfile
 import zipfile
+from datetime import datetime
 
 import configparser  # pylint: disable=wrong-import-order
 import requests
-
-from datetime import datetime
 
 __all__ = ("Fetcher", "FetcherException", "BuildFlags")
 
