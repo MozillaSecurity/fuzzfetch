@@ -1,5 +1,6 @@
 dist: trusty
 sudo: false
+cache: pip
 language: python
 python:
     - 2.7
