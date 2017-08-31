@@ -336,7 +336,11 @@ class Fetcher(object):
             if platform.system() == 'Linux':
                 self.extract_tar(path)
             elif platform.system() == 'Darwin':
-                self.extract_dmg(os.path.join(path))
+                self.extract_dmg(path)
+            elif platform.system() == 'Windows':
+                self.extract_zip('zip', path)
+            else:
+                raise FetcherException("'%s' is not a supported platform" % platform.system())
 
         if tests:
             # validate tests
@@ -378,7 +382,8 @@ class Fetcher(object):
         if platform.system() == 'Darwin' and self._target == 'firefox':
             ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
             assert len(ff_loc) == 1
-            os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])), os.path.join('dist', 'bin'))
+            os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),
+                       os.path.join('dist', 'bin'))  # pylint: disable=no-member
         else:
             os.symlink(os.pardir, os.path.join('dist', 'bin'))
         os.mkdir('download')

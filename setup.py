@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='fuzzfetch',
-    version='0.5.2',
+    version='0.5.3',
     packages=['fuzzfetch'],
     license='MPL 2.0',
     url='https://github.com/MozillaSecurity/fuzzfetch',
