@@ -1,12 +1,22 @@
+dist: trusty
+sudo: false
 language: python
 python:
     - 2.7
     - 3.4
     - 3.5
     - 3.6
+before_install:
+    - pip install -U setuptools pip
+    - pip install -U virtualenv
+install:
+    - pip --version
+    - virtualenv --version
+    - git --version
 before_script:
-    - pip install -U pytest-flake8 pytest-pylint pytest-cov codecov
+    - pip install -U flake8 pylint codecov
+    - pip install -U pytest-flake8 pytest-pylint pytest-cov
 script:
-    - pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing
+    - python -m pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing
 after_success:
     - codecov

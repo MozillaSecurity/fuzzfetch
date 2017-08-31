@@ -1,3 +1,5 @@
+image:
+    - Visual Studio 2015
 environment:
     matrix:
         - PYTHON: "C:\\Python27"
@@ -9,9 +11,16 @@ environment:
         - PYTHON: "C:\\Python35-x64"
         - PYTHON: "C:\\Python36-x64"
 install:
-    - "%PYTHON%\\python.exe -m pip install -U pytest-flake8 pytest-pylint pytest-cov codecov"
+    - "%PYTHON%\\python.exe -m pip install -U setuptools pip"
+    - "%PYTHON%\\python.exe -m pip install -U virtualenv"
+    - "%PYTHON%\\python.exe -m pip --version"
+    - "%PYTHON%\\python.exe -m virtualenv --version"
+    - "git --version"
+    - "%PYTHON%\\python.exe -m pip install -U flake8 pylint codecov"
+    - "%PYTHON%\\python.exe -m pip install -U pytest-flake8 pytest-pylint pytest-cov"
 build: off
 test_script:
     - "%PYTHON%\\python.exe -m pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing"
 on_success:
-    - "%PYTHON%\\python.exe -m codecov"
+    - "%PYTHON%\\python.exe -m codecov -X gcov"
+skip_branch_with_pr: true
