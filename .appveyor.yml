@@ -22,11 +22,12 @@ install:
     - "git --version"
     - "%PYTHON%\\python.exe -m pip install -U flake8 pylint codecov"
     - "%PYTHON%\\python.exe -m pip install -U pytest-flake8 pytest-pylint pytest-cov"
+    - "%PYTHON%\\python.exe -m pip install -e ."
 build: off
 test_script:
     - "%PYTHON%\\python.exe -m pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing"
 on_success:
     - "%PYTHON%\\python.exe -m codecov -X gcov"
-on_finish:
-    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 skip_branch_with_pr: true
