@@ -24,6 +24,7 @@ import zipfile
 import configparser  # pylint: disable=wrong-import-order
 import requests
 
+from datetime import datetime
 
 __all__ = ("Fetcher", "FetcherException", "BuildFlags")
 
@@ -187,6 +188,11 @@ class Fetcher(object):
         self._branch = branch
         self._flags = BuildFlags(*flags)
         self._task = BuildTask(build, branch, self._flags)
+
+        now = datetime.utcnow()
+        build_time = datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
+        if build == 'latest' and (now - build_time).total_seconds() > 86400:
+            log.warning('Latest available build is older than 1 day: %s', self.build_id)
 
         # if the build string contains the platform, assume it is a TaskCluster namespace
         if self.moz_info["platform_guess"] in build:
