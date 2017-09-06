@@ -25,7 +25,7 @@ install:
     - "%PYTHON%\\python.exe -m pip install -e ."
 build: off
 test_script:
-    - "%PYTHON%\\python.exe -m pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing"
+    - "%PYTHON%\\python.exe -m pytest"
 on_success:
     - "%PYTHON%\\python.exe -m codecov -X gcov"
 #on_finish:

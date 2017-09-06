@@ -19,6 +19,6 @@ before_script:
     - pip install -U flake8 pylint codecov
     - pip install -U pytest-flake8 pytest-pylint pytest-cov
 script:
-    - python -m pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing
+    - python -m pytest
 after_success:
     - codecov
