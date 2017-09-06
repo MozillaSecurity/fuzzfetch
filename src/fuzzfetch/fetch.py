@@ -361,10 +361,11 @@ class Fetcher(object):
                 self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
             if 'gtest' in tests:
                 self.extract_zip('gtest.tests.zip', path=path)
-                os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', 'libxul.so'),
-                          os.path.join(path, 'gtest', 'libxul.so'))
-                os.symlink(os.path.join('gtest', 'dependentlibs.list.gtest'),
-                           os.path.join(path, 'dependentlibs.list.gtest'))
+                libxul = 'libxul.dll' if platform.system() == "Windows" else 'libxul.so'
+                os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', libxul),
+                          os.path.join(path, 'gtest', libxul))
+                shutil.copy(os.path.join('gtest', 'dependentlibs.list.gtest'),
+                            os.path.join(path, 'dependentlibs.list.gtest'))
         if self._flags.coverage:
             self.extract_zip('code-coverage-gcno.zip', path=path)
 
@@ -383,19 +384,28 @@ class Fetcher(object):
         # Update directory to work with DOMFuzz
         old_dir = os.getcwd()
         os.chdir(os.path.join(path))
-        os.mkdir('dist')
-        if platform.system() == 'Darwin' and self._target == 'firefox':
-            ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
-            assert len(ff_loc) == 1
-            os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),
-                       os.path.join('dist', 'bin'))  # pylint: disable=no-member
-        else:
-            os.symlink(os.pardir, os.path.join('dist', 'bin'))
-        os.mkdir('download')
-        with open(os.path.join('download', 'firefox-.txt'), 'w') as txt_fp:
-            print(self.build_id, file=txt_fp)
-            print('https://hg.mozilla.org/mozilla-%s/rev/%s' % (self._branch, self.changeset), file=txt_fp)
-        os.chdir(old_dir)
+        try:
+            os.mkdir('dist')
+            if platform.system() == 'Darwin' and self._target == 'firefox':
+                ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
+                assert len(ff_loc) == 1
+                os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),
+                           os.path.join('dist', 'bin'))  # pylint: disable=no-member
+            elif platform.system() == 'Linux':
+                os.symlink(os.pardir, os.path.join('dist', 'bin'))  # pylint: disable=no-member
+            elif platform.system() == 'Windows':
+                os.mkdir(os.path.join('dist', 'bin'))
+                # recursive copy of the contents of the original only
+                entries = os.listdir('.')
+                while entries:
+                    entry = entries.pop()
+                    if os.path.isdir(entry) and entry not in {'dist', 'symbols', 'tests', 'gtest'}:
+                        os.mkdir(entry)
+                        entries.extend(os.path.join(entry, sub) for sub in os.listdir(entry))
+                    else:
+                        shutil.copy(entry, os.path.join('dist', 'bin', entry))
+        finally:
+            os.chdir(old_dir)
 
     def _write_fuzzmanagerconf(self, path):
         # Add fuzzmanagerconf
@@ -412,6 +422,8 @@ class Fetcher(object):
         fm_name = self._target + '.fuzzmanagerconf'
         with open(os.path.join(path, 'dist', 'bin', fm_name), 'w') as conf_fp:
             output.write(conf_fp)
+        if platform.system() == 'Windows':
+            shutil.copy(os.path.join(path, 'dist', 'bin', fm_name), os.path.join(path, fm_name))
 
     def extract_zip(self, suffix, path='.'):
         """
