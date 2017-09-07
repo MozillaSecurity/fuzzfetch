@@ -16,6 +16,7 @@ import os
 import platform
 import re
 import shutil
+import stat
 import subprocess
 import tarfile
 import tempfile
@@ -59,7 +60,7 @@ def onerror(func, path, exc_info):
         os.chmod(path, stat.S_IWUSR)
         func(path)
     else:
-        raise
+        raise  # pylint: disable=misplaced-bare-raise
 
 
 def _get_url(url):
