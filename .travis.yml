@@ -1,23 +1,21 @@
 dist: trusty
 sudo: false
-cache: pip
 language: python
 python:
-    - 2.7
-    - 3.4
-    - 3.5
-    - 3.6
+    - "2.7"
+    - "3.4"
+    - "3.5"
+    - "3.6"
 before_install:
-    - pip install -U setuptools pip
-    - pip install -U virtualenv
+    - pip install --upgrade setuptools pip
+    - pip install --upgrade virtualenv
 install:
     - pip --version
     - virtualenv --version
     - git --version
-    - python -m pip install -e .
 before_script:
-    - pip install -U flake8 pylint codecov
-    - pip install -U pytest-flake8 pytest-pylint pytest-cov
+    - pip install --upgrade flake8 pylint codecov
+    - pip install --upgrade pytest-flake8 pytest-pylint pytest-cov
 script:
     - python -m pytest
 after_success:
