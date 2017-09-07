@@ -39,6 +39,29 @@ class FetcherException(Exception):
     "Exception raised for any Fetcher errors."
 
 
+def onerror(func, path, exc_info):
+    """
+    Error handler for `shutil.rmtree`.
+
+    If the error is due to an access error (read only file)
+    it attempts to add write permission and then retries.
+
+    If the error is for another reason it re-raises the error.
+
+    Copyright Michael Foord 2004
+    Released subject to the BSD License
+    ref: http://www.voidspace.org.uk/python/recipebook.shtml#utils
+
+    Usage : `shutil.rmtree(path, onerror=onerror)`
+    """
+    if not os.access(path, os.W_OK):
+        # Is the error an access error?
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        raise
+
+
 def _get_url(url):
     try:
         data = HTTP_SESSION.get(url, stream=True)
@@ -344,6 +367,16 @@ class Fetcher(object):
                 self.extract_dmg(path)
             elif platform.system() == 'Windows':
                 self.extract_zip('zip', path)
+                # windows builds are extracted under 'firefox/'
+                # move everything under firefox/ up a level to the destination path
+                firefox = os.path.join(path, 'firefox')
+                for root, dirs, files in os.walk(firefox):
+                    newroot = root.replace(firefox, path)
+                    for dirname in dirs:
+                        os.mkdir(os.path.join(newroot, dirname))
+                    for filename in files:
+                        os.rename(os.path.join(root, filename), os.path.join(newroot, filename))
+                shutil.rmtree(firefox, onerror=onerror)
             else:
                 raise FetcherException("'%s' is not a supported platform" % platform.system())
 
@@ -399,9 +432,10 @@ class Fetcher(object):
                 entries = os.listdir('.')
                 while entries:
                     entry = entries.pop()
-                    if os.path.isdir(entry) and entry not in {'dist', 'symbols', 'tests', 'gtest'}:
-                        os.mkdir(entry)
-                        entries.extend(os.path.join(entry, sub) for sub in os.listdir(entry))
+                    if os.path.isdir(entry):
+                        if entry not in {'dist', 'symbols', 'tests', 'gtest'}:
+                            os.mkdir(os.path.join('dist', 'bin', entry))
+                            entries.extend(os.path.join(entry, sub) for sub in os.listdir(entry))
                     else:
                         shutil.copy(entry, os.path.join('dist', 'bin', entry))
         finally:
@@ -419,7 +453,10 @@ class Fetcher(object):
         output.set('Metadata', 'pathPrefix', self.moz_info['topsrcdir'])
         output.set('Metadata', 'buildFlags', '')
 
-        fm_name = self._target + '.fuzzmanagerconf'
+        if platform.system() == "Windows":
+            fm_name = self._target + '.exe.fuzzmanagerconf'
+        else:
+            fm_name = self._target + '.fuzzmanagerconf'
         with open(os.path.join(path, 'dist', 'bin', fm_name), 'w') as conf_fp:
             output.write(conf_fp)
         if platform.system() == 'Windows':
@@ -496,7 +533,7 @@ class Fetcher(object):
             finally:
                 subprocess.check_call(['hdiutil', 'detach', '-quiet', out_tmp])
         finally:
-            shutil.rmtree(out_tmp)
+            shutil.rmtree(out_tmp, onerror=onerror)
             os.unlink(dmg_fn)
 
     @classmethod
@@ -630,4 +667,4 @@ class Fetcher(object):
             shutil.move(os.path.join(out_tmp), extract_args['out'])
         finally:
             if os.path.isdir(out_tmp):
-                shutil.rmtree(out_tmp)
+                shutil.rmtree(out_tmp, onerror=onerror)
