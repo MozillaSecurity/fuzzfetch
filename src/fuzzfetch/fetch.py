@@ -60,6 +60,7 @@ def onerror(func, path, exc_info):
         os.chmod(path, stat.S_IWUSR)
         func(path)
     else:
+        # this should only ever be called from an exception context
         raise  # pylint: disable=misplaced-bare-raise
 
 
