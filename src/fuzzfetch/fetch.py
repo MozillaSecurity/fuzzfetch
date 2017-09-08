@@ -627,6 +627,10 @@ class Fetcher(object):
 
         try:
             obj.extract_build(out_tmp, tests=extract_args['tests'], full_symbols=extract_args['full_symbols'])
+            os.makedirs(os.path.join(out_tmp, 'download'))
+            with open(os.path.join(out_tmp, 'download', 'firefox-temp.txt'), 'a') as f:
+                f.write('buildID={}{}'.format(obj.build_id,. os.linesep))
+
             shutil.move(os.path.join(out_tmp), extract_args['out'])
         finally:
             if os.path.isdir(out_tmp):
