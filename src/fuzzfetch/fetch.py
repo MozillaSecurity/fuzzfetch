@@ -104,7 +104,7 @@ class BuildTask(object):
     "TaskCluster build metadata"
     URL_BASE = 'https://index.taskcluster.net/v1/'
 
-    def __init__(self, build, branch, flags):
+    def __init__(self, arch_32, build, branch, flags):
         """
         Retrieve the task JSON object
         Requires first generating the task URL based on the specified build type and platform
@@ -114,7 +114,14 @@ class BuildTask(object):
         supported_platforms = {'Darwin': {'x86_64': 'macosx64'},
                                'Linux': {'x86_64': 'linux64', 'i686': 'linux'},
                                'Windows': {'AMD64': 'win64'}}
-        target_platform = supported_platforms[platform.system()][platform.machine()]
+        
+        if arch_32:
+            if platform.system() == 'Windows':
+                target_platform = 'win32'
+            elif platform.system() == 'Linux':
+                target_platform = 'linux'
+        else:
+            target_platform = supported_platforms[platform.system()][platform.machine()]
 
         if re.match(r'\d{4}-\d{2}-\d{2}$', build):
             debug_str = 'pushdate ' + build
@@ -190,7 +197,7 @@ class Fetcher(object):
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
 
-    def __init__(self, target, branch, build, flags):
+    def __init__(self, target, arch_32, branch, build, flags):
         """
         @type target:
         @param target:
@@ -211,7 +218,7 @@ class Fetcher(object):
         "memorized values for @properties"
         self._branch = branch
         self._flags = BuildFlags(*flags)
-        self._task = BuildTask(build, branch, self._flags)
+        self._task = BuildTask(arch_32, build, branch, self._flags)
 
         now = datetime.utcnow()
         build_time = datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
@@ -556,6 +563,7 @@ class Fetcher(object):
         target_group.add_argument('--target', choices=cls.TARGET_CHOICES,
                                   help=('Specify the build target. Acceptable values are: ' +
                                         ', '.join(cls.TARGET_CHOICES)))
+        target_group.add_argument('--32', dest='arch_32', action='store_true', help='Download 32 bit version of browser on 64 bit system.')
 
         type_group = parser.add_argument_group('Build')
         type_group.add_argument('--build', metavar='DATE|REV|NS',
@@ -622,7 +630,8 @@ class Fetcher(object):
             args.branch = 'central'
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage)
-        obj = cls(args.target, args.branch, args.build, flags=flags)
+
+        obj = cls(args.target, args.arch_32, args.branch, args.build, flags=flags)
 
         if args.name is None:
             args.name = obj.get_auto_name()
