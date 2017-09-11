@@ -197,7 +197,7 @@ class Fetcher(object):
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
 
-    def __init__(self, target, branch, build, flags, , arch_32=False):
+    def __init__(self, target, branch, build, flags, arch_32=False):
         """
         @type target:
         @param target:
@@ -210,7 +210,6 @@ class Fetcher(object):
 
         @type flags:
         @param flags:
-        
         """
         if target not in self.TARGET_CHOICES:
             raise FetcherException("'%s' is not a supported target" % target)
@@ -219,7 +218,7 @@ class Fetcher(object):
         "memorized values for @properties"
         self._branch = branch
         self._flags = BuildFlags(*flags)
-        self._task = BuildTask(arch_32, build, branch, self._flags)
+        self._task = BuildTask(build, branch, self._flags, arch_32)
 
         now = datetime.utcnow()
         build_time = datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
@@ -564,7 +563,8 @@ class Fetcher(object):
         target_group.add_argument('--target', choices=cls.TARGET_CHOICES,
                                   help=('Specify the build target. Acceptable values are: ' +
                                         ', '.join(cls.TARGET_CHOICES)))
-        target_group.add_argument('--32', dest='arch_32', action='store_true', help='Download 32 bit version of browser on 64 bit system.')
+        target_group.add_argument('--32', dest='arch_32', action='store_true',
+                                  help='Download 32 bit version of browser on 64 bit system.')
 
         type_group = parser.add_argument_group('Build')
         type_group.add_argument('--build', metavar='DATE|REV|NS',
@@ -631,8 +631,7 @@ class Fetcher(object):
             args.branch = 'central'
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage)
-
-        obj = cls(args.target, args.arch_32, args.branch, args.build, flags=flags)
+        obj = cls(args.target, args.branch, args.build, flags=flags, args.arch_32)
 
         if args.name is None:
             args.name = obj.get_auto_name()
