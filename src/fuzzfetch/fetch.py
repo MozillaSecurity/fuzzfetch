@@ -40,7 +40,7 @@ class FetcherException(Exception):
     "Exception raised for any Fetcher errors."
 
 
-def onerror(func, path, exc_info):
+def onerror(func, path, _exc_info):
     """
     Error handler for `shutil.rmtree`.
 
