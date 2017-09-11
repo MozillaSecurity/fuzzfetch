@@ -114,7 +114,7 @@ class BuildTask(object):
         supported_platforms = {'Darwin': {'x86_64': 'macosx64'},
                                'Linux': {'x86_64': 'linux64', 'i686': 'linux'},
                                'Windows': {'AMD64': 'win64'}}
-        
+
         if arch_32:
             if platform.system() == 'Windows':
                 target_platform = 'win32'
@@ -210,6 +210,9 @@ class Fetcher(object):
 
         @type flags:
         @param flags:
+
+        @type arch_32:
+        @param arch_32:
         """
         if target not in self.TARGET_CHOICES:
             raise FetcherException("'%s' is not a supported target" % target)
@@ -631,7 +634,7 @@ class Fetcher(object):
             args.branch = 'central'
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage)
-        obj = cls(args.target, args.branch, args.build, flags=flags, args.arch_32)
+        obj = cls(args.target, args.branch, args.build, flags, args.arch_32)
 
         if args.name is None:
             args.name = obj.get_auto_name()
@@ -676,8 +679,8 @@ class Fetcher(object):
         try:
             obj.extract_build(out_tmp, tests=extract_args['tests'], full_symbols=extract_args['full_symbols'])
             os.makedirs(os.path.join(out_tmp, 'download'))
-            with open(os.path.join(out_tmp, 'download', 'firefox-temp.txt'), 'a') as f:
-                f.write('buildID={}{}'.format(obj.build_id, os.linesep))
+            with open(os.path.join(out_tmp, 'download', 'firefox-temp.txt'), 'a') as dl_fd:
+                dl_fd.write('buildID=' + obj.build_id + os.linesep)
 
             shutil.move(os.path.join(out_tmp), extract_args['out'])
         finally:
