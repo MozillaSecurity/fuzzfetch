@@ -104,7 +104,7 @@ class BuildTask(object):
     "TaskCluster build metadata"
     URL_BASE = 'https://index.taskcluster.net/v1/'
 
-    def __init__(self, arch_32, build, branch, flags):
+    def __init__(self, build, branch, flags, arch_32=False):
         """
         Retrieve the task JSON object
         Requires first generating the task URL based on the specified build type and platform
@@ -197,7 +197,7 @@ class Fetcher(object):
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
 
-    def __init__(self, target, arch_32, branch, build, flags):
+    def __init__(self, target, branch, build, flags, , arch_32=False):
         """
         @type target:
         @param target:
@@ -210,6 +210,7 @@ class Fetcher(object):
 
         @type flags:
         @param flags:
+        
         """
         if target not in self.TARGET_CHOICES:
             raise FetcherException("'%s' is not a supported target" % target)
