@@ -45,47 +45,53 @@ def get_builds_to_test():
                       fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=True, coverage=False))  # asan-fuzz
     possible_branches = ("central", "inbound", "esr", "beta", "release")
 
-    for branch, flags in itertools.product(possible_branches, possible_flags):
-        if platform.system() == "Linux" and flags.coverage and branch != "central":
+    for branch, flags, arch_32 in itertools.product(possible_branches, possible_flags, (False, True)):
+        if arch_32 and (platform.machine() not in {"AMD64", "x86-64"} or  # only try 32-bit on 64-bit platforms
+                        platform.system() == "Darwin" or  # no 32-bit builds on macos
+                        flags.asan or flags.coverage):  # no 32-bit builds for asan or ccov
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
+        elif platform.system() == "Linux" and flags.coverage and branch != "central":
             # coverage builds are only done on central
-            yield pytest.param(branch, flags, marks=pytest.mark.skip)
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
         elif platform.system() == "Linux" and flags.fuzzing and branch == "esr":
             # fuzzing builds not done on esr
-            yield pytest.param(branch, flags, marks=pytest.mark.skip)
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
         elif platform.system() == "Darwin" and (flags.asan or flags.coverage):
             # asan/coverage builds not done for macos yet
-            yield pytest.param(branch, flags, marks=pytest.mark.skip)
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
         elif platform.system() == "Windows" and flags.asan and branch not in {"central", "inbound"}:
             # asan builds for windows are only done for central/inbound
-            yield pytest.param(branch, flags, marks=pytest.mark.skip)
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
         elif platform.system() == "Windows" and flags.coverage:
             # coverage builds not done for windows yet
-            yield pytest.param(branch, flags, marks=pytest.mark.skip)
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
         elif platform.system() == "Windows" and flags.asan and (flags.fuzzing or flags.debug):
             # windows only has asan-opt ?
-            yield pytest.param(branch, flags, marks=pytest.mark.skip)
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
         elif platform.system() == "Windows" and flags.asan:
             # https://bugzilla.mozilla.org/show_bug.cgi?id=1394543
-            yield pytest.param(branch, flags, marks=pytest.mark.skip)
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.xfail)
         elif branch == "release":
-            yield pytest.param(branch, flags, marks=pytest.mark.xfail)  # ?
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.xfail)  # ?
         else:
-            yield pytest.param(branch, flags)
+            yield pytest.param(branch, flags, arch_32)
 
 
-@pytest.mark.parametrize('branch, build_flags', get_builds_to_test())
-def test_metadata(branch, build_flags):
+@pytest.mark.parametrize('branch, build_flags, arch_32', get_builds_to_test())
+def test_metadata(branch, build_flags, arch_32):
     """Instantiate a Fetcher (which downloads metadata from TaskCluster) and check that the build is recent"""
     # BuildFlags(asan, debug, fuzzing, coverage)
-    # Fetcher(target, branch, build, flags)
+    # Fetcher(target, branch, build, flags, arch_32)
     for as_args in (True, False):  # try as API and as command line
         if as_args:
             args = ["--" + name for arg, name in zip(build_flags, fuzzfetch.BuildFlags._fields) if arg]
+            if arch_32:
+                args.append("--32")
             fetcher = fuzzfetch.Fetcher.from_args(["--" + branch] + args)[0]
         else:
             if branch == "esr":
                 branch = "esr52"
-            fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags)
+            fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, arch_32)
         log.debug("succeeded creating Fetcher")
 
         log.debug("buildid: %s", fetcher.build_id)

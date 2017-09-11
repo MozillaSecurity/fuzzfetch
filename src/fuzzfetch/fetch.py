@@ -434,8 +434,8 @@ class Fetcher(object):
             if platform.system() == 'Darwin' and self._target == 'firefox':
                 ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
                 assert len(ff_loc) == 1
-                os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),
-                           os.path.join('dist', 'bin'))  # pylint: disable=no-member
+                os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),  # pylint: disable=no-member
+                           os.path.join('dist', 'bin'))
             elif platform.system() == 'Linux':
                 os.symlink(os.pardir, os.path.join('dist', 'bin'))  # pylint: disable=no-member
             elif platform.system() == 'Windows':
