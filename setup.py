@@ -38,4 +38,4 @@ if __name__ == "__main__":
         package_dir={"": "src"},
         packages=["fuzzfetch"],
         url="https://github.com/MozillaSecurity/fuzzfetch",
-        version="0.5.4")
+        version="0.5.5")
