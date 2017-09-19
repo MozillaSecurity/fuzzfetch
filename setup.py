@@ -26,7 +26,10 @@ if __name__ == "__main__":
         entry_points={
             "console_scripts": ["fuzzfetch = fuzzfetch:Fetcher.main"]
         },
-        install_requires=open('requirements.txt').read().strip().splitlines(),
+        install_requires=[
+            "configparser>=3.5.0",
+            "requests",
+        ],
         keywords="fuzz fuzzing security test testing",
         license="MPL 2.0",
         maintainer="Mozilla Fuzzing Team",
