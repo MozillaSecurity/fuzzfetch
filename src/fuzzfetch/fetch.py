@@ -88,28 +88,49 @@ def _extract_file(zip_fp, info, path):
 class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage'))):
     "Flags used to make a build"
 
-    def build_strings(self):
-        "Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both"
-        yield (('-fuzzing' if self.fuzzing else '') +
-               ('-asan' if self.asan else '') +
-               ('-ccov' if self.coverage else '') +
-               ('-debug' if self.debug else '-opt'))
-        yield (('-fuzzing' if self.fuzzing else '') +
-               ('-asan' if self.asan else '') +
-               ('-ccov' if self.coverage else '') +
-               ('-debug' if self.debug else ''))
+    def build_string(self):
+        """Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt
+        The latter is generated. If it fails, the caller should try the former.
+        """
+        return (('-fuzzing' if self.fuzzing else '') +
+                ('-asan' if self.asan else '') +
+                ('-ccov' if self.coverage else '') +
+                ('-debug' if self.debug else '-opt'))
 
 
 class BuildTask(object):
     "TaskCluster build metadata"
     URL_BASE = 'https://index.taskcluster.net/v1/'
+    RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+    RE_REV = re.compile(r'^[0-9A-F]{40}$', re.IGNORECASE)
 
-    def __init__(self, build, branch, flags, arch_32=False):
+    def __init__(self, build, branch, flags, arch_32=False, _blank=False):
         """
         Retrieve the task JSON object
         Requires first generating the task URL based on the specified build type and platform
         """
+        if _blank:
+            self.url = None
+            self._data = {}
+            return
+        for obj in self.iterall(build, branch, flags, arch_32):
+            self.url = obj.url
+            self._data = obj._data  # pylint: disable=protected-access
+            break
+        else:
+            raise FetcherException('Unable to find usable archive for %s' % self._debug_str(build))
 
+    @classmethod
+    def _debug_str(cls, build):
+        if cls.RE_DATE.match(build):
+            return 'pushdate ' + build
+        elif cls.RE_REV.match(build):
+            return 'revision ' + build
+        return build
+
+    @classmethod
+    def iterall(cls, build, branch, flags, arch_32=False):
+        """Generator for all possible BuildTasks with these parameters"""
         # Prepare build type
         supported_platforms = {'Darwin': {'x86_64': 'macosx64'},
                                'Linux': {'x86_64': 'linux64', 'i686': 'linux'},
@@ -123,46 +144,45 @@ class BuildTask(object):
         else:
             target_platform = supported_platforms[platform.system()][platform.machine()]
 
-        if re.match(r'\d{4}-\d{2}-\d{2}$', build):
-            debug_str = 'pushdate ' + build
+        is_namespace = False
+        if cls.RE_DATE.match(build):
             task_urls = map(''.join,
-                            itertools.product(self._pushdate_urls(build.replace('-', '.'), branch, target_platform),
-                                              flags.build_strings()))
+                            itertools.product(cls._pushdate_urls(build.replace('-', '.'), branch, target_platform),
+                                              (flags.build_string(),)))
 
-        elif re.match(r'[0-9A-F]{40}$', build, re.IGNORECASE):
-            debug_str = 'revision ' + build
-            task_urls = map(''.join,
-                            itertools.product((self._revision_url(build.lower(), branch, target_platform),),
-                                              flags.build_strings()))
+        elif cls.RE_REV.match(build):
+            task_urls = (cls._revision_url(build.lower(), branch, target_platform) + flags.build_string(),)
 
         elif build == 'latest':
-            debug_str = 'latest'
             namespace = 'gecko.v2.mozilla-' + branch + '.latest'
-            task_urls = map(''.join,
-                            itertools.product((self.URL_BASE + '/task/' + namespace + '.firefox.' + target_platform,),
-                                              flags.build_strings()))
+            task_urls = (cls.URL_BASE + '/task/' + namespace + '.firefox.' + target_platform + flags.build_string(),)
 
         else:
             # try to use build argument directly as a namespace
-            debug_str = build
             if target_platform not in build:
                 log.warning('Cross-platform fetching is not tested. Please report problems to: %s', BUG_URL)
-            task_urls = (self.URL_BASE + '/task/' + build,)
+            task_urls = (cls.URL_BASE + '/task/' + build,)
+            is_namespace = True
 
-        for url in task_urls:
+        for (url, try_wo_opt) in itertools.product(task_urls, (False, True)):
+
+            if try_wo_opt:
+                if '-opt' not in url or is_namespace:
+                    continue
+                url = url.replace('-opt', '')
+
             try:
                 data = HTTP_SESSION.get(url)
                 data.raise_for_status()
             except requests.exceptions.RequestException:
-                pass
-            else:
-                self.url = url
-                self._data = data.json()
+                continue
 
-                log.debug('Found archive for %s', debug_str)
-                return
+            obj = cls(None, None, None, _blank=True)
+            obj.url = url
+            obj._data = data.json()  # pylint: disable=protected-access
 
-        raise FetcherException('Unable to find usable archive for ' + debug_str)
+            log.debug('Found archive for %s', cls._debug_str(build))
+            yield obj
 
     def __getattr__(self, name):
         if name in self._data:
@@ -221,53 +241,64 @@ class Fetcher(object):
         "memorized values for @properties"
         self._branch = branch
         self._flags = BuildFlags(*flags)
-        self._task = BuildTask(build, branch, self._flags, arch_32)
 
-        now = datetime.utcnow()
-        build_time = datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
-        if build == 'latest' and (now - build_time).total_seconds() > 86400:
-            log.warning('Latest available build is older than 1 day: %s', self.build_id)
+        if isinstance(build, BuildTask):
+            self._task = build
 
-        # if the build string contains the platform, assume it is a TaskCluster namespace
-        if self.moz_info["platform_guess"] in build:
-            # try to set args to match the namespace given
-            if self._branch is None:
-                branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
-                self._branch = branch.group('branch') if branch is not None else '?'
-            asan, debug, fuzzing, coverage = self._flags
-            if not debug:
-                debug = '-debug' in build or '-dbg' in build
-            if not asan:
-                asan = '-asan' in build
-            if not fuzzing:
-                fuzzing = '-fuzzing' in build
-            if not coverage:
-                coverage = '-coverage' in build
-            self._flags = BuildFlags(asan, debug, fuzzing, coverage)
+        else:
+            self._task = BuildTask(build, branch, self._flags, arch_32)
 
-            # '?' is special case used for unknown build types
-            if self._branch != '?' and self._branch not in build:
-                raise FetcherException("'build' and 'branch' arguments do not match. "
-                                       "(build=%s, branch=%s)" % (build, self._branch))
-            if self._flags.asan and '-asan' not in build:
-                raise FetcherException("'build' is not an asan build, but asan=True given "
-                                       "(build=%s)" % build)
-            if self._flags.debug and not ('-dbg' in build or '-debug' in build):
-                raise FetcherException("'build' is not a debug build, but debug=True given "
-                                       "(build=%s)" % build)
-            if self._flags.fuzzing and '-fuzzing' not in build:
-                raise FetcherException("'build' is not a fuzzing build, but fuzzing=True given "
-                                       "(build=%s)" % build)
-            if self._flags.coverage and '-ccov' not in build:
-                raise FetcherException("'build' is not a coverage build, but coverage=True given "
-                                       "(build=%s)" % build)
+            now = datetime.utcnow()
+            build_time = datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
+            if build == 'latest' and (now - build_time).total_seconds() > 86400:
+                log.warning('Latest available build is older than 1 day: %s', self.build_id)
+
+            # if the build string contains the platform, assume it is a TaskCluster namespace
+            if self.moz_info["platform_guess"] in build:
+                # try to set args to match the namespace given
+                if self._branch is None:
+                    branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
+                    self._branch = branch.group('branch') if branch is not None else '?'
+                asan, debug, fuzzing, coverage = self._flags
+                if not debug:
+                    debug = '-debug' in build or '-dbg' in build
+                if not asan:
+                    asan = '-asan' in build
+                if not fuzzing:
+                    fuzzing = '-fuzzing' in build
+                if not coverage:
+                    coverage = '-coverage' in build
+                self._flags = BuildFlags(asan, debug, fuzzing, coverage)
+
+                # '?' is special case used for unknown build types
+                if self._branch != '?' and self._branch not in build:
+                    raise FetcherException("'build' and 'branch' arguments do not match. "
+                                           "(build=%s, branch=%s)" % (build, self._branch))
+                if self._flags.asan and '-asan' not in build:
+                    raise FetcherException("'build' is not an asan build, but asan=True given "
+                                           "(build=%s)" % build)
+                if self._flags.debug and not ('-dbg' in build or '-debug' in build):
+                    raise FetcherException("'build' is not a debug build, but debug=True given "
+                                           "(build=%s)" % build)
+                if self._flags.fuzzing and '-fuzzing' not in build:
+                    raise FetcherException("'build' is not a fuzzing build, but fuzzing=True given "
+                                           "(build=%s)" % build)
+                if self._flags.coverage and '-ccov' not in build:
+                    raise FetcherException("'build' is not a coverage build, but coverage=True given "
+                                           "(build=%s)" % build)
 
         # build the automatic name
-        if self.moz_info["platform_guess"] in build:
+        if not isinstance(build, BuildTask) and self.moz_info["platform_guess"] in build:
             options = build.split(self.moz_info["platform_guess"], 1)[1]
         else:
-            options = tuple(self._flags.build_strings())[0]
+            options = self._flags.build_string()
         self._auto_name = 'm-%s-%d%s' % (self._branch[0], self.rank, options)
+
+    @classmethod
+    def iterall(cls, target, branch, build, flags, arch_32=False):
+        flags = BuildFlags(*flags)
+        for task in BuildTask.iterall(build, branch, flags, arch_32):
+            yield cls(target, branch, task, flags, arch_32)
 
     @property
     def _artifacts(self):
