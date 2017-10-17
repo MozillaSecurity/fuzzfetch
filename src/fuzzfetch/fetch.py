@@ -199,20 +199,20 @@ class Fetcher(object):
 
     def __init__(self, target, branch, build, flags, arch_32=False):
         """
-        @type target:
-        @param target:
+        @type target: string
+        @param target: the download target, eg. 'js', 'firefox'
 
-        @type branch:
-        @param branch:
+        @type branch: string
+        @param branch: a valid gecko branch, eg. 'central', 'inbound', 'beta', 'release', 'esr52', etc.
 
-        @type build:
-        @param build:
+        @type build: string
+        @param build: build identifier. acceptable identifers are: TaskCluster namespace, hg changeset, date, 'latest'
 
-        @type flags:
-        @param flags:
+        @type flags: BuildFlags or sequence of booleans
+        @param flags: ('asan', 'debug', 'fuzzing', 'coverage'), each a bool, not all combinations exist in TaskCluster
 
-        @type arch_32:
-        @param arch_32:
+        @type arch_32: boolean
+        @param arch_32: force 32-bit download on 64-bit platform
         """
         if target not in self.TARGET_CHOICES:
             raise FetcherException("'%s' is not a supported target" % target)
