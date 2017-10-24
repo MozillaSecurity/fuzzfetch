@@ -469,7 +469,7 @@ class Fetcher(object):
         """
         Update directory to work with DOMFuzz
 
-        @type path: basestring
+        @type path: str
         @param path: A string representation of the fuzzmanger config path
         """
         old_dir = os.getcwd()
