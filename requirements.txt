@@ -1,2 +1,0 @@
-requests
-configparser>=3.5.0

@@ -8,17 +8,24 @@ python:
     - 3.5
     - 3.6
 before_install:
-    - pip install -U setuptools pip
-    - pip install -U virtualenv
+    - pip install --upgrade setuptools pip
+    - pip install --upgrade virtualenv
 install:
     - pip --version
     - virtualenv --version
     - git --version
     - python -m pip install -e .
 before_script:
-    - pip install -U flake8 pylint codecov
-    - pip install -U pytest-flake8 pytest-pylint pytest-cov
+    - pip install --upgrade flake8 pylint codecov
+    - pip install --upgrade pytest-flake8 pytest-pylint pytest-cov
 script:
-    - python -m pytest -v --cache-clear --flake8 --pylint --cov=. --cov-report term-missing
+    - python -m pytest
 after_success:
     - codecov
+deploy:
+    provider: pypi
+    user: truber
+    password:
+        secure: RGArKry3MM4uZWW2gu2cX8r8Xo1rtMuhcdtSqNOBXXznWw/mGPlnxRFS0MvNcBDdD0q3d5xqnjRn51bXoGXxsgGcPHDUGbiOGlPEB84EtmKQUkjvoXOgEHrbVczLXeO5E2JpMZmLDNkoF3Oogdy6ASZo8EIyYbmafp9bXGiFeMXtvENMPgPtjmuDNDJ0ENUDi05YuJ+Y/1uHiVHzuHfxCGxrpJaRqc/Gy4psK5/uWQ52e3wcuHi1BkVsZVSuRApyXCa4nTcj4rRuE/tn9kru5dFiA90ryfIp/ui7FFcbQD39k/POkU7Lpd6yV7jasIBXf68b35KzIAvFv3lGpfJGuG59A66ZE/jnbpD3ARRLYu0K7E/BAjxMGAtaFMxeutA9vEQAAXgBhk7/zr4hkw36IE+ikuC0tO1Iz2crPRJjlo9KRc0cmusUDse5OWPzABVMNcNMilpIpJOoePPc8LCg/cqDUTeP9ekjj04Qz0EiL/7McdyL/cC5gAF9qcGJLtXi7ZTfTnXFobcdgwmv4f01XktpS3MQO6TSVZUkRs9pztS2aqRAobtTR8rpjCX1OXZtOpFRVxLJ8bGaDh/XM42nN75JQqfnKx8l8iRJ2l1UWW0Mmjh2JQuayONTHcJ8FLpQ1Lwi9v6WBn5vQFHwEKAmTiBMSryRXolVPCri8FbxTL8=
+    on:
+        tags: true
