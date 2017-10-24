@@ -87,7 +87,7 @@ def _extract_file(zip_fp, info, path):
 class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage'))):
     """Class for storing TaskCluster build flags"""
 
-    def build_strings(self):
+    def build_string(self):
         """
         Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt
         The latter is generated. If it fails, the caller should try the former.
