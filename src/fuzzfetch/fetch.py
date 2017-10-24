@@ -269,6 +269,15 @@ class Fetcher(object):
         return self.build_info['buildid']
 
     @property
+    def build_datetime(self):
+        """
+        Get the date/time of build
+        @rtype: datetime object
+        @return: Returns a datetime object
+        """
+        return datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
+
+    @property
     def build_info(self):
         "Download build information of Firefox"
         if 'build_info' not in self._memo:
