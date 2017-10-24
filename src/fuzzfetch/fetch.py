@@ -1,5 +1,5 @@
 # coding=utf-8
-"core fuzzfetch implementation"
+"""Core fuzzfetch implementation"""
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -36,10 +36,11 @@ HTTP_SESSION = requests.Session()
 
 
 class FetcherException(Exception):
-    "Exception raised for any Fetcher errors."
+    """Exception raised for any Fetcher errors"""
 
 
 def _get_url(url):
+    """Retrieve requested URL"""
     try:
         data = HTTP_SESSION.get(url, stream=True)
         data.raise_for_status()
@@ -50,9 +51,7 @@ def _get_url(url):
 
 
 def _extract_file(zip_fp, info, path):
-    """
-    Extract files while explicitly setting the proper permissions
-    """
+    """Extract files while explicitly setting the proper permissions"""
     zip_fp.extract(info.filename, path=path)
     out_path = os.path.join(path, info.filename)
 
@@ -61,10 +60,10 @@ def _extract_file(zip_fp, info, path):
 
 
 class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage'))):
-    "Flags used to make a build"
+    """Class for storing TaskCluster build flags"""
 
     def build_strings(self):
-        "Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both"
+        """Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt - try both"""
         yield (('-fuzzing' if self.fuzzing else '') +
                ('-asan' if self.asan else '') +
                ('-ccov' if self.coverage else '') +
@@ -76,7 +75,7 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
 
 
 class BuildTask(object):
-    "TaskCluster build metadata"
+    """Class for storing TaskCluster build information"""
     URL_BASE = 'https://index.taskcluster.net/v1/'
 
     def __init__(self, build, branch, flags):
@@ -139,7 +138,7 @@ class BuildTask(object):
 
     @classmethod
     def _pushdate_urls(cls, pushdate, branch, target_platform):
-        "Multiple entries exist per push date. Iterate over all until a working entry is found"
+        """Multiple entries exist per push date. Iterate over all until a working entry is found"""
         url_base = cls.URL_BASE + '/namespaces/gecko.v2.mozilla-' + branch + '.pushdate.' + pushdate
 
         try:
@@ -154,13 +153,13 @@ class BuildTask(object):
 
     @classmethod
     def _revision_url(cls, rev, branch, target_platform):
-        "Retrieve the URL for revision based builds"
+        """Retrieve the URL for revision based builds"""
         namespace = 'gecko.v2.mozilla-' + branch + '.revision.' + rev
         return cls.URL_BASE + '/task/' + namespace + '.firefox.' + target_platform
 
 
 class Fetcher(object):
-    "Fetcher fetches build artifacts from TaskCluster and unpacks them"
+    """Fetcher fetches build artifacts from TaskCluster and unpacks them"""
     TARGET_CHOICES = {'js', 'firefox'}
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
@@ -236,7 +235,7 @@ class Fetcher(object):
 
     @property
     def _artifacts(self):
-        "Retrieve the artifacts json object"
+        """Retrieve the artifacts json object"""
         if '_artifacts' not in self._memo:
             json = _get_url(self._artifacts_url).json()
             self._memo['_artifacts'] = json['artifacts']
@@ -260,62 +259,58 @@ class Fetcher(object):
 
     @property
     def _artifacts_url(self):
-        "Build the artifacts url"
+        """Build the artifacts url"""
         return 'https://queue.taskcluster.net/v1/task/%s/artifacts' % self.task_id
 
     @property
     def build_id(self):
-        "Get the build id (date stamp)"
+        """Return the build's id (date stamp)"""
         return self.build_info['buildid']
 
     @property
     def build_datetime(self):
-        """
-        Get the date/time of build
-        @rtype: datetime object
-        @return: Returns a datetime object
-        """
+        """Return a datetime representation of the build's id"""
         return datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
 
     @property
     def build_info(self):
-        "Download build information of Firefox"
+        """Return the build's info"""
         if 'build_info' not in self._memo:
             self._memo['build_info'] = _get_url(self.artifact_url('json')).json()
         return self._memo['build_info']
 
     @property
     def changeset(self):
-        "Get the hg changeset"
+        """Return the build's revision"""
         return self.build_info['moz_source_stamp']
 
     @property
     def moz_info(self):
-        "Download mozinfo information of Firefox"
+        """Return the build's mozinfo"""
         if 'moz_info' not in self._memo:
             self._memo['moz_info'] = _get_url(self.artifact_url('mozinfo.json')).json()
         return self._memo['moz_info']
 
     @property
     def rank(self):
-        "Get the rank"
+        """Return the build's rank"""
         return self._task.rank
 
     @property
     def _target(self):
-        "Get the target"
+        """Return the target type"""
         if '_target' not in self._memo:
             raise FetcherException('_target not set')
         return self._memo['_target']
 
     @property
     def task_id(self):
-        "Get the TaskCluster id"
+        """Return the build's TaskCluster ID"""
         return self._task.taskId
 
     @property
     def task_url(self):
-        "Get the TaskCluster base url"
+        """Return the TaskCluster base url"""
         return self._task.url
 
     def artifact_url(self, suffix):
@@ -328,7 +323,7 @@ class Fetcher(object):
         return '%s/%s.%s' % (self._artifacts_url, self._artifact_base, suffix)
 
     def get_auto_name(self):
-        "Get the automatic directory name"
+        """Get the automatic directory name"""
         return self._auto_name
 
     def extract_build(self, path='.', tests=None, full_symbols=False):
@@ -389,7 +384,12 @@ class Fetcher(object):
         self._write_fuzzmanagerconf(path)
 
     def _layout_for_domfuzz(self, path):
-        # Update directory to work with DOMFuzz
+        """
+        Update directory to work with DOMFuzz
+
+        @type path: basestring
+        @param path: A string representation of the fuzzmanger config path
+        """
         old_dir = os.getcwd()
         os.chdir(os.path.join(path))
         os.mkdir('dist')
@@ -407,7 +407,12 @@ class Fetcher(object):
         os.chdir(old_dir)
 
     def _write_fuzzmanagerconf(self, path):
-        # Add fuzzmanagerconf
+        """
+        Write fuzzmanager config file for selected build
+
+        @type path: basestring
+        @param path: A string representation of the fuzzmanger config path
+        """
         output = configparser.RawConfigParser()
         output.add_section('Main')
         output.set('Main', 'platform', self.moz_info['processor'].replace('_', '-'))
@@ -501,8 +506,11 @@ class Fetcher(object):
         """
         Construct a Fetcher from given command line arguments.
 
-        @type args: list(String)
+        @type args: list(str)
         @param args: Command line arguments (optional). Default is to use args from sys.argv
+
+        @type skip_dir_check: bool
+        @param skip_dir_check: Boolean identifying whether to check for existing build directory
 
         @rtype: tuple(Fetcher, output path)
         @return: Returns a Fetcher object and keyword arguments for extract_build.
@@ -595,7 +603,7 @@ class Fetcher(object):
             'tests': args.tests
         }
 
-        return (obj, extract_options)
+        return obj, extract_options
 
     @classmethod
     def main(cls):
