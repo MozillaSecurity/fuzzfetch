@@ -92,14 +92,10 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
         Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt
         The latter is generated. If it fails, the caller should try the former.
         """
-        yield (('-fuzzing' if self.fuzzing else '') +
-               ('-asan' if self.asan else '') +
-               ('-ccov' if self.coverage else '') +
-               ('-debug' if self.debug else '-opt'))
-        yield (('-fuzzing' if self.fuzzing else '') +
-               ('-asan' if self.asan else '') +
-               ('-ccov' if self.coverage else '') +
-               ('-debug' if self.debug else ''))
+        return (('-fuzzing' if self.fuzzing else '') +
+                ('-asan' if self.asan else '') +
+                ('-ccov' if self.coverage else '') +
+                ('-debug' if self.debug else '-opt'))
 
 
 class BuildTask(object):
