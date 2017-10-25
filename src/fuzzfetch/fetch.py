@@ -22,6 +22,7 @@ import tarfile
 import tempfile
 import zipfile
 from datetime import datetime
+from pytz import timezone
 
 import configparser  # pylint: disable=wrong-import-order
 import requests
@@ -82,6 +83,12 @@ def _extract_file(zip_fp, info, path):
 
     perm = info.external_attr >> 16
     os.chmod(out_path, perm)
+
+
+def _create_utc_datetime(datetime_string):
+    """Convert build_string to time-zone aware datetime object"""
+    dt_obj = datetime.strptime(datetime_string, '%Y%m%d%H%M%S')
+    return timezone('UTC').localize(dt_obj)
 
 
 class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage'))):
@@ -248,9 +255,8 @@ class Fetcher(object):
         else:
             self._task = BuildTask(build, branch, self._flags, arch_32)
 
-            now = datetime.utcnow()
-            build_time = datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
-            if build == 'latest' and (now - build_time).total_seconds() > 86400:
+            now = datetime.now(timezone('UTC'))
+            if build == 'latest' and (now - self.build_datetime).total_seconds() > 86400:
                 log.warning('Latest available build is older than 1 day: %s', self.build_id)
 
             # if the build string contains the platform, assume it is a TaskCluster namespace
@@ -338,7 +344,7 @@ class Fetcher(object):
     @property
     def build_datetime(self):
         """Return a datetime representation of the build's id"""
-        return datetime.strptime(self.build_id, '%Y%m%d%H%M%S')
+        return _create_utc_datetime(self.build_id)
 
     @property
     def build_info(self):

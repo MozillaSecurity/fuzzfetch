@@ -28,7 +28,8 @@ if __name__ == "__main__":
         },
         install_requires=[
             "configparser>=3.5.0",
-            "requests",
+            "pytz",
+            "requests"
         ],
         keywords="fuzz fuzzing security test testing",
         license="MPL 2.0",
