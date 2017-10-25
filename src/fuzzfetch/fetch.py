@@ -296,6 +296,7 @@ class Fetcher(object):
 
     @classmethod
     def iterall(cls, target, branch, build, flags, arch_32=False):
+        """Return an iterable for all available builds matching a particular build type"""
         flags = BuildFlags(*flags)
         for task in BuildTask.iterall(build, branch, flags, arch_32):
             yield cls(target, branch, task, flags, arch_32)
