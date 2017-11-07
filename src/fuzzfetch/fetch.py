@@ -208,7 +208,7 @@ class BuildTask(object):
             raise FetcherException(exc)
 
         json = base.json()
-        for namespace in json['namespaces']:
+        for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
             yield cls.URL_BASE + '/task/' + namespace['namespace'] + '.firefox.' + target_platform
 
     @classmethod
