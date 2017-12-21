@@ -149,6 +149,7 @@ def callback(request, context):
             return data
         context.status_code = 404
         log.debug('-> 404 (at %s)', path)
+        return None
 
 
 @pytest.mark.parametrize('branch, build_flags, arch_32', get_builds_to_test())
