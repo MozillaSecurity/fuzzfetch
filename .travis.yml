@@ -17,7 +17,7 @@ install:
     - python -m pip install -e .
 before_script:
     - pip install --upgrade flake8 pylint codecov
-    - pip install --upgrade pytest-flake8 pytest-pylint pytest-cov
+    - pip install --upgrade pytest-flake8 pytest-pylint pytest-cov requests-mock
 script:
     - python -m pytest
 after_success:

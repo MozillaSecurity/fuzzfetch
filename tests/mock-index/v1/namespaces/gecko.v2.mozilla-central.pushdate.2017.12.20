@@ -1,0 +1,49 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220040325",
+      "name": "20171220040325",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220094437",
+      "name": "20171220094437",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220094743",
+      "name": "20171220094743",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220100049",
+      "name": "20171220100049",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220100057",
+      "name": "20171220100057",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220103047",
+      "name": "20171220103047",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220121833",
+      "name": "20171220121833",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220125120",
+      "name": "20171220125120",
+      "expires": "2018-12-20T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2017.12.20.20171220135553",
+      "name": "20171220135553",
+      "expires": "2018-12-20T00:00:00.000Z"
+    }
+  ]
+}

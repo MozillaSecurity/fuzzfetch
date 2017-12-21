@@ -1,0 +1,208 @@
+{
+  "artifacts": [
+    {
+      "storageType": "s3",
+      "name": "public/build/buildbot_properties.json",
+      "expires": "2018-12-18T16:23:38.089Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/buildprops.json",
+      "expires": "2018-12-18T16:23:33.687Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.langpack.xpi",
+      "expires": "2018-12-18T16:21:28.598Z",
+      "contentType": "application/x-xpinstall"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.checksums",
+      "expires": "2018-12-18T16:23:16.801Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.checksums.asc",
+      "expires": "2018-12-18T16:23:18.832Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.common.tests.zip",
+      "expires": "2018-12-18T16:21:32.507Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.complete.mar",
+      "expires": "2018-12-18T16:21:24.819Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.cppunittest.tests.zip",
+      "expires": "2018-12-18T16:21:42.293Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.crashreporter-symbols-full.zip",
+      "expires": "2018-12-18T16:22:38.763Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.crashreporter-symbols.zip",
+      "expires": "2018-12-18T16:22:14.168Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.gtest.tests.zip",
+      "expires": "2018-12-18T16:21:58.846Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.json",
+      "expires": "2018-12-18T16:22:27.990Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.mochitest.tests.zip",
+      "expires": "2018-12-18T16:21:47.831Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.mozinfo.json",
+      "expires": "2018-12-18T16:22:31.737Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.reftest.tests.zip",
+      "expires": "2018-12-18T16:21:54.135Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.sdk.tar.bz2",
+      "expires": "2018-12-18T16:22:19.390Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.sdk.tar.bz2.asc",
+      "expires": "2018-12-18T16:22:24.598Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.talos.tests.zip",
+      "expires": "2018-12-18T16:21:51.796Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.tar.bz2",
+      "expires": "2018-12-18T16:21:19.272Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.test_packages.json",
+      "expires": "2018-12-18T16:22:34.169Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.txt",
+      "expires": "2018-12-18T16:22:26.125Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.web-platform.tests.zip",
+      "expires": "2018-12-18T16:21:56.637Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64.xpcshell.tests.zip",
+      "expires": "2018-12-18T16:21:45.546Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.5.3.en-US.linux-x86_64_info.txt",
+      "expires": "2018-12-18T16:22:29.555Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/jsshell-linux-x86_64.zip",
+      "expires": "2018-12-18T16:22:36.056Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_critical.log",
+      "expires": "2018-12-18T16:23:27.122Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_error.log",
+      "expires": "2018-12-18T16:23:28.712Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_fatal.log",
+      "expires": "2018-12-18T16:23:32.040Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_info.log",
+      "expires": "2018-12-18T16:23:20.494Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_raw.log",
+      "expires": "2018-12-18T16:23:23.633Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_warning.log",
+      "expires": "2018-12-18T16:23:25.468Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mar",
+      "expires": "2018-12-18T16:23:13.670Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mbsdiff",
+      "expires": "2018-12-18T16:23:15.232Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mozharness.zip",
+      "expires": "2018-12-18T16:21:30.337Z",
+      "contentType": "application/zip"
+    }
+  ]
+}
