@@ -298,7 +298,7 @@ class Fetcher(object):
             options = build.split(self.moz_info["platform_guess"], 1)[1]
         else:
             options = self._flags.build_string()
-        self._auto_name = 'm-%s-%d%s' % (self._branch[0], self.rank, options)
+        self._auto_name = 'm-%s-%s%s' % (self._branch[0], self.build_id, options)
 
     @classmethod
     def iterall(cls, target, branch, build, flags, arch_32=False):
