@@ -82,6 +82,7 @@ def _extract_file(zip_fp, info, path):
     out_path = os.path.join(path, info.filename)
 
     perm = info.external_attr >> 16
+    perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
     os.chmod(out_path, perm)
 
 
