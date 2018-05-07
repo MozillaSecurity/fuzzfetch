@@ -1,0 +1,196 @@
+{
+  "artifacts": [
+    {
+      "storageType": "s3",
+      "name": "public/build/buildbot_properties.json",
+      "expires": "2019-05-04T22:27:38.442Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/buildprops.json",
+      "expires": "2019-05-04T22:27:36.584Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.langpack.xpi",
+      "expires": "2019-05-04T22:26:36.593Z",
+      "contentType": "application/x-xpinstall"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.checksums",
+      "expires": "2019-05-04T22:27:22.914Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.checksums.asc",
+      "expires": "2019-05-04T22:27:24.386Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.common.tests.zip",
+      "expires": "2019-05-04T22:26:39.773Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.cppunittest.tests.zip",
+      "expires": "2019-05-04T22:26:42.141Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.crashreporter-symbols-full.zip",
+      "expires": "2019-05-04T22:27:11.468Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.crashreporter-symbols.zip",
+      "expires": "2019-05-04T22:26:59.110Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.gtest.tests.zip",
+      "expires": "2019-05-04T22:26:56.102Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.installer.exe",
+      "expires": "2019-05-04T22:26:34.102Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.json",
+      "expires": "2019-05-04T22:27:03.039Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.mochitest.tests.zip",
+      "expires": "2019-05-04T22:26:45.820Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.mozinfo.json",
+      "expires": "2019-05-04T22:27:05.981Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.reftest.tests.zip",
+      "expires": "2019-05-04T22:26:50.935Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.talos.tests.zip",
+      "expires": "2019-05-04T22:26:48.885Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.test_packages.json",
+      "expires": "2019-05-04T22:27:07.862Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.txt",
+      "expires": "2019-05-04T22:27:01.562Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.web-platform.tests.zip",
+      "expires": "2019-05-04T22:26:52.966Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.xpcshell.tests.zip",
+      "expires": "2019-05-04T22:26:43.911Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32.zip",
+      "expires": "2019-05-04T22:26:30.416Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/firefox-52.8.0.en-US.win32_info.txt",
+      "expires": "2019-05-04T22:27:04.520Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/jsshell-win32.zip",
+      "expires": "2019-05-04T22:27:09.457Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_critical.log",
+      "expires": "2019-05-04T22:27:31.933Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_error.log",
+      "expires": "2019-05-04T22:27:33.677Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_fatal.log",
+      "expires": "2019-05-04T22:27:35.163Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_info.log",
+      "expires": "2019-05-04T22:27:26.185Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_raw.log",
+      "expires": "2019-05-04T22:27:27.998Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/log_warning.log",
+      "expires": "2019-05-04T22:27:30.273Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mar.exe",
+      "expires": "2019-05-04T22:27:19.779Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mbsdiff.exe",
+      "expires": "2019-05-04T22:27:21.341Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mozharness.zip",
+      "expires": "2019-05-04T22:26:38.234Z",
+      "contentType": "application/zip"
+    }
+  ]
+}

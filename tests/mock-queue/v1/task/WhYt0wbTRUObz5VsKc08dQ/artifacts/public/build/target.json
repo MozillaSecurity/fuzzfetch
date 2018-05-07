@@ -1,0 +1,23 @@
+{
+  "as": "ml64.exe", 
+  "buildid": "20180507172312", 
+  "cc": "z:/build/build/src/sccache2/sccache.exe z:/build/build/src/vs2017_15.6.6/VC/bin/Hostx64/x64/cl.exe", 
+  "cxx": "z:/build/build/src/sccache2/sccache.exe z:/build/build/src/vs2017_15.6.6/VC/bin/Hostx64/x64/cl.exe", 
+  "host_alias": "x86_64-pc-mingw32", 
+  "host_cpu": "x86_64", 
+  "host_os": "mingw32", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "61.0a1", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "61.0a1", 
+  "moz_pkg_platform": "win64", 
+  "moz_source_repo": "https://hg.mozilla.org/integration/mozilla-inbound", 
+  "moz_source_stamp": "bac03a25bfa321708faaabe48a33263b82533625", 
+  "moz_update_channel": "default", 
+  "target_alias": "x86_64-pc-mingw32", 
+  "target_cpu": "x86_64", 
+  "target_os": "mingw32", 
+  "target_vendor": "pc"
+}

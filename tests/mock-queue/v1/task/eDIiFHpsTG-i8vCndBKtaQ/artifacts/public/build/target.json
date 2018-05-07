@@ -1,0 +1,23 @@
+{
+  "as": "ml64.exe", 
+  "buildid": "20180507085353", 
+  "cc": "z:/build/build/src/clang/bin/clang-cl.exe -Xclang -std=gnu99 -fms-compatibility-version=19.13.26128", 
+  "cxx": "z:/build/build/src/clang/bin/clang-cl.exe -fms-compatibility-version=19.13.26128", 
+  "host_alias": "x86_64-pc-mingw32", 
+  "host_cpu": "x86_64", 
+  "host_os": "mingw32", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "61.0a1", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "61.0a1", 
+  "moz_pkg_platform": "win64-asan", 
+  "moz_source_repo": "https://hg.mozilla.org/mozilla-central", 
+  "moz_source_stamp": "65789d9edfe6037dfebc431d97892d38a5c7e05a", 
+  "moz_update_channel": "default", 
+  "target_alias": "x86_64-pc-mingw32", 
+  "target_cpu": "x86_64", 
+  "target_os": "mingw32", 
+  "target_vendor": "pc"
+}
