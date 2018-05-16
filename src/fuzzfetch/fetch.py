@@ -274,7 +274,7 @@ class Fetcher(object):
                 if not fuzzing:
                     fuzzing = '-fuzzing' in build
                 if not coverage:
-                    coverage = '-coverage' in build
+                    coverage = '-ccov' in build
                 self._flags = BuildFlags(asan, debug, fuzzing, coverage)
 
                 # '?' is special case used for unknown build types
