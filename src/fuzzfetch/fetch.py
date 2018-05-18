@@ -450,7 +450,15 @@ class Fetcher(object):
                 self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
             if 'gtest' in tests:
                 self.extract_zip('gtest.tests.zip', path=path)
-                libxul = 'libxul.dll' if platform.system() == "Windows" else 'libxul.so'
+                uname = platform.system()
+                if uname == 'Windows':
+                    libxul = 'xul.dll'
+                elif uname == 'Linux':
+                    libxul = 'libxul.so'
+                elif uname == 'Darwin':
+                    libxul = 'XUL'
+                else:
+                    raise FetcherException("'%s' is not a supported platform" % uname)
                 os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', libxul),
                           os.path.join(path, 'gtest', libxul))
                 shutil.copy(os.path.join(path, 'gtest', 'dependentlibs.list.gtest'),
