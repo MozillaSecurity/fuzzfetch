@@ -525,7 +525,7 @@ class Fetcher(object):
         output.set('Main', 'os', self.moz_info['os'])
         output.add_section('Metadata')
         output.set('Metadata', 'pathPrefix', self.moz_info['topsrcdir'])
-        output.set('Metadata', 'buildFlags', '')
+        output.set('Metadata', 'buildFlags', self._flags.build_string().lstrip('-'))
 
         if platform.system() == "Windows":
             fm_name = self._target + '.exe.fuzzmanagerconf'
