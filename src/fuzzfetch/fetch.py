@@ -493,6 +493,8 @@ class Fetcher(object):
                 assert len(ff_loc) == 1
                 os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),  # pylint: disable=no-member
                            os.path.join('dist', 'bin'))
+                os.symlink(os.path.join(os.pardir, os.pardir, os.pardir, 'symbols'),
+                           os.path.join(os.path.dirname(ff_loc[0]), 'symbols'))
             elif platform.system() == 'Linux':
                 os.symlink(os.pardir, os.path.join('dist', 'bin'))  # pylint: disable=no-member
             elif platform.system() == 'Windows':
