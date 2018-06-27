@@ -72,6 +72,8 @@ def get_builds_to_test():
         elif platform.system() == "Darwin" and (flags.asan or flags.coverage):
             # asan/coverage builds not done for macos yet
             yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
+        elif platform.system() == "Darwin" and (branch == "esr" and not (flags.debug or flags.asan)):
+            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
         elif platform.system() == "Windows" and flags.asan and branch not in {"central", "inbound"}:
             # asan builds for windows are only done for central/inbound
             yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
