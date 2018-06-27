@@ -261,7 +261,7 @@ class Fetcher(object):
                 log.warning('Latest available build is older than 1 day: %s', self.build_id)
 
             # if the build string contains the platform, assume it is a TaskCluster namespace
-            if self.moz_info["platform_guess"] in build:
+            if re.search(self.moz_info["platform_guess"].replace('-', '.*'), build) is not None:
                 # try to set args to match the namespace given
                 if self._branch is None:
                     branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
@@ -653,8 +653,10 @@ class Fetcher(object):
                                  help='Download from mozilla-release')
         branch_args.add_argument('--beta', action='store_const', const='beta', dest='branch',
                                  help='Download from mozilla-beta')
-        branch_args.add_argument('--esr', action='store_const', const='esr52', dest='branch',
+        branch_args.add_argument('--esr52', action='store_const', const='esr52', dest='branch',
                                  help='Download from mozilla-esr52')
+        branch_args.add_argument('--esr', action='store_const', const='esr60', dest='branch',
+                                 help='Download from mozilla-esr60')
 
         build_group = parser.add_argument_group('Build Arguments')
         build_group.add_argument('-d', '--debug', action='store_true',
