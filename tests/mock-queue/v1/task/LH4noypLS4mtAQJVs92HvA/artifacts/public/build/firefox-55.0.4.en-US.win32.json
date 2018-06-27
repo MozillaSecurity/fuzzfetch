@@ -1,0 +1,23 @@
+{
+  "as": "ml.exe", 
+  "buildid": "20170826031719", 
+  "cc": "c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/vs2015u3/VC/bin/amd64_x86/cl.exe", 
+  "cxx": "c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/vs2015u3/VC/bin/amd64_x86/cl.exe", 
+  "host_alias": "i686-pc-mingw32", 
+  "host_cpu": "i686", 
+  "host_os": "mingw32", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "55.*", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "55.0.4", 
+  "moz_pkg_platform": "win32", 
+  "moz_source_repo": "MOZ_SOURCE_REPO=https://hg.mozilla.org/releases/mozilla-release", 
+  "moz_source_stamp": "710711a481286f27b81df2e4b082d48829510633", 
+  "moz_update_channel": "release", 
+  "target_alias": "i686-pc-mingw32", 
+  "target_cpu": "i686", 
+  "target_os": "mingw32", 
+  "target_vendor": "pc"
+}
