@@ -680,6 +680,8 @@ class Fetcher(object):
                                 help='Specify a name (default=auto)')
         misc_group.add_argument('-o', '--out', default=os.getcwd(),
                                 help='Specify output directory (default=.)')
+        misc_group.add_argument('--dry-run', action='store_true',
+                                help="Search for build and output metadata only, don't download anything.")
 
         args = parser.parse_args(args=args)
 
@@ -713,6 +715,7 @@ class Fetcher(object):
             parser.error('Folder exists: %s .. exiting' % final_dir)
 
         extract_options = {
+            'dry_run': args.dry_run,
             'out': final_dir,
             'full_symbols': args.full_symbols,
             'tests': args.tests
@@ -742,6 +745,9 @@ class Fetcher(object):
         log.info('> Rank: %s', obj.rank)
         log.info('> Changeset: %s', obj.changeset)
         log.info('> Build ID: %s', obj.build_id)
+
+        if extract_args['dry_run']:
+            return
 
         out_tmp = tempfile.mkdtemp(prefix='fuzz-fetch-', suffix='.tmp')
 
