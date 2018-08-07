@@ -108,7 +108,7 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
 
 class BuildTask(object):
     """Class for storing TaskCluster build information"""
-    URL_BASE = 'https://index.taskcluster.net/v1/'
+    URL_BASE = 'https://index.taskcluster.net/v1'
     RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
     RE_REV = re.compile(r'^[0-9A-F]{40}$', re.IGNORECASE)
 
