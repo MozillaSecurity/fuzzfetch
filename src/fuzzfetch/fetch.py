@@ -100,15 +100,15 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
         Taskcluster denotes builds in one of two formats - i.e. linux64-asan or linux64-asan-opt
         The latter is generated. If it fails, the caller should try the former.
         """
-        return (('-fuzzing' if self.fuzzing else '') +
+        return (('-ccov' if self.coverage else '') +
+                ('-fuzzing' if self.fuzzing else '') +
                 ('-asan' if self.asan else '') +
-                ('-ccov' if self.coverage else '') +
                 ('-debug' if self.debug else '-opt'))
 
 
 class BuildTask(object):
     """Class for storing TaskCluster build information"""
-    URL_BASE = 'https://index.taskcluster.net/v1/'
+    URL_BASE = 'https://index.taskcluster.net/v1'
     RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
     RE_REV = re.compile(r'^[0-9A-F]{40}$', re.IGNORECASE)
 
