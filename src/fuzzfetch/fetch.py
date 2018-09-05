@@ -3,23 +3,24 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
+# pylint: disable=too-many-statements
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import collections
 import glob
-import io
 import itertools
 import logging
 import os
-import platform
+import platform as std_platform
 import re
 import shutil
 import stat
 import subprocess
 import tarfile
 import tempfile
+import time
 import zipfile
 from datetime import datetime
 from pytz import timezone
@@ -30,7 +31,7 @@ import requests
 __all__ = ("Fetcher", "FetcherException", "BuildFlags")
 
 
-log = logging.getLogger('fuzzfetch')  # pylint: disable=invalid-name
+LOG = logging.getLogger('fuzzfetch')
 
 
 BUG_URL = 'https://github.com/MozillaSecurity/fuzzfetch/issues/'
@@ -65,6 +66,15 @@ def onerror(func, path, _exc_info):
         raise  # pylint: disable=misplaced-bare-raise
 
 
+def _si(number):
+    """Format a number using base-2 SI prefixes"""
+    prefixes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']
+    while number > 1024:
+        number /= 1024.0
+        prefixes.pop(0)
+    return '%0.2f%s' % (number, prefixes.pop(0))
+
+
 def _get_url(url):
     """Retrieve requested URL"""
     try:
@@ -74,6 +84,24 @@ def _get_url(url):
         raise FetcherException(exc)
 
     return data
+
+
+def _download_url(url, outfile):
+    downloaded = 0
+    start_time = report_time = time.time()
+    resp = _get_url(url)
+    total_size = int(resp.headers['Content-Length'])
+    LOG.info('> Downloading: %s (%sB total)', url, _si(total_size))
+    with open(outfile, 'wb') as build_zip:
+        for chunk in resp.iter_content(1024 * 1024):
+            build_zip.write(chunk)
+            downloaded += len(chunk)
+            now = time.time()
+            if (now - report_time) > 30 and downloaded != total_size:
+                LOG.info('.. still downloading (%0.1f%%, %sB/s)',
+                         100.0 * downloaded / total_size, _si(float(downloaded) / (now - start_time)))
+                report_time = now
+    LOG.info('.. downloaded (%sB/s)', _si(float(downloaded) / (time.time() - start_time)))
 
 
 def _extract_file(zip_fp, info, path):
@@ -106,13 +134,43 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
                 ('-debug' if self.debug else '-opt'))
 
 
+class Platform(object):
+    """Class representing target OS and CPU, and how it maps to a Gecko mozconfig"""
+    SUPPORTED = {
+        'Darwin': {'x86_64': 'macosx64'},
+        'Linux': {'x86_64': 'linux64', 'x86': 'linux'},
+        'Windows': {'x86_64': 'win64'},
+        'Android': {'x86': 'android-x86', 'arm': 'android-api-16', 'arm64': 'android-aarch64'},
+    }
+    CPU_ALIASES = {
+        'AMD64': 'x86_64',
+        'aarch64': 'arm64',
+        'i686': 'x86',
+        'x64': 'x86_64',
+    }
+
+    def __init__(self, system=None, machine=None):
+        if system is None:
+            system = std_platform.system()
+        if machine is None:
+            machine = std_platform.machine()
+        if system not in self.SUPPORTED:
+            raise FetcherException('Unknown system: %s' % (system,))
+        fixed_machine = self.CPU_ALIASES.get(machine, machine)
+        if fixed_machine not in self.SUPPORTED[system]:
+            raise FetcherException('Unknown machine for %s: %s' % (system, machine))
+        self.system = system
+        self.machine = fixed_machine
+        self.gecko_platform = self.SUPPORTED[system][fixed_machine]
+
+
 class BuildTask(object):
     """Class for storing TaskCluster build information"""
     URL_BASE = 'https://index.taskcluster.net/v1'
     RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
     RE_REV = re.compile(r'^[0-9A-F]{40}$', re.IGNORECASE)
 
-    def __init__(self, build, branch, flags, arch_32=False, _blank=False):
+    def __init__(self, build, branch, flags, platform=None, _blank=False):
         """
         Retrieve the task JSON object
         Requires first generating the task URL based on the specified build type and platform
@@ -121,7 +179,7 @@ class BuildTask(object):
             self.url = None
             self._data = {}
             return
-        for obj in self.iterall(build, branch, flags, arch_32):
+        for obj in self.iterall(build, branch, flags, platform=platform):
             self.url = obj.url
             self._data = obj._data  # pylint: disable=protected-access
             break
@@ -137,20 +195,12 @@ class BuildTask(object):
         return build
 
     @classmethod
-    def iterall(cls, build, branch, flags, arch_32=False):
+    def iterall(cls, build, branch, flags, platform=None):
         """Generator for all possible BuildTasks with these parameters"""
         # Prepare build type
-        supported_platforms = {'Darwin': {'x86_64': 'macosx64'},
-                               'Linux': {'x86_64': 'linux64', 'i686': 'linux'},
-                               'Windows': {'AMD64': 'win64'}}
-
-        if arch_32:
-            if platform.system() == 'Windows':
-                target_platform = 'win32'
-            elif platform.system() == 'Linux':
-                target_platform = 'linux'
-        else:
-            target_platform = supported_platforms[platform.system()][platform.machine()]
+        if platform is None:
+            platform = Platform()
+        target_platform = platform.gecko_platform
 
         is_namespace = False
         if cls.RE_DATE.match(build):
@@ -163,12 +213,12 @@ class BuildTask(object):
 
         elif build == 'latest':
             namespace = 'gecko.v2.mozilla-' + branch + '.latest'
-            task_urls = (cls.URL_BASE + '/task/' + namespace + '.firefox.' + target_platform + flags.build_string(),)
+            product = 'mobile' if 'android' in target_platform else 'firefox'
+            task_urls = (cls.URL_BASE + '/task/' + namespace + '.' + product + '.' + target_platform +
+                         flags.build_string(),)
 
         else:
             # try to use build argument directly as a namespace
-            if target_platform not in build:
-                log.warning('Cross-platform fetching is not tested. Please report problems to: %s', BUG_URL)
             task_urls = (cls.URL_BASE + '/task/' + build,)
             is_namespace = True
 
@@ -189,7 +239,7 @@ class BuildTask(object):
             obj.url = url
             obj._data = data.json()  # pylint: disable=protected-access
 
-            log.debug('Found archive for %s', cls._debug_str(build))
+            LOG.debug('Found archive for %s', cls._debug_str(build))
             yield obj
 
     def __getattr__(self, name):
@@ -208,15 +258,17 @@ class BuildTask(object):
         except requests.exceptions.RequestException as exc:
             raise FetcherException(exc)
 
+        product = 'mobile' if 'android' in target_platform else 'firefox'
         json = base.json()
         for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
-            yield cls.URL_BASE + '/task/' + namespace['namespace'] + '.firefox.' + target_platform
+            yield cls.URL_BASE + '/task/' + namespace['namespace'] + '.' + product + '.' + target_platform
 
     @classmethod
     def _revision_url(cls, rev, branch, target_platform):
         """Retrieve the URL for revision based builds"""
         namespace = 'gecko.v2.mozilla-' + branch + '.revision.' + rev
-        return cls.URL_BASE + '/task/' + namespace + '.firefox.' + target_platform
+        product = 'mobile' if 'android' in target_platform else 'firefox'
+        return cls.URL_BASE + '/task/' + namespace + '.' + product + '.' + target_platform
 
 
 class Fetcher(object):
@@ -225,7 +277,7 @@ class Fetcher(object):
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
 
-    def __init__(self, target, branch, build, flags, arch_32=False):
+    def __init__(self, target, branch, build, flags, platform=None):
         """
         @type target: string
         @param target: the download target, eg. 'js', 'firefox'
@@ -239,8 +291,8 @@ class Fetcher(object):
         @type flags: BuildFlags or sequence of booleans
         @param flags: ('asan', 'debug', 'fuzzing', 'coverage'), each a bool, not all combinations exist in TaskCluster
 
-        @type arch_32: boolean
-        @param arch_32: force 32-bit download on 64-bit platform
+        @type platform: Platform
+        @param platform: force platform if different than current system
         """
         if target not in self.TARGET_CHOICES:
             raise FetcherException("'%s' is not a supported target" % target)
@@ -249,16 +301,17 @@ class Fetcher(object):
         "memorized values for @properties"
         self._branch = branch
         self._flags = BuildFlags(*flags)
+        self._platform = platform or Platform()
 
         if isinstance(build, BuildTask):
             self._task = build
 
         else:
-            self._task = BuildTask(build, branch, self._flags, arch_32)
+            self._task = BuildTask(build, branch, self._flags, self._platform)
 
             now = datetime.now(timezone('UTC'))
             if build == 'latest' and (now - self.build_datetime).total_seconds() > 86400:
-                log.warning('Latest available build is older than 1 day: %s', self.build_id)
+                LOG.warning('Latest available build is older than 1 day: %s', self.build_id)
 
             # if the build string contains the platform, assume it is a TaskCluster namespace
             if re.search(self.moz_info["platform_guess"].replace('-', '.*'), build) is not None:
@@ -302,11 +355,11 @@ class Fetcher(object):
         self._auto_name = 'm-%s-%s%s' % (self._branch[0], self.build_id, options)
 
     @classmethod
-    def iterall(cls, target, branch, build, flags, arch_32=False):
+    def iterall(cls, target, branch, build, flags, platform=None):
         """Return an iterable for all available builds matching a particular build type"""
         flags = BuildFlags(*flags)
-        for task in BuildTask.iterall(build, branch, flags, arch_32):
-            yield cls(target, branch, task, flags, arch_32)
+        for task in BuildTask.iterall(build, branch, flags, platform):
+            yield cls(target, branch, task, flags, platform)
 
     @property
     def _artifacts(self):
@@ -417,11 +470,11 @@ class Fetcher(object):
         if self._target == 'js':
             self.extract_zip('jsshell.zip', path=os.path.join(path))
         else:
-            if platform.system() == 'Linux':
+            if self._platform.system == 'Linux':
                 self.extract_tar(path)
-            elif platform.system() == 'Darwin':
+            elif self._platform.system == 'Darwin':
                 self.extract_dmg(path)
-            elif platform.system() == 'Windows':
+            elif self._platform.system == 'Windows':
                 self.extract_zip('zip', path)
                 # windows builds are extracted under 'firefox/'
                 # move everything under firefox/ up a level to the destination path
@@ -433,8 +486,10 @@ class Fetcher(object):
                     for filename in files:
                         os.rename(os.path.join(root, filename), os.path.join(newroot, filename))
                 shutil.rmtree(firefox, onerror=onerror)
+            elif self._platform.system == 'Android':
+                self.download_apk(path)
             else:
-                raise FetcherException("'%s' is not a supported platform" % platform.system())
+                raise FetcherException("'%s' is not a supported platform" % self._platform.system)
 
         if tests:
             # validate tests
@@ -450,15 +505,14 @@ class Fetcher(object):
                 self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
             if 'gtest' in tests:
                 self.extract_zip('gtest.tests.zip', path=path)
-                uname = platform.system()
-                if uname == 'Windows':
+                if self._platform.system == 'Windows':
                     libxul = 'xul.dll'
-                elif uname == 'Linux':
+                elif self._platform.system == 'Linux':
                     libxul = 'libxul.so'
-                elif uname == 'Darwin':
+                elif self._platform.system == 'Darwin':
                     libxul = 'XUL'
                 else:
-                    raise FetcherException("'%s' is not a supported platform" % uname)
+                    raise FetcherException("'%s' is not a supported platform for gtest" % self._platform.system)
                 os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', libxul),
                           os.path.join(path, 'gtest', libxul))
                 shutil.copy(os.path.join(path, 'gtest', 'dependentlibs.list.gtest'),
@@ -488,16 +542,16 @@ class Fetcher(object):
         os.chdir(os.path.join(path))
         try:
             os.mkdir('dist')
-            if platform.system() == 'Darwin' and self._target == 'firefox':
+            if self._platform.system == 'Darwin' and self._target == 'firefox':
                 ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
                 assert len(ff_loc) == 1
                 os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),  # pylint: disable=no-member
                            os.path.join('dist', 'bin'))
                 os.symlink(os.path.join(os.pardir, os.pardir, os.pardir, 'symbols'),
                            os.path.join(os.path.dirname(ff_loc[0]), 'symbols'))
-            elif platform.system() == 'Linux':
+            elif self._platform.system == 'Linux':
                 os.symlink(os.pardir, os.path.join('dist', 'bin'))  # pylint: disable=no-member
-            elif platform.system() == 'Windows':
+            elif self._platform.system == 'Windows':
                 os.mkdir(os.path.join('dist', 'bin'))
                 # recursive copy of the contents of the original only
                 entries = os.listdir('.')
@@ -529,14 +583,18 @@ class Fetcher(object):
         output.set('Metadata', 'pathPrefix', self.moz_info['topsrcdir'])
         output.set('Metadata', 'buildFlags', self._flags.build_string().lstrip('-'))
 
-        if platform.system() == "Windows":
+        if self._platform.system == "Windows":
             fm_name = self._target + '.exe.fuzzmanagerconf'
+            conf_path = os.path.join(path, 'dist', 'bin', fm_name)
+        elif self._platform.system == "Android":
+            conf_path = os.path.join(path, 'target.apk.fuzzmanagerconf')
         else:
             fm_name = self._target + '.fuzzmanagerconf'
-        with open(os.path.join(path, 'dist', 'bin', fm_name), 'w') as conf_fp:
+            conf_path = os.path.join(path, 'dist', 'bin', fm_name)
+        with open(conf_path, 'w') as conf_fp:
             output.write(conf_fp)
-        if platform.system() == 'Windows':
-            shutil.copy(os.path.join(path, 'dist', 'bin', fm_name), os.path.join(path, fm_name))
+        if self._platform.system == 'Windows':
+            shutil.copy(conf_path, os.path.join(path, fm_name))
 
     def extract_zip(self, suffix, path='.'):
         """
@@ -548,12 +606,16 @@ class Fetcher(object):
         @type path:
         @param path:
         """
-        url = self.artifact_url(suffix)
-        log.info('> Downloading and extracting archive: %s ..', url)
-        resp = _get_url(self.artifact_url(suffix))
-        with zipfile.ZipFile(io.BytesIO(resp.content)) as zip_fp:
-            for info in zip_fp.infolist():
-                _extract_file(zip_fp, info, path)
+        zip_fd, zip_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.zip')
+        os.close(zip_fd)
+        try:
+            _download_url(self.artifact_url(suffix), zip_fn)
+            LOG.info('.. extracting')
+            with zipfile.ZipFile(zip_fn) as zip_fp:
+                for info in zip_fp.infolist():
+                    _extract_file(zip_fp, info, path)
+        finally:
+            os.unlink(zip_fn)
 
     def extract_tar(self, path='.'):
         """
@@ -563,15 +625,11 @@ class Fetcher(object):
         @type path:
         @param path:
         """
-        url = self.artifact_url('tar.bz2')
-        log.info('> Downloading and extracting archive: %s ..', url)
-        resp = _get_url(url)
-        tar_fd, tar_fn = tempfile.mkstemp(prefix='domfuzz-fetch-', suffix='.tar.bz2')
+        tar_fd, tar_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.tar.bz2')
         os.close(tar_fd)
         try:
-            with open(tar_fn, 'wb') as out:
-                shutil.copyfileobj(resp.raw, out)
-
+            _download_url(self.artifact_url('tar.bz2'), tar_fn)
+            LOG.info('.. extracting')
             tar = tarfile.open(tar_fn, mode='r:bz2')
             members = []
             for member in tar.getmembers():
@@ -582,6 +640,21 @@ class Fetcher(object):
         finally:
             os.unlink(tar_fn)
 
+    def download_apk(self, path='.'):
+        """
+        Download Android .apk
+
+        @type path:
+        @param path:
+        """
+        apk_fd, apk_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.apk')
+        os.close(apk_fd)
+        try:
+            _download_url(self.artifact_url('apk'), apk_fn)
+            shutil.copy(apk_fn, os.path.join(path, 'target.apk'))
+        finally:
+            os.unlink(apk_fn)
+
     def extract_dmg(self, path='.'):
         """
         Extract builds with .dmg extension
@@ -591,23 +664,23 @@ class Fetcher(object):
         @type path:
         @param path:
         """
-        url = self.artifact_url('dmg')
-        log.info('> Downloading and extracting archive: %s ..', url)
-        resp = _get_url(url)
-        dmg_fd, dmg_fn = tempfile.mkstemp(prefix='domfuzz-fetch-', suffix='.dmg')
+        dmg_fd, dmg_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.dmg')
         os.close(dmg_fd)
-        out_tmp = tempfile.mkdtemp(prefix='domfuzz-fetch-', suffix='.tmp')
+        out_tmp = tempfile.mkdtemp(prefix='fuzzfetch-', suffix='.tmp')
         try:
-            with open(dmg_fn, 'wb') as out:
-                shutil.copyfileobj(resp.raw, out)
-
-            subprocess.check_call(['hdiutil', 'attach', '-quiet', '-mountpoint', out_tmp, dmg_fn])
-            try:
-                apps = [mt for mt in os.listdir(out_tmp) if mt.endswith('app')]
-                assert len(apps) == 1
-                shutil.copytree(os.path.join(out_tmp, apps[0]), os.path.join(path, apps[0]), symlinks=True)
-            finally:
-                subprocess.check_call(['hdiutil', 'detach', '-quiet', out_tmp])
+            _download_url(self.artifact_url('dmg'), dmg_fn)
+            if std_platform.system() == 'Darwin':
+                LOG.info('.. extracting')
+                subprocess.check_call(['hdiutil', 'attach', '-quiet', '-mountpoint', out_tmp, dmg_fn])
+                try:
+                    apps = [mt for mt in os.listdir(out_tmp) if mt.endswith('app')]
+                    assert len(apps) == 1
+                    shutil.copytree(os.path.join(out_tmp, apps[0]), os.path.join(path, apps[0]), symlinks=True)
+                finally:
+                    subprocess.check_call(['hdiutil', 'detach', '-quiet', out_tmp])
+            else:
+                LOG.warning('.. can\'t extract target.dmg on %s', std_platform.system())
+                shutil.copy(dmg_fn, os.path.join(path, 'target.dmg'))
         finally:
             shutil.rmtree(out_tmp, onerror=onerror)
             os.unlink(dmg_fn)
@@ -630,11 +703,14 @@ class Fetcher(object):
         parser.set_defaults(target='firefox', build='latest', tests=None)  # branch default is set after parsing
 
         target_group = parser.add_argument_group('Target')
-        target_group.add_argument('--target', choices=cls.TARGET_CHOICES,
-                                  help=('Specify the build target. Acceptable values are: ' +
-                                        ', '.join(cls.TARGET_CHOICES)))
-        target_group.add_argument('--32', dest='arch_32', action='store_true',
-                                  help='Download 32 bit version of browser on 64 bit system.')
+        target_group.add_argument('--target', choices=sorted(cls.TARGET_CHOICES),
+                                  help=('Specify the build target. (default: %(default)s)'))
+        target_group.add_argument('--os', choices=sorted(Platform.SUPPORTED),
+                                  help=('Specify the target system. (default: ' + std_platform.system() + ')'))
+        cpu_choices = sorted(set(itertools.chain(itertools.chain.from_iterable(Platform.SUPPORTED.values()),
+                                                 Platform.CPU_ALIASES)))
+        target_group.add_argument('--cpu', choices=cpu_choices,
+                                  help=('Specify the target CPU. (default: ' + std_platform.machine() + ')'))
 
         type_group = parser.add_argument_group('Build')
         type_group.add_argument('--build', metavar='DATE|REV|NS',
@@ -705,7 +781,7 @@ class Fetcher(object):
             args.branch = 'central'
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage)
-        obj = cls(args.target, args.branch, args.build, flags, args.arch_32)
+        obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu))
 
         if args.name is None:
             args.name = obj.get_auto_name()
@@ -740,11 +816,11 @@ class Fetcher(object):
 
         obj, extract_args = cls.from_args()
 
-        log.info('Identified task: %s', obj.task_url)
-        log.info('> Task ID: %s', obj.task_id)
-        log.info('> Rank: %s', obj.rank)
-        log.info('> Changeset: %s', obj.changeset)
-        log.info('> Build ID: %s', obj.build_id)
+        LOG.info('Identified task: %s', obj.task_url)
+        LOG.info('> Task ID: %s', obj.task_id)
+        LOG.info('> Rank: %s', obj.rank)
+        LOG.info('> Changeset: %s', obj.changeset)
+        LOG.info('> Build ID: %s', obj.build_id)
 
         if extract_args['dry_run']:
             return
