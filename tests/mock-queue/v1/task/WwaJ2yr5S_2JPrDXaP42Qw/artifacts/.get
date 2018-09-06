@@ -1,0 +1,298 @@
+{
+  "artifacts": [
+    {
+      "storageType": "s3",
+      "name": "public/android/R/symbols-null/androidTest/officialWithoutGeckoBinariesNoMinApiPhoton/debug/R-20180905003333833.txt",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/R/symbols-null/officialWithoutGeckoBinariesNoMinApiPhoton/debug/R-20180905002603185.txt",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/R/symbols-null/officialWithoutGeckoBinariesNoMinApiPhoton/debug/R-20180905003333837.txt",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707-javadoc.jar",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/java-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707-javadoc.jar.md5",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707-javadoc.jar.sha1",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707-sources.jar",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/java-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707-sources.jar.md5",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707-sources.jar.sha1",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707.aar",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707.aar.md5",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707.aar.sha1",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707.pom",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707.pom.md5",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/64.0.20180905001707/geckoview-default-x86-64.0.20180905001707.pom.sha1",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/maven-metadata.xml",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/xml"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/maven-metadata.xml.md5",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/android/maven/org/mozilla/geckoview/geckoview-default-x86/maven-metadata.xml.sha1",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/buildhub.json",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/geckoview-androidTest.apk",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/vnd.android.package-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/geckoview_example.apk",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/vnd.android.package-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/host/bin/mar",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mozharness.zip",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/robocop.apk",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/vnd.android.package-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/sccache.log.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.apk",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/vnd.android.package-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.awsy.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.checksums",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.common.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.cppunittest.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.crashreporter-symbols.zip",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.generated-files.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.json",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.jsshell.zip",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.mochitest.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.mozinfo.json",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.raptor.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.reftest.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.talos.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.test_packages.json",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.txt",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.web-platform.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.xpcshell.tests.tar.gz",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target_info.txt",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/toolchains.json",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/chainOfTrust.json.asc",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/certified.log",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "reference",
+      "name": "public/logs/live.log",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/live_backing.log",
+      "expires": "2019-09-05T00:19:54.190Z",
+      "contentType": "text/plain; charset=utf-8"
+    }
+  ]
+}

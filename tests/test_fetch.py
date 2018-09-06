@@ -10,7 +10,6 @@ import gzip
 import itertools
 import logging
 import os
-import platform
 import time
 
 import pytest
@@ -35,61 +34,50 @@ if BUILD_CACHE:
         from urllib.request import Request, urlopen  # pylint: disable=import-error,no-name-in-module
 
 
-def format_elapsed(elapsed):
-    """Given a number of elapsed seconds, format it into a human readable string."""
-    periods = ((60, "second"), (60, "minute"), (24, "hour"), (7, "day"))
-    period_strs = []
-    for units_per_period, period_str in periods:
-        elapsed, period_units = divmod(elapsed, units_per_period)
-        if period_units or (not period_strs and not elapsed):
-            period_strs.append("%d %s%s" % (period_units, period_str, "s" if period_units != 1 else ""))
-    if elapsed:
-        period_strs.append("%d week%s" % (elapsed, "s" if elapsed != 1 else ""))
-    return ", ".join(reversed(period_strs))
-
-
 def get_builds_to_test():
     """Get permutations for testing build branches and flags"""
     possible_flags = (fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False),  # opt
                       fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=False, coverage=False),  # debug
-                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=True),  # cov
+                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=True),  # ccov
                       fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=False, coverage=False),  # asan-opt
-                      fuzzfetch.BuildFlags(asan=True, debug=True, fuzzing=False, coverage=False),  # asan-debug
-                      fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=True, coverage=False))  # asan-fuzz
-    possible_branches = ("central", "inbound", "esr", "beta", "release")
+                      fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=True, coverage=False),  # asan-opt-fuzzing
+                      fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=True, coverage=False),  # debug-fuzzing
+                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=True, coverage=True))  # ccov-fuzzing
+    possible_branches = ("central", "inbound")
+    possible_os = ('Android', 'Darwin', 'Linux', 'Windows')
+    possible_cpus = ('x86', 'x64', 'arm', 'arm64')
 
-    for branch, flags, arch_32 in itertools.product(possible_branches, possible_flags, (False, True)):
-        if arch_32 and (platform.machine() not in {"AMD64", "x86-64"} or  # only try 32-bit on 64-bit platforms
-                        platform.system() == "Darwin" or  # no 32-bit builds on macos
-                        flags.asan or flags.coverage):  # no 32-bit builds for asan or ccov
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Linux" and flags.coverage and branch != "central":
+    for branch, flags, os_, cpu in itertools.product(possible_branches, possible_flags, possible_os, possible_cpus):
+        try:
+            fuzzfetch.fetch.Platform(os_, cpu)
+        except fuzzfetch.FetcherException:
+            continue
+        if flags.coverage and (os_ != "Linux" or cpu != 'x64' or branch != 'central'):
+            # coverage builds not done for android/macos/windows
             # coverage builds are only done on central
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Linux" and flags.fuzzing and branch == "esr":
-            # fuzzing builds not done on esr
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Darwin" and (flags.asan or flags.coverage):
-            # asan/coverage builds not done for macos yet
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Darwin" and (branch == "esr" and not (flags.debug or flags.asan)):
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Windows" and flags.asan and branch not in {"central", "inbound"}:
+            continue
+        elif flags.asan and cpu != 'x64':
+            continue
+        elif flags.debug and flags.fuzzing and os_ == 'Windows' and cpu == 'x64':
+            continue
+        elif flags.debug and flags.fuzzing and os_ == 'Darwin':
+            continue
+        elif flags.debug and flags.fuzzing and os_ == 'Linux' and cpu == 'x86':
+            continue
+        elif os_ == 'Darwin' and flags.asan and not flags.fuzzing:
+            continue
+        elif os_ == 'Android' and flags.debug and not flags.fuzzing and cpu != 'arm':
+            continue
+        elif os_ == 'Android' and flags.fuzzing and (cpu != 'x86' or flags.asan or not flags.debug):
+            continue
+        elif os_ == "Windows" and flags.asan and branch not in {"central", "inbound"}:
             # asan builds for windows are only done for central/inbound
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Windows" and flags.coverage:
-            # coverage builds not done for windows yet
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Windows" and flags.asan and (flags.fuzzing or flags.debug):
+            continue
+        elif os_ == "Windows" and flags.asan and (flags.fuzzing or flags.debug):
             # windows only has asan-opt ?
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.skip)
-        elif platform.system() == "Windows" and flags.asan:
-            # https://bugzilla.mozilla.org/show_bug.cgi?id=1394543
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.xfail)
-        elif branch == "release":
-            yield pytest.param(branch, flags, arch_32, marks=pytest.mark.xfail)  # ?
+            continue
         else:
-            yield pytest.param(branch, flags, arch_32)
+            yield pytest.param(branch, flags, os_, cpu)
 
 
 def callback(request, context):
@@ -153,53 +141,42 @@ def callback(request, context):
         return None
 
 
-@pytest.mark.parametrize('branch, build_flags, arch_32', get_builds_to_test())
-def test_metadata(branch, build_flags, arch_32):
+@pytest.mark.parametrize('branch, build_flags, os_, cpu', get_builds_to_test())
+def test_metadata(branch, build_flags, os_, cpu):
     """Instantiate a Fetcher (which downloads metadata from TaskCluster) and check that the build is recent"""
     # BuildFlags(asan, debug, fuzzing, coverage)
     # Fetcher(target, branch, build, flags, arch_32)
     with requests_mock.Mocker() as req_mock:
         req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
+        platform_ = fuzzfetch.fetch.Platform(os_, cpu)
         for as_args in (True, False):  # try as API and as command line
             if as_args:
                 args = ["--" + name for arg, name in zip(build_flags, fuzzfetch.BuildFlags._fields) if arg]
-                if arch_32:
-                    args.append("--32")
-                fetcher = fuzzfetch.Fetcher.from_args(["--" + branch] + args)[0]
+                fetcher = fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_] + args)[0]
             else:
                 if branch == "esr":
                     branch = "esr52"
-                fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, arch_32)
+                fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
             log.debug("succeeded creating Fetcher")
 
             log.debug("buildid: %s", fetcher.build_id)
             log.debug("hgrev: %s", fetcher.changeset)
 
-            # check that build is not too old
-            # if branch.startswith("esr"):
-            #     max_age = (3 * 24 + 1) * 60 * 60  # 3d
-            # elif branch == "release":
-            #     max_age = (7 * 24 + 1) * 60 * 60  # 1w
-            # else:
-            #     max_age = (24 + 1) * 60 * 60  # 1d
             time_obj = time.strptime(fetcher.build_id, "%Y%m%d%H%M%S")
-            # timestamp = calendar.timegm(time_obj)
-            # assert timestamp > time.time() - max_age, \
-            #     "%s is more than %s old" % (fetcher.build_id, format_elapsed(max_age))
 
             # yyyy-mm-dd is also accepted as a build input
             date_str = "%d-%02d-%02d" % (time_obj.tm_year, time_obj.tm_mon, time_obj.tm_mday)
             if as_args:
-                fuzzfetch.Fetcher.from_args(["--" + branch, "--build", date_str] + args)
+                fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_, "--build", date_str] + args)
             else:
-                fuzzfetch.Fetcher("firefox", branch, date_str, build_flags)
+                fuzzfetch.Fetcher("firefox", branch, date_str, build_flags, platform_)
 
             # hg rev is also accepted as a build input
             rev = fetcher.changeset
             if as_args:
-                fuzzfetch.Fetcher.from_args(["--" + branch, "--build", rev] + args)
+                fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_, "--build", rev] + args)
             else:
-                fuzzfetch.Fetcher("firefox", branch, rev, build_flags)
+                fuzzfetch.Fetcher("firefox", branch, rev, build_flags, platform_)
             # namespace = fetcher.build
 
             # TaskCluster namespace is also accepted as a build input

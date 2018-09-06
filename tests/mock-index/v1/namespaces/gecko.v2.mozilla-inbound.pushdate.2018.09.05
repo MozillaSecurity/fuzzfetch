@@ -1,0 +1,259 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905001707",
+      "name": "20180905001707",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905003707",
+      "name": "20180905003707",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905011105",
+      "name": "20180905011105",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905013043",
+      "name": "20180905013043",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905015400",
+      "name": "20180905015400",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905032656",
+      "name": "20180905032656",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905060247",
+      "name": "20180905060247",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905061319",
+      "name": "20180905061319",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905070549",
+      "name": "20180905070549",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905070955",
+      "name": "20180905070955",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905081035",
+      "name": "20180905081035",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905083148",
+      "name": "20180905083148",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905085811",
+      "name": "20180905085811",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905090821",
+      "name": "20180905090821",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905091137",
+      "name": "20180905091137",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905092350",
+      "name": "20180905092350",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905093711",
+      "name": "20180905093711",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905094415",
+      "name": "20180905094415",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905103827",
+      "name": "20180905103827",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905115201",
+      "name": "20180905115201",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905122508",
+      "name": "20180905122508",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905123826",
+      "name": "20180905123826",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905124427",
+      "name": "20180905124427",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905125424",
+      "name": "20180905125424",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905130300",
+      "name": "20180905130300",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905131215",
+      "name": "20180905131215",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905131456",
+      "name": "20180905131456",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905133322",
+      "name": "20180905133322",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905140122",
+      "name": "20180905140122",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905140409",
+      "name": "20180905140409",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905141743",
+      "name": "20180905141743",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905141902",
+      "name": "20180905141902",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905144421",
+      "name": "20180905144421",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905152248",
+      "name": "20180905152248",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905153954",
+      "name": "20180905153954",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905155625",
+      "name": "20180905155625",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905160826",
+      "name": "20180905160826",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905164103",
+      "name": "20180905164103",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905164258",
+      "name": "20180905164258",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905165954",
+      "name": "20180905165954",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905171827",
+      "name": "20180905171827",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905174016",
+      "name": "20180905174016",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905175220",
+      "name": "20180905175220",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905175907",
+      "name": "20180905175907",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905182009",
+      "name": "20180905182009",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905182248",
+      "name": "20180905182248",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905182731",
+      "name": "20180905182731",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905182950",
+      "name": "20180905182950",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905183628",
+      "name": "20180905183628",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905183911",
+      "name": "20180905183911",
+      "expires": "2019-09-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2018.09.05.20180905200426",
+      "name": "20180905200426",
+      "expires": "2019-09-07T00:00:00.000Z"
+    }
+  ]
+}
