@@ -16,8 +16,8 @@ install:
     - git --version
     - python -m pip install -e .
 before_script:
-    - pip install --upgrade "flake8==3.5.0" "pylint==1.8.4" "codecov==2.0.15"
-    - pip install --upgrade "pytest-flake8==1.0.1" "pytest-pylint==0.9.0" "pytest-cov==2.5.1" requests-mock
+    - pip install --upgrade "flake8==3.5.0" "pylint==1.9.3" "codecov==2.0.15"
+    - pip install --upgrade "pytest-flake8==1.0.2" "pytest-pylint==0.12.3" "pytest-cov==2.6.0" requests-mock
 script:
     - python -m pytest
 after_success:
