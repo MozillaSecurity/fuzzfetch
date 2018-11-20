@@ -622,7 +622,7 @@ class Fetcher(object):
 
     def extract_tar(self, suffix, path='.'):
         """
-        Extract builds with .tar.(bz2|gz) extension
+        Extract builds with .tar.(*) extension
         When unpacking a build archive, only extract the firefox directory
 
         @type suffix:
@@ -631,7 +631,7 @@ class Fetcher(object):
         @type path:
         @param path:
         """
-        mode = 'bz2' if suffix.endswith('tar.bz2') else 'gz'
+        mode = suffix.split('.')[-1]
         tar_fd, tar_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.tar.%s' % mode)
         os.close(tar_fd)
         try:
