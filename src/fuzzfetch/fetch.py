@@ -471,7 +471,7 @@ class Fetcher(object):
             self.extract_zip('jsshell.zip', path=os.path.join(path))
         else:
             if self._platform.system == 'Linux':
-                self.extract_tar(path)
+                self.extract_tar('tar.bz2', path)
             elif self._platform.system == 'Darwin':
                 self.extract_dmg(path)
             elif self._platform.system == 'Windows':
@@ -504,7 +504,10 @@ class Fetcher(object):
             if 'reftests' in tests:
                 self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
             if 'gtest' in tests:
-                self.extract_zip('gtest.tests.zip', path=path)
+                try:
+                    self.extract_tar('gtest.tests.tar.gz', path=path)
+                except FetcherException:
+                    self.extract_zip('gtest.tests.zip', path=path)
                 if self._platform.system == 'Windows':
                     libxul = 'xul.dll'
                 elif self._platform.system == 'Linux':
@@ -617,24 +620,31 @@ class Fetcher(object):
         finally:
             os.unlink(zip_fn)
 
-    def extract_tar(self, path='.'):
+    def extract_tar(self, suffix, path='.'):
         """
-        Extract builds with .tar.bz2 extension
-        Only extracts the top-level directory "firefox"
+        Extract builds with .tar.(*) extension
+        When unpacking a build archive, only extract the firefox directory
+
+        @type suffix:
+        @param suffix:
 
         @type path:
         @param path:
         """
-        tar_fd, tar_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.tar.bz2')
+        mode = suffix.split('.')[-1]
+        tar_fd, tar_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.tar.%s' % mode)
         os.close(tar_fd)
         try:
-            _download_url(self.artifact_url('tar.bz2'), tar_fn)
+            _download_url(self.artifact_url(suffix), tar_fn)
             LOG.info('.. extracting')
-            tar = tarfile.open(tar_fn, mode='r:bz2')
+            tar = tarfile.open(tar_fn, mode='r:%s' % mode)
             members = []
             for member in tar.getmembers():
                 if member.path.startswith("firefox/"):
                     member.path = member.path[8:]
+                    members.append(member)
+                elif member.path != "firefox":
+                    # Ignore top-level build directory
                     members.append(member)
             tar.extractall(members=members, path=path)
         finally:
