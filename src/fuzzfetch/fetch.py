@@ -500,9 +500,15 @@ class Fetcher(object):
 
             os.mkdir(os.path.join(path, 'tests'))
             if 'common' in tests:
-                self.extract_zip('common.tests.zip', path=os.path.join(path, 'tests'))
+                try:
+                    self.extract_tar('common.tests.tar.gz', path=os.path.join(path, 'tests'))
+                except FetcherException:
+                    self.extract_zip('common.tests.zip', path=os.path.join(path, 'tests'))
             if 'reftests' in tests:
-                self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
+                try:
+                    self.extract_tar('reftest.tests.tar.gz', path=os.path.join(path, 'tests'))
+                except FetcherException:
+                    self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
             if 'gtest' in tests:
                 try:
                     self.extract_tar('gtest.tests.tar.gz', path=path)
