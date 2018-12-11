@@ -581,7 +581,18 @@ class Fetcher(object):
         output.set('Main', 'platform', self.moz_info['processor'].replace('_', '-'))
         output.set('Main', 'product', 'mozilla-' + self._branch)
         output.set('Main', 'product_version', '%.8s-%.12s' % (self.build_id, self.changeset))
-        output.set('Main', 'os', self.moz_info['os'])
+        # make sure 'os' match what FM expects
+        os_name = self.moz_info['os'].lower()
+        if os_name.startswith('android'):
+            output.set('Main', 'os', 'android')
+        elif os_name.startswith('lin'):
+            output.set('Main', 'os', 'linux')
+        elif os_name.startswith('mac'):
+            output.set('Main', 'os', 'macosx')
+        elif os_name.startswith('win'):
+            output.set('Main', 'os', 'windows')
+        else:
+            output.set('Main', 'os', self.moz_info['os'])
         output.add_section('Metadata')
         output.set('Metadata', 'pathPrefix', self.moz_info['topsrcdir'])
         output.set('Metadata', 'buildFlags', self._flags.build_string().lstrip('-'))
