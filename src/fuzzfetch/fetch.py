@@ -539,7 +539,7 @@ class Fetcher(object):
         Update directory to work with DOMFuzz
 
         @type path: str
-        @param path: A string representation of the fuzzmanger config path
+        @param path: A string representation of the fuzzmanager config path
         """
         old_dir = os.getcwd()
         os.chdir(os.path.join(path))
@@ -574,7 +574,7 @@ class Fetcher(object):
         Write fuzzmanager config file for selected build
 
         @type path: basestring
-        @param path: A string representation of the fuzzmanger config path
+        @param path: A string representation of the fuzzmanager config path
         """
         output = configparser.RawConfigParser()
         output.add_section('Main')
