@@ -28,6 +28,9 @@ from pytz import timezone
 import configparser  # pylint: disable=wrong-import-order
 import requests
 
+from . import path as junction_path
+
+
 __all__ = ("Fetcher", "FetcherException", "BuildFlags")
 
 
@@ -551,27 +554,19 @@ class Fetcher(object):
         os.chdir(os.path.join(path))
         try:
             os.mkdir('dist')
+            link_name = os.path.join('dist', 'bin')
             if self._platform.system == 'Darwin' and self._target == 'firefox':
                 ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
                 assert len(ff_loc) == 1
                 os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),  # pylint: disable=no-member
-                           os.path.join('dist', 'bin'))
+                           link_name)
                 os.symlink(os.path.join(os.pardir, os.pardir, os.pardir, 'symbols'),  # pylint: disable=no-member
                            os.path.join(os.path.dirname(ff_loc[0]), 'symbols'))
             elif self._platform.system == 'Linux':
-                os.symlink(os.pardir, os.path.join('dist', 'bin'))  # pylint: disable=no-member
+                os.symlink(os.pardir, link_name)  # pylint: disable=no-member
             elif self._platform.system == 'Windows':
-                os.mkdir(os.path.join('dist', 'bin'))
-                # recursive copy of the contents of the original only
-                entries = os.listdir('.')
-                while entries:
-                    entry = entries.pop()
-                    if os.path.isdir(entry):
-                        if entry not in {'dist', 'symbols', 'tests', 'gtest'}:
-                            os.mkdir(os.path.join('dist', 'bin', entry))
-                            entries.extend(os.path.join(entry, sub) for sub in os.listdir(entry))
-                    else:
-                        shutil.copy(entry, os.path.join('dist', 'bin', entry))
+                # create a junction point at dist\bin pointing to the firefox.exe path
+                junction_path.symlink(os.curdir, link_name)
         finally:
             os.chdir(old_dir)
 
@@ -613,8 +608,6 @@ class Fetcher(object):
             conf_path = os.path.join(path, 'dist', 'bin', fm_name)
         with open(conf_path, 'w') as conf_fp:
             output.write(conf_fp)
-        if self._platform.system == 'Windows':
-            shutil.copy(conf_path, os.path.join(path, fm_name))
 
     def extract_zip(self, suffix, path='.'):
         """
@@ -654,16 +647,16 @@ class Fetcher(object):
         try:
             _download_url(self.artifact_url(suffix), tar_fn)
             LOG.info('.. extracting')
-            tar = tarfile.open(tar_fn, mode='r:%s' % mode)
-            members = []
-            for member in tar.getmembers():
-                if member.path.startswith("firefox/"):
-                    member.path = member.path[8:]
-                    members.append(member)
-                elif member.path != "firefox":
-                    # Ignore top-level build directory
-                    members.append(member)
-            tar.extractall(members=members, path=path)
+            with tarfile.open(tar_fn, mode='r:%s' % mode) as tar:
+                members = []
+                for member in tar.getmembers():
+                    if member.path.startswith("firefox/"):
+                        member.path = member.path[8:]
+                        members.append(member)
+                    elif member.path != "firefox":
+                        # Ignore top-level build directory
+                        members.append(member)
+                tar.extractall(members=members, path=path)
         finally:
             os.unlink(tar_fn)
 
@@ -852,15 +845,15 @@ class Fetcher(object):
         if extract_args['dry_run']:
             return
 
-        out_tmp = tempfile.mkdtemp(prefix='fuzz-fetch-', suffix='.tmp')
+        out = extract_args['out']
+        os.mkdir(out)
 
         try:
-            obj.extract_build(out_tmp, tests=extract_args['tests'], full_symbols=extract_args['full_symbols'])
-            os.makedirs(os.path.join(out_tmp, 'download'))
-            with open(os.path.join(out_tmp, 'download', 'firefox-temp.txt'), 'a') as dl_fd:
+            obj.extract_build(out, tests=extract_args['tests'], full_symbols=extract_args['full_symbols'])
+            os.makedirs(os.path.join(out, 'download'))
+            with open(os.path.join(out, 'download', 'firefox-temp.txt'), 'a') as dl_fd:
                 dl_fd.write('buildID=' + obj.build_id + os.linesep)
-
-            shutil.move(os.path.join(out_tmp), extract_args['out'])
-        finally:
-            if os.path.isdir(out_tmp):
-                shutil.rmtree(out_tmp, onerror=onerror)
+        except:  # noqa
+            if os.path.isdir(out):
+                junction_path.rmtree(out)
+            raise
