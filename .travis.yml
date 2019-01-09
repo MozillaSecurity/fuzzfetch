@@ -3,29 +3,54 @@ sudo: false
 cache: pip
 language: python
 python:
-    - 2.7
-    - 3.4
-    - 3.5
-    - 3.6
-    - 3.7
+  - 2.7
+  - 3.4
+  - 3.5
+  - 3.6
+  - 3.7
+matrix:
+  include:
+    - os: osx
+      language: sh
+      python: 3.7
+      before_install:
+        - brew update
+        - brew upgrade python
+        - python3 -m venv venv
+        - source venv/bin/activate
+    - os: windows
+      language: sh
+      python: 3.7
+      before_install:
+        - choco install python3
+        - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
+        - python -m pip install --upgrade pip wheel
+    - os: windows
+      language: sh
+      python: 2.7
+      before_install:
+        - choco install python2
+        - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+        - python -m pip install --upgrade pip wheel
 before_install:
-    - pip install --upgrade setuptools pip
+  - pip install --upgrade setuptools pip
 install:
-    - git --version
-    - python -m pip install -e .
+  - git --version
+  - python -m pip install -e .
 before_script:
-    - pip install --upgrade "flake8==3.6.0" "codecov==2.0.15" "pytest==4.1.0"
-    - pip install --upgrade "pytest-flake8==1.0.2" "pytest-pylint==0.13.0" "pytest-cov==2.6.1" requests-mock
+  - pip install --upgrade "flake8==3.6.0" "codecov==2.0.15" "pytest==4.1.0"
+  - pip install --upgrade "pytest-flake8==1.0.2" "pytest-pylint==0.13.0" "pytest-cov==2.6.1" requests-mock
 script:
-    - python -m pytest
+  - python -m pytest
 after_success:
-    - codecov
+  - codecov
 deploy:
-    provider: pypi
-    distributions: sdist bdist_wheel
-    user: mozillasecurity
-    password:
-        secure: WqxH5LjMVl1VZqDP9J39GYducwVAn3lcvyrdAGkcCwu8OELAc/TIpv17VKbVsnGs6aVlevaf+VPiMy/OCH40TyC6T2R7a8CUW4Lltrh4+FpzqkHg2gt7k1YqBVnA5xfeQ0XmkqwgRv5yue1cxccykC8PK+612uK4OZsE7JU8VvofMZ5pOXweCxUshQJR8gerh5+irBE7TCzCCBnM7ev1VqQDBT08XR4EIpO8jdsXJ8c+GL+FYqsS/dJpEsSfvB8MmvboXlLFoC8eG8I9eObltykkWisb2ZN+grrKnlj7ZLB1o7bZ3O3huZYUqTEhebaT9fpKCITEOx/JX6w5/TDuchh4J8c59VLN+hn6pe5qV5M6zBP4SES/CUCok19gqqFsgXfnDWNYBp3HFL/qbR4PdlM8vc6e3CfyCOV7w0tHCFG3rOH7hqCx97lM8oRENbNIhp9SlYAVUFEtUa7n+QKpmEXrjDotaoAgxo0wWgCiZA2FCDez8n7F/btXdDbo5KpKMqffpXxC+8u8DNAOopug+fHrCXKHdWcWYdw7erMlbOTbQLgbq1Wzh3HxnsErdOqhcTF7bvCddAJxwvJ6AQpWlnCOuS7rb0QIoc/65fNKrokp244YdrUOHOYqWvCy6qUz672fUBOctk+uHRxuIb38nFvLp3ojwzvk6bWVeo3Mbsk=
-    on:
-        tags: true
-        python: 2.7
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: mozillasecurity
+  password:
+    secure: WqxH5LjMVl1VZqDP9J39GYducwVAn3lcvyrdAGkcCwu8OELAc/TIpv17VKbVsnGs6aVlevaf+VPiMy/OCH40TyC6T2R7a8CUW4Lltrh4+FpzqkHg2gt7k1YqBVnA5xfeQ0XmkqwgRv5yue1cxccykC8PK+612uK4OZsE7JU8VvofMZ5pOXweCxUshQJR8gerh5+irBE7TCzCCBnM7ev1VqQDBT08XR4EIpO8jdsXJ8c+GL+FYqsS/dJpEsSfvB8MmvboXlLFoC8eG8I9eObltykkWisb2ZN+grrKnlj7ZLB1o7bZ3O3huZYUqTEhebaT9fpKCITEOx/JX6w5/TDuchh4J8c59VLN+hn6pe5qV5M6zBP4SES/CUCok19gqqFsgXfnDWNYBp3HFL/qbR4PdlM8vc6e3CfyCOV7w0tHCFG3rOH7hqCx97lM8oRENbNIhp9SlYAVUFEtUa7n+QKpmEXrjDotaoAgxo0wWgCiZA2FCDez8n7F/btXdDbo5KpKMqffpXxC+8u8DNAOopug+fHrCXKHdWcWYdw7erMlbOTbQLgbq1Wzh3HxnsErdOqhcTF7bvCddAJxwvJ6AQpWlnCOuS7rb0QIoc/65fNKrokp244YdrUOHOYqWvCy6qUz672fUBOctk+uHRxuIb38nFvLp3ojwzvk6bWVeo3Mbsk=
+  on:
+    tags: true
+    os: linux
+    python: 2.7
