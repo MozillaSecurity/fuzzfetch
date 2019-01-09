@@ -190,7 +190,7 @@ class BuildTask(object):
     def _debug_str(cls, build):
         if cls.RE_DATE.match(build):
             return 'pushdate ' + build
-        elif cls.RE_REV.match(build):
+        if cls.RE_REV.match(build):
             return 'revision ' + build
         return build
 

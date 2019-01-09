@@ -16,6 +16,7 @@ import pytest
 import requests_mock
 import fuzzfetch
 
+
 log = logging.getLogger("fuzzfetch_test")  # pylint: disable=invalid-name
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("requests").setLevel(logging.WARNING)
@@ -94,51 +95,50 @@ def callback(request, context):
             data = resp_fp.read()
         log.debug('-> 200 (%d bytes from %s)', len(data), path)
         return data
-    elif os.path.isdir(path) and os.path.isfile(os.path.join(path, '.get')):
+    if os.path.isdir(path) and os.path.isfile(os.path.join(path, '.get')):
         path = os.path.join(path, '.get')
         context.status_code = 200
         with open(path, 'rb') as resp_fp:
             data = resp_fp.read()
         log.debug('-> 200 (%d bytes from %s)', len(data), path)
         return data
-    else:
-        # download to cache in mock directories
-        if BUILD_CACHE:
-            folder = os.path.dirname(path)
-            try:
-                if not os.path.isdir(folder):
-                    os.makedirs(folder)
-            except OSError:
-                # see if any of the leaf folders are actually files
-                orig_folder = folder
-                while os.path.abspath(folder) != os.path.abspath(HERE):
-                    if os.path.isfile(folder):
-                        # need to rename
-                        os.rename(folder, folder + '.tmp')
-                        os.makedirs(orig_folder)
-                        os.rename(folder + '.tmp', os.path.join(folder, '.get'))
-                        break
-                    folder = os.path.dirname(folder)
-            urllib_request = Request(request.url, request.body if request.method == 'POST' else None, request.headers)
-            try:
-                real_http = urlopen(urllib_request)
-            except HTTPError as exc:
-                context.status_code = exc.code
-                return None
+    # download to cache in mock directories
+    if BUILD_CACHE:
+        folder = os.path.dirname(path)
+        try:
+            if not os.path.isdir(folder):
+                os.makedirs(folder)
+        except OSError:
+            # see if any of the leaf folders are actually files
+            orig_folder = folder
+            while os.path.abspath(folder) != os.path.abspath(HERE):
+                if os.path.isfile(folder):
+                    # need to rename
+                    os.rename(folder, folder + '.tmp')
+                    os.makedirs(orig_folder)
+                    os.rename(folder + '.tmp', os.path.join(folder, '.get'))
+                    break
+                folder = os.path.dirname(folder)
+        urllib_request = Request(request.url, request.body if request.method == 'POST' else None, request.headers)
+        try:
+            real_http = urlopen(urllib_request)
+        except HTTPError as exc:
+            context.status_code = exc.code
+            return None
+        with open(path, 'wb') as resp_fp:
+            data = real_http.read()
+            resp_fp.write(data)
+        if data[:2] == b'\x1f\x8b':  # gzip magic number
+            with gzip.open(path) as zipf:
+                data = zipf.read()
             with open(path, 'wb') as resp_fp:
-                data = real_http.read()
                 resp_fp.write(data)
-            if data[:2] == b'\x1f\x8b':  # gzip magic number
-                with gzip.open(path) as zipf:
-                    data = zipf.read()
-                with open(path, 'wb') as resp_fp:
-                    resp_fp.write(data)
-            context.status_code = real_http.getcode()
-            log.debug('-> %d (%d bytes from http)', context.status_code, len(data))
-            return data
-        context.status_code = 404
-        log.debug('-> 404 (at %s)', path)
-        return None
+        context.status_code = real_http.getcode()
+        log.debug('-> %d (%d bytes from http)', context.status_code, len(data))
+        return data
+    context.status_code = 404
+    log.debug('-> 404 (at %s)', path)
+    return None
 
 
 @pytest.mark.parametrize('branch, build_flags, os_, cpu', get_builds_to_test())
