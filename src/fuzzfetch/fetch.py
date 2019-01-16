@@ -166,6 +166,23 @@ class Platform(object):
         self.machine = fixed_machine
         self.gecko_platform = self.SUPPORTED[system][fixed_machine]
 
+    def auto_name_prefix(self):
+        """
+        Generate platform prefix for cross-platform downloads.
+        """
+        # if the platform is not native, auto_name would clobber native downloads.
+        # make a prefix to avoid this
+        native_system = std_platform.system()
+        native_machine = self.CPU_ALIASES.get(std_platform.machine(), std_platform.machine())
+        if native_system == self.system and native_machine == self.machine:
+            return ''
+        platform = {
+            'linux': 'linux32',
+            'android-api-16': 'android-arm',
+            'android-aarch64': 'android-arm64',
+        }.get(self.gecko_platform, self.gecko_platform)
+        return platform + '-'
+
 
 class BuildTask(object):
     """Class for storing TaskCluster build information"""
@@ -355,7 +372,7 @@ class Fetcher(object):
             options = build.split(self.moz_info["platform_guess"], 1)[1]
         else:
             options = self._flags.build_string()
-        self._auto_name = 'm-%s-%s%s' % (self._branch[0], self.build_id, options)
+        self._auto_name = '%sm-%s-%s%s' % (self._platform.auto_name_prefix(), self._branch[0], self.build_id, options)
 
     @classmethod
     def iterall(cls, target, branch, build, flags, platform=None):
