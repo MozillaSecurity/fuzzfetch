@@ -142,10 +142,11 @@ class Platform(object):
     SUPPORTED = {
         'Darwin': {'x86_64': 'macosx64'},
         'Linux': {'x86_64': 'linux64', 'x86': 'linux'},
-        'Windows': {'x86_64': 'win64'},
+        'Windows': {'x86_64': 'win64', 'arm64': 'win64-aarch64'},
         'Android': {'x86': 'android-x86', 'arm': 'android-api-16', 'arm64': 'android-aarch64'},
     }
     CPU_ALIASES = {
+        'ARM64': 'arm64',
         'AMD64': 'x86_64',
         'aarch64': 'arm64',
         'i686': 'x86',

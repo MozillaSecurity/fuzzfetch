@@ -77,6 +77,9 @@ def get_builds_to_test():
         elif os_ == "Windows" and flags.asan and (flags.fuzzing or flags.debug):
             # windows only has asan-opt ?
             continue
+        elif os_ == "Windows" and cpu != 'x86' and (flags.asan or flags.fuzzing):
+            # windows asan and fuzzing builds are x86 only atm
+            continue
         else:
             yield pytest.param(branch, flags, os_, cpu)
 
