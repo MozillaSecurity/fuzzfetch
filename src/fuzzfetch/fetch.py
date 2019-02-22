@@ -371,6 +371,9 @@ class Fetcher(object):
                 if self._flags.coverage and '-ccov' not in build:
                     raise FetcherException("'build' is not a coverage build, but coverage=True given "
                                            "(build=%s)" % build)
+                if self._flags.valgrind and '-valgrind' not in build:
+                    raise FetcherException("'build' is not a valgrind build, but valgrind=True given "
+                                           "(build=%s)" % build)
 
         # build the automatic name
         if not isinstance(build, BuildTask) and self.moz_info["platform_guess"] in build:
