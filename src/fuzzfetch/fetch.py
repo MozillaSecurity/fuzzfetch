@@ -311,7 +311,8 @@ class Fetcher(object):
         @param build: build identifier. acceptable identifers are: TaskCluster namespace, hg changeset, date, 'latest'
 
         @type flags: BuildFlags or sequence of booleans
-        @param flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind'), each a bool, not all combinations exist in TaskCluster
+        @param flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind'),
+                      each a bool, not all combinations exist in TaskCluster
 
         @type platform: Platform
         @param platform: force platform if different than current system
