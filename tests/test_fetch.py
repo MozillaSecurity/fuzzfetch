@@ -37,13 +37,14 @@ if BUILD_CACHE:
 
 def get_builds_to_test():
     """Get permutations for testing build branches and flags"""
-    possible_flags = (fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False),  # opt
-                      fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=False, coverage=False),  # debug
-                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=True),  # ccov
-                      fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=False, coverage=False),  # asan-opt
-                      fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=True, coverage=False),  # asan-opt-fuzzing
-                      fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=True, coverage=False),  # debug-fuzzing
-                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=True, coverage=True))  # ccov-fuzzing
+    possible_flags = (fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False),  # opt
+                      fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=False, coverage=False, valgrind=False),  # debug
+                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=True, valgrind=False),  # ccov
+                      fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=False, coverage=False, valgrind=False),  # asan-opt
+                      fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=True, coverage=False, valgrind=False),  # asan-opt-fuzzing
+                      fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=True, coverage=False, valgrind=False),  # debug-fuzzing
+                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=True, coverage=True, valgrind=False),  # ccov-fuzzing
+                      fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=True))  # valgrind-opt
     possible_branches = ("central", "inbound")
     possible_os = ('Android', 'Darwin', 'Linux', 'Windows')
     possible_cpus = ('x86', 'x64', 'arm', 'arm64')
@@ -64,6 +65,8 @@ def get_builds_to_test():
         elif flags.debug and flags.fuzzing and os_ == 'Darwin':
             continue
         elif flags.debug and flags.fuzzing and os_ == 'Linux' and cpu == 'x86':
+            continue
+        elif flags.valgrind and (os_ != 'Linux' or cpu != 'x64'):
             continue
         elif os_ == 'Darwin' and flags.asan and not flags.fuzzing:
             continue
