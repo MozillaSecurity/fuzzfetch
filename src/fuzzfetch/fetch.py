@@ -557,7 +557,7 @@ class Fetcher(object):
         if self._flags.coverage:
             self.extract_zip('code-coverage-gcno.zip', path=path)
 
-        if not self._flags.asan:
+        if not self._flags.asan and not self._flags.valgrind:
             if full_symbols:
                 symbols = 'crashreporter-symbols-full.zip'
             else:
