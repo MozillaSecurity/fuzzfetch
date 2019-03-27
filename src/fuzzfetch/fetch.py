@@ -123,7 +123,7 @@ def _create_utc_datetime(datetime_string):
     return timezone('UTC').localize(dt_obj)
 
 
-class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage'))):
+class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind'))):
     """Class for storing TaskCluster build flags"""
 
     def build_string(self):
@@ -134,6 +134,7 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
         return (('-ccov' if self.coverage else '') +
                 ('-fuzzing' if self.fuzzing else '') +
                 ('-asan' if self.asan else '') +
+                ('-valgrind' if self.valgrind else '') +
                 ('-debug' if self.debug else '-opt'))
 
 
@@ -310,7 +311,8 @@ class Fetcher(object):
         @param build: build identifier. acceptable identifers are: TaskCluster namespace, hg changeset, date, 'latest'
 
         @type flags: BuildFlags or sequence of booleans
-        @param flags: ('asan', 'debug', 'fuzzing', 'coverage'), each a bool, not all combinations exist in TaskCluster
+        @param flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind'),
+                      each a bool, not all combinations exist in TaskCluster
 
         @type platform: Platform
         @param platform: force platform if different than current system
@@ -340,7 +342,7 @@ class Fetcher(object):
                 if self._branch is None:
                     branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
                     self._branch = branch.group('branch') if branch is not None else '?'
-                asan, debug, fuzzing, coverage = self._flags
+                asan, debug, fuzzing, coverage, valgrind = self._flags
                 if not debug:
                     debug = '-debug' in build or '-dbg' in build
                 if not asan:
@@ -349,7 +351,9 @@ class Fetcher(object):
                     fuzzing = '-fuzzing' in build
                 if not coverage:
                     coverage = '-ccov' in build
-                self._flags = BuildFlags(asan, debug, fuzzing, coverage)
+                if not valgrind:
+                    valgrind = '-valgrind' in build
+                self._flags = BuildFlags(asan, debug, fuzzing, coverage, valgrind)
 
                 # '?' is special case used for unknown build types
                 if self._branch != '?' and self._branch not in build:
@@ -366,6 +370,9 @@ class Fetcher(object):
                                            "(build=%s)" % build)
                 if self._flags.coverage and '-ccov' not in build:
                     raise FetcherException("'build' is not a coverage build, but coverage=True given "
+                                           "(build=%s)" % build)
+                if self._flags.valgrind and '-valgrind' not in build:
+                    raise FetcherException("'build' is not a valgrind build, but valgrind=True given "
                                            "(build=%s)" % build)
 
         # build the automatic name
@@ -550,7 +557,7 @@ class Fetcher(object):
         if self._flags.coverage:
             self.extract_zip('code-coverage-gcno.zip', path=path)
 
-        if not self._flags.asan:
+        if not self._flags.asan and not self._flags.valgrind:
             if full_symbols:
                 symbols = 'crashreporter-symbols-full.zip'
             else:
@@ -781,6 +788,8 @@ class Fetcher(object):
                                  help='Download --enable-fuzzing builds.')
         build_group.add_argument('--coverage', action='store_true',
                                  help='Download --coverage builds. This also pulls down the *.gcno files')
+        build_group.add_argument('--valgrind', action='store_true',
+                                 help='Download Valgrind builds.')
 
         test_group = parser.add_argument_group('Test Arguments')
         test_group.add_argument('--tests', nargs='+', metavar='', choices=cls.TEST_CHOICES,
@@ -812,13 +821,15 @@ class Fetcher(object):
                 parser.error('Cannot specify --build namespace and --fuzzing')
             if args.coverage:
                 parser.error('Cannot specify --build namespace and --coverage')
+            if args.valgrind:
+                parser.error('Cannot specify --build namespace and --valgrind')
 
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
         elif args.branch is None:
             args.branch = 'central'
 
-        flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage)
+        flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage, args.valgrind)
         obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu))
 
         if args.name is None:
