@@ -565,35 +565,7 @@ class Fetcher(object):
             os.mkdir(os.path.join(path, 'symbols'))
             self.extract_zip(symbols, path=os.path.join(path, 'symbols'))
 
-        self._layout_for_domfuzz(path)
         self._write_fuzzmanagerconf(path)
-
-    def _layout_for_domfuzz(self, path):
-        """
-        Update directory to work with DOMFuzz
-
-        @type path: str
-        @param path: A string representation of the fuzzmanager config path
-        """
-        old_dir = os.getcwd()
-        os.chdir(os.path.join(path))
-        try:
-            os.mkdir('dist')
-            link_name = os.path.join('dist', 'bin')
-            if self._platform.system == 'Darwin' and self._target == 'firefox':
-                ff_loc = glob.glob('*.app/Contents/MacOS/firefox')
-                assert len(ff_loc) == 1
-                os.symlink(os.path.join(os.pardir, os.path.dirname(ff_loc[0])),  # pylint: disable=no-member
-                           link_name)
-                os.symlink(os.path.join(os.pardir, os.pardir, os.pardir, 'symbols'),  # pylint: disable=no-member
-                           os.path.join(os.path.dirname(ff_loc[0]), 'symbols'))
-            elif self._platform.system == 'Linux':
-                os.symlink(os.pardir, link_name)  # pylint: disable=no-member
-            elif self._platform.system == 'Windows':
-                # create a junction point at dist\bin pointing to the firefox.exe path
-                junction_path.symlink(os.curdir, link_name)
-        finally:
-            os.chdir(old_dir)
 
     def _write_fuzzmanagerconf(self, path):
         """
