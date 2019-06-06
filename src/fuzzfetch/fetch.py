@@ -496,7 +496,7 @@ class Fetcher(object):
         @param full_symbols:
         """
         if self._target == 'js':
-            self.extract_zip('jsshell.zip', path=os.path.join(path))
+            self.extract_zip('jsshell.zip', path=os.path.join(path, 'dist', 'bin'))
         else:
             if self._platform.system == 'Linux':
                 self.extract_tar('tar.bz2', path)
