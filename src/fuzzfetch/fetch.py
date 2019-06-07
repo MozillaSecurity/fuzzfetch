@@ -9,6 +9,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 import collections
+import glob
 import itertools
 import logging
 import os
@@ -596,12 +597,21 @@ class Fetcher(object):
 
         if self._platform.system == "Windows":
             fm_name = self._target + '.exe.fuzzmanagerconf'
-            conf_path = os.path.join(path, 'dist', 'bin', fm_name)
         elif self._platform.system == "Android":
-            conf_path = os.path.join(path, 'target.apk.fuzzmanagerconf')
-        else:
+            fm_name = 'target.apk.fuzzmanagerconf'
+        elif self._platform.system == 'Darwin' and self._target == 'firefox':
+            ff_loc = glob.glob('%s/*.app/Contents/MacOS/firefox')
+            assert len(ff_loc) == 1
             fm_name = self._target + '.fuzzmanagerconf'
+            path = ff_loc[0]
+        elif self._platform.system in {'Darwin', 'Linux'}:
+            fm_name = self._target + '.fuzzmanagerconf'
+        else:
+            raise FetcherException('Unknown platform/target: %s/%s' % (self._platform.system, self._target))
+        if self._target == 'js':
             conf_path = os.path.join(path, 'dist', 'bin', fm_name)
+        else:
+            conf_path = os.path.join(path, fm_name)
         with open(conf_path, 'w') as conf_fp:
             output.write(conf_fp)
 
