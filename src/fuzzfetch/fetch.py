@@ -600,10 +600,10 @@ class Fetcher(object):
         elif self._platform.system == "Android":
             fm_name = 'target.apk.fuzzmanagerconf'
         elif self._platform.system == 'Darwin' and self._target == 'firefox':
-            ff_loc = glob.glob('%s/*.app/Contents/MacOS/firefox')
+            ff_loc = glob.glob('%s/*.app/Contents/MacOS/firefox' % (path,))
             assert len(ff_loc) == 1
             fm_name = self._target + '.fuzzmanagerconf'
-            path = ff_loc[0]
+            path = os.path.dirname(ff_loc[0])
         elif self._platform.system in {'Darwin', 'Linux'}:
             fm_name = self._target + '.fuzzmanagerconf'
         else:
