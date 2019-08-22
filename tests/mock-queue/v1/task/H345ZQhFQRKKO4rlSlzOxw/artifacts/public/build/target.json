@@ -1,0 +1,23 @@
+{
+  "as": "", 
+  "buildid": "20190822185336", 
+  "cc": "", 
+  "cxx": "", 
+  "host_alias": "x86_64-pc-linux-gnu", 
+  "host_cpu": "x86_64", 
+  "host_os": "linux-gnu", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{aa3c5121-dab2-40e2-81ca-7ea25febc110}", 
+  "moz_app_maxversion": "69.*", 
+  "moz_app_name": "fennec", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "69.0", 
+  "moz_pkg_platform": "android-i686", 
+  "moz_source_repo": "https://hg.mozilla.org/try", 
+  "moz_source_stamp": "c0a562cacec553034839e61679921f870471456b", 
+  "moz_update_channel": "default", 
+  "target_alias": "i686-pc-linux-android", 
+  "target_cpu": "i686", 
+  "target_os": "linux-android", 
+  "target_vendor": "pc"
+}

@@ -46,7 +46,7 @@ def get_builds_to_test():
         fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=True, coverage=False, valgrind=False),  # debug-fuzzing
         fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=True, coverage=True, valgrind=False),  # ccov-fuzzing
         fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=True))  # valgrind-opt
-    possible_branches = ("central", "inbound")
+    possible_branches = ("central", "inbound", "try")
     possible_os = ('Android', 'Darwin', 'Linux', 'Windows')
     possible_cpus = ('x86', 'x64', 'arm', 'arm64')
 
@@ -74,6 +74,8 @@ def get_builds_to_test():
         elif os_ == 'Android' and flags.debug and not flags.fuzzing and cpu != 'arm':
             continue
         elif os_ == 'Android' and flags.fuzzing and (cpu != 'x86' or flags.asan or not flags.debug):
+            continue
+        elif os_ == 'Android' and not flags.fuzzing and flags.asan:
             continue
         elif os_ == "Windows" and flags.asan and branch not in {"central", "inbound"}:
             # asan builds for windows are only done for central/inbound
@@ -162,7 +164,7 @@ def test_metadata(branch, build_flags, os_, cpu):
                 fetcher = fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_] + args)[0]
             else:
                 if branch == "esr":
-                    branch = "esr52"
+                    branch = "esr68"
                 fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
             log.debug("succeeded creating Fetcher")
 

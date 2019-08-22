@@ -1,0 +1,34 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2019.08.22.20190822040652",
+      "name": "20190822040652",
+      "expires": "2020-08-24T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2019.08.22.20190822060142",
+      "name": "20190822060142",
+      "expires": "2020-08-23T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2019.08.22.20190822100251",
+      "name": "20190822100251",
+      "expires": "2020-08-23T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2019.08.22.20190822161424",
+      "name": "20190822161424",
+      "expires": "2020-08-23T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2019.08.22.20190822191508",
+      "name": "20190822191508",
+      "expires": "2020-08-23T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-inbound.pushdate.2019.08.22.20190822193845",
+      "name": "20190822193845",
+      "expires": "2020-08-23T00:00:00.000Z"
+    }
+  ]
+}

@@ -144,7 +144,8 @@ class Platform(object):
         'Darwin': {'x86_64': 'macosx64'},
         'Linux': {'x86_64': 'linux64', 'x86': 'linux'},
         'Windows': {'x86_64': 'win64', 'arm64': 'win64-aarch64'},
-        'Android': {'x86': 'android-x86', 'arm': 'android-api-16', 'arm64': 'android-aarch64'},
+        'Android': {'x86_64': 'android-x86_64', 'x86': 'android-x86',
+                    'arm': 'android-api-16', 'arm64': 'android-aarch64'},
     }
     CPU_ALIASES = {
         'ARM64': 'arm64',
@@ -167,6 +168,17 @@ class Platform(object):
         self.system = system
         self.machine = fixed_machine
         self.gecko_platform = self.SUPPORTED[system][fixed_machine]
+
+    @classmethod
+    def from_platform_guess(cls, guess):
+        """
+        Create a platform object from the platform_guess field in mozinfo.json
+        """
+        for system, platform in cls.SUPPORTED.items():
+            for machine, platform_guess in platform.items():
+                if guess == platform_guess:
+                    return cls(system, machine)
+        raise FetcherException('Unknown platform: %s' % (guess,))
 
     def auto_name_prefix(self):
         """
@@ -234,7 +246,10 @@ class BuildTask(object):
             task_urls = (cls._revision_url(build.lower(), branch, target_platform) + flags.build_string(),)
 
         elif build == 'latest':
-            namespace = 'gecko.v2.mozilla-' + branch + '.latest'
+            if branch == 'try':
+                namespace = 'gecko.v2.try.latest'
+            else:
+                namespace = 'gecko.v2.mozilla-' + branch + '.latest'
             product = 'mobile' if 'android' in target_platform else 'firefox'
             task_urls = (cls.URL_BASE + '/task/' + namespace + '.' + product + '.' + target_platform +
                          flags.build_string(),)
@@ -272,7 +287,9 @@ class BuildTask(object):
     @classmethod
     def _pushdate_urls(cls, pushdate, branch, target_platform):
         """Multiple entries exist per push date. Iterate over all until a working entry is found"""
-        url_base = cls.URL_BASE + '/namespaces/gecko.v2.mozilla-' + branch + '.pushdate.' + pushdate
+        if branch != 'try':
+            branch = 'mozilla-' + branch
+        url_base = cls.URL_BASE + '/namespaces/gecko.v2.' + branch + '.pushdate.' + pushdate
 
         try:
             base = HTTP_SESSION.post(url_base, json={})
@@ -288,7 +305,9 @@ class BuildTask(object):
     @classmethod
     def _revision_url(cls, rev, branch, target_platform):
         """Retrieve the URL for revision based builds"""
-        namespace = 'gecko.v2.mozilla-' + branch + '.revision.' + rev
+        if branch != 'try':
+            branch = 'mozilla-' + branch
+        namespace = 'gecko.v2.' + branch + '.revision.' + rev
         product = 'mobile' if 'android' in target_platform else 'firefox'
         return cls.URL_BASE + '/task/' + namespace + '.' + product + '.' + target_platform
 
@@ -340,8 +359,10 @@ class Fetcher(object):
             if re.search(self.moz_info["platform_guess"].replace('-', '.*'), build) is not None:
                 # try to set args to match the namespace given
                 if self._branch is None:
-                    branch = re.search(r'\.mozilla-(?P<branch>[a-z]+[0-9]*)\.', build)
+                    branch = re.search(r'\.(try|mozilla-(?P<branch>[a-z]+[0-9]*))\.', build)
                     self._branch = branch.group('branch') if branch is not None else '?'
+                    if self._branch is None:
+                        self._branch = branch.group(1)
                 asan, debug, fuzzing, coverage, valgrind = self._flags
                 if not debug:
                     debug = '-debug' in build or '-dbg' in build
@@ -374,13 +395,19 @@ class Fetcher(object):
                 if self._flags.valgrind and '-valgrind' not in build:
                     raise FetcherException("'build' is not a valgrind build, but valgrind=True given "
                                            "(build=%s)" % build)
+                # platform in namespace may not match the current platform
+                self._platform = Platform.from_platform_guess(self.moz_info["platform_guess"])
 
         # build the automatic name
         if not isinstance(build, BuildTask) and self.moz_info["platform_guess"] in build:
             options = build.split(self.moz_info["platform_guess"], 1)[1]
         else:
             options = self._flags.build_string()
-        self._auto_name = '%sm-%s-%s%s' % (self._platform.auto_name_prefix(), self._branch[0], self.build_id, options)
+        if self._branch == "try":
+            branch = "try"
+        else:
+            branch = "m-%s" % (self._branch[0],)
+        self._auto_name = '%s%s-%s%s' % (self._platform.auto_name_prefix(), branch, self.build_id, options)
 
     @classmethod
     def iterall(cls, target, branch, build, flags, platform=None):
@@ -757,8 +784,14 @@ class Fetcher(object):
                                  help='Download from mozilla-beta')
         branch_args.add_argument('--esr52', action='store_const', const='esr52', dest='branch',
                                  help='Download from mozilla-esr52')
+        branch_args.add_argument('--esr60', action='store_const', const='esr60', dest='branch',
+                                 help='Download from mozilla-esr60')
+        branch_args.add_argument('--esr68', action='store_const', const='esr68', dest='branch',
+                                 help='Download from mozilla-esr68')
         branch_args.add_argument('--esr', action='store_const', const='esr60', dest='branch',
                                  help='Download from mozilla-esr60')
+        branch_args.add_argument('--try', action='store_const', const='try', dest='branch',
+                                 help='Download from try')
 
         build_group = parser.add_argument_group('Build Arguments')
         build_group.add_argument('-d', '--debug', action='store_true',
