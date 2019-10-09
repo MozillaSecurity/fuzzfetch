@@ -46,7 +46,7 @@ def get_builds_to_test():
         fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=True, coverage=False, valgrind=False),  # debug-fuzzing
         fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=True, coverage=True, valgrind=False),  # ccov-fuzzing
         fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=True))  # valgrind-opt
-    possible_branches = ("central", "inbound", "try")
+    possible_branches = ("central", "inbound", "try", "esr-next", "esr-stable")
     possible_os = ('Android', 'Darwin', 'Linux', 'Windows')
     possible_cpus = ('x86', 'x64', 'arm', 'arm64')
 
@@ -86,8 +86,20 @@ def get_builds_to_test():
         elif os_ == "Windows" and cpu != 'x64' and (flags.asan or flags.fuzzing):
             # windows asan and fuzzing builds are x64 only atm
             continue
-        else:
-            yield pytest.param(branch, flags, os_, cpu)
+        elif branch == "esr-next":
+            opt = not (flags.asan or flags.fuzzing or flags.debug or flags.coverage or flags.valgrind)
+            if opt:
+                # opt builds aren't available for esr68
+                continue
+        elif branch == "esr-stable":
+            if cpu.startswith("arm"):
+                # arm builds aren't available for esr-stable
+                continue
+            elif os_ == "Android":
+                # Android builds aren't available for esr-stable
+                continue
+
+        yield pytest.param(branch, flags, os_, cpu)
 
 
 def callback(request, context):
@@ -96,8 +108,11 @@ def callback(request, context):
     """
     log.debug('%s %r', request.method, request.url)
     assert request.url.startswith('https://')
-    path = os.path.join(HERE, request.url.replace('https://index.taskcluster.net', 'mock-index')
-                        .replace('https://queue.taskcluster.net', 'mock-queue').replace('/', os.sep))
+    path = os.path.join(HERE, request.url
+                        .replace('https://index.taskcluster.net', 'mock-index')
+                        .replace('https://queue.taskcluster.net', 'mock-queue')
+                        .replace('https://product-details.mozilla.org', 'mock-product-details')
+                        .replace('/', os.sep))
     if os.path.isfile(path):
         context.status_code = 200
         with open(path, 'rb') as resp_fp:
@@ -163,8 +178,10 @@ def test_metadata(branch, build_flags, os_, cpu):
                 args = ["--" + name for arg, name in zip(build_flags, fuzzfetch.BuildFlags._fields) if arg]
                 fetcher = fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_] + args)[0]
             else:
-                if branch == "esr":
+                if branch == "esr-next":
                     branch = "esr68"
+                elif branch == "esr-stable":
+                    branch = "esr60"
                 fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
             log.debug("succeeded creating Fetcher")
 

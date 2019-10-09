@@ -782,14 +782,10 @@ class Fetcher(object):
                                  help='Download from mozilla-release')
         branch_args.add_argument('--beta', action='store_const', const='beta', dest='branch',
                                  help='Download from mozilla-beta')
-        branch_args.add_argument('--esr52', action='store_const', const='esr52', dest='branch',
-                                 help='Download from mozilla-esr52')
-        branch_args.add_argument('--esr60', action='store_const', const='esr60', dest='branch',
-                                 help='Download from mozilla-esr60')
-        branch_args.add_argument('--esr68', action='store_const', const='esr68', dest='branch',
-                                 help='Download from mozilla-esr68')
-        branch_args.add_argument('--esr', action='store_const', const='esr60', dest='branch',
-                                 help='Download from mozilla-esr60')
+        branch_args.add_argument('--esr-stable', action='store_const', const='esr-stable', dest='branch',
+                                 help='Download from esr-stable')
+        branch_args.add_argument('--esr-next', action='store_const', const='esr-next', dest='branch',
+                                 help='Download from esr-next')
         branch_args.add_argument('--try', action='store_const', const='try', dest='branch',
                                  help='Download from try')
 
@@ -842,6 +838,15 @@ class Fetcher(object):
         # parser.set_defaults(branch='central')
         elif args.branch is None:
             args.branch = 'central'
+
+        if args.branch.startswith('esr'):
+            resp = _get_url('https://product-details.mozilla.org/1.0/firefox_versions.json')
+            key = 'FIREFOX_ESR' if args.branch == 'esr-stable' else 'FIREFOX_ESR_NEXT'
+            match = re.search(r'^\d+', resp.json()[key])
+            if match is None:
+                parser.error('Unable to identify ESR version for %s' % args.branch)
+
+            args.branch = 'esr%s' % match.group(0)
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage, args.valgrind)
         obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu))
