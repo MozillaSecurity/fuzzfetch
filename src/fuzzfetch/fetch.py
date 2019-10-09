@@ -841,9 +841,9 @@ class Fetcher(object):
 
         if args.branch.startswith('esr'):
             resp = _get_url('https://product-details.mozilla.org/1.0/firefox_versions.json')
-            key = 'FIREFOX_ESR' if args.branch is 'esr-stable' else 'FIREFOX_ESR_NEXT'
+            key = 'FIREFOX_ESR' if args.branch == 'esr-stable' else 'FIREFOX_ESR_NEXT'
             match = re.search(r'^\d+', resp.json()[key])
-            if not match:
+            if match is None:
                 parser.error('Unable to identify ESR version for %s' % args.branch)
 
             args.branch = 'esr%s' % match.group(0)
