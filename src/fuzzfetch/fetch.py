@@ -409,6 +409,20 @@ class Fetcher(object):
             branch = "m-%s" % (self._branch[0],)
         self._auto_name = '%s%s-%s%s' % (self._platform.auto_name_prefix(), branch, self.build_id, options)
 
+    @staticmethod
+    def resolve_esr(branch):
+        """Retrieve esr version based on keyword"""
+        if branch not in {'esr-stable', 'esr-next'}:
+            raise FetcherException('Invalid ESR branch specified: %s' % branch)
+
+        resp = _get_url('https://product-details.mozilla.org/1.0/firefox_versions.json')
+        key = 'FIREFOX_ESR' if branch == 'esr-stable' else 'FIREFOX_ESR_NEXT'
+        match = re.search(r'^\d+', resp.json()[key])
+        if match is None:
+            raise FetcherException('Unable to identify ESR version for %s' % branch)
+
+        return 'esr%s' % match.group(0)
+
     @classmethod
     def iterall(cls, target, branch, build, flags, platform=None):
         """Return an iterable for all available builds matching a particular build type"""
@@ -840,13 +854,7 @@ class Fetcher(object):
             args.branch = 'central'
 
         if args.branch.startswith('esr'):
-            resp = _get_url('https://product-details.mozilla.org/1.0/firefox_versions.json')
-            key = 'FIREFOX_ESR' if args.branch == 'esr-stable' else 'FIREFOX_ESR_NEXT'
-            match = re.search(r'^\d+', resp.json()[key])
-            if match is None:
-                parser.error('Unable to identify ESR version for %s' % args.branch)
-
-            args.branch = 'esr%s' % match.group(0)
+            args.branch = Fetcher.resolve_esr(args.branch)
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage, args.valgrind)
         obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu))
