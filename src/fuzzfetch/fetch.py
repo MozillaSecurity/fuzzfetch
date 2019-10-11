@@ -22,7 +22,7 @@ import tarfile
 import tempfile
 import time
 import zipfile
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 
 import configparser  # pylint: disable=wrong-import-order
@@ -87,6 +87,13 @@ def _get_url(url):
         raise FetcherException(exc)
 
     return data
+
+
+def _get_rev_date(rev):
+    data = _get_url('https://hg.mozilla.org/mozilla-central/json-rev/%s' % rev)
+    json = data.json()
+    push_date = json['pushdate'][0]
+    return datetime.fromtimestamp(push_date)
 
 
 def _download_url(url, outfile):
@@ -316,9 +323,11 @@ class Fetcher(object):
     """Fetcher fetches build artifacts from TaskCluster and unpacks them"""
     TARGET_CHOICES = {'js', 'firefox'}
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
+    BUILD_ORDER_ASC = 1
+    BUILD_ORDER_DESC = 2
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
 
-    def __init__(self, target, branch, build, flags, platform=None):
+    def __init__(self, target, branch, build, flags, platform=None, nearest=False):
         """
         @type target: string
         @param target: the download target, eg. 'js', 'firefox'
@@ -349,9 +358,51 @@ class Fetcher(object):
             self._task = build
 
         else:
-            self._task = BuildTask(build, branch, self._flags, self._platform)
-
             now = datetime.now(timezone('UTC'))
+            try:
+                self._task = BuildTask(build, branch, self._flags, self._platform)
+            except FetcherException:
+                if not nearest:
+                    raise
+                else:
+                    asc = nearest == Fetcher.BUILD_ORDER_ASC
+                    start = None
+                    if build == 'latest':
+                        start = now
+                    elif re.match(r'^[0-9[a-f]{12,40}$', build):
+                        start = _get_rev_date(build)
+
+                    elif re.match(r'^[0-9]{4}-[0-9]{2}-[0-9]{2}$', build):
+                        date = datetime.strptime(build, '%Y-%m-%d')
+                        localized = timezone('UTC').localize(date)
+                        start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
+                    else:
+                        # If no match, assume it's a TaskCluster namespace
+                        if re.match(r'.*(nightly|pushdate).*[0-9]{4}\.[0-9]{2}\.[0-9]{2}', build):
+                            match = re.search(r'[0-9]{4}\.[0-9]{2}\.[0-9]{2}', build)
+                            start = datetime.strptime(match.group(0), '%Y.%m.%d')
+                        elif re.match(r'.*revsion.*[0-9[a-f]{12,40}', build):
+                            match = re.search(r'[0-9[a-f]{12,40}', build)
+                            start = _get_rev_date(match.group(0))
+
+                    # If start date is outside the range of the newest/oldest available build, adjust it
+                    if asc and start < now - timedelta(days=364):
+                        start = now - timedelta(days=364)
+                    elif not asc and start > now:
+                        start = now
+
+                    end = now if asc else now - timedelta(days=364)
+
+                    while start < end if asc else start > end:
+                        try:
+                            self._task = BuildTask(start.strftime('%Y-%m-%d'), branch, self._flags, self._platform)
+                            break
+                        except FetcherException:
+                            LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
+                            start = start + timedelta(days=1) if asc else start - timedelta(days=1)
+                        else:
+                            raise FetcherException('Failed to find build near %s' % build)
+
             if build == 'latest' and (now - self.build_datetime).total_seconds() > 86400:
                 LOG.warning('Latest available build is older than 1 day: %s', self.build_id)
 
@@ -830,6 +881,14 @@ class Fetcher(object):
         misc_group.add_argument('--dry-run', action='store_true',
                                 help="Search for build and output metadata only, don't download anything.")
 
+        near_group = parser.add_argument_group('Near Arguments', "If the specified build isn't found, iterate over " +
+                                               "builds in the specified direction")
+        near_args = near_group.add_mutually_exclusive_group()
+        near_args.add_argument('--nearest-newer', action='store_const', const=cls.BUILD_ORDER_ASC, dest='nearest',
+                               help="Search from specified build in ascending order")
+        near_args.add_argument('--nearest-older', action='store_const', const=cls.BUILD_ORDER_DESC, dest='nearest',
+                               help="Search from the specified build in descending order")
+
         args = parser.parse_args(args=args)
 
         if re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{40}|latest)$', args.build) is None:
@@ -857,7 +916,7 @@ class Fetcher(object):
             args.branch = Fetcher.resolve_esr(args.branch)
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage, args.valgrind)
-        obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu))
+        obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu), args.nearest)
 
         if args.name is None:
             args.name = obj.get_auto_name()
