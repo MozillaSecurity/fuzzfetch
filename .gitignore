@@ -14,7 +14,10 @@
 .coverage
 
 # Linting via pytest
-/.cache/
+/.pytest_cache/
+
+# Tox
+/.tox/
 
 # Setuptools folders.
 /build/
@@ -22,3 +25,6 @@
 
 # Python egg metadata, regenerated from source files by setuptools.
 *.egg-info
+
+# Intellij IDE
+/.idea/

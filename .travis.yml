@@ -36,12 +36,9 @@ before_install:
   - pip install --upgrade setuptools pip
 install:
   - git --version
-  - python -m pip install -e .
-before_script:
-  - pip install --upgrade "flake8==3.6.0" "codecov==2.0.15" "pytest==4.1.0"
-  - pip install --upgrade "pytest-flake8==1.0.2" "pytest-pylint==0.13.0" "pytest-cov==2.6.1" requests-mock
+  - python -m pip install -e .[dev]
 script:
-  - python -m pytest
+  - tox
 after_success:
   - codecov
 deploy:

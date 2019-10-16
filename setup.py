@@ -7,7 +7,6 @@
 
 from setuptools import setup
 
-
 if __name__ == "__main__":
     setup(
         classifiers=[
@@ -20,17 +19,22 @@ if __name__ == "__main__":
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.4",
             "Programming Language :: Python :: 3.5",
-            "Programming Language :: Python :: 3.6"
+            "Programming Language :: Python :: 3.6",
         ],
-        description='Downloader for firefox/jsshell builds',
-        entry_points={
-            "console_scripts": ["fuzzfetch = fuzzfetch:Fetcher.main"]
+        description="Downloader for firefox/jsshell builds",
+        entry_points={"console_scripts": ["fuzzfetch = fuzzfetch:Fetcher.main"]},
+        install_requires=["configparser>=3.5.0", "pytz", "requests"],
+        extras_require={
+            "dev": [
+                "freezegun",
+                "pytest",
+                "pytest-black",
+                "pytest-cov",
+                "requests-mock",
+                "tox",
+                "tox-travis",
+            ]
         },
-        install_requires=[
-            "configparser>=3.5.0",
-            "pytz",
-            "requests"
-        ],
         keywords="fuzz fuzzing security test testing",
         license="MPL 2.0",
         maintainer="Mozilla Fuzzing Team",
@@ -39,4 +43,5 @@ if __name__ == "__main__":
         package_dir={"": "src"},
         packages=["fuzzfetch"],
         url="https://github.com/MozillaSecurity/fuzzfetch",
-        version="0.9.1")
+        version="0.9.1",
+    )
