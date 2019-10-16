@@ -1,0 +1,23 @@
+{
+  "as": "$(CC)", 
+  "buildid": "20191014131614", 
+  "cc": "/builds/worker/workspace/build/src/gcc/bin/gcc -m32 -march=pentium-m -std=gnu99", 
+  "cxx": "/builds/worker/workspace/build/src/gcc/bin/g++ -m32 -march=pentium-m", 
+  "host_alias": "i686-pc-linux-gnu", 
+  "host_cpu": "i686", 
+  "host_os": "linux-gnu", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "60.*", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "60.9.1", 
+  "moz_pkg_platform": "linux-i686", 
+  "moz_source_repo": "https://hg.mozilla.org/releases/mozilla-esr60", 
+  "moz_source_stamp": "e67641c2e4ccd1fe2d4cd522b6575adec838697a", 
+  "moz_update_channel": "default", 
+  "target_alias": "i686-pc-linux-gnu", 
+  "target_cpu": "i686", 
+  "target_os": "linux-gnu", 
+  "target_vendor": "pc"
+}
