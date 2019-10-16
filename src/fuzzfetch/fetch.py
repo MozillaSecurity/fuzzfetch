@@ -412,45 +412,44 @@ class Fetcher(object):
             except FetcherException:
                 if not nearest:
                     raise
+
+                start = None
+                asc = nearest == Fetcher.BUILD_ORDER_ASC
+                if 'latest' in build:
+                    start = now + timedelta(days=1) if asc else now - timedelta(days=1)
+                elif BuildTask.RE_DATE.match(build) is not None:
+                    date = datetime.strptime(build, '%Y-%m-%d')
+                    localized = timezone('UTC').localize(date)
+                    start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
+                elif BuildTask.RE_REV.match(build) is not None:
+                    start = _get_rev_date(build)
                 else:
-                    asc = nearest == Fetcher.BUILD_ORDER_ASC
+                    # If no match, assume it's a TaskCluster namespace
+                    if re.match(r'.*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*', build) is not None:
+                        match = re.search(r'[0-9]{4}\.[0-9]{2}\.[0-9]{2}', build)
+                        date = datetime.strptime(match.group(0), '%Y.%m.%d')
+                        start = timezone('UTC').localize(date)
+                    elif re.match(r'.*revision.*[0-9[a-f]{40}', build):
+                        match = re.search(r'[0-9[a-f]{40}', build)
+                        start = _get_rev_date(match.group(0))
 
-                    start = None
-                    if 'latest' in build:
-                        start = now + timedelta(days=1) if asc else now - timedelta(days=1)
-                    elif BuildTask.RE_DATE.match(build) is not None:
-                        date = datetime.strptime(build, '%Y-%m-%d')
-                        localized = timezone('UTC').localize(date)
-                        start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
-                    elif BuildTask.RE_REV.match(build) is not None:
-                        start = _get_rev_date(build)
-                    else:
-                        # If no match, assume it's a TaskCluster namespace
-                        if re.match(r'.*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*', build) is not None:
-                            match = re.search(r'[0-9]{4}\.[0-9]{2}\.[0-9]{2}', build)
-                            date = datetime.strptime(match.group(0), '%Y.%m.%d')
-                            start = timezone('UTC').localize(date)
-                        elif re.match(r'.*revision.*[0-9[a-f]{40}', build):
-                            match = re.search(r'[0-9[a-f]{40}', build)
-                            start = _get_rev_date(match.group(0))
+                # If start date is outside the range of the newest/oldest available build, adjust it
+                if asc:
+                    start = max(start, now - timedelta(days=364))
+                    end = now
+                else:
+                    start = min(start, now)
+                    end = now - timedelta(days=364)
 
-                    # If start date is outside the range of the newest/oldest available build, adjust it
-                    if asc:
-                        start = max(start, now - timedelta(days=364))
-                        end = now
-                    else:
-                        start = min(start, now)
-                        end = now - timedelta(days=364)
-
-                    while start < end if asc else start > end:
-                        try:
-                            self._task = BuildTask(start.strftime('%Y-%m-%d'), branch, self._flags, self._platform)
-                            break
-                        except FetcherException:
-                            LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
-                            start = start + timedelta(days=1) if asc else start - timedelta(days=1)
-                    else:
-                        raise FetcherException('Failed to find build near %s' % build)
+                while start < end if asc else start > end:
+                    try:
+                        self._task = BuildTask(start.strftime('%Y-%m-%d'), branch, self._flags, self._platform)
+                        break
+                    except FetcherException:
+                        LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
+                        start = start + timedelta(days=1) if asc else start - timedelta(days=1)
+                else:
+                    raise FetcherException('Failed to find build near %s' % build)
 
             if build == 'latest' and (now - self.build_datetime).total_seconds() > 86400:
                 LOG.warning('Latest available build is older than 1 day: %s', self.build_id)
