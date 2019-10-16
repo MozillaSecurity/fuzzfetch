@@ -22,7 +22,7 @@ import tarfile
 import tempfile
 import time
 import zipfile
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 
 import configparser  # pylint: disable=wrong-import-order
@@ -31,7 +31,7 @@ import requests
 from . import path as junction_path
 
 
-__all__ = ("Fetcher", "FetcherException", "BuildFlags")
+__all__ = ("Fetcher", "FetcherException", "BuildFlags", "BuildTask")
 
 
 LOG = logging.getLogger('fuzzfetch')
@@ -87,6 +87,13 @@ def _get_url(url):
         raise FetcherException(exc)
 
     return data
+
+
+def _get_rev_date(rev):
+    data = _get_url('https://hg.mozilla.org/mozilla-central/json-rev/%s' % rev)
+    json = data.json()
+    push_date = datetime.fromtimestamp(json['pushdate'][0])
+    return timezone('UTC').localize(push_date)
 
 
 def _download_url(url, outfile):
@@ -170,15 +177,15 @@ class Platform(object):
         self.gecko_platform = self.SUPPORTED[system][fixed_machine]
 
     @classmethod
-    def from_platform_guess(cls, guess):
+    def from_platform_guess(cls, build_string):
         """
-        Create a platform object from the platform_guess field in mozinfo.json
+        Create a platform object from a namespace build string
         """
         for system, platform in cls.SUPPORTED.items():
             for machine, platform_guess in platform.items():
-                if guess == platform_guess:
+                if platform_guess in build_string:
                     return cls(system, machine)
-        raise FetcherException('Unknown platform: %s' % (guess,))
+        raise FetcherException('Could not extract platform from %s' % (build_string,))
 
     def auto_name_prefix(self):
         """
@@ -316,9 +323,11 @@ class Fetcher(object):
     """Fetcher fetches build artifacts from TaskCluster and unpacks them"""
     TARGET_CHOICES = {'js', 'firefox'}
     TEST_CHOICES = {'common', 'reftests', 'gtest'}
+    BUILD_ORDER_ASC = 1
+    BUILD_ORDER_DESC = 2
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
 
-    def __init__(self, target, branch, build, flags, platform=None):
+    def __init__(self, target, branch, build, flags, platform=None, nearest=None):
         """
         @type target: string
         @param target: the download target, eg. 'js', 'firefox'
@@ -345,24 +354,25 @@ class Fetcher(object):
         self._flags = BuildFlags(*flags)
         self._platform = platform or Platform()
 
-        if isinstance(build, BuildTask):
-            self._task = build
+        if not isinstance(build, BuildTask):
+            # If build doesn't match the following, assume it's a namespace
+            if not BuildTask.RE_DATE.match(build) and not BuildTask.RE_REV.match(build) and build != 'latest':
+                # platform in namespace may not match the current platform
+                self._platform = Platform.from_platform_guess(build)
 
-        else:
-            self._task = BuildTask(build, branch, self._flags, self._platform)
-
-            now = datetime.now(timezone('UTC'))
-            if build == 'latest' and (now - self.build_datetime).total_seconds() > 86400:
-                LOG.warning('Latest available build is older than 1 day: %s', self.build_id)
-
-            # if the build string contains the platform, assume it is a TaskCluster namespace
-            if re.search(self.moz_info["platform_guess"].replace('-', '.*'), build) is not None:
-                # try to set args to match the namespace given
+                # If branch wasn't set, try and retrieve it from the build string
                 if self._branch is None:
                     branch = re.search(r'\.(try|mozilla-(?P<branch>[a-z]+[0-9]*))\.', build)
                     self._branch = branch.group('branch') if branch is not None else '?'
                     if self._branch is None:
                         self._branch = branch.group(1)
+
+                # '?' is special case used for unknown build types
+                if self._branch != '?' and self._branch not in build:
+                    raise FetcherException("'build' and 'branch' arguments do not match. "
+                                           "(build=%s, branch=%s)" % (build, self._branch))
+
+                # If flags weren't set, try and retrieve it from the build string
                 asan, debug, fuzzing, coverage, valgrind = self._flags
                 if not debug:
                     debug = '-debug' in build or '-dbg' in build
@@ -374,12 +384,10 @@ class Fetcher(object):
                     coverage = '-ccov' in build
                 if not valgrind:
                     valgrind = '-valgrind' in build
+
                 self._flags = BuildFlags(asan, debug, fuzzing, coverage, valgrind)
 
-                # '?' is special case used for unknown build types
-                if self._branch != '?' and self._branch not in build:
-                    raise FetcherException("'build' and 'branch' arguments do not match. "
-                                           "(build=%s, branch=%s)" % (build, self._branch))
+                # Validate flags
                 if self._flags.asan and '-asan' not in build:
                     raise FetcherException("'build' is not an asan build, but asan=True given "
                                            "(build=%s)" % build)
@@ -395,8 +403,59 @@ class Fetcher(object):
                 if self._flags.valgrind and '-valgrind' not in build:
                     raise FetcherException("'build' is not a valgrind build, but valgrind=True given "
                                            "(build=%s)" % build)
-                # platform in namespace may not match the current platform
-                self._platform = Platform.from_platform_guess(self.moz_info["platform_guess"])
+
+            # Attempt to fetch the build.  If it fails and nearest is set, try and find the nearest build that matches
+            now = datetime.now(timezone('UTC'))
+
+            try:
+                self._task = BuildTask(build, branch, self._flags, self._platform)
+            except FetcherException:
+                if not nearest:
+                    raise
+
+                start = None
+                asc = nearest == Fetcher.BUILD_ORDER_ASC
+                if 'latest' in build:
+                    start = now + timedelta(days=1) if asc else now - timedelta(days=1)
+                elif BuildTask.RE_DATE.match(build) is not None:
+                    date = datetime.strptime(build, '%Y-%m-%d')
+                    localized = timezone('UTC').localize(date)
+                    start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
+                elif BuildTask.RE_REV.match(build) is not None:
+                    start = _get_rev_date(build)
+                else:
+                    # If no match, assume it's a TaskCluster namespace
+                    if re.match(r'.*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*', build) is not None:
+                        match = re.search(r'[0-9]{4}\.[0-9]{2}\.[0-9]{2}', build)
+                        date = datetime.strptime(match.group(0), '%Y.%m.%d')
+                        start = timezone('UTC').localize(date)
+                    elif re.match(r'.*revision.*[0-9[a-f]{40}', build):
+                        match = re.search(r'[0-9[a-f]{40}', build)
+                        start = _get_rev_date(match.group(0))
+
+                # If start date is outside the range of the newest/oldest available build, adjust it
+                if asc:
+                    start = max(start, now - timedelta(days=364))
+                    end = now
+                else:
+                    start = min(start, now)
+                    end = now - timedelta(days=364)
+
+                while start < end if asc else start > end:
+                    try:
+                        self._task = BuildTask(start.strftime('%Y-%m-%d'), branch, self._flags, self._platform)
+                        break
+                    except FetcherException:
+                        LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
+                        start = start + timedelta(days=1) if asc else start - timedelta(days=1)
+                else:
+                    raise FetcherException('Failed to find build near %s' % build)
+
+            if build == 'latest' and (now - self.build_datetime).total_seconds() > 86400:
+                LOG.warning('Latest available build is older than 1 day: %s', self.build_id)
+
+        else:
+            self._task = build
 
         # build the automatic name
         if not isinstance(build, BuildTask) and self.moz_info["platform_guess"] in build:
@@ -830,6 +889,14 @@ class Fetcher(object):
         misc_group.add_argument('--dry-run', action='store_true',
                                 help="Search for build and output metadata only, don't download anything.")
 
+        near_group = parser.add_argument_group('Near Arguments', "If the specified build isn't found, iterate over " +
+                                               "builds in the specified direction")
+        near_args = near_group.add_mutually_exclusive_group()
+        near_args.add_argument('--nearest-newer', action='store_const', const=cls.BUILD_ORDER_ASC, dest='nearest',
+                               help="Search from specified build in ascending order")
+        near_args.add_argument('--nearest-older', action='store_const', const=cls.BUILD_ORDER_DESC, dest='nearest',
+                               help="Search from the specified build in descending order")
+
         args = parser.parse_args(args=args)
 
         if re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{40}|latest)$', args.build) is None:
@@ -857,7 +924,7 @@ class Fetcher(object):
             args.branch = Fetcher.resolve_esr(args.branch)
 
         flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage, args.valgrind)
-        obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu))
+        obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu), args.nearest)
 
         if args.name is None:
             args.name = obj.get_auto_name()

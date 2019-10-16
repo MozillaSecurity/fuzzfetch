@@ -11,11 +11,13 @@ import itertools
 import logging
 import os
 import time
+from datetime import datetime
 
 import pytest
 import requests_mock
-import fuzzfetch
+from freezegun import freeze_time
 
+import fuzzfetch
 
 log = logging.getLogger("fuzzfetch_test")  # pylint: disable=invalid-name
 logging.basicConfig(level=logging.DEBUG)
@@ -25,7 +27,6 @@ logging.getLogger("flake8").setLevel(logging.WARNING)
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 BUILD_CACHE = False
-
 
 if BUILD_CACHE:
     if str is bytes:
@@ -112,6 +113,7 @@ def callback(request, context):
                         .replace('https://index.taskcluster.net', 'mock-index')
                         .replace('https://queue.taskcluster.net', 'mock-queue')
                         .replace('https://product-details.mozilla.org', 'mock-product-details')
+                        .replace('https://hg.mozilla.org/mozilla-central/json-rev', 'mock-rev')
                         .replace('/', os.sep))
     if os.path.isfile(path):
         context.status_code = 200
@@ -208,3 +210,39 @@ def test_metadata(branch, build_flags, os_, cpu):
             # TaskCluster namespace is also accepted as a build input
             # namespace = ?
             # fuzzfetch.Fetcher("firefox", branch, namespace, (asan, debug, fuzzing, coverage))
+
+
+def test_nearest_retrieval():
+    """
+    Attempt to retrieve a build near the supplied build_id
+    """
+    flags = fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
+
+    params = [
+        ['2019-10-20', '2019-10-15'],
+        ['21a773da20bb04a28289aa1e323bd7249653c79d', 'e8606a6a0c25a3c355934caaa4afe56eb521368e']
+    ]
+
+    with requests_mock.Mocker() as req_mock:
+        req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
+
+        # Set freeze_time to a date ahead of the latest mock build
+        with freeze_time('2019-11-1'):
+            direction = fuzzfetch.Fetcher.BUILD_ORDER_DESC
+            for requested, expected in params:
+                for is_namespace in [True, False]:
+                    if is_namespace:
+                        if fuzzfetch.BuildTask.RE_DATE.match(requested):
+                            date = requested.replace('-', '.')
+                            build_id = 'gecko.v2.mozilla-central.pushdate.%s.firefox.linux64-opt' % date
+                        else:
+                            build_id = 'gecko.v2.mozilla-central.revision.%s.firefox.linux64-opt' % requested
+                    else:
+                        build_id = requested
+
+                    build = fuzzfetch.Fetcher('firefox', 'central', build_id, flags, nearest=direction)
+                    if fuzzfetch.BuildTask.RE_DATE.match(expected):
+                        build_date = datetime.strftime(build.build_datetime, '%Y-%m-%d')
+                        assert build_date == expected
+                    elif fuzzfetch.BuildTask.RE_REV.match(expected):
+                        assert build.changeset == expected
