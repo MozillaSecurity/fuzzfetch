@@ -31,7 +31,7 @@ import requests
 from . import path as junction_path
 
 
-__all__ = ("Fetcher", "FetcherException", "BuildFlags")
+__all__ = ("Fetcher", "FetcherException", "BuildFlags", "BuildTask")
 
 
 LOG = logging.getLogger('fuzzfetch')
