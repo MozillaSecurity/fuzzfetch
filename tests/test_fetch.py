@@ -29,11 +29,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 BUILD_CACHE = False
 
 if BUILD_CACHE:
-    if str is bytes:
-        from urllib2 import HTTPError, Request, urlopen  # pylint: disable=import-error
-    else:
-        from urllib.error import HTTPError  # pylint: disable=import-error,no-name-in-module
-        from urllib.request import Request, urlopen  # pylint: disable=import-error,no-name-in-module
+    assert str is not bytes, 'cache update requires Python 3'
+    from urllib.error import HTTPError  # pylint: disable=import-error,no-name-in-module
+    from urllib.request import Request, urlopen  # pylint: disable=import-error,no-name-in-module
 
 
 def get_builds_to_test():
@@ -110,10 +108,11 @@ def callback(request, context):
     log.debug('%s %r', request.method, request.url)
     assert request.url.startswith('https://')
     path = os.path.join(HERE, request.url
+                        .replace('https://firefox-ci-tc.services.mozilla.com', 'mock-firefoxci')
+                        .replace('https://hg.mozilla.org', 'mock-hg')
                         .replace('https://index.taskcluster.net', 'mock-index')
-                        .replace('https://queue.taskcluster.net', 'mock-queue')
                         .replace('https://product-details.mozilla.org', 'mock-product-details')
-                        .replace('https://hg.mozilla.org/mozilla-central/json-rev', 'mock-rev')
+                        .replace('https://queue.taskcluster.net', 'mock-queue')
                         .replace('/', os.sep))
     if os.path.isfile(path):
         context.status_code = 200
@@ -151,14 +150,11 @@ def callback(request, context):
         except HTTPError as exc:
             context.status_code = exc.code
             return None
-        with open(path, 'wb') as resp_fp:
-            data = real_http.read()
-            resp_fp.write(data)
+        data = real_http.read()
         if data[:2] == b'\x1f\x8b':  # gzip magic number
-            with gzip.open(path) as zipf:
-                data = zipf.read()
-            with open(path, 'wb') as resp_fp:
-                resp_fp.write(data)
+            data = gzip.decompress(data)  # pylint: disable=no-member
+        with open(path, 'wb') as resp_fp:
+            resp_fp.write(data)
         context.status_code = real_http.getcode()
         log.debug('-> %d (%d bytes from http)', context.status_code, len(data))
         return data
@@ -172,7 +168,8 @@ def test_metadata(branch, build_flags, os_, cpu):
     """Instantiate a Fetcher (which downloads metadata from TaskCluster) and check that the build is recent"""
     # BuildFlags(asan, debug, fuzzing, coverage, valgrind)
     # Fetcher(target, branch, build, flags, arch_32)
-    with requests_mock.Mocker() as req_mock:
+    # Set freeze_time to a date ahead of the latest mock build
+    with freeze_time('2019-12-01'), requests_mock.Mocker() as req_mock:
         req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
         platform_ = fuzzfetch.fetch.Platform(os_, cpu)
         for as_args in (True, False):  # try as API and as command line
@@ -212,37 +209,38 @@ def test_metadata(branch, build_flags, os_, cpu):
             # fuzzfetch.Fetcher("firefox", branch, namespace, (asan, debug, fuzzing, coverage))
 
 
-def test_nearest_retrieval():
+# whenever BUILD_CACHE is set:
+# - requested should be set to the near future, or the hg hash of a changeset prior to the first build yesterday
+# - expected should be updated to the value that asserts
+@pytest.mark.parametrize('requested, expected', (
+    ('2019-11-15', '2019-11-13'),
+    ('4b3eacb45a38a33175976e7d76d1651334f52d82', '5f0b392beadb7300abdaa3e5e1cc1c0d5a9f0791')))
+def test_nearest_retrieval(requested, expected):
     """
     Attempt to retrieve a build near the supplied build_id
     """
     flags = fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
 
-    params = [
-        ['2019-10-20', '2019-10-15'],
-        ['21a773da20bb04a28289aa1e323bd7249653c79d', 'e8606a6a0c25a3c355934caaa4afe56eb521368e']
-    ]
-
-    with requests_mock.Mocker() as req_mock:
+    # Set freeze_time to a date ahead of the latest mock build
+    with freeze_time('2019-12-01'), requests_mock.Mocker() as req_mock:
         req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
 
-        # Set freeze_time to a date ahead of the latest mock build
-        with freeze_time('2019-11-1'):
-            direction = fuzzfetch.Fetcher.BUILD_ORDER_DESC
-            for requested, expected in params:
-                for is_namespace in [True, False]:
-                    if is_namespace:
-                        if fuzzfetch.BuildTask.RE_DATE.match(requested):
-                            date = requested.replace('-', '.')
-                            build_id = 'gecko.v2.mozilla-central.pushdate.%s.firefox.linux64-opt' % date
-                        else:
-                            build_id = 'gecko.v2.mozilla-central.revision.%s.firefox.linux64-opt' % requested
-                    else:
-                        build_id = requested
+        direction = fuzzfetch.Fetcher.BUILD_ORDER_DESC
 
-                    build = fuzzfetch.Fetcher('firefox', 'central', build_id, flags, nearest=direction)
-                    if fuzzfetch.BuildTask.RE_DATE.match(expected):
-                        build_date = datetime.strftime(build.build_datetime, '%Y-%m-%d')
-                        assert build_date == expected
-                    elif fuzzfetch.BuildTask.RE_REV.match(expected):
-                        assert build.changeset == expected
+        for is_namespace in (True, False):
+            if is_namespace:
+                if fuzzfetch.BuildTask.RE_DATE.match(requested):
+                    date = requested.replace('-', '.')
+                    build_id = 'gecko.v2.mozilla-central.pushdate.%s.firefox.linux64-opt' % date
+                else:
+                    build_id = 'gecko.v2.mozilla-central.revision.%s.firefox.linux64-opt' % requested
+            else:
+                build_id = requested
+
+            build = fuzzfetch.Fetcher('firefox', 'central', build_id, flags, nearest=direction)
+            if fuzzfetch.BuildTask.RE_DATE.match(expected):
+                build_date = datetime.strftime(build.build_datetime, '%Y-%m-%d')
+                assert build_date == expected
+            else:
+                assert fuzzfetch.BuildTask.RE_REV.match(expected)
+                assert build.changeset == expected

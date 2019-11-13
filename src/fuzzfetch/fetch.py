@@ -89,11 +89,16 @@ def _get_url(url):
     return data
 
 
-def _get_rev_date(rev):
-    data = _get_url('https://hg.mozilla.org/mozilla-central/json-rev/%s' % rev)
+def _get_rev_date(rev, branch):
+    if branch is None or branch == '?':
+        raise FetcherException("Can't lookup revision date for branch: %r" % (branch,))
+    if branch != 'try':
+        branch = 'mozilla-' + branch
+    data = _get_url('https://hg.mozilla.org/%s/json-rev/%s' % (branch, rev))
     json = data.json()
     push_date = datetime.fromtimestamp(json['pushdate'][0])
-    return timezone('UTC').localize(push_date)
+    # For some reason this timestamp is always EST despite saying it has an UTC offset of 0.
+    return timezone('EST').localize(push_date)
 
 
 def _download_url(url, outfile):
@@ -207,7 +212,8 @@ class Platform(object):
 
 class BuildTask(object):
     """Class for storing TaskCluster build information"""
-    URL_BASE = 'https://index.taskcluster.net/v1'
+    TASKCLUSTER_APIS = ('https://firefox-ci-tc.services.mozilla.com/api/%s/v1',
+                        'https://%s.taskcluster.net/v1',)
     RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
     RE_REV = re.compile(r'^[0-9A-F]{40}$', re.IGNORECASE)
 
@@ -218,10 +224,12 @@ class BuildTask(object):
         """
         if _blank:
             self.url = None
+            self.queue_server = None
             self._data = {}
             return
         for obj in self.iterall(build, branch, flags, platform=platform):
             self.url = obj.url
+            self.queue_server = obj.queue_server
             self._data = obj._data  # pylint: disable=protected-access
             break
         else:
@@ -245,12 +253,16 @@ class BuildTask(object):
 
         is_namespace = False
         if cls.RE_DATE.match(build):
-            task_urls = map(''.join,
-                            itertools.product(cls._pushdate_urls(build.replace('-', '.'), branch, target_platform),
-                                              (flags.build_string(),)))
+            flag_str = flags.build_string()
+            task_template_paths = tuple(
+                (template, path + flag_str)
+                for (template, path) in cls._pushdate_template_paths(build.replace('-', '.'), branch, target_platform)
+            )
 
         elif cls.RE_REV.match(build):
-            task_urls = (cls._revision_url(build.lower(), branch, target_platform) + flags.build_string(),)
+            flag_str = flags.build_string()
+            task_paths = tuple(path + flag_str for path in cls._revision_paths(build.lower(), branch, target_platform))
+            task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
 
         elif build == 'latest':
             if branch == 'try':
@@ -258,22 +270,26 @@ class BuildTask(object):
             else:
                 namespace = 'gecko.v2.mozilla-' + branch + '.latest'
             product = 'mobile' if 'android' in target_platform else 'firefox'
-            task_urls = (cls.URL_BASE + '/task/' + namespace + '.' + product + '.' + target_platform +
-                         flags.build_string(),)
+            task_paths = ('/task/%s.%s.%s%s' % (namespace, product, target_platform, flags.build_string()),)
+            task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
 
         else:
             # try to use build argument directly as a namespace
-            task_urls = (cls.URL_BASE + '/task/' + build,)
+            task_paths = ('/task/' + build,)
             is_namespace = True
+            task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
 
-        for (url, try_wo_opt) in itertools.product(task_urls, (False, True)):
+        for (template_path, try_wo_opt) in itertools.product(task_template_paths, (False, True)):
+
+            template, path = template_path
 
             if try_wo_opt:
-                if '-opt' not in url or is_namespace:
+                if '-opt' not in path or is_namespace:
                     continue
-                url = url.replace('-opt', '')
+                path = path.replace('-opt', '')
 
             try:
+                url = (template % ('index',)) + path
                 data = HTTP_SESSION.get(url)
                 data.raise_for_status()
             except requests.exceptions.RequestException:
@@ -281,6 +297,7 @@ class BuildTask(object):
 
             obj = cls(None, None, None, _blank=True)
             obj.url = url
+            obj.queue_server = template % ('queue',)
             obj._data = data.json()  # pylint: disable=protected-access
 
             LOG.debug('Found archive for %s', cls._debug_str(build))
@@ -292,31 +309,41 @@ class BuildTask(object):
         raise AttributeError("'%s' object has no attribute '%s'" % (type(self).__name__, name))
 
     @classmethod
-    def _pushdate_urls(cls, pushdate, branch, target_platform):
+    def _pushdate_template_paths(cls, pushdate, branch, target_platform):
         """Multiple entries exist per push date. Iterate over all until a working entry is found"""
         if branch != 'try':
             branch = 'mozilla-' + branch
-        url_base = cls.URL_BASE + '/namespaces/gecko.v2.' + branch + '.pushdate.' + pushdate
+        path = '/namespaces/gecko.v2.' + branch + '.pushdate.' + pushdate
+        date_found = False
+        last_exc = None
 
-        try:
-            base = HTTP_SESSION.post(url_base, json={})
-            base.raise_for_status()
-        except requests.exceptions.RequestException as exc:
-            raise FetcherException(exc)
+        for template in cls.TASKCLUSTER_APIS:
+            index_base = template % ('index',)
+            url = index_base + path
+            try:
+                base = HTTP_SESSION.post(url, json={})
+                base.raise_for_status()
+            except requests.exceptions.RequestException as exc:
+                last_exc = exc
+                continue
 
-        product = 'mobile' if 'android' in target_platform else 'firefox'
-        json = base.json()
-        for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
-            yield cls.URL_BASE + '/task/' + namespace['namespace'] + '.' + product + '.' + target_platform
+            date_found = True
+            product = 'mobile' if 'android' in target_platform else 'firefox'
+            json = base.json()
+            for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
+                yield (template, '/task/' + namespace['namespace'] + '.' + product + '.' + target_platform)
+
+        if not date_found:
+            raise FetcherException(last_exc)
 
     @classmethod
-    def _revision_url(cls, rev, branch, target_platform):
-        """Retrieve the URL for revision based builds"""
+    def _revision_paths(cls, rev, branch, target_platform):
+        """Retrieve the API path for revision based builds"""
         if branch != 'try':
             branch = 'mozilla-' + branch
         namespace = 'gecko.v2.' + branch + '.revision.' + rev
         product = 'mobile' if 'android' in target_platform else 'firefox'
-        return cls.URL_BASE + '/task/' + namespace + '.' + product + '.' + target_platform
+        yield '/task/' + namespace + '.' + product + '.' + target_platform
 
 
 class Fetcher(object):
@@ -422,7 +449,7 @@ class Fetcher(object):
                     localized = timezone('UTC').localize(date)
                     start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
                 elif BuildTask.RE_REV.match(build) is not None:
-                    start = _get_rev_date(build)
+                    start = _get_rev_date(build, branch)
                 else:
                     # If no match, assume it's a TaskCluster namespace
                     if re.match(r'.*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*', build) is not None:
@@ -431,7 +458,7 @@ class Fetcher(object):
                         start = timezone('UTC').localize(date)
                     elif re.match(r'.*revision.*[0-9[a-f]{40}', build):
                         match = re.search(r'[0-9[a-f]{40}', build)
-                        start = _get_rev_date(match.group(0))
+                        start = _get_rev_date(match.group(0), branch)
 
                 # If start date is outside the range of the newest/oldest available build, adjust it
                 if asc:
@@ -516,7 +543,7 @@ class Fetcher(object):
     @property
     def _artifacts_url(self):
         """Build the artifacts url"""
-        return 'https://queue.taskcluster.net/v1/task/%s/artifacts' % self.task_id
+        return self._task.queue_server + ('/task/%s/artifacts' % (self.task_id,))
 
     @property
     def build_id(self):
