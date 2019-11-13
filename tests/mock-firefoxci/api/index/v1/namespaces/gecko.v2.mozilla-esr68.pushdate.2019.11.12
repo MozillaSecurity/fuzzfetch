@@ -1,0 +1,74 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112002030",
+      "name": "20191112002030",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112013613",
+      "name": "20191112013613",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112030804",
+      "name": "20191112030804",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112043005",
+      "name": "20191112043005",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112044646",
+      "name": "20191112044646",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112105856",
+      "name": "20191112105856",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112110230",
+      "name": "20191112110230",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112164131",
+      "name": "20191112164131",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112164452",
+      "name": "20191112164452",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112195858",
+      "name": "20191112195858",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112200044",
+      "name": "20191112200044",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112221120",
+      "name": "20191112221120",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112222307",
+      "name": "20191112222307",
+      "expires": "2020-11-14T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr68.pushdate.2019.11.12.20191112222920",
+      "name": "20191112222920",
+      "expires": "2020-11-14T00:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/workspace/build/src/clang/bin/clang -std=gnu99", 
+  "buildid": "20191112222920", 
+  "cc": "/builds/worker/workspace/build/src/clang/bin/clang -std=gnu99", 
+  "cxx": "/builds/worker/workspace/build/src/clang/bin/clang++", 
+  "host_alias": "x86_64-pc-linux-gnu", 
+  "host_cpu": "x86_64", 
+  "host_os": "linux-gnu", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "68.*", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "68.2.1", 
+  "moz_pkg_platform": "linux-x86_64", 
+  "moz_source_repo": "https://hg.mozilla.org/releases/mozilla-esr68", 
+  "moz_source_stamp": "939a3aec03d304a0a3e3b003e26965c6e95ec211", 
+  "moz_update_channel": "default", 
+  "target_alias": "x86_64-pc-linux-gnu", 
+  "target_cpu": "x86_64", 
+  "target_os": "linux-gnu", 
+  "target_vendor": "pc"
+}

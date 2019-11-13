@@ -1,0 +1,16 @@
+{
+"node": "4b3eacb45a38a33175976e7d76d1651334f52d82",
+"date": [1573527315.0, 0],
+"desc": "Bug 1568595 - [Nudges] Implement an experiment API to check whether a notification is being displayed in Firefox r=mak,mixedpuppy\n\nThis sets up a `browser.experiments.urlbar` WebExtension Experiment API and adds a function called `isBrowserShowingNotification`. To recap, for the nudges experiment, we want to open the urlbar view automatically in some cases to show a nudge, but only if the browser isn't already showing a notification.\n\nThere are a few things to point out about this patch.\n\nWhat counts as a notification is a little fuzzy. I chose: the tracking protection doorhanger, site identity doorhanger, app menu notifications, notification box (info bar), page action panels, and toolbar button panels. The last two aren't really notifications, but they're panels similar to doorhanger notifications. I also count the urlbar view as a notification since we don't want to show a nudge if the urlbar view is already open. I didn't bother with tab-modal dialogs since none of the pages we want to show nudges on will have them. I didn't bother with app-modal dialogs since the user can't interact with the browser until they're dismissed.\n\nI chose `browser.experiments.urlbar` as the namespace, which we previously used in the top-sites experiment. There was also discussion of `browser.experiments.app` (bug 1579933), but I think we should keep all our urlbar experiment-related APIs in a urlbar namespace even when they aren't actually related to the urlbar. It's not a big deal though.\n\nShane recommends that we land tests for our experiment APIs in mozilla-central even though they won't ship in mozilla-central, at least for APIs that will be used in more than one version of Firefox. I think that's also a good idea for APIs we reuse in multiple experiments. It may not be necessary in this case since I'm not sure how broadly useful this notification API is, so I'm open to removing it and keeping it only in the experiment's GitHub repo. But I found that this was actually a nice way to develop and test this patch. Also, if we keep our experiment APIs in mozilla-central this way, we may not need a separate GitHub repo for them, or at most it'll just be a copy of this browser/components/urlbar/tests/ext directory.\n\nAs mentioned, I made a new ext tests directory. I think we should keep these files separate from the normal tests.\n\nDifferential Revision: https://phabricator.services.mozilla.com/D52312",
+"backedoutby": "",
+"branch": "default",
+"bookmarks": [],
+"tags": [],
+"user": "Drew Willcoxon \u003cadw@mozilla.com\u003e",
+"parents": ["71e6f3199f98ea08f93ed6f5a5cfab9ca5ca221d"],
+"phase": "public",
+"pushid": 36794,
+"pushdate": [1573551787, 0],
+"pushuser": "aciure@mozilla.com",
+"landingsystem": "lando"
+}

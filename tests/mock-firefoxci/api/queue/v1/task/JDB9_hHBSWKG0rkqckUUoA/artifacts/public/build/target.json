@@ -1,0 +1,23 @@
+{
+  "as": "z:/build/build/src/vs2017_15.9.6/VC/bin/HostX64/arm64/armasm64.exe", 
+  "buildid": "20191113000048", 
+  "cc": "z:/build/fetches/sccache/sccache.exe z:/build/fetches/clang/bin/clang-cl.exe -Xclang -std=gnu99 --target=aarch64-windows-msvc", 
+  "cxx": "z:/build/fetches/sccache/sccache.exe z:/build/fetches/clang/bin/clang-cl.exe --target=aarch64-windows-msvc", 
+  "host_alias": "x86_64-pc-mingw32", 
+  "host_cpu": "x86_64", 
+  "host_os": "mingw32", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "72.0a1", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "72.0a1", 
+  "moz_pkg_platform": "win64", 
+  "moz_source_repo": "https://hg.mozilla.org/try", 
+  "moz_source_stamp": "77b18bc38fcfb26cbd1df38bc67ec840399a87e0", 
+  "moz_update_channel": "default", 
+  "target_alias": "aarch64-windows-mingw32", 
+  "target_cpu": "aarch64", 
+  "target_os": "mingw32", 
+  "target_vendor": "windows"
+}
