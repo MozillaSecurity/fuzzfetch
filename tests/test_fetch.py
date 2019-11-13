@@ -221,6 +221,10 @@ def test_nearest_retrieval(requested, expected):
     """
     flags = fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
 
+    # skip revisions for now.
+    if fuzzfetch.BuildTask.RE_REV.match(requested):
+        pytest.skip("see: https://github.com/MozillaSecurity/fuzzfetch/issues/52")
+
     # Set freeze_time to a date ahead of the latest mock build
     with freeze_time('2019-12-01'), requests_mock.Mocker() as req_mock:
         req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
