@@ -58,34 +58,34 @@ def get_builds_to_test():
             # coverage builds not done for android/macos/windows
             # coverage builds are only done on central
             continue
-        elif flags.asan and cpu != 'x64':
+        if flags.asan and cpu != 'x64':
             continue
-        elif flags.debug and flags.fuzzing and os_ == 'Windows' and cpu == 'x64':
+        if flags.debug and flags.fuzzing and os_ == 'Windows' and cpu == 'x64':
             continue
-        elif flags.debug and flags.fuzzing and os_ == 'Darwin':
+        if flags.debug and flags.fuzzing and os_ == 'Darwin':
             continue
-        elif flags.debug and flags.fuzzing and os_ == 'Linux' and cpu == 'x86':
+        if flags.debug and flags.fuzzing and os_ == 'Linux' and cpu == 'x86':
             continue
-        elif flags.valgrind and (os_ != 'Linux' or cpu != 'x64'):
+        if flags.valgrind and (os_ != 'Linux' or cpu != 'x64'):
             continue
-        elif os_ == 'Darwin' and flags.asan and not flags.fuzzing:
+        if os_ == 'Darwin' and flags.asan and not flags.fuzzing:
             continue
-        elif os_ == 'Android' and flags.debug and not flags.fuzzing and cpu != 'arm':
+        if os_ == 'Android' and flags.debug and not flags.fuzzing and cpu != 'arm':
             continue
-        elif os_ == 'Android' and flags.fuzzing and (cpu != 'x86' or flags.asan or not flags.debug):
+        if os_ == 'Android' and flags.fuzzing and (cpu != 'x86' or flags.asan or not flags.debug):
             continue
-        elif os_ == 'Android' and not flags.fuzzing and flags.asan:
+        if os_ == 'Android' and not flags.fuzzing and flags.asan:
             continue
-        elif os_ == "Windows" and flags.asan and branch not in {"central", "inbound"}:
+        if os_ == "Windows" and flags.asan and branch not in {"central", "inbound"}:
             # asan builds for windows are only done for central/inbound
             continue
-        elif os_ == "Windows" and flags.asan and (flags.fuzzing or flags.debug):
+        if os_ == "Windows" and flags.asan and (flags.fuzzing or flags.debug):
             # windows only has asan-opt ?
             continue
-        elif os_ == "Windows" and cpu != 'x64' and (flags.asan or flags.fuzzing):
+        if os_ == "Windows" and cpu != 'x64' and (flags.asan or flags.fuzzing):
             # windows asan and fuzzing builds are x64 only atm
             continue
-        elif branch == "esr-next":
+        if branch == "esr-next":
             opt = not (flags.asan or flags.fuzzing or flags.debug or flags.coverage or flags.valgrind)
             if opt:
                 # opt builds aren't available for esr68
@@ -94,7 +94,7 @@ def get_builds_to_test():
             if cpu.startswith("arm"):
                 # arm builds aren't available for esr-stable
                 continue
-            elif os_ == "Android":
+            if os_ == "Android":
                 # Android builds aren't available for esr-stable
                 continue
 

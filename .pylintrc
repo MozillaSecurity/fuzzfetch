@@ -2,7 +2,7 @@
 jobs=2
 
 [MESSAGES CONTROL]
-disable=too-many-arguments,too-many-branches,too-many-locals,too-few-public-methods,useless-object-inheritance
+disable=too-many-arguments,too-many-branches,too-many-locals,too-few-public-methods,useless-object-inheritance,too-many-lines
 
 [FORMAT]
 max-line-length=120
