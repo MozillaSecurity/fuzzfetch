@@ -20,7 +20,8 @@ if __name__ == "__main__":
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.4",
             "Programming Language :: Python :: 3.5",
-            "Programming Language :: Python :: 3.6"
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7"
         ],
         description='Downloader for firefox/jsshell builds',
         entry_points={
@@ -39,4 +40,4 @@ if __name__ == "__main__":
         package_dir={"": "src"},
         packages=["fuzzfetch"],
         url="https://github.com/MozillaSecurity/fuzzfetch",
-        version="0.9.1")
+        version="0.9.2")
