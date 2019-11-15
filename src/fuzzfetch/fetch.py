@@ -803,7 +803,11 @@ class Fetcher(object):
         apk_fd, apk_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.apk')
         os.close(apk_fd)
         try:
-            _download_url(self.artifact_url('apk'), apk_fn)
+            # _artifact_base is like 'path/to/target' .. but geckoview doesn't
+            # use target as a basename, so we need to extract just the path
+            artifact_path = '/'.join(self._artifact_base.split('/')[:-1])
+            url = self._artifacts_url + '/' + artifact_path + '/geckoview-androidTest.apk'
+            _download_url(url, apk_fn)
             shutil.copy(apk_fn, os.path.join(path, 'target.apk'))
         finally:
             os.unlink(apk_fn)
