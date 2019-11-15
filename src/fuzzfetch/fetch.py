@@ -16,19 +16,16 @@ import os
 import platform as std_platform
 import re
 import shutil
-import stat
-import subprocess
-import tarfile
 import tempfile
 import time
-import zipfile
 from datetime import datetime, timedelta
 from pytz import timezone
 
 import configparser  # pylint: disable=wrong-import-order
 import requests
 
-from . import path as junction_path
+from .extract import extract_dmg, extract_tar, extract_zip
+from .path import rmtree as junction_rmtree, onerror
 
 
 __all__ = ("Fetcher", "FetcherException", "BuildFlags", "BuildTask")
@@ -43,30 +40,6 @@ HTTP_SESSION = requests.Session()
 
 class FetcherException(Exception):
     """Exception raised for any Fetcher errors"""
-
-
-def onerror(func, path, _exc_info):
-    """
-    Error handler for `shutil.rmtree`.
-
-    If the error is due to an access error (read only file)
-    it attempts to add write permission and then retries.
-
-    If the error is for another reason it re-raises the error.
-
-    Copyright Michael Foord 2004
-    Released subject to the BSD License
-    ref: http://www.voidspace.org.uk/python/recipebook.shtml#utils
-
-    Usage : `shutil.rmtree(path, onerror=onerror)`
-    """
-    if not os.access(path, os.W_OK):
-        # Is the error an access error?
-        os.chmod(path, stat.S_IWUSR)
-        func(path)
-    else:
-        # this should only ever be called from an exception context
-        raise  # pylint: disable=misplaced-bare-raise
 
 
 def _si(number):
@@ -117,16 +90,6 @@ def _download_url(url, outfile):
                          100.0 * downloaded / total_size, _si(float(downloaded) / (now - start_time)))
                 report_time = now
     LOG.info('.. downloaded (%sB/s)', _si(float(downloaded) / (time.time() - start_time)))
-
-
-def _extract_file(zip_fp, info, path):
-    """Extract files while explicitly setting the proper permissions"""
-    zip_fp.extract(info.filename, path=path)
-    out_path = os.path.join(path, info.filename)
-
-    perm = info.external_attr >> 16
-    perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
-    os.chmod(out_path, perm)
 
 
 def _create_utc_datetime(datetime_string):
@@ -757,9 +720,7 @@ class Fetcher(object):
         try:
             _download_url(self.artifact_url(suffix), zip_fn)
             LOG.info('.. extracting')
-            with zipfile.ZipFile(zip_fn) as zip_fp:
-                for info in zip_fp.infolist():
-                    _extract_file(zip_fp, info, path)
+            extract_zip(zip_fn, path)
         finally:
             os.unlink(zip_fn)
 
@@ -780,16 +741,7 @@ class Fetcher(object):
         try:
             _download_url(self.artifact_url(suffix), tar_fn)
             LOG.info('.. extracting')
-            with tarfile.open(tar_fn, mode='r:%s' % mode) as tar:
-                members = []
-                for member in tar.getmembers():
-                    if member.path.startswith("firefox/"):
-                        member.path = member.path[8:]
-                        members.append(member)
-                    elif member.path != "firefox":
-                        # Ignore top-level build directory
-                        members.append(member)
-                tar.extractall(members=members, path=path)
+            extract_tar(tar_fn, mode, path)
         finally:
             os.unlink(tar_fn)
 
@@ -823,23 +775,15 @@ class Fetcher(object):
         """
         dmg_fd, dmg_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.dmg')
         os.close(dmg_fd)
-        out_tmp = tempfile.mkdtemp(prefix='fuzzfetch-', suffix='.tmp')
         try:
             _download_url(self.artifact_url('dmg'), dmg_fn)
             if std_platform.system() == 'Darwin':
                 LOG.info('.. extracting')
-                subprocess.check_call(['hdiutil', 'attach', '-quiet', '-mountpoint', out_tmp, dmg_fn])
-                try:
-                    apps = [mt for mt in os.listdir(out_tmp) if mt.endswith('app')]
-                    assert len(apps) == 1
-                    shutil.copytree(os.path.join(out_tmp, apps[0]), os.path.join(path, apps[0]), symlinks=True)
-                finally:
-                    subprocess.check_call(['hdiutil', 'detach', '-quiet', out_tmp])
+                extract_dmg(dmg_fn, path)
             else:
                 LOG.warning('.. can\'t extract target.dmg on %s', std_platform.system())
                 shutil.copy(dmg_fn, os.path.join(path, 'target.dmg'))
         finally:
-            shutil.rmtree(out_tmp, onerror=onerror)
             os.unlink(dmg_fn)
 
     @classmethod
@@ -1009,5 +953,5 @@ class Fetcher(object):
                 dl_fd.write('buildID=' + obj.build_id + os.linesep)
         except:  # noqa
             if os.path.isdir(out):
-                junction_path.rmtree(out)
+                junction_rmtree(out)
             raise

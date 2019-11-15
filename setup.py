@@ -28,6 +28,7 @@ if __name__ == "__main__":
             "console_scripts": ["fuzzfetch = fuzzfetch:Fetcher.main"]
         },
         install_requires=[
+            "backports.shutil_which; python_version < '3.3'",
             "configparser>=3.5.0",
             "pytz",
             "requests"

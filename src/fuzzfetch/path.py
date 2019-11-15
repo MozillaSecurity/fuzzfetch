@@ -18,6 +18,30 @@ if sys.version_info[:2] >= (3, 5) and platform.system() == "Windows":
 FILE_ATTRIBUTE_REPARSE_POINT = 1024
 
 
+def onerror(func, path, _exc_info):
+    """
+    Error handler for `shutil.rmtree`.
+
+    If the error is due to an access error (read only file)
+    it attempts to add write permission and then retries.
+
+    If the error is for another reason it re-raises the error.
+
+    Copyright Michael Foord 2004
+    Released subject to the BSD License
+    ref: http://www.voidspace.org.uk/python/recipebook.shtml#utils
+
+    Usage : `shutil.rmtree(path, onerror=onerror)`
+    """
+    if not os.access(path, os.W_OK):
+        # Is the error an access error?
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        # this should only ever be called from an exception context
+        raise  # pylint: disable=misplaced-bare-raise
+
+
 def rmtree(path):
     """shutil.rmtree() but also handle junction points and access errors on Windows.
     """
