@@ -77,7 +77,8 @@ def extract_tar(tar_fn, mode='', path='.'):
     try:
         if P7Z_PATH and mode in {'7z', 'bz2', 'gz', 'lzma', 'xz'}:
             p7z_fd, p7z_fn = tempfile.mkstemp(prefix='fuzzfetch-', suffix='.tar')
-            result = subprocess.call([P7Z_PATH, 'e', '-so', tar_fn], stdout=p7z_fd)
+            with open(os.devnull, "w") as devnull:
+                result = subprocess.call([P7Z_PATH, 'e', '-so', tar_fn], stdout=p7z_fd, stderr=devnull)
             os.close(p7z_fd)
             if result == 0:
                 mode = ''
