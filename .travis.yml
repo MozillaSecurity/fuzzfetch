@@ -1,45 +1,38 @@
-dist: xenial
+dist: bionic
 sudo: false
 cache: pip
 language: python
 python:
   - 2.7
-  - 3.4
   - 3.5
   - 3.6
   - 3.7
+  - 3.8
 matrix:
   include:
     - os: osx
-      language: sh
       python: 3.7
-      before_install:
-        - brew update
-        - brew upgrade python
-        - python3 -m venv venv
-        - source venv/bin/activate
+      osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
+      language: shell       # 'language: python' is an error on Travis CI macOS
     - os: windows
-      language: sh
-      python: 3.7
-      before_install:
-        - choco install python3
-        - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
-        - python -m pip install --upgrade pip wheel
-    - os: windows
-      language: sh
       python: 2.7
+      language: shell
       before_install:
         - choco install python2
-        - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
-        - python -m pip install --upgrade pip wheel
+      env: PATH=/c/Python27:/c/Python27/Scripts:$PATH
+    - os: windows
+      python: 3.8
+      language: shell
+      before_install:
+        - choco install python --version 3.8.0
+      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 before_install:
   - pip install --upgrade setuptools pip
 install:
   - git --version
   - python -m pip install -e .
 before_script:
-  - pip install --upgrade "flake8==3.6.0" "codecov==2.0.15" "pytest==4.1.0"
-  - pip install --upgrade "pytest-flake8==1.0.2" "pytest-pylint==0.13.0" "pytest-cov==2.6.1" requests-mock freezegun
+  - pip install --upgrade pytest pytest-pylint pytest-flake8 pytest-cov codecov requests-mock freezegun
 script:
   - python -m pytest
 after_success:
