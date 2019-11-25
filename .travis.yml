@@ -11,9 +11,12 @@ python:
 matrix:
   include:
     - os: osx
+      python: 2.7
+      language: shell
+    - os: osx
       python: 3.7
-      osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
-      language: shell       # 'language: python' is an error on Travis CI macOS
+      osx_image: xcode11.2
+      language: shell
     - os: windows
       python: 2.7
       language: shell
@@ -24,17 +27,20 @@ matrix:
       python: 3.8
       language: shell
       before_install:
-        - choco install python --version 3.8.0
+        - choco install python --version 3.8
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+  allow_failures:
+    - os: osx # temporarily ignore while image is broken
+      python: 3.7
+    - os: windows
 before_install:
   - pip install --upgrade setuptools pip
 install:
-  - git --version
-  - python -m pip install -e .
+  - pip install -e .
 before_script:
   - pip install --upgrade pytest pytest-pylint pytest-flake8 pytest-cov codecov requests-mock freezegun
 script:
-  - python -m pytest
+  - pytest
 after_success:
   - codecov
 deploy:
