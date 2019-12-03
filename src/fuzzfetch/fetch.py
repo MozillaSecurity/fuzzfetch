@@ -62,16 +62,25 @@ def _get_url(url):
     return data
 
 
-def _get_rev_date(rev, branch):
+def _get_rev(rev, branch):
     if branch is None or branch == '?':
         raise FetcherException("Can't lookup revision date for branch: %r" % (branch,))
     if branch != 'try':
         branch = 'mozilla-' + branch
     data = _get_url('https://hg.mozilla.org/%s/json-rev/%s' % (branch, rev))
-    json = data.json()
+    return data.json()
+
+
+def _get_rev_date(rev, branch):
+    json = _get_rev(rev, branch)
     push_date = datetime.fromtimestamp(json['pushdate'][0])
     # For some reason this timestamp is always EST despite saying it has an UTC offset of 0.
     return timezone('EST').localize(push_date)
+
+
+def _get_rev_full(rev, branch):
+    json = _get_rev(rev, branch)
+    return json['node']
 
 
 def _download_url(url, outfile):
@@ -178,7 +187,7 @@ class BuildTask(object):
     TASKCLUSTER_APIS = ('https://firefox-ci-tc.services.mozilla.com/api/%s/v1',
                         'https://%s.taskcluster.net/v1',)
     RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
-    RE_REV = re.compile(r'^[0-9A-F]{40}$', re.IGNORECASE)
+    RE_REV = re.compile(r'^([0-9A-F]{12}|[0-9A-F]{40})$', re.IGNORECASE)
 
     def __init__(self, build, branch, flags, platform=None, _blank=False):
         """
@@ -223,6 +232,9 @@ class BuildTask(object):
             )
 
         elif cls.RE_REV.match(build):
+            # If a short hash was supplied, resolve it
+            if re.match(r'^[0-9A-F]{12}$', build, re.IGNORECASE):
+                build = _get_rev_full(build, branch)
             flag_str = flags.build_string()
             task_paths = tuple(path + flag_str for path in cls._revision_paths(build.lower(), branch, target_platform))
             task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
@@ -874,7 +886,7 @@ class Fetcher(object):
 
         args = parser.parse_args(args=args)
 
-        if re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{40}|latest)$', args.build) is None:
+        if re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{12}|[0-9A-Fa-f]{40}|latest)$', args.build) is None:
             # this is a custom build
             # ensure conflicting options are not set
             if args.branch is not None:
