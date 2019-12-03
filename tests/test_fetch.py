@@ -248,3 +248,15 @@ def test_nearest_retrieval(requested, expected):
             else:
                 assert fuzzfetch.BuildTask.RE_REV.match(expected)
                 assert build.changeset == expected
+
+
+def test_hash_resolution():
+    """
+    Test shortened hashes are resolved
+    """
+    with requests_mock.Mocker() as req_mock:
+        req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
+        flags = fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
+        rev = 'd1001fea6e4c66b98bb4983df49c6e47d2db5ceb'
+        build = fuzzfetch.Fetcher('firefox', 'central', rev[:12], flags)
+        assert build.changeset == rev
