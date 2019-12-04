@@ -62,25 +62,35 @@ def _get_url(url):
     return data
 
 
-def _get_rev(rev, branch):
-    if branch is None or branch == '?':
-        raise FetcherException("Can't lookup revision date for branch: %r" % (branch,))
-    if branch != 'try':
-        branch = 'mozilla-' + branch
-    data = _get_url('https://hg.mozilla.org/%s/json-rev/%s' % (branch, rev))
-    return data.json()
+class HgRevision(object):
+    """Class representing a Mercurial revision."""
 
+    def __init__(self, revision, branch):
+        """Create a Mercurial revision object.
 
-def _get_rev_date(rev, branch):
-    json = _get_rev(rev, branch)
-    push_date = datetime.fromtimestamp(json['pushdate'][0])
-    # For some reason this timestamp is always EST despite saying it has an UTC offset of 0.
-    return timezone('EST').localize(push_date)
+        @type revision: str
+        @param revision: revision hash (short or long)
 
+        @type branch: str
+        @param branch: branch where revision is located
+        """
+        if branch is None or branch == '?':
+            raise FetcherException("Can't lookup revision date for branch: %r" % (branch,))
+        if branch != 'try':
+            branch = 'mozilla-' + branch
+        self._data = _get_url('https://hg.mozilla.org/%s/json-rev/%s' % (branch, revision)).json()
 
-def _get_rev_full(rev, branch):
-    json = _get_rev(rev, branch)
-    return json['node']
+    @property
+    def pushdate(self):
+        """Get datetime object representing pushdate of the revision."""
+        push_date = datetime.fromtimestamp(self._data['pushdate'][0])
+        # For some reason this timestamp is always EST despite saying it has an UTC offset of 0.
+        return timezone('EST').localize(push_date)
+
+    @property
+    def hash(self):
+        """Get the long hash of the revision."""
+        return self._data['node']
 
 
 def _download_url(url, outfile):
@@ -232,9 +242,9 @@ class BuildTask(object):
             )
 
         elif cls.RE_REV.match(build):
-            # If a short hash was supplied, resolve it
-            if re.match(r'^[0-9A-F]{12}$', build, re.IGNORECASE):
-                build = _get_rev_full(build, branch)
+            # If a short hash was supplied, resolve it to a long one.
+            if len(build) == 12:
+                build = HgRevision(build, branch).hash
             flag_str = flags.build_string()
             task_paths = tuple(path + flag_str for path in cls._revision_paths(build.lower(), branch, target_platform))
             task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
@@ -424,7 +434,7 @@ class Fetcher(object):
                     localized = timezone('UTC').localize(date)
                     start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
                 elif BuildTask.RE_REV.match(build) is not None:
-                    start = _get_rev_date(build, branch)
+                    start = HgRevision(build, branch).pushdate
                 else:
                     # If no match, assume it's a TaskCluster namespace
                     if re.match(r'.*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*', build) is not None:
@@ -433,7 +443,7 @@ class Fetcher(object):
                         start = timezone('UTC').localize(date)
                     elif re.match(r'.*revision.*[0-9[a-f]{40}', build):
                         match = re.search(r'[0-9[a-f]{40}', build)
-                        start = _get_rev_date(match.group(0), branch)
+                        start = HgRevision(match.group(0), branch).pushdate
 
                 # If start date is outside the range of the newest/oldest available build, adjust it
                 if asc:
