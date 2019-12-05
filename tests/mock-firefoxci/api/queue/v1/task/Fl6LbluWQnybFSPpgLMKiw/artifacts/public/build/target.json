@@ -1,0 +1,23 @@
+{
+  "as": "ml64.exe", 
+  "buildid": "20191014131614", 
+  "cc": "z:/build/build/src/vs2017_15.4.2/VC/bin/Hostx64/x64/cl.exe", 
+  "cxx": "z:/build/build/src/vs2017_15.4.2/VC/bin/Hostx64/x64/cl.exe", 
+  "host_alias": "x86_64-pc-mingw32", 
+  "host_cpu": "x86_64", 
+  "host_os": "mingw32", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "60.*", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "60.9.1", 
+  "moz_pkg_platform": "win64", 
+  "moz_source_repo": "https://hg.mozilla.org/releases/mozilla-esr60", 
+  "moz_source_stamp": "e67641c2e4ccd1fe2d4cd522b6575adec838697a", 
+  "moz_update_channel": "default", 
+  "target_alias": "x86_64-pc-mingw32", 
+  "target_cpu": "x86_64", 
+  "target_os": "mingw32", 
+  "target_vendor": "pc"
+}
