@@ -2,22 +2,26 @@ dist: bionic
 sudo: false
 cache: pip
 language: python
-python:
-  - 2.7
-  - 3.5
-  - 3.6
-  - 3.7
-  - 3.8
+matrix:
+  include:
+    - python: 2.7
+      env: TOXENV=py27
+    - python: 3.5
+      env: TOXENV=py35
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 3.7
+      env: TOXENV=py37
+    - python: 3.8
+      env: TOXENV=py38
 before_install:
   - pip install --upgrade setuptools pip
 install:
-  - pip install -e .
-before_script:
-  - pip install --upgrade pytest pytest-pylint pytest-flake8 pytest-cov codecov requests-mock freezegun
+  - pip install --upgrade tox
 script:
-  - pytest
+  - tox
 after_success:
-  - codecov
+  - tox -e codecov
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
