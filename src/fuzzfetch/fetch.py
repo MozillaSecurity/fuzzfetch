@@ -255,14 +255,17 @@ class BuildTask(object):
             else:
                 namespace = 'gecko.v2.mozilla-' + branch + '.latest'
             product = 'mobile' if 'android' in target_platform else 'firefox'
-            task_paths = ('/task/%s.%s.%s%s' % (namespace, product, target_platform, flags.build_string()),)
-            task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
+            task_path = '/task/%s.%s.%s%s' % (namespace, product, target_platform, flags.build_string())
+            task_template_paths = ((cls.TASKCLUSTER_APIS[0], task_path),)
 
         else:
             # try to use build argument directly as a namespace
-            task_paths = ('/task/' + build,)
+            task_path = '/task/' + build
             is_namespace = True
-            task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
+            if '.latest' in build:
+                task_template_paths = ((cls.TASKCLUSTER_APIS[0], task_path),)
+            else:
+                task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, (task_path,))
 
         for (template_path, try_wo_opt) in itertools.product(task_template_paths, (False, True)):
 

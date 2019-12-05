@@ -45,7 +45,7 @@ def get_builds_to_test():
         fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=True, coverage=False, valgrind=False),  # debug-fuzzing
         fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=True, coverage=True, valgrind=False),  # ccov-fuzzing
         fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=True))  # valgrind-opt
-    possible_branches = ("central", "inbound", "try", "esr-next", "esr-stable")
+    possible_branches = ("central", "try", "esr-next", "esr-stable")
     possible_os = ('Android', 'Darwin', 'Linux', 'Windows')
     possible_cpus = ('x86', 'x64', 'arm', 'arm64')
 
@@ -76,14 +76,16 @@ def get_builds_to_test():
             continue
         if os_ == 'Android' and not flags.fuzzing and flags.asan:
             continue
-        if os_ == "Windows" and flags.asan and branch not in {"central", "inbound"}:
-            # asan builds for windows are only done for central/inbound
+        if os_ == "Windows" and flags.asan and branch != 'central':
+            # asan builds for windows are only done for central
             continue
         if os_ == "Windows" and flags.asan and (flags.fuzzing or flags.debug):
             # windows only has asan-opt ?
             continue
         if os_ == "Windows" and cpu != 'x64' and (flags.asan or flags.fuzzing):
             # windows asan and fuzzing builds are x64 only atm
+            continue
+        if os_ == "Android" and branch in {'esr-next', 'esr-stable'}:
             continue
         if branch == "esr-next":
             opt = not (flags.asan or flags.fuzzing or flags.debug or flags.coverage or flags.valgrind)
@@ -93,9 +95,6 @@ def get_builds_to_test():
         elif branch == "esr-stable":
             if cpu.startswith("arm"):
                 # arm builds aren't available for esr-stable
-                continue
-            if os_ == "Android":
-                # Android builds aren't available for esr-stable
                 continue
 
         yield pytest.param(branch, flags, os_, cpu)
