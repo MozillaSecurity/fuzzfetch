@@ -37,14 +37,26 @@ if BUILD_CACHE:
 def get_builds_to_test():
     """Get permutations for testing build branches and flags"""
     possible_flags = (
-        fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False),  # opt
-        fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=False, coverage=False, valgrind=False),  # debug
-        fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=True, valgrind=False),  # ccov
-        fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=False, coverage=False, valgrind=False),  # asan-opt
-        fuzzfetch.BuildFlags(asan=True, debug=False, fuzzing=True, coverage=False, valgrind=False),  # asan-opt-fuzzing
-        fuzzfetch.BuildFlags(asan=False, debug=True, fuzzing=True, coverage=False, valgrind=False),  # debug-fuzzing
-        fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=True, coverage=True, valgrind=False),  # ccov-fuzzing
-        fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=True))  # valgrind-opt
+        # opt
+        fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=False),
+        # debug
+        fuzzfetch.BuildFlags(asan=False, tsan=False, debug=True, fuzzing=False, coverage=False, valgrind=False),
+        # ccov
+        fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=True, valgrind=False),
+        # asan-opt
+        fuzzfetch.BuildFlags(asan=True, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=False),
+        # asan-opt-fuzzing
+        fuzzfetch.BuildFlags(asan=True, tsan=False, debug=False, fuzzing=True, coverage=False, valgrind=False),
+        # tsan-opt
+        fuzzfetch.BuildFlags(asan=False, tsan=True, debug=False, fuzzing=False, coverage=False, valgrind=False),
+        # tsan-opt-fuzzing
+        fuzzfetch.BuildFlags(asan=False, tsan=True, debug=False, fuzzing=True, coverage=False, valgrind=False),
+        # debug-fuzzing
+        fuzzfetch.BuildFlags(asan=False, tsan=False, debug=True, fuzzing=True, coverage=False, valgrind=False),
+        # ccov-fuzzing
+        fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=True, coverage=True, valgrind=False),
+        # valgrind-opt
+        fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=True))
     possible_branches = ("central", "try", "esr-next", "esr-stable")
     possible_os = ('Android', 'Darwin', 'Linux', 'Windows')
     possible_cpus = ('x86', 'x64', 'arm', 'arm64')
@@ -59,6 +71,10 @@ def get_builds_to_test():
             # coverage builds are only done on central
             continue
         if flags.asan and cpu != 'x64':
+            continue
+        if flags.tsan and (cpu != 'x64' or os_ != 'Linux'):
+            continue
+        if flags.tsan and branch.startswith('esr'):
             continue
         if flags.debug and flags.fuzzing and os_ == 'Windows' and cpu == 'x64':
             continue
@@ -212,13 +228,13 @@ def test_metadata(branch, build_flags, os_, cpu):
 # - requested should be set to the near future, or the hg hash of a changeset prior to the first build yesterday
 # - expected should be updated to the value that asserts
 @pytest.mark.parametrize('requested, expected', (
-    ('2019-11-15', '2019-11-13'),
-    ('4b3eacb45a38a33175976e7d76d1651334f52d82', '5f0b392beadb7300abdaa3e5e1cc1c0d5a9f0791')))
+        ('2019-11-15', '2019-11-13'),
+        ('4b3eacb45a38a33175976e7d76d1651334f52d82', '5f0b392beadb7300abdaa3e5e1cc1c0d5a9f0791')))
 def test_nearest_retrieval(requested, expected):
     """
     Attempt to retrieve a build near the supplied build_id
     """
-    flags = fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
+    flags = fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
 
     # skip revisions for now.
     if fuzzfetch.BuildTask.RE_REV.match(requested):
@@ -255,7 +271,7 @@ def test_hash_resolution():
     """
     with requests_mock.Mocker() as req_mock:
         req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
-        flags = fuzzfetch.BuildFlags(asan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
+        flags = fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
         rev = 'd1001fea6e4c66b98bb4983df49c6e47d2db5ceb'
         build = fuzzfetch.Fetcher('firefox', 'central', rev[:12], flags)
         assert build.changeset == rev
