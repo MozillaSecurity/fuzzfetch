@@ -1,0 +1,24 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2019.12.17.20191217041353",
+      "name": "20191217041353",
+      "expires": "2020-12-18T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2019.12.17.20191217104440",
+      "name": "20191217104440",
+      "expires": "2020-12-19T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2019.12.17.20191217161753",
+      "name": "20191217161753",
+      "expires": "2020-12-18T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2019.12.17.latest",
+      "name": "latest",
+      "expires": "2020-12-18T00:00:00.000Z"
+    }
+  ]
+}

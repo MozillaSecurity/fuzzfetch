@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -std=gnu99", 
+  "buildid": "20191217161753", 
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -std=gnu99", 
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++ -std=gnu++17", 
+  "host_alias": "x86_64-pc-linux-gnu", 
+  "host_cpu": "x86_64", 
+  "host_os": "linux-gnu", 
+  "host_vendor": "pc", 
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}", 
+  "moz_app_maxversion": "73.0a1", 
+  "moz_app_name": "firefox", 
+  "moz_app_vendor": "Mozilla", 
+  "moz_app_version": "73.0a1", 
+  "moz_pkg_platform": "linux-x86_64-tsan", 
+  "moz_source_repo": "https://hg.mozilla.org/mozilla-central", 
+  "moz_source_stamp": "930ad6def3c7961c82b2af20b66be3351603684f", 
+  "moz_update_channel": "default", 
+  "target_alias": "x86_64-pc-linux-gnu", 
+  "target_cpu": "x86_64", 
+  "target_os": "linux-gnu", 
+  "target_vendor": "pc"
+}
