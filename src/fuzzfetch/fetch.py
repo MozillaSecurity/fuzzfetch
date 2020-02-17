@@ -8,7 +8,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
-import collections
+from collections import namedtuple
 import glob
 import itertools
 import logging
@@ -117,7 +117,7 @@ def _create_utc_datetime(datetime_string):
     return timezone('UTC').localize(dt_obj)
 
 
-class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind'))):
+class BuildFlags(namedtuple('BuildFlagsBase', ('asan', 'tsan', 'debug', 'fuzzing', 'coverage', 'valgrind'))):
     """Class for storing TaskCluster build flags"""
 
     def build_string(self):
@@ -128,6 +128,7 @@ class BuildFlags(collections.namedtuple('BuildFlagsBase', ('asan', 'debug', 'fuz
         return (('-ccov' if self.coverage else '') +
                 ('-fuzzing' if self.fuzzing else '') +
                 ('-asan' if self.asan else '') +
+                ('-tsan' if self.tsan else '') +
                 ('-valgrind' if self.valgrind else '') +
                 ('-debug' if self.debug else '-opt'))
 
@@ -354,7 +355,7 @@ class Fetcher(object):
         @param build: build identifier. acceptable identifers are: TaskCluster namespace, hg changeset, date, 'latest'
 
         @type flags: BuildFlags or sequence of booleans
-        @param flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind'),
+        @param flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan'),
                       each a bool, not all combinations exist in TaskCluster
 
         @type platform: Platform
@@ -388,11 +389,13 @@ class Fetcher(object):
                                            "(build=%s, branch=%s)" % (build, self._branch))
 
                 # If flags weren't set, try and retrieve it from the build string
-                asan, debug, fuzzing, coverage, valgrind = self._flags
+                asan, debug, fuzzing, coverage, valgrind, tsan = self._flags
                 if not debug:
                     debug = '-debug' in build or '-dbg' in build
                 if not asan:
                     asan = '-asan' in build
+                if not tsan:
+                    tsan = '-tsan' in build
                 if not fuzzing:
                     fuzzing = '-fuzzing' in build
                 if not coverage:
@@ -400,11 +403,14 @@ class Fetcher(object):
                 if not valgrind:
                     valgrind = '-valgrind' in build
 
-                self._flags = BuildFlags(asan, debug, fuzzing, coverage, valgrind)
+                self._flags = BuildFlags(asan, tsan, debug, fuzzing, coverage, valgrind)
 
                 # Validate flags
                 if self._flags.asan and '-asan' not in build:
                     raise FetcherException("'build' is not an asan build, but asan=True given "
+                                           "(build=%s)" % build)
+                if self._flags.tsan and '-tsan' not in build:
+                    raise FetcherException("'build' is not an tsan build, but tsan=True given "
                                            "(build=%s)" % build)
                 if self._flags.debug and not ('-dbg' in build or '-debug' in build):
                     raise FetcherException("'build' is not a debug build, but debug=True given "
@@ -672,7 +678,7 @@ class Fetcher(object):
         if self._flags.coverage:
             self.extract_zip('code-coverage-gcno.zip', path=path)
 
-        if not self._flags.asan and not self._flags.valgrind:
+        if not self._flags.asan and not self._flags.tsan and not self._flags.valgrind:
             if full_symbols:
                 symbols = 'crashreporter-symbols-full.zip'
             else:
@@ -867,6 +873,8 @@ class Fetcher(object):
                                  help='Get debug builds w/ symbols (default=optimized).')
         build_group.add_argument('-a', '--asan', action='store_true',
                                  help='Download AddressSanitizer builds.')
+        build_group.add_argument('-t', '--tsan', action='store_true',
+                                 help='Download ThreadSanitizer builds.')
         build_group.add_argument('--fuzzing', action='store_true',
                                  help='Download --enable-fuzzing builds.')
         build_group.add_argument('--coverage', action='store_true',
@@ -908,6 +916,8 @@ class Fetcher(object):
                 parser.error('Cannot specify --build namespace and --debug')
             if args.asan:
                 parser.error('Cannot specify --build namespace and --asan')
+            if args.tsan:
+                parser.error('Cannot specify --build namespace and --tsan')
             if args.fuzzing:
                 parser.error('Cannot specify --build namespace and --fuzzing')
             if args.coverage:
@@ -923,7 +933,7 @@ class Fetcher(object):
         if args.branch.startswith('esr'):
             args.branch = Fetcher.resolve_esr(args.branch)
 
-        flags = BuildFlags(args.asan, args.debug, args.fuzzing, args.coverage, args.valgrind)
+        flags = BuildFlags(args.asan, args.tsan, args.debug, args.fuzzing, args.coverage, args.valgrind)
         obj = cls(args.target, args.branch, args.build, flags, Platform(args.os, args.cpu), args.nearest)
 
         if args.name is None:
