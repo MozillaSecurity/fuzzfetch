@@ -456,13 +456,13 @@ class Fetcher(object):
 
                 # If start date is outside the range of the newest/oldest available build, adjust it
                 if asc:
-                    start = max(start, now - timedelta(days=364))
+                    start = min(max(start, now - timedelta(days=364)), now)
                     end = now
                 else:
-                    start = min(start, now)
                     end = now - timedelta(days=364)
+                    start = max(min(start, now), end)
 
-                while start < end if asc else start > end:
+                while start <= end if asc else start >= end:
                     try:
                         self._task = BuildTask(start.strftime('%Y-%m-%d'), branch, self._flags, self._platform)
                         break
