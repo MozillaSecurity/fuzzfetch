@@ -456,8 +456,8 @@ class Fetcher(object):
 
                 # If start date is outside the range of the newest/oldest available build, adjust it
                 if asc:
-                    start = max(start, now - timedelta(days=364))
-                    end = min(start, now)
+                    start = min(max(start, now - timedelta(days=364)), now)
+                    end = now
                 else:
                     end = now - timedelta(days=364)
                     start = max(min(start, now), end)
