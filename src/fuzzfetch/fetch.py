@@ -28,7 +28,7 @@ from .extract import extract_dmg, extract_tar, extract_zip
 from .path import rmtree as junction_rmtree, onerror
 
 
-__all__ = ("Fetcher", "FetcherException", "BuildFlags", "BuildTask")
+__all__ = ( "BuildFlags", "BuildTask", "Fetcher", "FetcherArgs", "FetcherException")
 
 
 LOG = logging.getLogger('fuzzfetch')
@@ -333,6 +333,124 @@ class BuildTask(object):
         namespace = 'gecko.v2.' + branch + '.revision.' + rev
         product = 'mobile' if 'android' in target_platform else 'firefox'
         yield '/task/' + namespace + '.' + product + '.' + target_platform
+
+
+class FetcherArgs(object):
+    """Class for parsing and recording Fetcher arguments"""
+    def __init__(self):
+        """
+        Instantiate a new FetcherArgs instance
+        """
+        self.parser = argparse.ArgumentParser()
+        self.parser.set_defaults(target='firefox', build='latest', tests=None)  # branch default is set after parsing
+
+        target_group = self.parser.add_argument_group('Target')
+        target_group.add_argument('--target', choices=sorted(Fetcher.TARGET_CHOICES),
+                                  help='Specify the build target. (default: %(default)s)')
+        target_group.add_argument('--os', choices=sorted(Platform.SUPPORTED),
+                                  help='Specify the target system. (default: ' + std_platform.system() + ')')
+        cpu_choices = sorted(set(itertools.chain(itertools.chain.from_iterable(Platform.SUPPORTED.values()),
+                                                 Platform.CPU_ALIASES)))
+        target_group.add_argument('--cpu', choices=cpu_choices,
+                                  help='Specify the target CPU. (default: ' + std_platform.machine() + ')')
+
+        type_group = self.parser.add_argument_group('Build')
+        type_group.add_argument('--build', metavar='DATE|REV|NS',
+                                help='Specify the build to download, (default: %(default)s)'
+                                     ' Accepts values in format YYYY-MM-DD (2017-01-01)'
+                                     ' revision (57b37213d81150642f5139764e7044b07b9dccc3)'
+                                     ' or TaskCluster namespace (gecko.v2....)')
+
+        branch_group = self.parser.add_argument_group('Branch')
+        branch_args = branch_group.add_mutually_exclusive_group()
+        branch_args.add_argument('--inbound', action='store_const', const='inbound', dest='branch',
+                                 help='Download from mozilla-inbound')
+        branch_args.add_argument('--central', action='store_const', const='central', dest='branch',
+                                 help='Download from mozilla-central (default)')
+        branch_args.add_argument('--release', action='store_const', const='release', dest='branch',
+                                 help='Download from mozilla-release')
+        branch_args.add_argument('--beta', action='store_const', const='beta', dest='branch',
+                                 help='Download from mozilla-beta')
+        branch_args.add_argument('--esr-stable', action='store_const', const='esr-stable', dest='branch',
+                                 help='Download from esr-stable')
+        branch_args.add_argument('--esr-next', action='store_const', const='esr-next', dest='branch',
+                                 help='Download from esr-next')
+        branch_args.add_argument('--try', action='store_const', const='try', dest='branch',
+                                 help='Download from try')
+
+        build_group = self.parser.add_argument_group('Build Arguments')
+        build_group.add_argument('-d', '--debug', action='store_true',
+                                 help='Get debug builds w/ symbols (default=optimized).')
+        build_group.add_argument('-a', '--asan', action='store_true',
+                                 help='Download AddressSanitizer builds.')
+        build_group.add_argument('-t', '--tsan', action='store_true',
+                                 help='Download ThreadSanitizer builds.')
+        build_group.add_argument('--fuzzing', action='store_true',
+                                 help='Download --enable-fuzzing builds.')
+        build_group.add_argument('--coverage', action='store_true',
+                                 help='Download --coverage builds. This also pulls down the *.gcno files')
+        build_group.add_argument('--valgrind', action='store_true',
+                                 help='Download Valgrind builds.')
+
+        test_group = self.parser.add_argument_group('Test Arguments')
+        test_group.add_argument('--tests', nargs='+', metavar='', choices=Fetcher.TEST_CHOICES,
+                                help=('Download tests associated with this build. Acceptable values are: ' +
+                                      ', '.join(Fetcher.TEST_CHOICES)))
+        test_group.add_argument('--full-symbols', action='store_true',
+                                help='Download the full crashreport-symbols.zip archive.')
+
+        misc_group = self.parser.add_argument_group('Misc. Arguments')
+        misc_group.add_argument('-n', '--name',
+                                help='Specify a name (default=auto)')
+        misc_group.add_argument('-o', '--out', default=os.getcwd(),
+                                help='Specify output directory (default=.)')
+        misc_group.add_argument('--dry-run', action='store_true',
+                                help="Search for build and output metadata only, don't download anything.")
+
+        near_group = self.parser.add_argument_group('Near Arguments',
+                                                    "If the specified build isn't found, iterate over " +
+                                                    "builds in the specified direction")
+        near_args = near_group.add_mutually_exclusive_group()
+        near_args.add_argument('--nearest-newer', action='store_const', const=Fetcher.BUILD_ORDER_ASC, dest='nearest',
+                               help="Search from specified build in ascending order")
+        near_args.add_argument('--nearest-older', action='store_const', const=Fetcher.BUILD_ORDER_DESC, dest='nearest',
+                               help="Search from the specified build in descending order")
+
+    def sanity_check(self, args):
+        """
+        Perform parser checks
+
+        @type arg: list
+        @param arg: a list of arguments
+        """
+        if re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{12}|[0-9A-Fa-f]{40}|latest)$', args.build) is None:
+            # this is a custom build
+            # ensure conflicting options are not set
+            if args.branch is not None:
+                self.parser.error('Cannot specify --build namespace and branch argument: %s' % args.branch)
+            if args.debug:
+                self.parser.error('Cannot specify --build namespace and --debug')
+            if args.asan:
+                self.parser.error('Cannot specify --build namespace and --asan')
+            if args.tsan:
+                self.parser.error('Cannot specify --build namespace and --tsan')
+            if args.fuzzing:
+                self.parser.error('Cannot specify --build namespace and --fuzzing')
+            if args.coverage:
+                self.parser.error('Cannot specify --build namespace and --coverage')
+            if args.valgrind:
+                self.parser.error('Cannot specify --build namespace and --valgrind')
+
+    def parse_args(self, argv=None):
+        """
+        Parse and validate args
+
+        @type argv: list
+        @param argv: a list of arguments
+        """
+        args = self.parser.parse_args(argv)
+        self.sanity_check(args)
+        return args
 
 
 class Fetcher(object):
@@ -831,103 +949,11 @@ class Fetcher(object):
         @rtype: tuple(Fetcher, output path)
         @return: Returns a Fetcher object and keyword arguments for extract_build.
         """
-        parser = argparse.ArgumentParser()
-        parser.set_defaults(target='firefox', build='latest', tests=None)  # branch default is set after parsing
-
-        target_group = parser.add_argument_group('Target')
-        target_group.add_argument('--target', choices=sorted(cls.TARGET_CHOICES),
-                                  help=('Specify the build target. (default: %(default)s)'))
-        target_group.add_argument('--os', choices=sorted(Platform.SUPPORTED),
-                                  help=('Specify the target system. (default: ' + std_platform.system() + ')'))
-        cpu_choices = sorted(set(itertools.chain(itertools.chain.from_iterable(Platform.SUPPORTED.values()),
-                                                 Platform.CPU_ALIASES)))
-        target_group.add_argument('--cpu', choices=cpu_choices,
-                                  help=('Specify the target CPU. (default: ' + std_platform.machine() + ')'))
-
-        type_group = parser.add_argument_group('Build')
-        type_group.add_argument('--build', metavar='DATE|REV|NS',
-                                help='Specify the build to download, (default: %(default)s)'
-                                     ' Accepts values in format YYYY-MM-DD (2017-01-01)'
-                                     ' revision (57b37213d81150642f5139764e7044b07b9dccc3)'
-                                     ' or TaskCluster namespace (gecko.v2....)')
-
-        branch_group = parser.add_argument_group('Branch')
-        branch_args = branch_group.add_mutually_exclusive_group()
-        branch_args.add_argument('--inbound', action='store_const', const='inbound', dest='branch',
-                                 help='Download from mozilla-inbound')
-        branch_args.add_argument('--central', action='store_const', const='central', dest='branch',
-                                 help='Download from mozilla-central (default)')
-        branch_args.add_argument('--release', action='store_const', const='release', dest='branch',
-                                 help='Download from mozilla-release')
-        branch_args.add_argument('--beta', action='store_const', const='beta', dest='branch',
-                                 help='Download from mozilla-beta')
-        branch_args.add_argument('--esr-stable', action='store_const', const='esr-stable', dest='branch',
-                                 help='Download from esr-stable')
-        branch_args.add_argument('--esr-next', action='store_const', const='esr-next', dest='branch',
-                                 help='Download from esr-next')
-        branch_args.add_argument('--try', action='store_const', const='try', dest='branch',
-                                 help='Download from try')
-
-        build_group = parser.add_argument_group('Build Arguments')
-        build_group.add_argument('-d', '--debug', action='store_true',
-                                 help='Get debug builds w/ symbols (default=optimized).')
-        build_group.add_argument('-a', '--asan', action='store_true',
-                                 help='Download AddressSanitizer builds.')
-        build_group.add_argument('-t', '--tsan', action='store_true',
-                                 help='Download ThreadSanitizer builds.')
-        build_group.add_argument('--fuzzing', action='store_true',
-                                 help='Download --enable-fuzzing builds.')
-        build_group.add_argument('--coverage', action='store_true',
-                                 help='Download --coverage builds. This also pulls down the *.gcno files')
-        build_group.add_argument('--valgrind', action='store_true',
-                                 help='Download Valgrind builds.')
-
-        test_group = parser.add_argument_group('Test Arguments')
-        test_group.add_argument('--tests', nargs='+', metavar='', choices=cls.TEST_CHOICES,
-                                help=('Download tests associated with this build. Acceptable values are: ' +
-                                      ', '.join(cls.TEST_CHOICES)))
-        test_group.add_argument('--full-symbols', action='store_true',
-                                help='Download the full crashreport-symbols.zip archive.')
-
-        misc_group = parser.add_argument_group('Misc. Arguments')
-        misc_group.add_argument('-n', '--name',
-                                help='Specify a name (default=auto)')
-        misc_group.add_argument('-o', '--out', default=os.getcwd(),
-                                help='Specify output directory (default=.)')
-        misc_group.add_argument('--dry-run', action='store_true',
-                                help="Search for build and output metadata only, don't download anything.")
-
-        near_group = parser.add_argument_group('Near Arguments', "If the specified build isn't found, iterate over " +
-                                               "builds in the specified direction")
-        near_args = near_group.add_mutually_exclusive_group()
-        near_args.add_argument('--nearest-newer', action='store_const', const=cls.BUILD_ORDER_ASC, dest='nearest',
-                               help="Search from specified build in ascending order")
-        near_args.add_argument('--nearest-older', action='store_const', const=cls.BUILD_ORDER_DESC, dest='nearest',
-                               help="Search from the specified build in descending order")
-
-        args = parser.parse_args(args=args)
-
-        if re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{12}|[0-9A-Fa-f]{40}|latest)$', args.build) is None:
-            # this is a custom build
-            # ensure conflicting options are not set
-            if args.branch is not None:
-                parser.error('Cannot specify --build namespace and branch argument: %s' % args.branch)
-            if args.debug:
-                parser.error('Cannot specify --build namespace and --debug')
-            if args.asan:
-                parser.error('Cannot specify --build namespace and --asan')
-            if args.tsan:
-                parser.error('Cannot specify --build namespace and --tsan')
-            if args.fuzzing:
-                parser.error('Cannot specify --build namespace and --fuzzing')
-            if args.coverage:
-                parser.error('Cannot specify --build namespace and --coverage')
-            if args.valgrind:
-                parser.error('Cannot specify --build namespace and --valgrind')
+        args = FetcherArgs().parse_args(args)
 
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
-        elif args.branch is None:
+        if args.branch is None:
             args.branch = 'central'
 
         if args.branch.startswith('esr'):
@@ -941,7 +967,7 @@ class Fetcher(object):
 
         final_dir = os.path.realpath(os.path.join(args.out, args.name))
         if not skip_dir_check and os.path.exists(final_dir):
-            parser.error('Folder exists: %s .. exiting' % final_dir)
+            raise FetcherException('Folder exists: %s .. exiting' % final_dir)
 
         extract_options = {
             'dry_run': args.dry_run,
