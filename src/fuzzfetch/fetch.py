@@ -971,7 +971,7 @@ class Fetcher(object):
 
         final_dir = os.path.realpath(os.path.join(args.out, args.name))
         if not skip_dir_check and os.path.exists(final_dir):
-            parser.error('Folder exists: %s .. exiting' % final_dir)
+            parser.parser.error('Folder exists: %s .. exiting' % final_dir)
 
         extract_options = {
             'dry_run': args.dry_run,
