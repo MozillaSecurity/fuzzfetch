@@ -341,7 +341,10 @@ class FetcherArgs(object):
         """
         Instantiate a new FetcherArgs instance
         """
-        self.parser = argparse.ArgumentParser()
+        super(FetcherArgs, self).__init__()
+        if not hasattr(self, "parser"):
+            self.parser = argparse.ArgumentParser(conflict_handler='resolve')
+
         self.parser.set_defaults(target='firefox', build='latest', tests=None)  # branch default is set after parsing
 
         target_group = self.parser.add_argument_group('Target')
