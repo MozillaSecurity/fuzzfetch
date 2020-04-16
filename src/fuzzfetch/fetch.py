@@ -419,7 +419,13 @@ class FetcherArgs(object):
         near_args.add_argument('--nearest-older', action='store_const', const=Fetcher.BUILD_ORDER_DESC, dest='nearest',
                                help="Search from the specified build in descending order")
 
-        self.build_is_ns = None  # set to a bool in parse_args if args.build is a taskcluster namespace
+    @staticmethod
+    def is_build_ns(build_id):
+        """
+        Check if supplied build_id is a namespace
+        :param build_id: Build identifier to check
+        """
+        return re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{12}|[0-9A-Fa-f]{40}|latest)$', build_id) is None
 
     def sanity_check(self, args):
         """
@@ -431,7 +437,7 @@ class FetcherArgs(object):
         if hasattr(super(FetcherArgs, self), 'sanity_check'):
             super(FetcherArgs, self).sanity_check(args)  # pylint: disable=no-member
 
-        if self.build_is_ns:
+        if self.is_build_ns(args.build):
             # this is a custom build
             # ensure conflicting options are not set
             if args.branch is not None:
@@ -457,7 +463,6 @@ class FetcherArgs(object):
         @param argv: a list of arguments
         """
         args = self.parser.parse_args(argv)
-        self.build_is_ns = re.match(r'(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{12}|[0-9A-Fa-f]{40}|latest)$', args.build) is None
         self.sanity_check(args)
         return args
 
@@ -963,7 +968,7 @@ class Fetcher(object):
 
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
-        if not parser.build_is_ns and args.branch is None:
+        if not parser.is_build_ns(args.build) and args.branch is None:
             args.branch = 'central'
 
         if args.branch.startswith('esr'):
