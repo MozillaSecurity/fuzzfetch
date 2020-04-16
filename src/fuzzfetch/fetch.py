@@ -429,7 +429,7 @@ class FetcherArgs(object):
         @param args: a list of arguments
         """
         if hasattr(super(FetcherArgs, self), 'sanity_check'):
-            super(FetcherArgs, self).sanity_check(args)
+            super(FetcherArgs, self).sanity_check(args)  # pylint: disable=no-member
 
         if self.build_is_ns:
             # this is a custom build
