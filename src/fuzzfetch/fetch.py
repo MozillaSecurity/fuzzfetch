@@ -428,6 +428,9 @@ class FetcherArgs(object):
         @type args: list
         @param args: a list of arguments
         """
+        if hasattr(super(FetcherArgs, self), 'sanity_check'):
+            super(FetcherArgs, self).sanity_check(args)
+
         if self.build_is_ns:
             # this is a custom build
             # ensure conflicting options are not set
