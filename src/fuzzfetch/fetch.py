@@ -28,7 +28,7 @@ from .extract import extract_dmg, extract_tar, extract_zip
 from .path import rmtree as junction_rmtree, onerror
 
 
-__all__ = ("BuildFlags", "BuildTask", "Fetcher", "FetcherArgs", "FetcherException")
+__all__ = ("BuildFlags", "BuildTask", "Fetcher", "FetcherArgs", "FetcherException", "Platform")
 
 
 LOG = logging.getLogger('fuzzfetch')
