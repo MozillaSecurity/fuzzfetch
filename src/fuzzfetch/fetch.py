@@ -678,6 +678,7 @@ class Fetcher(object):
     @property
     def id(self):
         """Return the build's id (date stamp)"""
+        # pylint: disable=invalid-name
         return self.build_info['buildid']
 
     @property
