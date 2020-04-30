@@ -199,10 +199,10 @@ def test_metadata(branch, build_flags, os_, cpu):
                 fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
             log.debug("succeeded creating Fetcher")
 
-            log.debug("buildid: %s", fetcher.build_id)
+            log.debug("buildid: %s", fetcher.id)
             log.debug("hgrev: %s", fetcher.changeset)
 
-            time_obj = time.strptime(fetcher.build_id, "%Y%m%d%H%M%S")
+            time_obj = time.strptime(fetcher.id, "%Y%m%d%H%M%S")
 
             # yyyy-mm-dd is also accepted as a build input
             date_str = "%d-%02d-%02d" % (time_obj.tm_year, time_obj.tm_mon, time_obj.tm_mday)
@@ -258,7 +258,7 @@ def test_nearest_retrieval(requested, expected):
 
             build = fuzzfetch.Fetcher('firefox', 'central', build_id, flags, nearest=direction)
             if fuzzfetch.BuildTask.RE_DATE.match(expected):
-                build_date = datetime.strftime(build.build_datetime, '%Y-%m-%d')
+                build_date = datetime.strftime(build.datetime, '%Y-%m-%d')
                 assert build_date == expected
             else:
                 assert fuzzfetch.BuildTask.RE_REV.match(expected)
