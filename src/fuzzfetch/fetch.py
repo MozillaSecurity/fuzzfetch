@@ -76,7 +76,9 @@ class HgRevision(object):
         """
         if branch is None or branch == '?':
             raise FetcherException("Can't lookup revision date for branch: %r" % (branch,))
-        if branch != 'try':
+        if branch in {'autoland', 'inbound'}:
+            branch = 'integration/' + branch
+        elif branch != 'try':
             branch = 'mozilla-' + branch
         self._data = _get_url('https://hg.mozilla.org/%s/json-rev/%s' % (branch, revision)).json()
 
@@ -251,8 +253,8 @@ class BuildTask(object):
             task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
 
         elif build == 'latest':
-            if branch == 'try':
-                namespace = 'gecko.v2.try.latest'
+            if branch in {'autoland', 'try'}:
+                namespace = 'gecko.v2.' + branch + '.latest'
             else:
                 namespace = 'gecko.v2.mozilla-' + branch + '.latest'
             product = 'mobile' if 'android' in target_platform else 'firefox'
@@ -300,7 +302,7 @@ class BuildTask(object):
     @classmethod
     def _pushdate_template_paths(cls, pushdate, branch, target_platform):
         """Multiple entries exist per push date. Iterate over all until a working entry is found"""
-        if branch != 'try':
+        if branch not in {'autoland', 'try'}:
             branch = 'mozilla-' + branch
         path = '/namespaces/gecko.v2.' + branch + '.pushdate.' + pushdate
         date_found = False
@@ -379,6 +381,8 @@ class FetcherArgs(object):
         branch_args.add_argument('--esr-next', action='store_const', const='esr-next', dest='branch',
                                  help='Download from esr-next')
         branch_args.add_argument('--try', action='store_const', const='try', dest='branch',
+                                 help='Download from try')
+        branch_args.add_argument('--autoland', action='store_const', const='autoland', dest='branch',
                                  help='Download from try')
 
         build_group = self.parser.add_argument_group('Build Arguments')
