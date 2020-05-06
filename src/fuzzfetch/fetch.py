@@ -608,8 +608,8 @@ class Fetcher(object):
                 else:
                     raise FetcherException('Failed to find build near %s' % build)
 
-            if build == 'latest' and (now - self.build_datetime).total_seconds() > 86400:
-                LOG.warning('Latest available build is older than 1 day: %s', self.build_id)
+            if build == 'latest' and (now - self.datetime).total_seconds() > 86400:
+                LOG.warning('Latest available build is older than 1 day: %s', self.id)
 
         else:
             self._task = build
@@ -623,7 +623,7 @@ class Fetcher(object):
             branch = "try"
         else:
             branch = "m-%s" % (self._branch[0],)
-        self._auto_name = '%s%s-%s%s' % (self._platform.auto_name_prefix(), branch, self.build_id, options)
+        self._auto_name = '%s%s-%s%s' % (self._platform.auto_name_prefix(), branch, self.id, options)
 
     @staticmethod
     def resolve_esr(branch):
@@ -676,14 +676,15 @@ class Fetcher(object):
         return self._task.queue_server + ('/task/%s/artifacts' % (self.task_id,))
 
     @property
-    def build_id(self):
+    def id(self):
         """Return the build's id (date stamp)"""
+        # pylint: disable=invalid-name
         return self.build_info['buildid']
 
     @property
-    def build_datetime(self):
+    def datetime(self):
         """Return a datetime representation of the build's id"""
-        return _create_utc_datetime(self.build_id)
+        return _create_utc_datetime(self.id)
 
     @property
     def build_info(self):
@@ -835,7 +836,7 @@ class Fetcher(object):
         output.add_section('Main')
         output.set('Main', 'platform', self.moz_info['processor'].replace('_', '-'))
         output.set('Main', 'product', 'mozilla-' + self._branch)
-        output.set('Main', 'product_version', '%.8s-%.12s' % (self.build_id, self.changeset))
+        output.set('Main', 'product_version', '%.8s-%.12s' % (self.id, self.changeset))
         # make sure 'os' match what FM expects
         os_name = self.moz_info['os'].lower()
         if os_name.startswith('android'):
@@ -1018,7 +1019,7 @@ class Fetcher(object):
         LOG.info('> Task ID: %s', obj.task_id)
         LOG.info('> Rank: %s', obj.rank)
         LOG.info('> Changeset: %s', obj.changeset)
-        LOG.info('> Build ID: %s', obj.build_id)
+        LOG.info('> Build ID: %s', obj.id)
 
         if extract_args['dry_run']:
             return
@@ -1030,7 +1031,7 @@ class Fetcher(object):
             obj.extract_build(out, tests=extract_args['tests'], full_symbols=extract_args['full_symbols'])
             os.makedirs(os.path.join(out, 'download'))
             with open(os.path.join(out, 'download', 'firefox-temp.txt'), 'a') as dl_fd:
-                dl_fd.write('buildID=' + obj.build_id + os.linesep)
+                dl_fd.write('buildID=' + obj.id + os.linesep)
         except:  # noqa
             if os.path.isdir(out):
                 junction_rmtree(out)
