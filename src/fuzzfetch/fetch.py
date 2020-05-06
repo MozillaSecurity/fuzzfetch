@@ -330,7 +330,7 @@ class BuildTask(object):
     @classmethod
     def _revision_paths(cls, rev, branch, target_platform):
         """Retrieve the API path for revision based builds"""
-        if branch != 'try':
+        if branch not in {'autoland', 'try'}:
             branch = 'mozilla-' + branch
         namespace = 'gecko.v2.' + branch + '.revision.' + rev
         product = 'mobile' if 'android' in target_platform else 'firefox'
