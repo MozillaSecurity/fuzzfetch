@@ -6,32 +6,20 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import gzip
 import itertools
 import logging
-import os
 import time
 from datetime import datetime
 
 import pytest
-import requests_mock
 from freezegun import freeze_time
 
 import fuzzfetch
 
-log = logging.getLogger("fuzzfetch_test")  # pylint: disable=invalid-name
+LOG = logging.getLogger("fuzzfetch_test")
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("flake8").setLevel(logging.WARNING)
-
-HERE = os.path.dirname(os.path.abspath(__file__))
-
-BUILD_CACHE = False
-
-if BUILD_CACHE:
-    assert str is not bytes, 'cache update requires Python 3'
-    from urllib.error import HTTPError  # pylint: disable=import-error,no-name-in-module
-    from urllib.request import Request, urlopen  # pylint: disable=import-error,no-name-in-module
 
 
 def get_builds_to_test():
@@ -116,76 +104,14 @@ def get_builds_to_test():
         yield pytest.param(branch, flags, os_, cpu)
 
 
-def callback(request, context):
-    """
-    request handler for requests.mock
-    """
-    log.debug('%s %r', request.method, request.url)
-    assert request.url.startswith('https://')
-    path = os.path.join(HERE, request.url
-                        .replace('https://firefox-ci-tc.services.mozilla.com', 'mock-firefoxci')
-                        .replace('https://hg.mozilla.org', 'mock-hg')
-                        .replace('https://index.taskcluster.net', 'mock-index')
-                        .replace('https://product-details.mozilla.org', 'mock-product-details')
-                        .replace('https://queue.taskcluster.net', 'mock-queue')
-                        .replace('/', os.sep))
-    if os.path.isfile(path):
-        context.status_code = 200
-        with open(path, 'rb') as resp_fp:
-            data = resp_fp.read()
-        log.debug('-> 200 (%d bytes from %s)', len(data), path)
-        return data
-    if os.path.isdir(path) and os.path.isfile(os.path.join(path, '.get')):
-        path = os.path.join(path, '.get')
-        context.status_code = 200
-        with open(path, 'rb') as resp_fp:
-            data = resp_fp.read()
-        log.debug('-> 200 (%d bytes from %s)', len(data), path)
-        return data
-    # download to cache in mock directories
-    if BUILD_CACHE:
-        folder = os.path.dirname(path)
-        try:
-            if not os.path.isdir(folder):
-                os.makedirs(folder)
-        except OSError:
-            # see if any of the leaf folders are actually files
-            orig_folder = folder
-            while os.path.abspath(folder) != os.path.abspath(HERE):
-                if os.path.isfile(folder):
-                    # need to rename
-                    os.rename(folder, folder + '.tmp')
-                    os.makedirs(orig_folder)
-                    os.rename(folder + '.tmp', os.path.join(folder, '.get'))
-                    break
-                folder = os.path.dirname(folder)
-        urllib_request = Request(request.url, request.body if request.method == 'POST' else None, request.headers)
-        try:
-            real_http = urlopen(urllib_request)
-        except HTTPError as exc:
-            context.status_code = exc.code
-            return None
-        data = real_http.read()
-        if data[:2] == b'\x1f\x8b':  # gzip magic number
-            data = gzip.decompress(data)  # pylint: disable=no-member
-        with open(path, 'wb') as resp_fp:
-            resp_fp.write(data)
-        context.status_code = real_http.getcode()
-        log.debug('-> %d (%d bytes from http)', context.status_code, len(data))
-        return data
-    context.status_code = 404
-    log.debug('-> 404 (at %s)', path)
-    return None
-
-
 @pytest.mark.parametrize('branch, build_flags, os_, cpu', get_builds_to_test())
+@pytest.mark.usefixtures("requests_mock_cache")
 def test_metadata(branch, build_flags, os_, cpu):
     """Instantiate a Fetcher (which downloads metadata from TaskCluster) and check that the build is recent"""
     # BuildFlags(asan, debug, fuzzing, coverage, valgrind)
     # Fetcher(target, branch, build, flags, arch_32)
     # Set freeze_time to a date ahead of the latest mock build
-    with freeze_time('2019-12-01'), requests_mock.Mocker() as req_mock:
-        req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
+    with freeze_time('2019-12-01'):
         platform_ = fuzzfetch.fetch.Platform(os_, cpu)
         for as_args in (True, False):  # try as API and as command line
             if as_args:
@@ -197,10 +123,9 @@ def test_metadata(branch, build_flags, os_, cpu):
                 elif branch == "esr-stable":
                     branch = "esr60"
                 fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
-            log.debug("succeeded creating Fetcher")
-
-            log.debug("buildid: %s", fetcher.id)
-            log.debug("hgrev: %s", fetcher.changeset)
+            LOG.debug("succeeded creating Fetcher")
+            LOG.debug("buildid: %s", fetcher.id)
+            LOG.debug("hgrev: %s", fetcher.changeset)
 
             time_obj = time.strptime(fetcher.id, "%Y%m%d%H%M%S")
 
@@ -230,6 +155,7 @@ def test_metadata(branch, build_flags, os_, cpu):
 @pytest.mark.parametrize('requested, expected', (
         ('2019-11-15', '2019-11-13'),
         ('4b3eacb45a38a33175976e7d76d1651334f52d82', '5f0b392beadb7300abdaa3e5e1cc1c0d5a9f0791')))
+@pytest.mark.usefixtures("requests_mock_cache")
 def test_nearest_retrieval(requested, expected):
     """
     Attempt to retrieve a build near the supplied build_id
@@ -241,9 +167,7 @@ def test_nearest_retrieval(requested, expected):
         pytest.skip("see: https://github.com/MozillaSecurity/fuzzfetch/issues/52")
 
     # Set freeze_time to a date ahead of the latest mock build
-    with freeze_time('2019-12-01'), requests_mock.Mocker() as req_mock:
-        req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
-
+    with freeze_time('2019-12-01'):
         direction = fuzzfetch.Fetcher.BUILD_ORDER_DESC
 
         for is_namespace in (True, False):
@@ -265,13 +189,12 @@ def test_nearest_retrieval(requested, expected):
                 assert build.changeset == expected
 
 
+@pytest.mark.usefixtures("requests_mock_cache")
 def test_hash_resolution():
     """
     Test shortened hashes are resolved
     """
-    with requests_mock.Mocker() as req_mock:
-        req_mock.register_uri(requests_mock.ANY, requests_mock.ANY, content=callback)
-        flags = fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
-        rev = 'd1001fea6e4c66b98bb4983df49c6e47d2db5ceb'
-        build = fuzzfetch.Fetcher('firefox', 'central', rev[:12], flags)
-        assert build.changeset == rev
+    flags = fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
+    rev = 'd1001fea6e4c66b98bb4983df49c6e47d2db5ceb'
+    build = fuzzfetch.Fetcher('firefox', 'central', rev[:12], flags)
+    assert build.changeset == rev
