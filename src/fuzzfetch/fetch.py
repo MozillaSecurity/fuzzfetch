@@ -395,7 +395,7 @@ class FetcherArgs(object):
         build_group.add_argument('--fuzzing', action='store_true',
                                  help='Download --enable-fuzzing builds.')
         build_group.add_argument('--coverage', action='store_true',
-                                 help='Download --coverage builds. This also pulls down the *.gcno files')
+                                 help='Download --coverage builds.')
         build_group.add_argument('--valgrind', action='store_true',
                                  help='Download Valgrind builds.')
 
