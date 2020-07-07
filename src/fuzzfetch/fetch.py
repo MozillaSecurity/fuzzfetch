@@ -400,11 +400,8 @@ class FetcherArgs(object):
                                  help='Download Valgrind builds.')
 
         test_group = self.parser.add_argument_group('Test Arguments')
-        test_group.add_argument('--tests', nargs='+', metavar='', choices=Fetcher.TEST_CHOICES,
-                                help=('Download tests associated with this build. Acceptable values are: ' +
-                                      ', '.join(Fetcher.TEST_CHOICES)))
-        test_group.add_argument('--full-symbols', action='store_true',
-                                help='Download the full crashreport-symbols.zip archive.')
+        test_group.add_argument('--gtest', action='store_true',
+                                help='Download gtests associated with this build')
 
         misc_group = self.parser.add_argument_group('Misc. Arguments')
         misc_group.add_argument('-n', '--name',
@@ -474,7 +471,6 @@ class FetcherArgs(object):
 class Fetcher(object):
     """Fetcher fetches build artifacts from TaskCluster and unpacks them"""
     TARGET_CHOICES = {'js', 'firefox'}
-    TEST_CHOICES = {'common', 'reftests', 'gtest'}
     BUILD_ORDER_ASC = 1
     BUILD_ORDER_DESC = 2
     re_target = re.compile(r'(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$')
@@ -740,18 +736,15 @@ class Fetcher(object):
         """Get the automatic directory name"""
         return self._auto_name
 
-    def extract_build(self, path='.', tests=None, full_symbols=False):
+    def extract_build(self, path='.', gtest=False):
         """
         Download and extract the build and requested extra artifacts
 
         @type path:
         @param path:
 
-        @type tests:
-        @param tests:
-
-        @type full_symbols:
-        @param full_symbols:
+        @type gtest:
+        @param gtest:
         """
         if self._target == 'js':
             self.extract_zip('jsshell.zip', path=os.path.join(path, 'dist', 'bin'))
@@ -777,51 +770,30 @@ class Fetcher(object):
             else:
                 raise FetcherException("'%s' is not a supported platform" % self._platform.system)
 
-        if tests:
-            # validate tests
-            tests = set(tests or [])
-            if not tests.issubset(self.TEST_CHOICES):
-                invalid_test = tuple(tests - self.TEST_CHOICES)[0]
-                raise FetcherException("'%s' is not a supported test type" % invalid_test)
+        if gtest:
+            try:
+                self.extract_tar('gtest.tests.tar.gz', path=path)
+            except FetcherException:
+                self.extract_zip('gtest.tests.zip', path=path)
+            if self._platform.system == 'Windows':
+                libxul = 'xul.dll'
+            elif self._platform.system == 'Linux':
+                libxul = 'libxul.so'
+            elif self._platform.system == 'Darwin':
+                libxul = 'XUL'
+            else:
+                raise FetcherException("'%s' is not a supported platform for gtest" % self._platform.system)
+            os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', libxul),
+                      os.path.join(path, 'gtest', libxul))
+            shutil.copy(os.path.join(path, 'gtest', 'dependentlibs.list.gtest'),
+                        os.path.join(path, 'dependentlibs.list.gtest'))
 
-            os.mkdir(os.path.join(path, 'tests'))
-            if 'common' in tests:
-                try:
-                    self.extract_tar('common.tests.tar.gz', path=os.path.join(path, 'tests'))
-                except FetcherException:
-                    self.extract_zip('common.tests.zip', path=os.path.join(path, 'tests'))
-            if 'reftests' in tests:
-                try:
-                    self.extract_tar('reftest.tests.tar.gz', path=os.path.join(path, 'tests'))
-                except FetcherException:
-                    self.extract_zip('reftest.tests.zip', path=os.path.join(path, 'tests'))
-            if 'gtest' in tests:
-                try:
-                    self.extract_tar('gtest.tests.tar.gz', path=path)
-                except FetcherException:
-                    self.extract_zip('gtest.tests.zip', path=path)
-                if self._platform.system == 'Windows':
-                    libxul = 'xul.dll'
-                elif self._platform.system == 'Linux':
-                    libxul = 'libxul.so'
-                elif self._platform.system == 'Darwin':
-                    libxul = 'XUL'
-                else:
-                    raise FetcherException("'%s' is not a supported platform for gtest" % self._platform.system)
-                os.rename(os.path.join(path, 'gtest', 'gtest_bin', 'gtest', libxul),
-                          os.path.join(path, 'gtest', libxul))
-                shutil.copy(os.path.join(path, 'gtest', 'dependentlibs.list.gtest'),
-                            os.path.join(path, 'dependentlibs.list.gtest'))
         if self._flags.coverage:
             self.extract_zip('code-coverage-gcno.zip', path=path)
 
         if not self._flags.asan and not self._flags.tsan and not self._flags.valgrind:
-            if full_symbols:
-                symbols = 'crashreporter-symbols-full.zip'
-            else:
-                symbols = 'crashreporter-symbols.zip'
             os.mkdir(os.path.join(path, 'symbols'))
-            self.extract_zip(symbols, path=os.path.join(path, 'symbols'))
+            self.extract_zip('crashreporter-symbols.zip', path=os.path.join(path, 'symbols'))
 
         self._write_fuzzmanagerconf(path)
 
@@ -992,8 +964,7 @@ class Fetcher(object):
         extract_options = {
             'dry_run': args.dry_run,
             'out': final_dir,
-            'full_symbols': args.full_symbols,
-            'tests': args.tests
+            'gtest': args.gtest
         }
 
         return obj, extract_options
@@ -1028,7 +999,7 @@ class Fetcher(object):
         os.mkdir(out)
 
         try:
-            obj.extract_build(out, tests=extract_args['tests'], full_symbols=extract_args['full_symbols'])
+            obj.extract_build(out, gtest=extract_args['gtest'])
             os.makedirs(os.path.join(out, 'download'))
             with open(os.path.join(out, 'download', 'firefox-temp.txt'), 'a') as dl_fd:
                 dl_fd.write('buildID=' + obj.id + os.linesep)
