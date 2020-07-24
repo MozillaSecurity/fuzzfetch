@@ -72,7 +72,7 @@ def _cache_requests(request, context):
                     # need to rename
                     tmp_folder = folder.parent / (folder.name + '.tmp')
                     folder.rename(tmp_folder)
-                    folder.mkdir(parents=True)
+                    path.parent.mkdir(parents=True)
                     tmp_folder.rename(folder / '.get')
                     break
                 folder = folder.parent
