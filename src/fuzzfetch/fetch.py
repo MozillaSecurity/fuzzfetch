@@ -197,8 +197,7 @@ class Platform(object):
 
 class BuildTask(object):
     """Class for storing TaskCluster build information"""
-    TASKCLUSTER_APIS = ('https://firefox-ci-tc.services.mozilla.com/api/%s/v1',
-                        'https://%s.taskcluster.net/v1',)
+    TASKCLUSTER_API = 'https://firefox-ci-tc.services.mozilla.com/api/%s/v1'
     RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
     RE_REV = re.compile(r'^([0-9A-F]{12}|[0-9A-F]{40})$', re.IGNORECASE)
 
@@ -250,7 +249,7 @@ class BuildTask(object):
                 build = HgRevision(build, branch).hash
             flag_str = flags.build_string()
             task_paths = tuple(path + flag_str for path in cls._revision_paths(build.lower(), branch, target_platform))
-            task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, task_paths)
+            task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_paths)
 
         elif build == 'latest':
             if branch in {'autoland', 'try'}:
@@ -259,16 +258,13 @@ class BuildTask(object):
                 namespace = 'gecko.v2.mozilla-' + branch + '.latest'
             product = 'mobile' if 'android' in target_platform else 'firefox'
             task_path = '/task/%s.%s.%s%s' % (namespace, product, target_platform, flags.build_string())
-            task_template_paths = ((cls.TASKCLUSTER_APIS[0], task_path),)
+            task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
         else:
             # try to use build argument directly as a namespace
             task_path = '/task/' + build
             is_namespace = True
-            if '.latest' in build:
-                task_template_paths = ((cls.TASKCLUSTER_APIS[0], task_path),)
-            else:
-                task_template_paths = itertools.product(cls.TASKCLUSTER_APIS, (task_path,))
+            task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
         for (template_path, try_wo_opt) in itertools.product(task_template_paths, (False, True)):
 
@@ -305,27 +301,19 @@ class BuildTask(object):
         if branch not in {'autoland', 'try'}:
             branch = 'mozilla-' + branch
         path = '/namespaces/gecko.v2.' + branch + '.pushdate.' + pushdate
-        date_found = False
-        last_exc = None
 
-        for template in cls.TASKCLUSTER_APIS:
-            index_base = template % ('index',)
-            url = index_base + path
-            try:
-                base = HTTP_SESSION.post(url, json={})
-                base.raise_for_status()
-            except requests.exceptions.RequestException as exc:
-                last_exc = exc
-                continue
+        index_base = cls.TASKCLUSTER_API % ('index',)
+        url = index_base + path
+        try:
+            base = HTTP_SESSION.post(url, json={})
+            base.raise_for_status()
+        except requests.exceptions.RequestException as exc:
+            FetcherException(exc)
 
-            date_found = True
-            product = 'mobile' if 'android' in target_platform else 'firefox'
-            json = base.json()
-            for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
-                yield (template, '/task/' + namespace['namespace'] + '.' + product + '.' + target_platform)
-
-        if not date_found:
-            raise FetcherException(last_exc)
+        product = 'mobile' if 'android' in target_platform else 'firefox'
+        json = base.json()
+        for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
+            yield cls.TASKCLUSTER_API, '/task/' + namespace['namespace'] + '.' + product + '.' + target_platform
 
     @classmethod
     def _revision_paths(cls, rev, branch, target_platform):
