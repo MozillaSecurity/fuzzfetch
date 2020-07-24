@@ -489,6 +489,7 @@ class Fetcher(object):
         self._branch = branch
         self._flags = BuildFlags(*flags)
         self._platform = platform or Platform()
+        self._task = None
 
         if not isinstance(build, BuildTask):
             # If build doesn't match the following, assume it's a namespace
@@ -554,41 +555,57 @@ class Fetcher(object):
                 if not nearest:
                     raise
 
-                start = None
+                requested = None
                 asc = nearest == Fetcher.BUILD_ORDER_ASC
                 if 'latest' in build:
-                    start = now + timedelta(days=1) if asc else now - timedelta(days=1)
+                    requested = now + timedelta(days=1) if asc else now - timedelta(days=1)
                 elif BuildTask.RE_DATE.match(build) is not None:
                     date = datetime.strptime(build, '%Y-%m-%d')
                     localized = timezone('UTC').localize(date)
-                    start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
+                    requested = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
                 elif BuildTask.RE_REV.match(build) is not None:
-                    start = HgRevision(build, branch).pushdate
+                    requested = HgRevision(build, branch).pushdate
                 else:
                     # If no match, assume it's a TaskCluster namespace
                     if re.match(r'.*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*', build) is not None:
                         match = re.search(r'[0-9]{4}\.[0-9]{2}\.[0-9]{2}', build)
                         date = datetime.strptime(match.group(0), '%Y.%m.%d')
-                        start = timezone('UTC').localize(date)
+                        requested = timezone('UTC').localize(date)
                     elif re.match(r'.*revision.*[0-9[a-f]{40}', build):
                         match = re.search(r'[0-9[a-f]{40}', build)
-                        start = HgRevision(match.group(0), branch).pushdate
+                        requested = HgRevision(match.group(0), branch).pushdate
 
                 # If start date is outside the range of the newest/oldest available build, adjust it
                 if asc:
-                    start = min(max(start, now - timedelta(days=364)), now)
+                    start = min(max(requested, now - timedelta(days=364)), now)
                     end = now
                 else:
                     end = now - timedelta(days=364)
-                    start = max(min(start, now), end)
+                    start = max(min(requested, now), end)
 
                 while start <= end if asc else start >= end:
+                    build_str = start.strftime('%Y-%m-%d')
                     try:
-                        self._task = BuildTask(start.strftime('%Y-%m-%d'), branch, self._flags, self._platform)
-                        break
+                        if start.date() == requested.date():
+                            for task in BuildTask.iterall(build_str, branch, self._flags, self._platform):
+                                task_date = timezone('EST').localize(datetime.fromtimestamp(task.rank))
+                                if (asc and requested <= task_date) or (requested >= task_date):
+                                    self._task = task
+                                    break
+                        else:
+                            task = BuildTask(build_str, branch, self._flags, self._platform)
+                            task_date = timezone('EST').localize(datetime.fromtimestamp(task.rank))
+                            if (asc and requested <= task_date) or (requested >= task_date):
+                                self._task = task
                     except FetcherException:
                         LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
+
+                    if self._task is None:
+                        # Increment start date
                         start = start + timedelta(days=1) if asc else start - timedelta(days=1)
+                    else:
+                        break
+
                 else:
                     raise FetcherException('Failed to find build near %s' % build)
 
