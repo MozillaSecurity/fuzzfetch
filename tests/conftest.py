@@ -70,7 +70,7 @@ def _cache_requests(request, context):
             while folder.resolve() != CACHE_PATH:
                 if folder.is_file():
                     # need to rename
-                    tmp_folder = folder.parent / folder.name + '.tmp'
+                    tmp_folder = folder.parent / (folder.name + '.tmp')
                     folder.rename(tmp_folder)
                     folder.mkdir(parents=True)
                     tmp_folder.rename(folder / '.get')
