@@ -118,10 +118,8 @@ def test_metadata(branch, build_flags, os_, cpu):
                 args = ["--" + name for arg, name in zip(build_flags, fuzzfetch.BuildFlags._fields) if arg]
                 fetcher = fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_] + args)[0]
             else:
-                if branch == "esr-next":
-                    branch = "esr68"
-                elif branch == "esr-stable":
-                    branch = "esr60"
+                if branch.startswith("esr"):
+                    branch = fuzzfetch.Fetcher.resolve_esr(branch)
                 fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
             LOG.debug("succeeded creating Fetcher")
             LOG.debug("buildid: %s", fetcher.id)
