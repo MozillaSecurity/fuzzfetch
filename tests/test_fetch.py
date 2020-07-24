@@ -153,8 +153,9 @@ def test_metadata(branch, build_flags, os_, cpu):
 @pytest.mark.parametrize('requested, expected', (
         ('2019-11-15', '2019-11-13'),
         ('4b3eacb45a38a33175976e7d76d1651334f52d82', '5f0b392beadb7300abdaa3e5e1cc1c0d5a9f0791')))
+@pytest.mark.parametrize('is_namespace', [True, False])
 @pytest.mark.usefixtures("requests_mock_cache")
-def test_nearest_retrieval(requested, expected):
+def test_nearest_retrieval(requested, expected, is_namespace):
     """
     Attempt to retrieve a build near the supplied build_id
     """
@@ -166,25 +167,24 @@ def test_nearest_retrieval(requested, expected):
 
     # Set freeze_time to a date ahead of the latest mock build
     with freeze_time('2019-12-01'):
-        direction = fuzzfetch.Fetcher.BUILD_ORDER_DESC
+        direction = fuzzfetch.Fetcher.BUILD_ORDER_ASC
 
-        for is_namespace in (True, False):
-            if is_namespace:
-                if fuzzfetch.BuildTask.RE_DATE.match(requested):
-                    date = requested.replace('-', '.')
-                    build_id = 'gecko.v2.mozilla-central.pushdate.%s.firefox.linux64-opt' % date
-                else:
-                    build_id = 'gecko.v2.mozilla-central.revision.%s.firefox.linux64-opt' % requested
+        if is_namespace:
+            if fuzzfetch.BuildTask.RE_DATE.match(requested):
+                date = requested.replace('-', '.')
+                build_id = 'gecko.v2.mozilla-central.pushdate.%s.firefox.linux64-opt' % date
             else:
-                build_id = requested
+                build_id = 'gecko.v2.mozilla-central.revision.%s.firefox.linux64-opt' % requested
+        else:
+            build_id = requested
 
-            build = fuzzfetch.Fetcher('firefox', 'central', build_id, flags, nearest=direction)
-            if fuzzfetch.BuildTask.RE_DATE.match(expected):
-                build_date = datetime.strftime(build.datetime, '%Y-%m-%d')
-                assert build_date == expected
-            else:
-                assert fuzzfetch.BuildTask.RE_REV.match(expected)
-                assert build.changeset == expected
+        build = fuzzfetch.Fetcher('firefox', 'central', build_id, flags, nearest=direction)
+        if fuzzfetch.BuildTask.RE_DATE.match(expected):
+            build_date = datetime.strftime(build.datetime, '%Y-%m-%d')
+            assert build_date == expected
+        else:
+            assert fuzzfetch.BuildTask.RE_REV.match(expected)
+            assert build.changeset == expected
 
 
 @pytest.mark.usefixtures("requests_mock_cache")
