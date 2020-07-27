@@ -149,8 +149,8 @@ def test_metadata(branch, build_flags, os_, cpu):
 # - requested should be set to the near future, or the hg hash of a changeset prior to the first build yesterday
 # - expected should be updated to the value that asserts
 @pytest.mark.parametrize('requested, expected', (
-        ('2019-11-15', '2019-11-13'),
-        ('4b3eacb45a38a33175976e7d76d1651334f52d82', '5f0b392beadb7300abdaa3e5e1cc1c0d5a9f0791')))
+        ('2019-11-06', '2019-11-07'),
+        ('d271c572a9bcd008ed14bf104b2eb81949952e4c', 'e8b7c48d4e7ed1b63aeedff379b51e566ea499d9')))
 @pytest.mark.parametrize('is_namespace', [True, False])
 @pytest.mark.usefixtures("requests_mock_cache")
 def test_nearest_retrieval(requested, expected, is_namespace):
