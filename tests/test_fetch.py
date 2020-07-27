@@ -91,11 +91,9 @@ def get_builds_to_test():
             continue
         if os_ == "Android" and branch in {'esr-next', 'esr-stable'}:
             continue
-        if branch == "esr-next":
-            opt = not (flags.asan or flags.fuzzing or flags.debug or flags.coverage or flags.valgrind)
-            if opt:
-                # opt builds aren't available for esr68
-                continue
+        if not all(flags) and branch.startswith("esr"):
+            # opt builds aren't available for esr
+            continue
         elif branch == "esr-stable":
             if cpu.startswith("arm"):
                 # arm builds aren't available for esr-stable
