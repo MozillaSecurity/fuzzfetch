@@ -25,7 +25,6 @@ LOG = logging.getLogger("fuzzfetch_tests")
 MOCK_HOSTS = {
     "firefoxci": 'https://firefox-ci-tc.services.mozilla.com',
     "hg": 'https://hg.mozilla.org',
-    "index": 'https://index.taskcluster.net',
     "product-details": 'https://product-details.mozilla.org',
     "queue": 'https://queue.taskcluster.net',
 }
