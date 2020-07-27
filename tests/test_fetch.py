@@ -94,7 +94,7 @@ def get_builds_to_test():
         if not all(flags) and branch.startswith("esr"):
             # opt builds aren't available for esr
             continue
-        elif branch == "esr-stable":
+        if branch == "esr-stable":
             if cpu.startswith("arm"):
                 # arm builds aren't available for esr-stable
                 continue
