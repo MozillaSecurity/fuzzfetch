@@ -308,7 +308,7 @@ class BuildTask(object):
             base = HTTP_SESSION.post(url, json={})
             base.raise_for_status()
         except requests.exceptions.RequestException as exc:
-            FetcherException(exc)
+            raise FetcherException(exc)
 
         product = 'mobile' if 'android' in target_platform else 'firefox'
         json = base.json()
