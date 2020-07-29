@@ -1,0 +1,16 @@
+{
+"node": "d271c572a9bcd008ed14bf104b2eb81949952e4c",
+"date": [1573120068.0, -7200],
+"desc": "Merge autoland to mozilla-central a=merge",
+"backedoutby": "",
+"branch": "default",
+"bookmarks": [],
+"tags": [],
+"user": "Andreea Pavel \u003capavel@mozilla.com\u003e",
+"parents": ["e8b7c48d4e7ed1b63aeedff379b51e566ea499d9", "85aa4fa5722bdcb6e0d13f29951772d3c7806e42"],
+"phase": "public",
+"pushid": 36778,
+"pushdate": [1573120145, 0],
+"pushuser": "apavel@mozilla.com",
+"landingsystem": null
+}

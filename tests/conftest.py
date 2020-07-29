@@ -25,7 +25,6 @@ LOG = logging.getLogger("fuzzfetch_tests")
 MOCK_HOSTS = {
     "firefoxci": 'https://firefox-ci-tc.services.mozilla.com',
     "hg": 'https://hg.mozilla.org',
-    "index": 'https://index.taskcluster.net',
     "product-details": 'https://product-details.mozilla.org',
     "queue": 'https://queue.taskcluster.net',
 }
@@ -70,9 +69,9 @@ def _cache_requests(request, context):
             while folder.resolve() != CACHE_PATH:
                 if folder.is_file():
                     # need to rename
-                    tmp_folder = folder.parent / folder.name + '.tmp'
+                    tmp_folder = folder.parent / (folder.name + '.tmp')
                     folder.rename(tmp_folder)
-                    folder.mkdir(parents=True)
+                    path.parent.mkdir(parents=True)
                     tmp_folder.rename(folder / '.get')
                     break
                 folder = folder.parent

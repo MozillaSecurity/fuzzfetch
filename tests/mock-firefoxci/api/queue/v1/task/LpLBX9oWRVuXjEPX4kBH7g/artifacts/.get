@@ -2,6 +2,12 @@
   "artifacts": [
     {
       "storageType": "s3",
+      "name": "public/build/buildhub.json",
+      "expires": "2020-12-02T18:08:55.866Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
       "name": "public/build/build_resources.html",
       "expires": "2020-12-02T18:08:55.866Z",
       "contentType": "text/html"
@@ -9,12 +15,6 @@
     {
       "storageType": "s3",
       "name": "public/build/build_resources.json",
-      "expires": "2020-12-02T18:08:55.866Z",
-      "contentType": "application/json"
-    },
-    {
-      "storageType": "s3",
-      "name": "public/build/buildhub.json",
       "expires": "2020-12-02T18:08:55.866Z",
       "contentType": "application/json"
     },
@@ -104,6 +104,12 @@
     },
     {
       "storageType": "s3",
+      "name": "public/build/target_info.txt",
+      "expires": "2020-12-02T18:08:55.866Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
       "name": "public/build/target.json",
       "expires": "2020-12-02T18:08:55.866Z",
       "contentType": "application/json"
@@ -188,12 +194,6 @@
     },
     {
       "storageType": "s3",
-      "name": "public/build/target_info.txt",
-      "expires": "2020-12-02T18:08:55.866Z",
-      "contentType": "text/plain"
-    },
-    {
-      "storageType": "s3",
       "name": "public/build/xvfb/xvfb.log",
       "expires": "2020-12-02T18:08:55.866Z",
       "contentType": "text/plain"
@@ -217,14 +217,14 @@
       "contentType": "text/plain"
     },
     {
-      "storageType": "reference",
-      "name": "public/logs/live.log",
+      "storageType": "s3",
+      "name": "public/logs/live_backing.log",
       "expires": "2020-12-02T18:08:55.866Z",
       "contentType": "text/plain; charset=utf-8"
     },
     {
-      "storageType": "s3",
-      "name": "public/logs/live_backing.log",
+      "storageType": "reference",
+      "name": "public/logs/live.log",
       "expires": "2020-12-02T18:08:55.866Z",
       "contentType": "text/plain; charset=utf-8"
     },
