@@ -17,7 +17,6 @@ from freezegun import freeze_time
 import fuzzfetch
 
 LOG = logging.getLogger("fuzzfetch_test")
-logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("flake8").setLevel(logging.WARNING)
 
@@ -148,12 +147,18 @@ def test_metadata(branch, build_flags, os_, cpu):
 # whenever BUILD_CACHE is set:
 # - requested should be set to the near future, or the hg hash of a changeset prior to the first build yesterday
 # - expected should be updated to the value that asserts
-@pytest.mark.parametrize('requested, expected', (
-        ('2019-11-06', '2019-11-07'),
-        ('d271c572a9bcd008ed14bf104b2eb81949952e4c', 'e8b7c48d4e7ed1b63aeedff379b51e566ea499d9')))
+@pytest.mark.parametrize('requested, expected, direction', (
+        ('2019-11-06', '2019-11-07', fuzzfetch.Fetcher.BUILD_ORDER_ASC),
+        ('2020-08-01', '2019-12-01', fuzzfetch.Fetcher.BUILD_ORDER_DESC),
+        ('d271c572a9bcd008ed14bf104b2eb81949952e4c',
+         'ac63c8962183502a4b0ec32222efc67d3841d157',
+         fuzzfetch.Fetcher.BUILD_ORDER_ASC),
+        ('d271c572a9bcd008ed14bf104b2eb81949952e4c',
+         'e8b7c48d4e7ed1b63aeedff379b51e566ea499d9',
+         fuzzfetch.Fetcher.BUILD_ORDER_DESC)))
 @pytest.mark.parametrize('is_namespace', [True, False])
 @pytest.mark.usefixtures("requests_mock_cache")
-def test_nearest_retrieval(requested, expected, is_namespace):
+def test_nearest_retrieval(requested, expected, direction, is_namespace):
     """
     Attempt to retrieve a build near the supplied build_id
     """
@@ -161,8 +166,8 @@ def test_nearest_retrieval(requested, expected, is_namespace):
 
     # Set freeze_time to a date ahead of the latest mock build
     with freeze_time('2019-12-01'):
-        direction = fuzzfetch.Fetcher.BUILD_ORDER_ASC
 
+        LOG.debug("looking for nearest to %s", requested)
         if is_namespace:
             if fuzzfetch.BuildTask.RE_DATE.match(requested):
                 date = requested.replace('-', '.')

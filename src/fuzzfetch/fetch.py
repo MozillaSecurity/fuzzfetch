@@ -171,10 +171,13 @@ class Platform(object):
         """
         Create a platform object from a namespace build string
         """
+        match = []
         for system, platform in cls.SUPPORTED.items():
             for machine, platform_guess in platform.items():
-                if platform_guess in build_string:
-                    return cls(system, machine)
+                if platform_guess in build_string and (not match or len(match[2]) < len(platform_guess)):
+                    match = [system, machine, platform_guess]
+        if match:
+            return cls(match[0], match[1])
         raise FetcherException('Could not extract platform from %s' % (build_string,))
 
     def auto_name_prefix(self):
@@ -489,6 +492,7 @@ class Fetcher(object):
         self._branch = branch
         self._flags = BuildFlags(*flags)
         self._platform = platform or Platform()
+        self._task = None
 
         if not isinstance(build, BuildTask):
             # If build doesn't match the following, assume it's a namespace
@@ -554,41 +558,62 @@ class Fetcher(object):
                 if not nearest:
                     raise
 
-                start = None
+                requested = None
                 asc = nearest == Fetcher.BUILD_ORDER_ASC
                 if 'latest' in build:
-                    start = now + timedelta(days=1) if asc else now - timedelta(days=1)
+                    requested = now
                 elif BuildTask.RE_DATE.match(build) is not None:
                     date = datetime.strptime(build, '%Y-%m-%d')
-                    localized = timezone('UTC').localize(date)
-                    start = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
+                    requested = timezone('UTC').localize(date)
                 elif BuildTask.RE_REV.match(build) is not None:
-                    start = HgRevision(build, branch).pushdate
+                    requested = HgRevision(build, branch).pushdate
                 else:
                     # If no match, assume it's a TaskCluster namespace
                     if re.match(r'.*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*', build) is not None:
                         match = re.search(r'[0-9]{4}\.[0-9]{2}\.[0-9]{2}', build)
                         date = datetime.strptime(match.group(0), '%Y.%m.%d')
-                        start = timezone('UTC').localize(date)
+                        requested = timezone('UTC').localize(date)
                     elif re.match(r'.*revision.*[0-9[a-f]{40}', build):
                         match = re.search(r'[0-9[a-f]{40}', build)
-                        start = HgRevision(match.group(0), branch).pushdate
+                        requested = HgRevision(match.group(0), branch).pushdate
 
                 # If start date is outside the range of the newest/oldest available build, adjust it
                 if asc:
-                    start = min(max(start, now - timedelta(days=364)), now)
+                    start = min(max(requested, now - timedelta(days=364)), now)
                     end = now
                 else:
                     end = now - timedelta(days=364)
-                    start = max(min(start, now), end)
+                    start = max(min(requested, now), end)
+                LOG.debug("searching for nearest build to %s from %s -> %s", requested, start, end)
 
                 while start <= end if asc else start >= end:
-                    try:
-                        self._task = BuildTask(start.strftime('%Y-%m-%d'), branch, self._flags, self._platform)
+                    search_build = start.strftime('%Y-%m-%d')
+
+                    # in the case where a calendar date was specified, we've already tried it directly
+                    if search_build != build:
+                        LOG.debug("trying %s", search_build)
+                        try:
+                            # iterate over all builds for the day, and take the next older/newer build available
+                            build_tasks = BuildTask.iterall(search_build, branch, self._flags, self._platform)
+                            if not asc:
+                                build_tasks = reversed(list(build_tasks))
+
+                            for task in build_tasks:
+                                task_date = timezone('EST').localize(datetime.fromtimestamp(task.rank))
+                                LOG.debug("got %s", task_date)
+                                if (asc and task_date >= requested) or (not asc and task_date <= requested):
+                                    self._task = task
+                                    break
+                        except FetcherException:
+                            LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
+
+                    if self._task is not None:
+                        # a task was found
                         break
-                    except FetcherException:
-                        LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
-                        start = start + timedelta(days=1) if asc else start - timedelta(days=1)
+
+                    # Increment start date
+                    start = start + timedelta(days=1) if asc else start - timedelta(days=1)
+
                 else:
                     raise FetcherException('Failed to find build near %s' % build)
 
