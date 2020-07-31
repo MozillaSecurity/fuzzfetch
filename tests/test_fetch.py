@@ -17,7 +17,6 @@ from freezegun import freeze_time
 import fuzzfetch
 
 LOG = logging.getLogger("fuzzfetch_test")
-logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("flake8").setLevel(logging.WARNING)
 
