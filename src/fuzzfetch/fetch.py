@@ -171,10 +171,13 @@ class Platform(object):
         """
         Create a platform object from a namespace build string
         """
+        match = []
         for system, platform in cls.SUPPORTED.items():
             for machine, platform_guess in platform.items():
-                if platform_guess in build_string:
-                    return cls(system, machine)
+                if platform_guess in build_string and (not match or len(match[2]) < len(platform_guess)):
+                    match = [system, machine, platform_guess]
+        if match:
+            return cls(match[0], match[1])
         raise FetcherException('Could not extract platform from %s' % (build_string,))
 
     def auto_name_prefix(self):
