@@ -558,11 +558,10 @@ class Fetcher(object):
                 requested = None
                 asc = nearest == Fetcher.BUILD_ORDER_ASC
                 if 'latest' in build:
-                    requested = now + timedelta(days=1) if asc else now - timedelta(days=1)
+                    requested = now
                 elif BuildTask.RE_DATE.match(build) is not None:
                     date = datetime.strptime(build, '%Y-%m-%d')
-                    localized = timezone('UTC').localize(date)
-                    requested = localized + timedelta(days=1) if asc else localized - timedelta(days=1)
+                    requested = timezone('UTC').localize(date)
                 elif BuildTask.RE_REV.match(build) is not None:
                     requested = HgRevision(build, branch).pushdate
                 else:
@@ -582,29 +581,35 @@ class Fetcher(object):
                 else:
                     end = now - timedelta(days=364)
                     start = max(min(requested, now), end)
+                LOG.debug("searching for nearest build to %s from %s -> %s", requested, start, end)
 
                 while start <= end if asc else start >= end:
-                    build_str = start.strftime('%Y-%m-%d')
-                    try:
-                        if start.date() == requested.date():
-                            for task in BuildTask.iterall(build_str, branch, self._flags, self._platform):
+                    search_build = start.strftime('%Y-%m-%d')
+
+                    # in the case where a calendar date was specified, we've already tried it directly
+                    if search_build != build:
+                        LOG.debug("trying %s", search_build)
+                        try:
+                            # iterate over all builds for the day, and take the next older/newer build available
+                            build_tasks = BuildTask.iterall(search_build, branch, self._flags, self._platform)
+                            if not asc:
+                                build_tasks = reversed(list(build_tasks))
+
+                            for task in build_tasks:
                                 task_date = timezone('EST').localize(datetime.fromtimestamp(task.rank))
-                                if (asc and requested <= task_date) or (requested >= task_date):
+                                LOG.debug("got %s", task_date)
+                                if (asc and task_date >= requested) or (not asc and task_date <= requested):
                                     self._task = task
                                     break
-                        else:
-                            task = BuildTask(build_str, branch, self._flags, self._platform)
-                            task_date = timezone('EST').localize(datetime.fromtimestamp(task.rank))
-                            if (asc and requested <= task_date) or (requested >= task_date):
-                                self._task = task
-                    except FetcherException:
-                        LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
+                        except FetcherException:
+                            LOG.warning('Unable to find build for %s', start.strftime('%Y-%m-%d'))
 
-                    if self._task is None:
-                        # Increment start date
-                        start = start + timedelta(days=1) if asc else start - timedelta(days=1)
-                    else:
+                    if self._task is not None:
+                        # a task was found
                         break
+
+                    # Increment start date
+                    start = start + timedelta(days=1) if asc else start - timedelta(days=1)
 
                 else:
                     raise FetcherException('Failed to find build near %s' % build)
