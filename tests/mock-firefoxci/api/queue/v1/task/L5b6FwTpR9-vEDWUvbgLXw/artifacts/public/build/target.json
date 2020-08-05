@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/checkouts/gecko/vs2017_15.9.6/VC/bin/Hostx64/arm64/armasm64.exe",
+  "buildid": "20200805010820",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang-cl -Xclang -std=gnu99 --target=aarch64-windows-msvc",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang-cl -Xclang -std=c++17 --target=aarch64-windows-msvc",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "80.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "80.0a1",
+  "moz_pkg_platform": "win64-aarch64",
+  "moz_source_repo": "https://hg.mozilla.org/try",
+  "moz_source_stamp": "8b721d29c37138edd86c5651fccd1e99b1d17da3",
+  "moz_update_channel": "default",
+  "target_alias": "aarch64-windows-mingw32",
+  "target_cpu": "aarch64",
+  "target_os": "mingw32",
+  "target_vendor": "windows"
+}

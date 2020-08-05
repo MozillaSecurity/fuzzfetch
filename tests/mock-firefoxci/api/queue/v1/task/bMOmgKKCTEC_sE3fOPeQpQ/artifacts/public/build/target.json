@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -isysroot /builds/worker/checkouts/gecko/MacOSX10.11.sdk -std=gnu99 --target=x86_64-apple-darwin",
+  "buildid": "20200805153343",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -isysroot /builds/worker/checkouts/gecko/MacOSX10.11.sdk -std=gnu99 --target=x86_64-apple-darwin",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++ -isysroot /builds/worker/checkouts/gecko/MacOSX10.11.sdk -std=gnu++17 --target=x86_64-apple-darwin",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "81.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "81.0a1",
+  "moz_pkg_platform": "mac-asan",
+  "moz_source_repo": "https://hg.mozilla.org/try",
+  "moz_source_stamp": "c1c9b469e6c92bcf2a82893facdbb1dad7be7698",
+  "moz_update_channel": "default",
+  "target_alias": "x86_64-apple-darwin",
+  "target_cpu": "x86_64",
+  "target_os": "darwin",
+  "target_vendor": "apple"
+}

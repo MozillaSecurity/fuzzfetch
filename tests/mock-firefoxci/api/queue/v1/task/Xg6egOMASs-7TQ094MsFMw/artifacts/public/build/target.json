@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/checkouts/gecko/vs2017_15.8.4/VC/bin/Hostx64/x64/ml64.exe",
+  "buildid": "20200805105530",
+  "cc": "/builds/worker/fetches/clang/bin/clang-cl -Xclang -std=gnu99",
+  "cxx": "/builds/worker/fetches/clang/bin/clang-cl -Xclang -std=c++17",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "81.*",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "81.0",
+  "moz_pkg_platform": "win64",
+  "moz_source_repo": "https://hg.mozilla.org/try",
+  "moz_source_stamp": "3ccae053ad37964a397152e8ba35cb6a64128871",
+  "moz_update_channel": "beta",
+  "target_alias": "x86_64-pc-mingw32",
+  "target_cpu": "x86_64",
+  "target_os": "mingw32",
+  "target_vendor": "pc"
+}

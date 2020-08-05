@@ -1,0 +1,142 @@
+{
+  "artifacts": [
+    {
+      "storageType": "s3",
+      "name": "public/build/buildhub.json",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/build_resources.html",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "text/html"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/build_resources.json",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/config.status",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/host/bin/mar",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/host/bin/mbsdiff",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mozharness.zip",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/sccache.log",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.checksums",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.crashreporter-symbols.zip",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.generated-files.tar.gz",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target_info.txt",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.json",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.jsshell.zip",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.langpack.xpi",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/x-xpinstall"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.mozinfo.json",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.normandy.json",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.tar.bz2",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/x-bzip2"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.txt",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/xvfb/xvfb.log",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/live_backing.log",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "storageType": "reference",
+      "name": "public/logs/live.log",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/localconfig.json",
+      "expires": "2021-08-05T16:56:43.038Z",
+      "contentType": "application/json"
+    }
+  ]
+}

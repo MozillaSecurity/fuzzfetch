@@ -108,40 +108,40 @@ def test_metadata(branch, build_flags, os_, cpu):
     # BuildFlags(asan, debug, fuzzing, coverage, valgrind)
     # Fetcher(target, branch, build, flags, arch_32)
     # Set freeze_time to a date ahead of the latest mock build
-    with freeze_time('2019-12-01'):
-        platform_ = fuzzfetch.fetch.Platform(os_, cpu)
-        for as_args in (True, False):  # try as API and as command line
-            if as_args:
-                args = ["--" + name for arg, name in zip(build_flags, fuzzfetch.BuildFlags._fields) if arg]
-                fetcher = fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_] + args)[0]
-            else:
-                if branch.startswith("esr"):
-                    branch = fuzzfetch.Fetcher.resolve_esr(branch)
-                fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
-            LOG.debug("succeeded creating Fetcher")
-            LOG.debug("buildid: %s", fetcher.id)
-            LOG.debug("hgrev: %s", fetcher.changeset)
+    platform_ = fuzzfetch.fetch.Platform(os_, cpu)
+    for as_args in (True, False):  # try as API and as command line
+        if as_args:
+            args = ["--" + name for arg, name in zip(build_flags, fuzzfetch.BuildFlags._fields) if arg]
+            fetcher = fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_] + args)[0]
+        else:
+            if branch.startswith("esr"):
+                branch = fuzzfetch.Fetcher.resolve_esr(branch)
+            fetcher = fuzzfetch.Fetcher("firefox", branch, "latest", build_flags, platform_)
 
-            time_obj = time.strptime(fetcher.id, "%Y%m%d%H%M%S")
+        LOG.debug("succeeded creating Fetcher")
+        LOG.debug("buildid: %s", fetcher.id)
+        LOG.debug("hgrev: %s", fetcher.changeset)
 
-            # yyyy-mm-dd is also accepted as a build input
-            date_str = "%d-%02d-%02d" % (time_obj.tm_year, time_obj.tm_mon, time_obj.tm_mday)
-            if as_args:
-                fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_, "--build", date_str] + args)
-            else:
-                fuzzfetch.Fetcher("firefox", branch, date_str, build_flags, platform_)
+        time_obj = time.strptime(fetcher.id, "%Y%m%d%H%M%S")
 
-            # hg rev is also accepted as a build input
-            rev = fetcher.changeset
-            if as_args:
-                fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_, "--build", rev] + args)
-            else:
-                fuzzfetch.Fetcher("firefox", branch, rev, build_flags, platform_)
-            # namespace = fetcher.build
+        # yyyy-mm-dd is also accepted as a build input
+        date_str = "%d-%02d-%02d" % (time_obj.tm_year, time_obj.tm_mon, time_obj.tm_mday)
+        if as_args:
+            fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_, "--build", date_str] + args)
+        else:
+            fuzzfetch.Fetcher("firefox", branch, date_str, build_flags, platform_)
 
-            # TaskCluster namespace is also accepted as a build input
-            # namespace = ?
-            # fuzzfetch.Fetcher("firefox", branch, namespace, (asan, debug, fuzzing, coverage))
+        # hg rev is also accepted as a build input
+        rev = fetcher.changeset
+        if as_args:
+            fuzzfetch.Fetcher.from_args(["--" + branch, '--cpu', cpu, '--os', os_, "--build", rev] + args)
+        else:
+            fuzzfetch.Fetcher("firefox", branch, rev, build_flags, platform_)
+        # namespace = fetcher.build
+
+        # TaskCluster namespace is also accepted as a build input
+        # namespace = ?
+        # fuzzfetch.Fetcher("firefox", branch, namespace, (asan, debug, fuzzing, coverage))
 
 
 # whenever BUILD_CACHE is set:
@@ -149,7 +149,7 @@ def test_metadata(branch, build_flags, os_, cpu):
 # - expected should be updated to the value that asserts
 @pytest.mark.parametrize('requested, expected, direction', (
         ('2019-11-06', '2019-11-07', fuzzfetch.Fetcher.BUILD_ORDER_ASC),
-        ('2020-08-01', '2019-12-01', fuzzfetch.Fetcher.BUILD_ORDER_DESC),
+        ('2020-08-06', '2020-08-05', fuzzfetch.Fetcher.BUILD_ORDER_DESC),
         ('d271c572a9bcd008ed14bf104b2eb81949952e4c',
          'ac63c8962183502a4b0ec32222efc67d3841d157',
          fuzzfetch.Fetcher.BUILD_ORDER_ASC),
@@ -165,8 +165,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
     flags = fuzzfetch.BuildFlags(asan=False, tsan=False, debug=False, fuzzing=False, coverage=False, valgrind=False)
 
     # Set freeze_time to a date ahead of the latest mock build
-    with freeze_time('2019-12-01'):
-
+    with freeze_time('2020-08-05'):
         LOG.debug("looking for nearest to %s", requested)
         if is_namespace:
             if fuzzfetch.BuildTask.RE_DATE.match(requested):
