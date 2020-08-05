@@ -255,10 +255,15 @@ class BuildTask(object):
             task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_paths)
 
         elif build == 'latest':
-            if branch in {'autoland', 'try'}:
-                namespace = 'gecko.v2.' + branch + '.latest'
+            if branch not in {'autoland', 'try'}:
+                branch = 'mozilla-' + branch
+
+            if not any(flags):
+                # Opt builds are now indexed under 'shippable'
+                namespace = 'gecko.v2.' + branch + '.shippable.latest'
             else:
-                namespace = 'gecko.v2.mozilla-' + branch + '.latest'
+                namespace = 'gecko.v2.' + branch + '.latest'
+
             product = 'mobile' if 'android' in target_platform else 'firefox'
             task_path = '/task/%s.%s.%s%s' % (namespace, product, target_platform, flags.build_string())
             task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
@@ -303,29 +308,40 @@ class BuildTask(object):
         """Multiple entries exist per push date. Iterate over all until a working entry is found"""
         if branch not in {'autoland', 'try'}:
             branch = 'mozilla-' + branch
-        path = '/namespaces/gecko.v2.' + branch + '.pushdate.' + pushdate
 
-        index_base = cls.TASKCLUSTER_API % ('index',)
-        url = index_base + path
-        try:
-            base = HTTP_SESSION.post(url, json={})
-            base.raise_for_status()
-        except requests.exceptions.RequestException as exc:
-            raise FetcherException(exc)
+        paths = (
+            '/namespaces/gecko.v2.' + branch + '.shippable.' + pushdate,
+            '/namespaces/gecko.v2.' + branch + '.pushdate.' + pushdate
+        )
 
-        product = 'mobile' if 'android' in target_platform else 'firefox'
-        json = base.json()
-        for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
-            yield cls.TASKCLUSTER_API, '/task/' + namespace['namespace'] + '.' + product + '.' + target_platform
+        for path in paths:
+            index_base = cls.TASKCLUSTER_API % ('index',)
+            url = index_base + path
+            try:
+                base = HTTP_SESSION.post(url, json={})
+                base.raise_for_status()
+            except requests.exceptions.RequestException:
+                continue
+
+            product = 'mobile' if 'android' in target_platform else 'firefox'
+            json = base.json()
+            for namespace in sorted(json['namespaces'], key=lambda x: x['name']):
+                yield cls.TASKCLUSTER_API, '/task/' + namespace['namespace'] + '.' + product + '.' + target_platform
 
     @classmethod
     def _revision_paths(cls, rev, branch, target_platform):
         """Retrieve the API path for revision based builds"""
         if branch not in {'autoland', 'try'}:
             branch = 'mozilla-' + branch
-        namespace = 'gecko.v2.' + branch + '.revision.' + rev
-        product = 'mobile' if 'android' in target_platform else 'firefox'
-        yield '/task/' + namespace + '.' + product + '.' + target_platform
+
+        namespaces = (
+            'gecko.v2.' + branch + '.revision.' + rev,
+            'gecko.v2.' + branch + '.shippable.revision.' + rev
+        )
+
+        for namespace in namespaces:
+            product = 'mobile' if 'android' in target_platform else 'firefox'
+            yield '/task/' + namespace + '.' + product + '.' + target_platform
 
 
 class FetcherArgs(object):
