@@ -78,6 +78,8 @@ class HgRevision(object):
             raise FetcherException("Can't lookup revision date for branch: %r" % (branch,))
         if branch in {'autoland', 'inbound'}:
             branch = 'integration/' + branch
+        elif branch in {'release', 'beta'} or branch.startswith('esr'):
+            branch = 'releases/mozilla-' + branch
         elif branch != 'try':
             branch = 'mozilla-' + branch
         self._data = _get_url('https://hg.mozilla.org/%s/json-rev/%s' % (branch, revision)).json()
