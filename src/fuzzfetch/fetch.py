@@ -57,7 +57,7 @@ def _get_url(url):
         data = HTTP_SESSION.get(url, stream=True)
         data.raise_for_status()
     except requests.exceptions.RequestException as exc:
-        raise FetcherException(exc)
+        raise FetcherException from exc
 
     return data
 
@@ -350,7 +350,7 @@ class FetcherArgs(object):
         """
         Instantiate a new FetcherArgs instance
         """
-        super(FetcherArgs, self).__init__()
+        super().__init__()
         if not hasattr(self, "parser"):
             self.parser = argparse.ArgumentParser(conflict_handler='resolve')
 
@@ -442,8 +442,8 @@ class FetcherArgs(object):
         @type args: list
         @param args: a list of arguments
         """
-        if hasattr(super(FetcherArgs, self), 'sanity_check'):
-            super(FetcherArgs, self).sanity_check(args)  # pylint: disable=no-member
+        if hasattr(super(), 'sanity_check'):
+            super().sanity_check(args)  # pylint: disable=no-member
 
         if self.is_build_ns(args.build):
             # this is a custom build
@@ -631,7 +631,7 @@ class Fetcher(object):
                     start = start + timedelta(days=1) if asc else start - timedelta(days=1)
 
                 else:
-                    raise FetcherException('Failed to find build near %s' % build)
+                    raise FetcherException('Failed to find build near %s' % build)  # pylint: disable=W0707
 
             if build == 'latest' and (now - self.datetime).total_seconds() > 86400:
                 LOG.warning('Latest available build is older than 1 day: %s', self.id)
