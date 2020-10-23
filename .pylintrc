@@ -5,6 +5,8 @@ jobs = 2
 disable =
     bad-continuation,
     fixme,
+    raise-missing-from,
+    super-with-arguments,
     too-few-public-methods,
     too-many-arguments,
     too-many-branches,
