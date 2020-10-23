@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/MozillaSecurity/fuzzfetch.svg?branch=master)](https://travis-ci.org/MozillaSecurity/fuzzfetch)
+[![Build Status](https://api.travis-ci.com/MozillaSecurity/fuzzfetch.svg?branch=master)](https://travis-ci.org/MozillaSecurity/fuzzfetch)
 [![codecov](https://codecov.io/gh/MozillaSecurity/fuzzfetch/branch/master/graph/badge.svg)](https://codecov.io/gh/MozillaSecurity/fuzzfetch)
 
 Fuzzfetch is a python tool for retrieving builds from the [Firefox-CI](https://firefox-ci-tc.services.mozilla.com/) Taskcluster instance.
