@@ -4,14 +4,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import ctypes
 import os
 import platform
 import stat
 import subprocess
-import sys
 
-if sys.version_info[:2] >= (3, 5) and platform.system() == "Windows":
+if platform.system() == "Windows":
     import _winapi  # pylint: disable=import-error
 
 
@@ -43,8 +41,7 @@ def onerror(func, path, _exc_info):
 
 
 def rmtree(path):
-    """shutil.rmtree() but also handle junction points and access errors on Windows.
-    """
+    """shutil.rmtree() but also handle junction points and access errors on Windows."""
     if islink(path):
         unlink(path)
     elif os.path.isdir(path):
@@ -63,30 +60,23 @@ def rmtree(path):
 
 
 def islink(path):
-    """os.path.islink() but return True for junction points on Windows.
-    """
+    """os.path.islink() but return True for junction points on Windows."""
     if platform.system() == "Windows":
-        if sys.version_info[:2] < (3, 5):
-            try:
-                # pylint: disable=undefined-variable
-                attrs = ctypes.windll.kernel32.GetFileAttributesW(unicode(path))  # noqa
-                assert attrs != -1
-                return bool(attrs & FILE_ATTRIBUTE_REPARSE_POINT)
-            except (AttributeError, AssertionError):
-                return False
         try:
             st = os.lstat(path)  # pylint: disable=invalid-name
         except (OSError, AttributeError):
             return False
         # pylint: disable=no-member
-        return stat.S_ISLNK(st.st_mode) or st.st_file_attributes & stat.FILE_ATTRIBUTE_REPARSE_POINT
+        return (
+            stat.S_ISLNK(st.st_mode)
+            or st.st_file_attributes & stat.FILE_ATTRIBUTE_REPARSE_POINT
+        )
     return os.path.islink(path)
 
 
 def unlink(link):
-    """os.unlink() but handle junction points on Windows.
-    """
-    if islink(link) and platform.system() == "Windows" and sys.version_info[:2] < (3, 5):
+    """os.unlink() but handle junction points on Windows."""
+    if islink(link) and platform.system() == "Windows":
         # deleting junction points was added to os.unlink in 3.5
         # https://bugs.python.org/issue18314
         subprocess.check_call(["rmdir", link], shell=True)
@@ -95,15 +85,10 @@ def unlink(link):
 
 
 def symlink(target, link):
-    """os.symlink() but use a junction point on Windows.
-    """
+    """os.symlink() but use a junction point on Windows."""
     if islink(link):
         unlink(link)
     if platform.system() == "Windows":
-        if sys.version_info[:2] < (3, 5):
-            with open(os.devnull, "w") as nul:
-                subprocess.check_call(["mklink", "/J", link, target], shell=True, stdout=nul)
-        else:
-            _winapi.CreateJunction(target, link)
+        _winapi.CreateJunction(target, link)
     else:
         os.symlink(target, link)  # pylint: disable=no-member

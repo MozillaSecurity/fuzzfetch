@@ -1,12 +1,13 @@
-[![Build Status](https://api.travis-ci.com/MozillaSecurity/fuzzfetch.svg?branch=master)](https://travis-ci.org/MozillaSecurity/fuzzfetch)
+[![Task Status](https://community-tc.services.mozilla.com/api/github/v1/repository/MozillaSecurity/fuzzfetch/master/badge.svg)](https://community-tc.services.mozilla.com/api/github/v1/repository/MozillaSecurity/fuzzfetch/master/latest)
 [![codecov](https://codecov.io/gh/MozillaSecurity/fuzzfetch/branch/master/graph/badge.svg)](https://codecov.io/gh/MozillaSecurity/fuzzfetch)
+[![Matrix](https://img.shields.io/badge/dynamic/json?color=green&label=chat&query=%24.chunk[%3F(%40.canonical_alias%3D%3D%22%23fuzzing%3Amozilla.org%22)].num_joined_members&suffix=%20users&url=https%3A%2F%2Fmozilla.modular.im%2F_matrix%2Fclient%2Fr0%2FpublicRooms&style=flat&logo=matrix)](https://riot.im/app/#/room/#fuzzing:mozilla.org)
 
 Fuzzfetch is a python tool for retrieving builds from the [Firefox-CI](https://firefox-ci-tc.services.mozilla.com/) Taskcluster instance.
 
 Overview
 --------
 
-Fuzzfetch can be used to retrieve nearly any build type indexed by Firefox-CI.  This includes AddressSanitizer, ThreadSanitizer, Valgrind, debug, and Fuzzing builds for both Firefox and Spidermonkey. 
+Fuzzfetch can be used to retrieve nearly any build type indexed by Firefox-CI.  This includes AddressSanitizer, ThreadSanitizer, Valgrind, debug, and Fuzzing builds for both Firefox and Spidermonkey.
 
 Installation
 ------------
@@ -82,7 +83,7 @@ Near Arguments:
 
 Simple Build Retrieval
 ----------------------
-To retrieve the latest build from mozilla-central built with `--enable-address-sanitizer` and `--enable-fuzzing`, you can use the following: 
+To retrieve the latest build from mozilla-central built with `--enable-address-sanitizer` and `--enable-fuzzing`, you can use the following:
 ```
 fuzzfetch -a --fuzzing
 ```
