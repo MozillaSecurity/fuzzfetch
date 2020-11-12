@@ -19,7 +19,7 @@ tasks:
       else:
         $if: 'tasks_for == "github-push"'
         then: ${event.ref}
-        else: "tags/${event.release.tag_name}"
+        else: "refs/tags/${event.release.tag_name}:refs/tags/${event.release.tag_name}"
 
     http_repo:
       $if: 'tasks_for == "github-pull-request"'
