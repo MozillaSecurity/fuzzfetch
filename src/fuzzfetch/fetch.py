@@ -1048,6 +1048,7 @@ class Fetcher(object):
                     raise
 
         self._write_fuzzmanagerconf(path)
+        LOG.info("Extracted into %s", path)
 
     def _write_fuzzmanagerconf(self, path):
         """
