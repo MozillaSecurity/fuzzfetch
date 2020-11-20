@@ -81,7 +81,7 @@ class HgRevision(object):
             raise FetcherException(
                 "Can't lookup revision date for branch: %r" % (branch,)
             )
-        if branch in {"autoland", "inbound"}:
+        if branch == "autoland":
             branch = "integration/" + branch
         elif branch in {"release", "beta"} or branch.startswith("esr"):
             branch = "releases/mozilla-" + branch
@@ -450,13 +450,6 @@ class FetcherArgs(object):
         branch_group = self.parser.add_argument_group("Branch")
         branch_args = branch_group.add_mutually_exclusive_group()
         branch_args.add_argument(
-            "--inbound",
-            action="store_const",
-            const="inbound",
-            dest="branch",
-            help="Download from mozilla-inbound",
-        )
-        branch_args.add_argument(
             "--central",
             action="store_const",
             const="central",
@@ -644,7 +637,7 @@ class Fetcher(object):
         """
         Arguments:
             target (str): the download target, eg. 'js', 'firefox'
-            branch (str): a valid gecko branch, eg. 'central', 'inbound', 'beta',
+            branch (str): a valid gecko branch, eg. 'central', 'autoland', 'beta',
                           'release', 'esr52', etc.
             build (str): build identifier. acceptable identifiers are: TaskCluster
                          namespace, hg changeset, date, 'latest'
