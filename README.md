@@ -54,7 +54,7 @@ Branch:
   --esr-stable          Download from esr-stable
   --esr-next            Download from esr-next
   --try                 Download from try
-  --autoland            Download from try
+  --autoland            Download from autoland
 
 Build Arguments:
   -d, --debug           Get debug builds w/ symbols (default=optimized).
