@@ -1142,9 +1142,7 @@ class Fetcher(object):
             # _artifact_base is like 'path/to/target' .. but geckoview doesn't
             # use target as a basename, so we need to extract just the path
             artifact_path = "/".join(self._artifact_base.split("/")[:-1])
-            url = (
-                self._artifacts_url + "/" + artifact_path + "/geckoview-androidTest.apk"
-            )
+            url = self._artifacts_url + "/" + artifact_path + "/geckoview_example.apk"
             _download_url(url, apk_fn)
             shutil.copy(apk_fn, os.path.join(path, "target.apk"))
         finally:
