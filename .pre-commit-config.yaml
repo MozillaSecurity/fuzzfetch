@@ -33,6 +33,7 @@ repos:
       - id: check-yaml
       - id: mixed-line-ending
       - id: name-tests-test
+        args: ['--django']
       - id: check-json
   - repo: https://github.com/codespell-project/codespell
     rev: v2.0.0
