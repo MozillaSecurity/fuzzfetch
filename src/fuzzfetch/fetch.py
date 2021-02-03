@@ -33,6 +33,10 @@ __all__ = (
     "FetcherArgs",
     "FetcherException",
     "Platform",
+    "get_url",
+    "download_url",
+    "iec",
+    "si",
 )
 
 
@@ -47,16 +51,39 @@ class FetcherException(Exception):
     """Exception raised for any Fetcher errors"""
 
 
-def _si(number):
-    """Format a number using base-2 SI prefixes"""
-    prefixes = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"]
+def iec(number):
+    """Format a number using IEC multi-byte prefixes.
+
+    Arguments:
+        number (number): Number to format.
+
+    Returns:
+        str: Input number, formatted to the largest whole SI prefix.
+    """
+    prefixes = ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi", "Yi"]
     while number > 1024:
         number /= 1024.0
         prefixes.pop(0)
-    return "%0.2f%s" % (number, prefixes.pop(0))
+    return "%0.2f%s" % (number, prefixes[0])
 
 
-def _get_url(url):
+def si(number):  # pylint: disable=invalid-name
+    """Format a number using SI prefixes.
+
+    Arguments:
+        number (number): Number to format.
+
+    Returns:
+        str: Input number, formatted to the largest whole SI prefix.
+    """
+    prefixes = ["", "k", "M", "G", "T", "P", "E", "Z", "Y"]
+    while number > 1000:
+        number /= 1000.0
+        prefixes.pop(0)
+    return "%0.2f%s" % (number, prefixes[0])
+
+
+def get_url(url):
     """Retrieve requested URL"""
     try:
         data = HTTP_SESSION.get(url, stream=True)
@@ -87,7 +114,7 @@ class HgRevision(object):
             branch = "releases/mozilla-" + branch
         elif branch != "try":
             branch = "mozilla-" + branch
-        self._data = _get_url(
+        self._data = get_url(
             "https://hg.mozilla.org/%s/json-rev/%s" % (branch, revision)
         ).json()
 
@@ -105,12 +132,21 @@ class HgRevision(object):
         return self._data["node"]
 
 
-def _download_url(url, outfile):
+def download_url(url, outfile):
+    """Download a URL to a local path.
+
+    Arguments:
+        url (str): URL to download.
+        outfile (str): Path to output file.
+
+    Returns:
+        None
+    """
     downloaded = 0
     start_time = report_time = time.time()
-    resp = _get_url(url)
+    resp = get_url(url)
     total_size = int(resp.headers["Content-Length"])
-    LOG.info("> Downloading: %s (%sB total)", url, _si(total_size))
+    LOG.info("> Downloading: %s (%sB total)", url, iec(total_size))
     with open(outfile, "wb") as build_zip:
         for chunk in resp.iter_content(1024 * 1024):
             build_zip.write(chunk)
@@ -120,11 +156,11 @@ def _download_url(url, outfile):
                 LOG.info(
                     ".. still downloading (%0.1f%%, %sB/s)",
                     100.0 * downloaded / total_size,
-                    _si(float(downloaded) / (now - start_time)),
+                    si(float(downloaded) / (now - start_time)),
                 )
                 report_time = now
     LOG.info(
-        ".. downloaded (%sB/s)", _si(float(downloaded) / (time.time() - start_time))
+        ".. downloaded (%sB/s)", si(float(downloaded) / (time.time() - start_time))
     )
 
 
@@ -852,7 +888,7 @@ class Fetcher(object):
         if branch not in {"esr-stable", "esr-next"}:
             raise FetcherException("Invalid ESR branch specified: %s" % branch)
 
-        resp = _get_url("https://product-details.mozilla.org/1.0/firefox_versions.json")
+        resp = get_url("https://product-details.mozilla.org/1.0/firefox_versions.json")
         key = "FIREFOX_ESR" if branch == "esr-stable" else "FIREFOX_ESR_NEXT"
         match = re.search(r"^\d+", resp.json()[key])
         if match is None:
@@ -873,7 +909,7 @@ class Fetcher(object):
     def _artifacts(self):
         """Retrieve the artifacts json object"""
         if "_artifacts" not in self._memo:
-            json = _get_url(self._artifacts_url).json()
+            json = get_url(self._artifacts_url).json()
             self._memo["_artifacts"] = json["artifacts"]
         return self._memo["_artifacts"]
 
@@ -913,7 +949,7 @@ class Fetcher(object):
     def build_info(self):
         """Return the build's info"""
         if "build_info" not in self._memo:
-            self._memo["build_info"] = _get_url(self.artifact_url("json")).json()
+            self._memo["build_info"] = get_url(self.artifact_url("json")).json()
         return self._memo["build_info"]
 
     @property
@@ -925,7 +961,7 @@ class Fetcher(object):
     def moz_info(self):
         """Return the build's mozinfo"""
         if "moz_info" not in self._memo:
-            self._memo["moz_info"] = _get_url(self.artifact_url("mozinfo.json")).json()
+            self._memo["moz_info"] = get_url(self.artifact_url("mozinfo.json")).json()
         return self._memo["moz_info"]
 
     @property
@@ -1104,7 +1140,7 @@ class Fetcher(object):
         zip_fd, zip_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".zip")
         os.close(zip_fd)
         try:
-            _download_url(self.artifact_url(suffix), zip_fn)
+            download_url(self.artifact_url(suffix), zip_fn)
             LOG.info(".. extracting")
             extract_zip(zip_fn, path)
         finally:
@@ -1123,7 +1159,7 @@ class Fetcher(object):
         tar_fd, tar_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar.%s" % mode)
         os.close(tar_fd)
         try:
-            _download_url(self.artifact_url(suffix), tar_fn)
+            download_url(self.artifact_url(suffix), tar_fn)
             LOG.info(".. extracting")
             extract_tar(tar_fn, mode, path)
         finally:
@@ -1143,7 +1179,7 @@ class Fetcher(object):
             # use target as a basename, so we need to extract just the path
             artifact_path = "/".join(self._artifact_base.split("/")[:-1])
             url = self._artifacts_url + "/" + artifact_path + "/geckoview_example.apk"
-            _download_url(url, apk_fn)
+            download_url(url, apk_fn)
             shutil.copy(apk_fn, os.path.join(path, "target.apk"))
         finally:
             os.unlink(apk_fn)
@@ -1160,7 +1196,7 @@ class Fetcher(object):
         dmg_fd, dmg_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".dmg")
         os.close(dmg_fd)
         try:
-            _download_url(self.artifact_url("dmg"), dmg_fn)
+            download_url(self.artifact_url("dmg"), dmg_fn)
             if std_platform.system() == "Darwin":
                 LOG.info(".. extracting")
                 extract_dmg(dmg_fn, path)
