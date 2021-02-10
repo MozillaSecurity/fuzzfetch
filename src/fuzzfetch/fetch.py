@@ -1226,11 +1226,11 @@ class Fetcher(object):
 
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
-        if not parser.is_build_ns(args.build) and args.branch is None:
-            args.branch = "central"
-
-        if args.branch.startswith("esr"):
-            args.branch = Fetcher.resolve_esr(args.branch)
+        if not parser.is_build_ns(args.build):
+            if args.branch is None:
+                args.branch = "central"
+            elif args.branch.startswith("esr"):
+                args.branch = Fetcher.resolve_esr(args.branch)
 
         flags = BuildFlags(
             args.asan, args.tsan, args.debug, args.fuzzing, args.coverage, args.valgrind
