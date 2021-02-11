@@ -871,8 +871,8 @@ class Fetcher(object):
             options = build.split(self.moz_info["platform_guess"], 1)[1]
         else:
             options = self._flags.build_string()
-        if self._branch == "try":
-            branch = "try"
+        if self._branch in {"autoland", "try"}:
+            branch = self._branch
         else:
             branch = "m-%s" % (self._branch[0],)
         self._auto_name = "%s%s-%s%s" % (
