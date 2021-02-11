@@ -705,7 +705,7 @@ class Fetcher(object):
                 # If branch wasn't set, try and retrieve it from the build string
                 if self._branch is None:
                     branch = re.search(
-                        r"\.(try|mozilla-(?P<branch>[a-z]+[0-9]*))\.", build
+                        r"\.(autoland|try|mozilla-(?P<branch>[a-z]+[0-9]*))\.", build
                     )
                     self._branch = branch.group("branch") if branch is not None else "?"
                     if self._branch is None:
