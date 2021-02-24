@@ -18,6 +18,7 @@ import tempfile
 import time
 from collections import namedtuple
 from datetime import datetime, timedelta
+from sys import version_info
 
 import requests  # pylint: disable=import-error
 from pytz import timezone  # pylint: disable=import-error
@@ -26,7 +27,16 @@ from .extract import extract_dmg, extract_tar, extract_zip
 from .path import onerror
 from .path import rmtree as junction_rmtree
 
+if version_info[:2] < (3, 8):
+    # pylint: disable=import-error
+    from importlib_metadata import PackageNotFoundError, version
+else:
+    # pylint: disable=import-error
+    from importlib.metadata import PackageNotFoundError, version
+
+
 __all__ = (
+    "__version__",
     "BuildFlags",
     "BuildTask",
     "Fetcher",
@@ -39,6 +49,11 @@ __all__ = (
     "si",
 )
 
+try:
+    __version__ = version("fuzzfetch")
+except PackageNotFoundError:
+    # package is not installed
+    __version__ = None
 
 LOG = logging.getLogger("fuzzfetch")
 
@@ -442,7 +457,9 @@ class FetcherArgs(object):
         """
         super().__init__()
         if not hasattr(self, "parser"):
-            self.parser = argparse.ArgumentParser(conflict_handler="resolve")
+            self.parser = argparse.ArgumentParser(
+                conflict_handler="resolve", prog="fuzzfetch"
+            )
 
         self.parser.set_defaults(
             target="firefox", build="latest", tests=None
@@ -1222,7 +1239,13 @@ class Fetcher(object):
                                          for extract_build.
         """
         parser = FetcherArgs()
+        parser.parser.add_argument(
+            "-V", "--version", action="store_true", help="print version and exit"
+        )
         args = parser.parse_args(args)
+        if args.version:
+            print("fuzzfetch %s" % (__version__,))
+            raise SystemExit(0)
 
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
