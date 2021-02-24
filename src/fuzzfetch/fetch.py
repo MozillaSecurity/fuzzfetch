@@ -722,7 +722,7 @@ class Fetcher(object):
                 # If branch wasn't set, try and retrieve it from the build string
                 if self._branch is None:
                     branch = re.search(
-                        r"\.(try|mozilla-(?P<branch>[a-z]+[0-9]*))\.", build
+                        r"\.(autoland|try|mozilla-(?P<branch>[a-z]+[0-9]*))\.", build
                     )
                     self._branch = branch.group("branch") if branch is not None else "?"
                     if self._branch is None:
@@ -888,8 +888,8 @@ class Fetcher(object):
             options = build.split(self.moz_info["platform_guess"], 1)[1]
         else:
             options = self._flags.build_string()
-        if self._branch == "try":
-            branch = "try"
+        if self._branch in {"autoland", "try"}:
+            branch = self._branch
         else:
             branch = "m-%s" % (self._branch[0],)
         self._auto_name = "%s%s-%s%s" % (
