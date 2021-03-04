@@ -12,6 +12,11 @@ omit = [
     "*/.egg/*",
 ]
 
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+]
+
 [tool.isort]
 known_first_party = "fuzzfetch"
 profile = "black"
@@ -39,8 +44,5 @@ disable = [
 
 [tool.pytest.ini_options]
 log_level = "DEBUG"
-filterwarnings = [
-    "ignore:The 'warn' method is deprecated:DeprecationWarning:taskcluster",
-]
 
 [tool.setuptools_scm]
