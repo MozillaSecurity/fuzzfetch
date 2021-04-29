@@ -7,13 +7,9 @@
 import gzip
 import logging
 import os
-
-try:
-    from pathlib import Path
-    from urllib.error import HTTPError
-    from urllib.request import Request, urlopen
-except ImportError:
-    from pathlib2 import Path
+from pathlib import Path
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
 import pytest  # pylint: disable=import-error
 import requests_mock  # pylint: disable=import-error

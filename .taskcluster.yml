@@ -20,10 +20,6 @@ tasks:
         - tox; tox -e codecov
       jobs:
         include:
-          - name: tests python 3.5
-            version: "3.5"
-            env:
-              TOXENV: py35
           - name: tests python 3.6
             version: "3.6"
             env:
