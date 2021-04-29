@@ -109,6 +109,17 @@ def get_url(url):
     return data
 
 
+def resolve_url(url):
+    """Resolve requested URL"""
+    try:
+        data = HTTP_SESSION.head(url)
+        data.raise_for_status()
+    except requests.exceptions.RequestException as exc:
+        raise FetcherException(exc) from None
+
+    return data
+
+
 class HgRevision(object):
     """Class representing a Mercurial revision."""
 
@@ -1006,9 +1017,67 @@ class Fetcher(object):
         """Get the automatic directory name"""
         return self._auto_name
 
-    def extract_build(self, targets, path="."):
+    def resolve_targets(self, targets):
+        """Check that all targets are downloadable.
+
+        This is used to check target validity prior to calling `extract_build()`
+
+        Arguments:
+            targets (list(str)): build artifacts to download
         """
-        Download and extract the build and requested extra artifacts.
+        # this should mirror extract_build(), but do HTTP HEAD requests only
+        # to check that targets exist
+        targets_remaining = set(targets)
+        have_exec = False
+
+        if "js" in targets_remaining:
+            have_exec = True
+            targets_remaining.remove("js")
+            resolve_url(self.artifact_url("jsshell.zip"))
+
+        if "firefox" in targets_remaining:
+            have_exec = True
+            targets_remaining.remove("firefox")
+            if self._platform.system == "Linux":
+                resolve_url(self.artifact_url("tar.bz2"))
+            elif self._platform.system == "Darwin":
+                resolve_url(self.artifact_url("dmg"))
+            elif self._platform.system == "Windows":
+                resolve_url(self.artifact_url("zip"))
+            elif self._platform.system == "Android":
+                artifact_path = "/".join(self._artifact_base.split("/")[:-1])
+                url = (
+                    self._artifacts_url + "/" + artifact_path + "/geckoview_example.apk"
+                )
+                resolve_url(url)
+            else:
+                raise FetcherException(
+                    f"'{self._platform.system}' is not a supported platform"
+                )
+
+        if have_exec:
+            if self._flags.coverage:
+                resolve_url(self.artifact_url("code-coverage-gcno.zip"))
+
+            if (
+                not self._flags.asan
+                and not self._flags.tsan
+                and not self._flags.valgrind
+            ):
+                try:
+                    resolve_url(self.artifact_url("crashreporter-symbols.zip"))
+                except FetcherException:
+                    if not self._flags.fuzzing:
+                        raise
+
+        for target in targets_remaining:
+            try:
+                resolve_url(self.artifact_url(target + ".tests.tar.gz"))
+            except FetcherException:
+                resolve_url(self.artifact_url(target + ".tests.zip"))
+
+    def extract_build(self, targets, path="."):
+        """Download and extract the build and requested extra artifacts.
 
         If an executable target is requested (js/firefox), coverage data
         and/or symbols may be downloaded for the build.
@@ -1017,6 +1086,9 @@ class Fetcher(object):
             targets (list(str)): build artifacts to download
             path (str): Path to extract downloaded artifacts.
         """
+        # sanity check all targets before downloading any
+        self.resolve_targets(targets)
+
         targets_remaining = set(targets)
         have_exec = False
 
