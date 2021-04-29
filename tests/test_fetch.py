@@ -191,12 +191,12 @@ def test_metadata(branch, build_flags, os_, cpu):
     for as_args in (True, False):  # try as API and as command line
         if as_args:
             args = [
-                "--" + name
+                f"--{name}"
                 for arg, name in zip(build_flags, fuzzfetch.BuildFlags._fields)
                 if arg
             ]
             fetcher = fuzzfetch.Fetcher.from_args(
-                ["--" + branch, "--cpu", cpu, "--os", os_] + args
+                [f"--{branch}", "--cpu", cpu, "--os", os_] + args
             )[0]
         else:
             if branch.startswith("esr"):
@@ -212,14 +212,10 @@ def test_metadata(branch, build_flags, os_, cpu):
         time_obj = time.strptime(fetcher.id, "%Y%m%d%H%M%S")
 
         # yyyy-mm-dd is also accepted as a build input
-        date_str = "%d-%02d-%02d" % (
-            time_obj.tm_year,
-            time_obj.tm_mon,
-            time_obj.tm_mday,
-        )
+        date_str = f"{time_obj.tm_year:d}-{time_obj.tm_mon:02d}-{time_obj.tm_mday:02d}"
         if as_args:
             fuzzfetch.Fetcher.from_args(
-                ["--" + branch, "--cpu", cpu, "--os", os_, "--build", date_str] + args
+                [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", date_str] + args
             )
         else:
             fuzzfetch.Fetcher("firefox", branch, date_str, build_flags, platform_)
@@ -228,7 +224,7 @@ def test_metadata(branch, build_flags, os_, cpu):
         rev = fetcher.changeset
         if as_args:
             fuzzfetch.Fetcher.from_args(
-                ["--" + branch, "--cpu", cpu, "--os", os_, "--build", rev] + args
+                [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", rev] + args
             )
         else:
             fuzzfetch.Fetcher("firefox", branch, rev, build_flags, platform_)
@@ -283,12 +279,11 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
             if fuzzfetch.BuildTask.RE_DATE.match(requested):
                 date = requested.replace("-", ".")
                 build_id = (
-                    "gecko.v2.mozilla-central.pushdate.%s.firefox.linux64-opt" % date
+                    f"gecko.v2.mozilla-central.pushdate.{date}.firefox.linux64-opt"
                 )
             else:
                 build_id = (
-                    "gecko.v2.mozilla-central.revision.%s.firefox.linux64-opt"
-                    % requested
+                    f"gecko.v2.mozilla-central.revision.{requested}.firefox.linux64-opt"
                 )
         else:
             build_id = requested

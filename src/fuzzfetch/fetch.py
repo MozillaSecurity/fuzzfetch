@@ -79,7 +79,7 @@ def iec(number):
     while number > 1024:
         number /= 1024.0
         prefixes.pop(0)
-    return "%0.2f%s" % (number, prefixes[0])
+    return f"{number:0.2f}{prefixes[0]}"
 
 
 def si(number):  # pylint: disable=invalid-name
@@ -95,7 +95,7 @@ def si(number):  # pylint: disable=invalid-name
     while number > 1000:
         number /= 1000.0
         prefixes.pop(0)
-    return "%0.2f%s" % (number, prefixes[0])
+    return f"{number:0.2f}{prefixes[0]}"
 
 
 def get_url(url):
@@ -120,17 +120,16 @@ class HgRevision(object):
             branch (str): branch where revision is located
         """
         if branch is None or branch == "?":
-            raise FetcherException(
-                "Can't lookup revision date for branch: %r" % (branch,)
-            )
+            raise FetcherException(f"Can't lookup revision date for branch: {branch}")
+
         if branch == "autoland":
-            branch = "integration/" + branch
+            branch = f"integration/{branch}"
         elif branch in {"release", "beta"} or branch.startswith("esr"):
-            branch = "releases/mozilla-" + branch
+            branch = f"releases/mozilla-{branch}"
         elif branch != "try":
-            branch = "mozilla-" + branch
+            branch = f"mozilla-{branch}"
         self._data = get_url(
-            "https://hg.mozilla.org/%s/json-rev/%s" % (branch, revision)
+            f"https://hg.mozilla.org/{branch}/json-rev/{revision}"
         ).json()
 
     @property
@@ -236,10 +235,10 @@ class Platform(object):
         if machine is None:
             machine = std_platform.machine()
         if system not in self.SUPPORTED:
-            raise FetcherException("Unknown system: %s" % (system,))
+            raise FetcherException(f"Unknown system: {system}")
         fixed_machine = self.CPU_ALIASES.get(machine, machine)
         if fixed_machine not in self.SUPPORTED[system]:
-            raise FetcherException("Unknown machine for %s: %s" % (system, machine))
+            raise FetcherException(f"Unknown machine for {system}: {machine}")
         self.system = system
         self.machine = fixed_machine
         self.gecko_platform = self.SUPPORTED[system][fixed_machine]
@@ -258,7 +257,7 @@ class Platform(object):
                     match = [system, machine, platform_guess]
         if match:
             return cls(match[0], match[1])
-        raise FetcherException("Could not extract platform from %s" % (build_string,))
+        raise FetcherException(f"Could not extract platform from {build_string}")
 
     def auto_name_prefix(self):
         """
@@ -305,15 +304,15 @@ class BuildTask(object):
             break
         else:
             raise FetcherException(
-                "Unable to find usable archive for %s" % self._debug_str(build)
+                f"Unable to find usable archive for {self._debug_str(build)}"
             )
 
     @classmethod
     def _debug_str(cls, build):
         if cls.RE_DATE.match(build):
-            return "pushdate " + build
+            return f"pushdate {build}"
         if cls.RE_REV.match(build):
-            return "revision " + build
+            return f"revision {build}"
         return build
 
     @classmethod
@@ -347,26 +346,23 @@ class BuildTask(object):
 
         elif build == "latest":
             if branch not in {"autoland", "try"}:
-                branch = "mozilla-" + branch
+                branch = f"mozilla-{branch}"
 
             if not any(flags):
                 # Opt builds are now indexed under 'shippable'
-                namespace = "gecko.v2." + branch + ".shippable.latest"
+                namespace = f"gecko.v2.{branch}.shippable.latest"
             else:
-                namespace = "gecko.v2." + branch + ".latest"
+                namespace = f"gecko.v2.{branch}.latest"
 
             product = "mobile" if "android" in target_platform else "firefox"
-            task_path = "/task/%s.%s.%s%s" % (
-                namespace,
-                product,
-                target_platform,
-                flags.build_string(),
+            task_path = (
+                f"/task/{namespace}.{product}.{target_platform}{flags.build_string()}"
             )
             task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
         else:
             # try to use build argument directly as a namespace
-            task_path = "/task/" + build
+            task_path = f"/task/{build}"
             is_namespace = True
             task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
@@ -400,7 +396,7 @@ class BuildTask(object):
         if name in self._data:
             return self._data[name]
         raise AttributeError(
-            "'%s' object has no attribute '%s'" % (type(self).__name__, name)
+            f"'{type(self).__name__}' object has no attribute '{name}'"
         )
 
     @classmethod
@@ -409,11 +405,11 @@ class BuildTask(object):
         is found
         """
         if branch not in {"autoland", "try"}:
-            branch = "mozilla-" + branch
+            branch = f"mozilla-{branch}"
 
         paths = (
-            "/namespaces/gecko.v2." + branch + ".shippable." + pushdate,
-            "/namespaces/gecko.v2." + branch + ".pushdate." + pushdate,
+            f"/namespaces/gecko.v2.{branch}.shippable.{pushdate}",
+            f"/namespaces/gecko.v2.{branch}.pushdate.{pushdate}",
         )
 
         for path in paths:
@@ -428,24 +424,25 @@ class BuildTask(object):
             product = "mobile" if "android" in target_platform else "firefox"
             json = base.json()
             for namespace in sorted(json["namespaces"], key=lambda x: x["name"]):
-                yield cls.TASKCLUSTER_API, "/task/" + namespace[
-                    "namespace"
-                ] + "." + product + "." + target_platform
+                yield (
+                    cls.TASKCLUSTER_API,
+                    f"/task/{namespace['namespace']}.{product}.{target_platform}",
+                )
 
     @classmethod
     def _revision_paths(cls, rev, branch, target_platform):
         """Retrieve the API path for revision based builds"""
         if branch not in {"autoland", "try"}:
-            branch = "mozilla-" + branch
+            branch = f"mozilla-{branch}"
 
         namespaces = (
-            "gecko.v2." + branch + ".revision." + rev,
-            "gecko.v2." + branch + ".shippable.revision." + rev,
+            f"gecko.v2.{branch}.revision.{rev}",
+            f"gecko.v2.{branch}.shippable.revision.{rev}",
         )
 
         for namespace in namespaces:
             product = "mobile" if "android" in target_platform else "firefox"
-            yield "/task/" + namespace + "." + product + "." + target_platform
+            yield f"/task/{namespace}.{product}.{target_platform}"
 
 
 class FetcherArgs(object):
@@ -474,7 +471,7 @@ class FetcherArgs(object):
         target_group.add_argument(
             "--os",
             choices=sorted(Platform.SUPPORTED),
-            help="Specify the target system. (default: " + std_platform.system() + ")",
+            help=f"Specify the target system. (default: {std_platform.system()})",
         )
         cpu_choices = sorted(
             set(
@@ -487,7 +484,7 @@ class FetcherArgs(object):
         target_group.add_argument(
             "--cpu",
             choices=cpu_choices,
-            help="Specify the target CPU. (default: " + std_platform.machine() + ")",
+            help=f"Specify the target CPU. (default: {std_platform.machine()})",
         )
 
         type_group = self.parser.add_argument_group("Build")
@@ -648,8 +645,8 @@ class FetcherArgs(object):
             # ensure conflicting options are not set
             if args.branch is not None:
                 self.parser.error(
-                    "Cannot specify --build namespace and branch argument: %s"
-                    % args.branch
+                    "Cannot specify --build namespace and branch argument: "
+                    f"{args.branch}"
                 )
             if args.debug:
                 self.parser.error("Cannot specify --build namespace and --debug")
@@ -700,7 +697,7 @@ class Fetcher(object):
             platform (Platform): force platform if different than current system
         """
         if target not in self.TARGET_CHOICES:
-            raise FetcherException("'%s' is not a supported target" % target)
+            raise FetcherException(f"'{target}' is not a supported target")
 
         self._memo = {"_target": target}
         "memorized values for @properties"
@@ -732,7 +729,7 @@ class Fetcher(object):
                 if self._branch != "?" and self._branch not in build:
                     raise FetcherException(
                         "'build' and 'branch' arguments do not match. "
-                        "(build=%s, branch=%s)" % (build, self._branch)
+                        f"(build={build}, branch={self._branch})"
                     )
 
                 # If flags weren't set, try and retrieve it from the build string
@@ -756,32 +753,32 @@ class Fetcher(object):
                 if self._flags.asan and "-asan" not in build:
                     raise FetcherException(
                         "'build' is not an asan build, but asan=True given "
-                        "(build=%s)" % build
+                        f"(build={build})"
                     )
                 if self._flags.tsan and "-tsan" not in build:
                     raise FetcherException(
                         "'build' is not an tsan build, but tsan=True given "
-                        "(build=%s)" % build
+                        f"(build={build})"
                     )
                 if self._flags.debug and not ("-dbg" in build or "-debug" in build):
                     raise FetcherException(
                         "'build' is not a debug build, but debug=True given "
-                        "(build=%s)" % build
+                        f"(build={build})"
                     )
                 if self._flags.fuzzing and "-fuzzing" not in build:
                     raise FetcherException(
                         "'build' is not a fuzzing build, but fuzzing=True given "
-                        "(build=%s)" % build
+                        f"(build={build})"
                     )
                 if self._flags.coverage and "-ccov" not in build:
                     raise FetcherException(
                         "'build' is not a coverage build, but coverage=True given "
-                        "(build=%s)" % build
+                        f"(build={build})"
                     )
                 if self._flags.valgrind and "-valgrind" not in build:
                     raise FetcherException(
                         "'build' is not a valgrind build, but valgrind=True given "
-                        "(build=%s)" % build
+                        f"(build={build})"
                     )
 
             # Attempt to fetch the build.  If it fails and nearest is set, try and find
@@ -871,7 +868,7 @@ class Fetcher(object):
 
                 else:
                     raise FetcherException(
-                        "Failed to find build near %s" % build
+                        f"Failed to find build near {build}"
                     ) from None
 
             if build == "latest" and (now - self.datetime).total_seconds() > 86400:
@@ -891,27 +888,24 @@ class Fetcher(object):
         if self._branch in {"autoland", "try"}:
             branch = self._branch
         else:
-            branch = "m-%s" % (self._branch[0],)
-        self._auto_name = "%s%s-%s%s" % (
-            self._platform.auto_name_prefix(),
-            branch,
-            self.id,
-            options,
+            branch = f"m-{self._branch[0]}"
+        self._auto_name = (
+            f"{self._platform.auto_name_prefix()}{branch}-{self.id}{options}"
         )
 
     @staticmethod
     def resolve_esr(branch):
         """Retrieve esr version based on keyword"""
         if branch not in {"esr-stable", "esr-next"}:
-            raise FetcherException("Invalid ESR branch specified: %s" % branch)
+            raise FetcherException(f"Invalid ESR branch specified: {branch}")
 
         resp = get_url("https://product-details.mozilla.org/1.0/firefox_versions.json")
         key = "FIREFOX_ESR" if branch == "esr-stable" else "FIREFOX_ESR_NEXT"
         match = re.search(r"^\d+", resp.json()[key])
         if match is None:
-            raise FetcherException("Unable to identify ESR version for %s" % branch)
+            raise FetcherException(f"Unable to identify ESR version for {branch}")
 
-        return "esr%s" % match.group(0)
+        return f"esr{match.group(0)}"
 
     @classmethod
     def iterall(cls, target, branch, build, flags, platform=None):
@@ -949,7 +943,7 @@ class Fetcher(object):
     @property
     def _artifacts_url(self):
         """Build the artifacts url"""
-        return self._task.queue_server + ("/task/%s/artifacts" % (self.task_id,))
+        return f"{self._task.queue_server}/task/{self.task_id}/artifacts"
 
     @property
     def id(self):
@@ -1010,7 +1004,7 @@ class Fetcher(object):
         Arguments:
             suffix
         """
-        return "%s/%s.%s" % (self._artifacts_url, self._artifact_base, suffix)
+        return f"{self._artifacts_url}/{self._artifact_base}.{suffix}"
 
     def get_auto_name(self):
         """Get the automatic directory name"""
@@ -1050,7 +1044,7 @@ class Fetcher(object):
                 self.download_apk(path)
             else:
                 raise FetcherException(
-                    "'%s' is not a supported platform" % self._platform.system
+                    f"'{self._platform.system}' is not a supported platform"
                 )
 
         if gtest:
@@ -1066,7 +1060,7 @@ class Fetcher(object):
                 libxul = "XUL"
             else:
                 raise FetcherException(
-                    "'%s' is not a supported platform for gtest" % self._platform.system
+                    f"'{self._platform.system}' is not a supported platform for gtest"
                 )
             os.rename(
                 os.path.join(path, "gtest", "gtest_bin", "gtest", libxul),
@@ -1106,8 +1100,8 @@ class Fetcher(object):
         output = configparser.RawConfigParser()
         output.add_section("Main")
         output.set("Main", "platform", self.moz_info["processor"].replace("_", "-"))
-        output.set("Main", "product", "mozilla-" + self._branch)
-        output.set("Main", "product_version", "%.8s-%.12s" % (self.id, self.changeset))
+        output.set("Main", "product", f"mozilla-{self._branch}")
+        output.set("Main", "product_version", f"{self.id:.8}-{self.changeset:.12}")
         # make sure 'os' match what FM expects
         os_name = self.moz_info["os"].lower()
         if os_name.startswith("android"):
@@ -1129,15 +1123,15 @@ class Fetcher(object):
         elif self._platform.system == "Android":
             fm_name = "target.apk.fuzzmanagerconf"
         elif self._platform.system == "Darwin" and self._target == "firefox":
-            ff_loc = glob.glob("%s/*.app/Contents/MacOS/firefox" % (path,))
+            ff_loc = glob.glob(f"{path}/*.app/Contents/MacOS/firefox")
             assert len(ff_loc) == 1
-            fm_name = self._target + ".fuzzmanagerconf"
+            fm_name = f"{self._target}.fuzzmanagerconf"
             path = os.path.dirname(ff_loc[0])
         elif self._platform.system in {"Darwin", "Linux"}:
-            fm_name = self._target + ".fuzzmanagerconf"
+            fm_name = f"{self._target}.fuzzmanagerconf"
         else:
             raise FetcherException(
-                "Unknown platform/target: %s/%s" % (self._platform.system, self._target)
+                f"Unknown platform/target: {self._platform.system}/{self._target}"
             )
         if self._target == "js":
             conf_path = os.path.join(path, "dist", "bin", fm_name)
@@ -1173,7 +1167,7 @@ class Fetcher(object):
             path
         """
         mode = suffix.split(".")[-1]
-        tar_fd, tar_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar.%s" % mode)
+        tar_fd, tar_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=f".tar.{mode}")
         os.close(tar_fd)
         try:
             download_url(self.artifact_url(suffix), tar_fn)
@@ -1195,7 +1189,7 @@ class Fetcher(object):
             # _artifact_base is like 'path/to/target' .. but geckoview doesn't
             # use target as a basename, so we need to extract just the path
             artifact_path = "/".join(self._artifact_base.split("/")[:-1])
-            url = self._artifacts_url + "/" + artifact_path + "/geckoview_example.apk"
+            url = f"{self._artifacts_url}/{artifact_path}/geckoview_example.apk"
             download_url(url, apk_fn)
             shutil.copy(apk_fn, os.path.join(path, "target.apk"))
         finally:
@@ -1244,7 +1238,7 @@ class Fetcher(object):
         )
         args = parser.parse_args(args)
         if args.version:
-            print("fuzzfetch %s" % (__version__,))
+            print(f"fuzzfetch {__version__}")
             raise SystemExit(0)
 
         # do this default manually so we can error if combined with --build namespace
@@ -1272,7 +1266,7 @@ class Fetcher(object):
 
         final_dir = os.path.realpath(os.path.join(args.out, args.name))
         if not skip_dir_check and os.path.exists(final_dir):
-            parser.parser.error("Folder exists: %s .. exiting" % final_dir)
+            parser.parser.error(f"Folder exists: {final_dir} .. exiting")
 
         extract_options = {
             "dry_run": args.dry_run,
@@ -1317,7 +1311,7 @@ class Fetcher(object):
             obj.extract_build(out, gtest=extract_args["gtest"])
             os.makedirs(os.path.join(out, "download"))
             with open(os.path.join(out, "download", "firefox-temp.txt"), "a") as dl_fd:
-                dl_fd.write("buildID=" + obj.id + os.linesep)
+                dl_fd.write(f"buildID={obj.id}{os.linesep}")
         except:  # noqa
             if os.path.isdir(out):
                 junction_rmtree(out)

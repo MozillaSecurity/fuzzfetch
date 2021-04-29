@@ -31,10 +31,10 @@ assert not BUILD_CACHE or str is not bytes, "BUILD_CACHE requires Python 3"
 
 
 def _translate_to_path(url):
-    assert url.split("://")[0] in {"http", "https"}, "unhandled protocol: %s" % (url,)
+    assert url.split("://")[0] in {"http", "https"}, f"unhandled protocol: {url}"
     for mock, host in MOCK_HOSTS.items():
-        url = url.replace(host, "mock-%s" % (mock,))
-    assert url.startswith("mock-"), "unmocked URL: %s" % (url,)
+        url = url.replace(host, f"mock-{mock}")
+    assert url.startswith("mock-"), f"unmocked URL: {url}"
     return CACHE_PATH / url.replace("/", os.sep)
 
 
