@@ -47,7 +47,7 @@ def extract_zip(zip_fn, path="."):
     if P7Z_PATH is None:
         P7Z_PATH = shutil.which("7z") or ""
     if P7Z_PATH:
-        subprocess.check_output([P7Z_PATH, "x", "-bd", "-o" + path, zip_fn])
+        subprocess.check_output([P7Z_PATH, "x", "-bd", "-o" + str(path), str(zip_fn)])
     else:
         with zipfile.ZipFile(zip_fn) as zip_fp:
             for info in zip_fp.infolist():
