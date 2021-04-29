@@ -448,6 +448,8 @@ class BuildTask(object):
 class FetcherArgs(object):
     """Class for parsing and recording Fetcher arguments"""
 
+    DEFAULT_TARGETS = ["firefox"]
+
     def __init__(self):
         """
         Instantiate a new FetcherArgs instance
@@ -465,8 +467,11 @@ class FetcherArgs(object):
         target_group = self.parser.add_argument_group("Target")
         target_group.add_argument(
             "--target",
-            choices=sorted(Fetcher.TARGET_CHOICES),
-            help="Specify the build target. (default: %(default)s)",
+            nargs="*",
+            default=FetcherArgs.DEFAULT_TARGETS,
+            help="Specify the build artifacts to download. "
+            "Valid options: firefox js common gtest "
+            "(default: " + " ".join(FetcherArgs.DEFAULT_TARGETS) + ")",
         )
         target_group.add_argument(
             "--os",
@@ -575,11 +580,10 @@ class FetcherArgs(object):
             "--valgrind", action="store_true", help="Download Valgrind builds."
         )
 
-        test_group = self.parser.add_argument_group("Test Arguments")
-        test_group.add_argument(
+        self.parser.add_argument(
             "--gtest",
             action="store_true",
-            help="Download gtests associated with this build",
+            help=argparse.SUPPRESS,
         )
 
         misc_group = self.parser.add_argument_group("Misc. Arguments")
@@ -661,6 +665,10 @@ class FetcherArgs(object):
             if args.valgrind:
                 self.parser.error("Cannot specify --build namespace and --valgrind")
 
+        if args.gtest:
+            LOG.warning("--gtest is deprecated, add 'gtest' to --target instead.")
+            args.target.append("gtest")
+
     def parse_args(self, argv=None):
         """
         Parse and validate args
@@ -676,17 +684,15 @@ class FetcherArgs(object):
 class Fetcher(object):
     """Fetcher fetches build artifacts from TaskCluster and unpacks them"""
 
-    TARGET_CHOICES = {"js", "firefox"}
     BUILD_ORDER_ASC = 1
     BUILD_ORDER_DESC = 2
     re_target = re.compile(
         r"(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$"
     )
 
-    def __init__(self, target, branch, build, flags, platform=None, nearest=None):
+    def __init__(self, branch, build, flags, platform=None, nearest=None):
         """
         Arguments:
-            target (str): the download target, eg. 'js', 'firefox'
             branch (str): a valid gecko branch, eg. 'central', 'autoland', 'beta',
                           'release', 'esr52', etc.
             build (str): build identifier. acceptable identifiers are: TaskCluster
@@ -696,10 +702,7 @@ class Fetcher(object):
                 each a bool, not all combinations exist in TaskCluster
             platform (Platform): force platform if different than current system
         """
-        if target not in self.TARGET_CHOICES:
-            raise FetcherException(f"'{target}' is not a supported target")
-
-        self._memo = {"_target": target}
+        self._memo = {}
         "memorized values for @properties"
         self._branch = branch
         self._flags = BuildFlags(*flags)
@@ -981,13 +984,6 @@ class Fetcher(object):
         return self._task.rank
 
     @property
-    def _target(self):
-        """Return the target type"""
-        if "_target" not in self._memo:
-            raise FetcherException("_target not set")
-        return self._memo["_target"]
-
-    @property
     def task_id(self):
         """Return the build's TaskCluster ID"""
         return self._task.taskId
@@ -1010,17 +1006,29 @@ class Fetcher(object):
         """Get the automatic directory name"""
         return self._auto_name
 
-    def extract_build(self, path=".", gtest=False):
+    def extract_build(self, targets, path="."):
         """
-        Download and extract the build and requested extra artifacts
+        Download and extract the build and requested extra artifacts.
+
+        If an executable target is requested (js/firefox), coverage data
+        and/or symbols may be downloaded for the build.
 
         Arguments:
-            path
-            gtest
+            targets (list(str)): build artifacts to download
+            path (str): Path to extract downloaded artifacts.
         """
-        if self._target == "js":
+        targets_remaining = set(targets)
+        have_exec = False
+
+        if "js" in targets_remaining:
+            targets_remaining.remove("js")
+            have_exec = True
             self.extract_zip("jsshell.zip", path=os.path.join(path, "dist", "bin"))
-        else:
+            self._write_fuzzmanagerconf("js", path)
+
+        if "firefox" in targets_remaining:
+            targets_remaining.remove("firefox")
+            have_exec = True
             if self._platform.system == "Linux":
                 self.extract_tar("tar.bz2", path)
             elif self._platform.system == "Darwin":
@@ -1046,8 +1054,10 @@ class Fetcher(object):
                 raise FetcherException(
                     f"'{self._platform.system}' is not a supported platform"
                 )
+            self._write_fuzzmanagerconf("firefox", path)
 
-        if gtest:
+        if "gtest" in targets_remaining:
+            targets_remaining.remove("gtest")
             try:
                 self.extract_tar("gtest.tests.tar.gz", path=path)
             except FetcherException:
@@ -1071,26 +1081,37 @@ class Fetcher(object):
                 os.path.join(path, "dependentlibs.list.gtest"),
             )
 
-        if self._flags.coverage:
-            self.extract_zip("code-coverage-gcno.zip", path=path)
+        if have_exec:
+            if self._flags.coverage:
+                self.extract_zip("code-coverage-gcno.zip", path=path)
 
-        if not self._flags.asan and not self._flags.tsan and not self._flags.valgrind:
-            os.mkdir(os.path.join(path, "symbols"))
+            if (
+                not self._flags.asan
+                and not self._flags.tsan
+                and not self._flags.valgrind
+            ):
+                os.mkdir(os.path.join(path, "symbols"))
+                try:
+                    self.extract_zip(
+                        "crashreporter-symbols.zip", path=os.path.join(path, "symbols")
+                    )
+                except FetcherException:
+                    # fuzzing debug builds no longer have crashreporter-symbols.zip
+                    # (bug 1649062)
+                    # we want to maintain support for older builds for now
+                    if not self._flags.fuzzing:
+                        raise
+
+        # any still remaining targets are assumed to be test artifacts
+        for target in targets_remaining:
             try:
-                self.extract_zip(
-                    "crashreporter-symbols.zip", path=os.path.join(path, "symbols")
-                )
+                self.extract_tar(target + ".tests.tar.gz", path=path)
             except FetcherException:
-                # fuzzing debug builds no longer have crashreporter-symbols.zip
-                # (bug 1649062)
-                # we want to maintain support for older builds for now
-                if not self._flags.fuzzing:
-                    raise
+                self.extract_zip(target + ".tests.zip", path=path)
 
-        self._write_fuzzmanagerconf(path)
         LOG.info("Extracted into %s", path)
 
-    def _write_fuzzmanagerconf(self, path):
+    def _write_fuzzmanagerconf(self, target, path):
         """
         Write fuzzmanager config file for selected build
 
@@ -1119,21 +1140,21 @@ class Fetcher(object):
         output.set("Metadata", "buildType", self._flags.build_string().lstrip("-"))
 
         if self._platform.system == "Windows":
-            fm_name = self._target + ".exe.fuzzmanagerconf"
+            fm_name = target + ".exe.fuzzmanagerconf"
         elif self._platform.system == "Android":
             fm_name = "target.apk.fuzzmanagerconf"
-        elif self._platform.system == "Darwin" and self._target == "firefox":
+        elif self._platform.system == "Darwin" and target == "firefox":
             ff_loc = glob.glob(f"{path}/*.app/Contents/MacOS/firefox")
             assert len(ff_loc) == 1
-            fm_name = f"{self._target}.fuzzmanagerconf"
+            fm_name = f"{target}.fuzzmanagerconf"
             path = os.path.dirname(ff_loc[0])
         elif self._platform.system in {"Darwin", "Linux"}:
-            fm_name = f"{self._target}.fuzzmanagerconf"
+            fm_name = f"{target}.fuzzmanagerconf"
         else:
             raise FetcherException(
-                f"Unknown platform/target: {self._platform.system}/{self._target}"
+                f"Unknown platform/target: {self._platform.system}/{target}"
             )
-        if self._target == "js":
+        if target == "js":
             conf_path = os.path.join(path, "dist", "bin", fm_name)
         else:
             conf_path = os.path.join(path, fm_name)
@@ -1253,7 +1274,6 @@ class Fetcher(object):
             args.asan, args.tsan, args.debug, args.fuzzing, args.coverage, args.valgrind
         )
         obj = cls(
-            args.target,
             args.branch,
             args.build,
             flags,
@@ -1271,7 +1291,7 @@ class Fetcher(object):
         extract_options = {
             "dry_run": args.dry_run,
             "out": final_dir,
-            "gtest": args.gtest,
+            "targets": args.target,
         }
 
         return obj, extract_options
@@ -1308,7 +1328,7 @@ class Fetcher(object):
         os.mkdir(out)
 
         try:
-            obj.extract_build(out, gtest=extract_args["gtest"])
+            obj.extract_build(extract_args["targets"], out)
             os.makedirs(os.path.join(out, "download"))
             with open(os.path.join(out, "download", "firefox-temp.txt"), "a") as dl_fd:
                 dl_fd.write(f"buildID={obj.id}{os.linesep}")

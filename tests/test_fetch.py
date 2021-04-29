@@ -201,9 +201,7 @@ def test_metadata(branch, build_flags, os_, cpu):
         else:
             if branch.startswith("esr"):
                 branch = fuzzfetch.Fetcher.resolve_esr(branch)
-            fetcher = fuzzfetch.Fetcher(
-                "firefox", branch, "latest", build_flags, platform_
-            )
+            fetcher = fuzzfetch.Fetcher(branch, "latest", build_flags, platform_)
 
         LOG.debug("succeeded creating Fetcher")
         LOG.debug("buildid: %s", fetcher.id)
@@ -218,7 +216,7 @@ def test_metadata(branch, build_flags, os_, cpu):
                 [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", date_str] + args
             )
         else:
-            fuzzfetch.Fetcher("firefox", branch, date_str, build_flags, platform_)
+            fuzzfetch.Fetcher(branch, date_str, build_flags, platform_)
 
         # hg rev is also accepted as a build input
         rev = fetcher.changeset
@@ -227,12 +225,12 @@ def test_metadata(branch, build_flags, os_, cpu):
                 [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", rev] + args
             )
         else:
-            fuzzfetch.Fetcher("firefox", branch, rev, build_flags, platform_)
+            fuzzfetch.Fetcher(branch, rev, build_flags, platform_)
         # namespace = fetcher.build
 
         # TaskCluster namespace is also accepted as a build input
         # namespace = ?
-        # fuzzfetch.Fetcher("firefox", branch, namespace,
+        # fuzzfetch.Fetcher(branch, namespace,
         #                   (asan, debug, fuzzing, coverage))
 
 
@@ -288,9 +286,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
         else:
             build_id = requested
 
-        build = fuzzfetch.Fetcher(
-            "firefox", "central", build_id, flags, nearest=direction
-        )
+        build = fuzzfetch.Fetcher("central", build_id, flags, nearest=direction)
         if fuzzfetch.BuildTask.RE_DATE.match(expected):
             build_date = datetime.strftime(build.datetime, "%Y-%m-%d")
             assert build_date == expected
@@ -313,5 +309,5 @@ def test_hash_resolution():
         valgrind=False,
     )
     rev = "d1001fea6e4c66b98bb4983df49c6e47d2db5ceb"
-    build = fuzzfetch.Fetcher("firefox", "central", rev[:12], flags)
+    build = fuzzfetch.Fetcher("central", rev[:12], flags)
     assert build.changeset == rev
