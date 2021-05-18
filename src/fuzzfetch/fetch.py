@@ -197,7 +197,8 @@ def _create_utc_datetime(datetime_string):
 
 class BuildFlags(
     namedtuple(
-        "BuildFlagsBase", ("asan", "tsan", "debug", "fuzzing", "coverage", "valgrind")
+        "BuildFlagsBase",
+        ("asan", "tsan", "debug", "fuzzing", "coverage", "valgrind", "no_opt"),
     )
 ):
     """Class for storing TaskCluster build flags"""
@@ -214,7 +215,9 @@ class BuildFlags(
             + ("-asan" if self.asan else "")
             + ("-tsan" if self.tsan else "")
             + ("-valgrind" if self.valgrind else "")
-            + ("-debug" if self.debug else "-opt")
+            + ("-noopt" if self.no_opt else "")
+            + ("-debug" if self.debug else "")
+            + ("-opt" if not self.no_opt and not self.debug else "")
         )
 
 
@@ -590,6 +593,9 @@ class FetcherArgs(object):
         build_group.add_argument(
             "--valgrind", action="store_true", help="Download Valgrind builds."
         )
+        build_group.add_argument(
+            "--no-opt", action="store_true", help="Download non-optimized builds."
+        )
 
         self.parser.add_argument(
             "--gtest",
@@ -675,6 +681,8 @@ class FetcherArgs(object):
                 self.parser.error("Cannot specify --build namespace and --coverage")
             if args.valgrind:
                 self.parser.error("Cannot specify --build namespace and --valgrind")
+            if args.no_opt:
+                self.parser.error("Cannot specify --build namespace and --no-opt")
 
         if args.gtest:
             LOG.warning("--gtest is deprecated, add 'gtest' to --target instead.")
@@ -709,7 +717,7 @@ class Fetcher(object):
             build (str): build identifier. acceptable identifiers are: TaskCluster
                          namespace, hg changeset, date, 'latest'
             flags (BuildFlags or sequence(bool)):
-                ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan'),
+                ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan', 'no_opt'),
                 each a bool, not all combinations exist in TaskCluster
             platform (Platform): force platform if different than current system
         """
@@ -747,7 +755,7 @@ class Fetcher(object):
                     )
 
                 # If flags weren't set, try and retrieve it from the build string
-                asan, debug, fuzzing, coverage, valgrind, tsan = self._flags
+                asan, debug, fuzzing, coverage, valgrind, tsan, no_opt = self._flags
                 if not debug:
                     debug = "-debug" in build or "-dbg" in build
                 if not asan:
@@ -760,8 +768,12 @@ class Fetcher(object):
                     coverage = "-ccov" in build
                 if not valgrind:
                     valgrind = "-valgrind" in build
+                if not no_opt:
+                    no_opt = "-noopt" in build
 
-                self._flags = BuildFlags(asan, tsan, debug, fuzzing, coverage, valgrind)
+                self._flags = BuildFlags(
+                    asan, tsan, debug, fuzzing, coverage, valgrind, no_opt
+                )
 
                 # Validate flags
                 if self._flags.asan and "-asan" not in build:
@@ -792,6 +804,11 @@ class Fetcher(object):
                 if self._flags.valgrind and "-valgrind" not in build:
                     raise FetcherException(
                         "'build' is not a valgrind build, but valgrind=True given "
+                        f"(build={build})"
+                    )
+                if self._flags.no_opt and "-noopt" not in build:
+                    raise FetcherException(
+                        "'build' is not a non-optimized build, but no_opt=True given "
                         f"(build={build})"
                     )
 
@@ -1343,7 +1360,13 @@ class Fetcher(object):
                 args.branch = Fetcher.resolve_esr(args.branch)
 
         flags = BuildFlags(
-            args.asan, args.tsan, args.debug, args.fuzzing, args.coverage, args.valgrind
+            args.asan,
+            args.tsan,
+            args.debug,
+            args.fuzzing,
+            args.coverage,
+            args.valgrind,
+            args.no_opt,
         )
         obj = cls(
             args.branch,

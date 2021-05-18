@@ -32,6 +32,7 @@ def get_builds_to_test():
             fuzzing=False,
             coverage=False,
             valgrind=False,
+            no_opt=False,
         ),
         # debug
         fuzzfetch.BuildFlags(
@@ -41,6 +42,7 @@ def get_builds_to_test():
             fuzzing=False,
             coverage=False,
             valgrind=False,
+            no_opt=False,
         ),
         # ccov
         fuzzfetch.BuildFlags(
@@ -50,6 +52,7 @@ def get_builds_to_test():
             fuzzing=False,
             coverage=True,
             valgrind=False,
+            no_opt=False,
         ),
         # asan-opt
         fuzzfetch.BuildFlags(
@@ -59,6 +62,7 @@ def get_builds_to_test():
             fuzzing=False,
             coverage=False,
             valgrind=False,
+            no_opt=False,
         ),
         # asan-opt-fuzzing
         fuzzfetch.BuildFlags(
@@ -68,6 +72,7 @@ def get_builds_to_test():
             fuzzing=True,
             coverage=False,
             valgrind=False,
+            no_opt=False,
         ),
         # tsan-opt
         fuzzfetch.BuildFlags(
@@ -77,6 +82,7 @@ def get_builds_to_test():
             fuzzing=False,
             coverage=False,
             valgrind=False,
+            no_opt=False,
         ),
         # tsan-opt-fuzzing
         fuzzfetch.BuildFlags(
@@ -86,6 +92,7 @@ def get_builds_to_test():
             fuzzing=True,
             coverage=False,
             valgrind=False,
+            no_opt=False,
         ),
         # debug-fuzzing
         fuzzfetch.BuildFlags(
@@ -95,6 +102,7 @@ def get_builds_to_test():
             fuzzing=True,
             coverage=False,
             valgrind=False,
+            no_opt=False,
         ),
         # ccov-fuzzing
         fuzzfetch.BuildFlags(
@@ -104,6 +112,7 @@ def get_builds_to_test():
             fuzzing=True,
             coverage=True,
             valgrind=False,
+            no_opt=False,
         ),
         # valgrind-opt
         fuzzfetch.BuildFlags(
@@ -113,6 +122,7 @@ def get_builds_to_test():
             fuzzing=False,
             coverage=False,
             valgrind=True,
+            no_opt=False,
         ),
     )
     possible_branches = ("central", "try", "esr-next", "esr-stable")
@@ -268,6 +278,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
         fuzzing=False,
         coverage=False,
         valgrind=False,
+        no_opt=False,
     )
 
     # Set freeze_time to a date ahead of the latest mock build
@@ -307,6 +318,7 @@ def test_hash_resolution():
         fuzzing=False,
         coverage=False,
         valgrind=False,
+        no_opt=False,
     )
     rev = "d1001fea6e4c66b98bb4983df49c6e47d2db5ceb"
     build = fuzzfetch.Fetcher("central", rev[:12], flags)
