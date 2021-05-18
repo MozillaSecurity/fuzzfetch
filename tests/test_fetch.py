@@ -4,8 +4,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import itertools
 import logging
 import time
@@ -251,17 +249,17 @@ def test_metadata(branch, build_flags, os_, cpu):
 @pytest.mark.parametrize(
     "requested, expected, direction",
     (
-        ("2019-11-06", "2019-11-07", fuzzfetch.Fetcher.BUILD_ORDER_ASC),
-        ("2020-08-06", "2020-08-05", fuzzfetch.Fetcher.BUILD_ORDER_DESC),
+        ("2019-11-06", "2019-11-07", fuzzfetch.BuildSearchOrder.ASC),
+        ("2020-08-06", "2020-08-05", fuzzfetch.BuildSearchOrder.DESC),
         (
             "d271c572a9bcd008ed14bf104b2eb81949952e4c",
             "ac63c8962183502a4b0ec32222efc67d3841d157",
-            fuzzfetch.Fetcher.BUILD_ORDER_ASC,
+            fuzzfetch.BuildSearchOrder.ASC,
         ),
         (
             "d271c572a9bcd008ed14bf104b2eb81949952e4c",
             "e8b7c48d4e7ed1b63aeedff379b51e566ea499d9",
-            fuzzfetch.Fetcher.BUILD_ORDER_DESC,
+            fuzzfetch.BuildSearchOrder.DESC,
         ),
     ),
 )

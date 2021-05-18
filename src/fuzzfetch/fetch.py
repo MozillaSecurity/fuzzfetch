@@ -3,11 +3,8 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
-# pylint: disable=too-many-statements
 
-import argparse
 import configparser
-import glob
 import itertools
 import logging
 import os
@@ -16,15 +13,20 @@ import re
 import shutil
 import tempfile
 import time
+from argparse import SUPPRESS, ArgumentParser, Namespace
 from collections import namedtuple
 from datetime import datetime, timedelta
+from enum import Enum
+from pathlib import Path
 from sys import version_info
+from typing import Any, Dict, Iterator, Optional, Sequence, Tuple, Union
 
-import requests  # pylint: disable=import-error
-from pytz import timezone  # pylint: disable=import-error
+from pytz import timezone
+from requests import Response, Session
+from requests.exceptions import RequestException
 
 from .extract import extract_dmg, extract_tar, extract_zip
-from .path import onerror
+from .path import PathArg, onerror
 from .path import rmtree as junction_rmtree
 
 if version_info[:2] < (3, 8):
@@ -38,6 +40,7 @@ else:
 __all__ = (
     "__version__",
     "BuildFlags",
+    "BuildSearchOrder",
     "BuildTask",
     "Fetcher",
     "FetcherArgs",
@@ -59,21 +62,21 @@ LOG = logging.getLogger("fuzzfetch")
 
 
 BUG_URL = "https://github.com/MozillaSecurity/fuzzfetch/issues/"
-HTTP_SESSION = requests.Session()
+HTTP_SESSION = Session()
 
 
 class FetcherException(Exception):
     """Exception raised for any Fetcher errors"""
 
 
-def iec(number):
+def iec(number: Union[float, int]) -> str:
     """Format a number using IEC multi-byte prefixes.
 
     Arguments:
-        number (number): Number to format.
+        number: Number to format.
 
     Returns:
-        str: Input number, formatted to the largest whole SI prefix.
+        Input number, formatted to the largest whole SI prefix.
     """
     prefixes = ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi", "Yi"]
     while number > 1024:
@@ -82,14 +85,14 @@ def iec(number):
     return f"{number:0.2f}{prefixes[0]}"
 
 
-def si(number):  # pylint: disable=invalid-name
+def si(number: Union[float, int]) -> str:  # pylint: disable=invalid-name
     """Format a number using SI prefixes.
 
     Arguments:
-        number (number): Number to format.
+        number: Number to format.
 
     Returns:
-        str: Input number, formatted to the largest whole SI prefix.
+        Input number, formatted to the largest whole SI prefix.
     """
     prefixes = ["", "k", "M", "G", "T", "P", "E", "Z", "Y"]
     while number > 1000:
@@ -98,37 +101,37 @@ def si(number):  # pylint: disable=invalid-name
     return f"{number:0.2f}{prefixes[0]}"
 
 
-def get_url(url):
+def get_url(url: str) -> Response:
     """Retrieve requested URL"""
     try:
         data = HTTP_SESSION.get(url, stream=True)
         data.raise_for_status()
-    except requests.exceptions.RequestException as exc:
+    except RequestException as exc:
         raise FetcherException(exc) from None
 
     return data
 
 
-def resolve_url(url):
+def resolve_url(url: str) -> Response:
     """Resolve requested URL"""
     try:
         data = HTTP_SESSION.head(url)
         data.raise_for_status()
-    except requests.exceptions.RequestException as exc:
+    except RequestException as exc:
         raise FetcherException(exc) from None
 
     return data
 
 
-class HgRevision(object):
+class HgRevision:
     """Class representing a Mercurial revision."""
 
-    def __init__(self, revision, branch):
+    def __init__(self, revision: str, branch: str):
         """Create a Mercurial revision object.
 
         Arguments:
-            revision (str): revision hash (short or long)
-            branch (str): branch where revision is located
+            revision: revision hash (short or long)
+            branch: branch where revision is located
         """
         if branch is None or branch == "?":
             raise FetcherException(f"Can't lookup revision date for branch: {branch}")
@@ -144,7 +147,7 @@ class HgRevision(object):
         ).json()
 
     @property
-    def pushdate(self):
+    def pushdate(self) -> datetime:
         """Get datetime object representing pushdate of the revision."""
         push_date = datetime.fromtimestamp(self._data["pushdate"][0])
         # For some reason this timestamp is always EST despite saying it has an UTC
@@ -152,20 +155,17 @@ class HgRevision(object):
         return timezone("EST").localize(push_date)
 
     @property
-    def hash(self):
+    def hash(self) -> str:
         """Get the long hash of the revision."""
         return self._data["node"]
 
 
-def download_url(url, outfile):
+def download_url(url: str, outfile: PathArg) -> None:
     """Download a URL to a local path.
 
     Arguments:
-        url (str): URL to download.
-        outfile (str): Path to output file.
-
-    Returns:
-        None
+        url: URL to download.
+        outfile: Path to output file.
     """
     downloaded = 0
     start_time = report_time = time.time()
@@ -189,7 +189,7 @@ def download_url(url, outfile):
     )
 
 
-def _create_utc_datetime(datetime_string):
+def _create_utc_datetime(datetime_string: str) -> datetime:
     """Convert build_string to time-zone aware datetime object"""
     dt_obj = datetime.strptime(datetime_string, "%Y%m%d%H%M%S")
     return timezone("UTC").localize(dt_obj)
@@ -203,7 +203,7 @@ class BuildFlags(
 ):
     """Class for storing TaskCluster build flags"""
 
-    def build_string(self):
+    def build_string(self) -> str:
         """
         Taskcluster denotes builds in one of two formats:
         i.e. linux64-asan or linux64-asan-opt
@@ -221,7 +221,7 @@ class BuildFlags(
         )
 
 
-class Platform(object):
+class Platform:
     """Class representing target OS and CPU, and how it maps to a Gecko mozconfig"""
 
     SUPPORTED = {
@@ -243,7 +243,7 @@ class Platform(object):
         "x64": "x86_64",
     }
 
-    def __init__(self, system=None, machine=None):
+    def __init__(self, system: Optional[str] = None, machine: Optional[str] = None):
         if system is None:
             system = std_platform.system()
         if machine is None:
@@ -258,10 +258,8 @@ class Platform(object):
         self.gecko_platform = self.SUPPORTED[system][fixed_machine]
 
     @classmethod
-    def from_platform_guess(cls, build_string):
-        """
-        Create a platform object from a namespace build string
-        """
+    def from_platform_guess(cls, build_string: str) -> "Platform":
+        """Create a platform object from a namespace build string"""
         match = []
         for system, platform in cls.SUPPORTED.items():
             for machine, platform_guess in platform.items():
@@ -273,7 +271,7 @@ class Platform(object):
             return cls(match[0], match[1])
         raise FetcherException(f"Could not extract platform from {build_string}")
 
-    def auto_name_prefix(self):
+    def auto_name_prefix(self) -> str:
         """
         Generate platform prefix for cross-platform downloads.
         """
@@ -290,19 +288,26 @@ class Platform(object):
             "android-api-16": "android-arm",
             "android-aarch64": "android-arm64",
         }.get(self.gecko_platform, self.gecko_platform)
-        return platform + "-"
+        return f"{platform}-"
 
 
-class BuildTask(object):
+class BuildTask:
     """Class for storing TaskCluster build information"""
 
     TASKCLUSTER_API = "https://firefox-ci-tc.services.mozilla.com/api/%s/v1"
     RE_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
     RE_REV = re.compile(r"^([0-9A-F]{12}|[0-9A-F]{40})$", re.IGNORECASE)
 
-    def __init__(self, build, branch, flags, platform=None, _blank=False):
-        """
-        Retrieve the task JSON object
+    def __init__(
+        self,
+        build: str,
+        branch: str,
+        flags: BuildFlags,
+        platform: Optional[Platform] = None,
+        _blank: bool = False,
+    ):
+        """Retrieve the task JSON object
+
         Requires first generating the task URL based on the specified build type and
         platform
         """
@@ -322,7 +327,7 @@ class BuildTask(object):
             )
 
     @classmethod
-    def _debug_str(cls, build):
+    def _debug_str(cls, build: str) -> str:
         if cls.RE_DATE.match(build):
             return f"pushdate {build}"
         if cls.RE_REV.match(build):
@@ -330,7 +335,13 @@ class BuildTask(object):
         return build
 
     @classmethod
-    def iterall(cls, build, branch, flags, platform=None):
+    def iterall(
+        cls,
+        build: str,
+        branch: str,
+        flags: BuildFlags,
+        platform: Optional[Platform] = None,
+    ) -> Iterator["BuildTask"]:
         """Generator for all possible BuildTasks with these parameters"""
         # Prepare build type
         if platform is None:
@@ -395,7 +406,7 @@ class BuildTask(object):
                 url = (template % ("index",)) + path
                 data = HTTP_SESSION.get(url)
                 data.raise_for_status()
-            except requests.exceptions.RequestException:
+            except RequestException:
                 continue
 
             obj = cls(None, None, None, _blank=True)
@@ -406,7 +417,7 @@ class BuildTask(object):
             LOG.debug("Found archive for %s", cls._debug_str(build))
             yield obj
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> Any:
         if name in self._data:
             return self._data[name]
         raise AttributeError(
@@ -414,7 +425,9 @@ class BuildTask(object):
         )
 
     @classmethod
-    def _pushdate_template_paths(cls, pushdate, branch, target_platform):
+    def _pushdate_template_paths(
+        cls, pushdate: str, branch: str, target_platform: str
+    ) -> Iterator[Tuple[str, str]]:
         """Multiple entries exist per push date. Iterate over all until a working entry
         is found
         """
@@ -432,7 +445,7 @@ class BuildTask(object):
             try:
                 base = HTTP_SESSION.post(url, json={})
                 base.raise_for_status()
-            except requests.exceptions.RequestException:
+            except RequestException:
                 continue
 
             product = "mobile" if "android" in target_platform else "firefox"
@@ -444,7 +457,9 @@ class BuildTask(object):
                 )
 
     @classmethod
-    def _revision_paths(cls, rev, branch, target_platform):
+    def _revision_paths(
+        cls, rev: str, branch: str, target_platform: str
+    ) -> Iterator[str]:
         """Retrieve the API path for revision based builds"""
         if branch not in {"autoland", "try"}:
             branch = f"mozilla-{branch}"
@@ -459,20 +474,16 @@ class BuildTask(object):
             yield f"/task/{namespace}.{product}.{target_platform}"
 
 
-class FetcherArgs(object):
+class FetcherArgs:
     """Class for parsing and recording Fetcher arguments"""
 
     DEFAULT_TARGETS = ["firefox"]
 
     def __init__(self):
-        """
-        Instantiate a new FetcherArgs instance
-        """
-        super().__init__()
+        """Instantiate a new FetcherArgs instance"""
+        super().__init__()  # call super for multiple-inheritance support
         if not hasattr(self, "parser"):
-            self.parser = argparse.ArgumentParser(
-                conflict_handler="resolve", prog="fuzzfetch"
-            )
+            self.parser = ArgumentParser(conflict_handler="resolve", prog="fuzzfetch")
 
         self.parser.set_defaults(
             target="firefox", build="latest", tests=None
@@ -485,7 +496,7 @@ class FetcherArgs(object):
             default=FetcherArgs.DEFAULT_TARGETS,
             help="Specify the build artifacts to download. "
             "Valid options: firefox js common gtest "
-            "(default: " + " ".join(FetcherArgs.DEFAULT_TARGETS) + ")",
+            f"(default: {' '.join(FetcherArgs.DEFAULT_TARGETS)})",
         )
         target_group.add_argument(
             "--os",
@@ -600,7 +611,7 @@ class FetcherArgs(object):
         self.parser.add_argument(
             "--gtest",
             action="store_true",
-            help=argparse.SUPPRESS,
+            help=SUPPRESS,
         )
 
         misc_group = self.parser.add_argument_group("Misc. Arguments")
@@ -620,29 +631,30 @@ class FetcherArgs(object):
         near_group = self.parser.add_argument_group(
             "Near Arguments",
             "If the specified build isn't found, iterate over "
-            + "builds in the specified direction",
+            "builds in the specified direction",
         )
         near_args = near_group.add_mutually_exclusive_group()
         near_args.add_argument(
             "--nearest-newer",
             action="store_const",
-            const=Fetcher.BUILD_ORDER_ASC,
+            const=BuildSearchOrder.ASC,
             dest="nearest",
             help="Search from specified build in ascending order",
         )
         near_args.add_argument(
             "--nearest-older",
             action="store_const",
-            const=Fetcher.BUILD_ORDER_DESC,
+            const=BuildSearchOrder.DESC,
             dest="nearest",
             help="Search from the specified build in descending order",
         )
 
     @staticmethod
-    def is_build_ns(build_id):
-        """
-        Check if supplied build_id is a namespace
-        :param build_id: Build identifier to check
+    def is_build_ns(build_id: str) -> bool:
+        """Check if supplied build_id is a namespace
+
+        Arguments:
+            build_id: Build identifier to check
         """
         return (
             re.match(
@@ -651,13 +663,13 @@ class FetcherArgs(object):
             is None
         )
 
-    def sanity_check(self, args):
-        """
-        Perform parser checks
+    def sanity_check(self, args: Namespace) -> None:
+        """Perform parser checks
 
         Arguments:
-            args (list): a list of arguments
+            args: Parsed arguments
         """
+        # multiple-inheritance support
         if hasattr(super(), "sanity_check"):
             super().sanity_check(args)  # pylint: disable=no-member
 
@@ -688,38 +700,50 @@ class FetcherArgs(object):
             LOG.warning("--gtest is deprecated, add 'gtest' to --target instead.")
             args.target.append("gtest")
 
-    def parse_args(self, argv=None):
-        """
-        Parse and validate args
+    def parse_args(self, argv: Optional[Sequence[str]] = None) -> Namespace:
+        """Parse and validate args
 
         Arguments:
-            argv (list): a list of arguments
+            argv: a list of arguments
         """
         args = self.parser.parse_args(argv)
         self.sanity_check(args)
         return args
 
 
-class Fetcher(object):
+class BuildSearchOrder(Enum):
+    """Search direction when searching for "nearest" builds"""
+
+    ASC = 1
+    DESC = 2
+
+
+class Fetcher:
     """Fetcher fetches build artifacts from TaskCluster and unpacks them"""
 
-    BUILD_ORDER_ASC = 1
-    BUILD_ORDER_DESC = 2
     re_target = re.compile(
         r"(\.linux-(x86_64|i686)(-asan)?|target|mac(64)?|win(32|64))\.json$"
     )
 
-    def __init__(self, branch, build, flags, platform=None, nearest=None):
+    def __init__(
+        self,
+        branch: str,
+        build: str,
+        flags: Union[Sequence[bool], BuildFlags],
+        platform: Optional[Platform] = None,
+        nearest: Optional[BuildSearchOrder] = None,
+    ):
         """
         Arguments:
-            branch (str): a valid gecko branch, eg. 'central', 'autoland', 'beta',
-                          'release', 'esr52', etc.
-            build (str): build identifier. acceptable identifiers are: TaskCluster
-                         namespace, hg changeset, date, 'latest'
-            flags (BuildFlags or sequence(bool)):
-                ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan', 'no_opt'),
-                each a bool, not all combinations exist in TaskCluster
-            platform (Platform): force platform if different than current system
+            branch: a valid gecko branch, eg. 'central', 'autoland', 'beta',
+                    'release', 'esr52', etc.
+            build: build identifier. acceptable identifiers are: TaskCluster
+                   namespace, hg changeset, date, 'latest'
+            flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan',
+                    'no_opt'),
+                   each a bool, not all combinations exist in TaskCluster
+            platform: force platform if different than current system
+            nearest: Search for nearest build, not exact
         """
         self._memo = {}
         "memorized values for @properties"
@@ -823,7 +847,7 @@ class Fetcher(object):
                     raise
 
                 requested = None
-                asc = nearest == Fetcher.BUILD_ORDER_ASC
+                asc = nearest == BuildSearchOrder.ASC
                 if "latest" in build:
                     requested = now
                 elif BuildTask.RE_DATE.match(build) is not None:
@@ -925,7 +949,7 @@ class Fetcher(object):
         )
 
     @staticmethod
-    def resolve_esr(branch):
+    def resolve_esr(branch: str) -> str:
         """Retrieve esr version based on keyword"""
         if branch not in {"esr-stable", "esr-next"}:
             raise FetcherException(f"Invalid ESR branch specified: {branch}")
@@ -938,17 +962,8 @@ class Fetcher(object):
 
         return f"esr{match.group(0)}"
 
-    @classmethod
-    def iterall(cls, target, branch, build, flags, platform=None):
-        """Return an iterable for all available builds matching a particular build
-        type
-        """
-        flags = BuildFlags(*flags)
-        for task in BuildTask.iterall(build, branch, flags, platform):
-            yield cls(target, branch, task, flags, platform)
-
     @property
-    def _artifacts(self):
+    def _artifacts(self) -> Dict[str, Sequence[Dict[str, str]]]:
         """Retrieve the artifacts json object"""
         if "_artifacts" not in self._memo:
             json = get_url(self._artifacts_url).json()
@@ -956,7 +971,7 @@ class Fetcher(object):
         return self._memo["_artifacts"]
 
     @property
-    def _artifact_base(self):
+    def _artifact_base(self) -> str:
         """
         Build the artifact basename
         Builds are base.tar.bz2, info is base.json, shell is base.jsshell.zip...
@@ -972,56 +987,56 @@ class Fetcher(object):
         return self._memo["_artifact_base"]
 
     @property
-    def _artifacts_url(self):
+    def _artifacts_url(self) -> str:
         """Build the artifacts url"""
         return f"{self._task.queue_server}/task/{self.task_id}/artifacts"
 
     @property
-    def id(self):
+    def id(self) -> str:
         """Return the build's id (date stamp)"""
         # pylint: disable=invalid-name
         return self.build_info["buildid"]
 
     @property
-    def datetime(self):
+    def datetime(self) -> datetime:
         """Return a datetime representation of the build's id"""
         return _create_utc_datetime(self.id)
 
     @property
-    def build_info(self):
+    def build_info(self) -> Dict[str, str]:
         """Return the build's info"""
         if "build_info" not in self._memo:
             self._memo["build_info"] = get_url(self.artifact_url("json")).json()
         return self._memo["build_info"]
 
     @property
-    def changeset(self):
+    def changeset(self) -> str:
         """Return the build's revision"""
         return self.build_info["moz_source_stamp"]
 
     @property
-    def moz_info(self):
+    def moz_info(self) -> Dict[str, Union[str, bool, int]]:
         """Return the build's mozinfo"""
         if "moz_info" not in self._memo:
             self._memo["moz_info"] = get_url(self.artifact_url("mozinfo.json")).json()
         return self._memo["moz_info"]
 
     @property
-    def rank(self):
+    def rank(self) -> int:
         """Return the build's rank"""
         return self._task.rank
 
     @property
-    def task_id(self):
+    def task_id(self) -> str:
         """Return the build's TaskCluster ID"""
         return self._task.taskId
 
     @property
-    def task_url(self):
+    def task_url(self) -> str:
         """Return the TaskCluster base url"""
         return self._task.url
 
-    def artifact_url(self, suffix):
+    def artifact_url(self, suffix: str) -> str:
         """
         Get the Taskcluster artifact url
 
@@ -1030,17 +1045,17 @@ class Fetcher(object):
         """
         return f"{self._artifacts_url}/{self._artifact_base}.{suffix}"
 
-    def get_auto_name(self):
+    def get_auto_name(self) -> str:
         """Get the automatic directory name"""
         return self._auto_name
 
-    def resolve_targets(self, targets):
+    def resolve_targets(self, targets: Sequence[str]) -> None:
         """Check that all targets are downloadable.
 
         This is used to check target validity prior to calling `extract_build()`
 
         Arguments:
-            targets (list(str)): build artifacts to download
+            targets: build artifacts to download
         """
         # this should mirror extract_build(), but do HTTP HEAD requests only
         # to check that targets exist
@@ -1063,9 +1078,7 @@ class Fetcher(object):
                 resolve_url(self.artifact_url("zip"))
             elif self._platform.system == "Android":
                 artifact_path = "/".join(self._artifact_base.split("/")[:-1])
-                url = (
-                    self._artifacts_url + "/" + artifact_path + "/geckoview_example.apk"
-                )
+                url = f"{self._artifacts_url}/{artifact_path}/geckoview_example.apk"
                 resolve_url(url)
             else:
                 raise FetcherException(
@@ -1089,22 +1102,23 @@ class Fetcher(object):
 
         for target in targets_remaining:
             try:
-                resolve_url(self.artifact_url(target + ".tests.tar.gz"))
+                resolve_url(self.artifact_url(f"{target}.tests.tar.gz"))
             except FetcherException:
-                resolve_url(self.artifact_url(target + ".tests.zip"))
+                resolve_url(self.artifact_url(f"{target}.tests.zip"))
 
-    def extract_build(self, targets, path="."):
+    def extract_build(self, targets: Sequence[str], path: PathArg = ".") -> None:
         """Download and extract the build and requested extra artifacts.
 
         If an executable target is requested (js/firefox), coverage data
         and/or symbols may be downloaded for the build.
 
         Arguments:
-            targets (list(str)): build artifacts to download
-            path (str): Path to extract downloaded artifacts.
+            targets: build artifacts to download
+            path: Path to extract downloaded artifacts.
         """
         # sanity check all targets before downloading any
         self.resolve_targets(targets)
+        path = Path(path)
 
         targets_remaining = set(targets)
         have_exec = False
@@ -1112,7 +1126,7 @@ class Fetcher(object):
         if "js" in targets_remaining:
             targets_remaining.remove("js")
             have_exec = True
-            self.extract_zip("jsshell.zip", path=os.path.join(path, "dist", "bin"))
+            self.extract_zip("jsshell.zip", path=path / "dist" / "bin")
             self._write_fuzzmanagerconf("js", path)
 
         if "firefox" in targets_remaining:
@@ -1126,16 +1140,13 @@ class Fetcher(object):
                 self.extract_zip("zip", path)
                 # windows builds are extracted under 'firefox/'
                 # move everything under firefox/ up a level to the destination path
-                firefox = os.path.join(path, "firefox")
+                firefox = path / "firefox"
                 for root, dirs, files in os.walk(firefox):
-                    newroot = root.replace(firefox, path)
+                    newroot = path / root.relative_to(firefox)
                     for dirname in dirs:
-                        os.mkdir(os.path.join(newroot, dirname))
+                        (newroot / dirname).mkdir()
                     for filename in files:
-                        os.rename(
-                            os.path.join(root, filename),
-                            os.path.join(newroot, filename),
-                        )
+                        Path(root / filename).rename(newroot / filename)
                 shutil.rmtree(firefox, onerror=onerror)
             elif self._platform.system == "Android":
                 self.download_apk(path)
@@ -1161,13 +1172,12 @@ class Fetcher(object):
                 raise FetcherException(
                     f"'{self._platform.system}' is not a supported platform for gtest"
                 )
-            os.rename(
-                os.path.join(path, "gtest", "gtest_bin", "gtest", libxul),
-                os.path.join(path, "gtest", libxul),
+            (path / "gtest" / "gtest_bin" / "gtest" / libxul).rename(
+                path / "gtest" / libxul
             )
             shutil.copy(
-                os.path.join(path, "gtest", "dependentlibs.list.gtest"),
-                os.path.join(path, "dependentlibs.list.gtest"),
+                path / "gtest" / "dependentlibs.list.gtest",
+                path / "dependentlibs.list.gtest",
             )
 
         if have_exec:
@@ -1179,11 +1189,9 @@ class Fetcher(object):
                 and not self._flags.tsan
                 and not self._flags.valgrind
             ):
-                os.mkdir(os.path.join(path, "symbols"))
+                (path / "symbols").mkdir()
                 try:
-                    self.extract_zip(
-                        "crashreporter-symbols.zip", path=os.path.join(path, "symbols")
-                    )
+                    self.extract_zip("crashreporter-symbols.zip", path=path / "symbols")
                 except FetcherException:
                     # fuzzing debug builds no longer have crashreporter-symbols.zip
                     # (bug 1649062)
@@ -1194,18 +1202,19 @@ class Fetcher(object):
         # any still remaining targets are assumed to be test artifacts
         for target in targets_remaining:
             try:
-                self.extract_tar(target + ".tests.tar.gz", path=path)
+                self.extract_tar(f"{target}.tests.tar.gz", path=path)
             except FetcherException:
-                self.extract_zip(target + ".tests.zip", path=path)
+                self.extract_zip(f"{target}.tests.zip", path=path)
 
         LOG.info("Extracted into %s", path)
 
-    def _write_fuzzmanagerconf(self, target, path):
+    def _write_fuzzmanagerconf(self, target: str, path: Path) -> None:
         """
         Write fuzzmanager config file for selected build
 
         Arguments:
-            path (basestring): A string representation of the fuzzmanager config path
+            target: firefox/js
+            path: fuzzmanager config path
         """
         output = configparser.RawConfigParser()
         output.add_section("Main")
@@ -1229,14 +1238,14 @@ class Fetcher(object):
         output.set("Metadata", "buildType", self._flags.build_string().lstrip("-"))
 
         if self._platform.system == "Windows":
-            fm_name = target + ".exe.fuzzmanagerconf"
+            fm_name = f"{target}.exe.fuzzmanagerconf"
         elif self._platform.system == "Android":
             fm_name = "target.apk.fuzzmanagerconf"
         elif self._platform.system == "Darwin" and target == "firefox":
-            ff_loc = glob.glob(f"{path}/*.app/Contents/MacOS/firefox")
+            ff_loc = list(path.glob("*.app/Contents/MacOS/firefox"))
             assert len(ff_loc) == 1
             fm_name = f"{target}.fuzzmanagerconf"
-            path = os.path.dirname(ff_loc[0])
+            path = ff_loc[0].parent
         elif self._platform.system in {"Darwin", "Linux"}:
             fm_name = f"{target}.fuzzmanagerconf"
         else:
@@ -1244,19 +1253,19 @@ class Fetcher(object):
                 f"Unknown platform/target: {self._platform.system}/{target}"
             )
         if target == "js":
-            conf_path = os.path.join(path, "dist", "bin", fm_name)
+            conf_path = path / "dist" / "bin" / fm_name
         else:
-            conf_path = os.path.join(path, fm_name)
+            conf_path = path / fm_name
         with open(conf_path, "w") as conf_fp:
             output.write(conf_fp)
 
-    def extract_zip(self, suffix, path="."):
+    def extract_zip(self, suffix: str, path: PathArg = ".") -> None:
         """
         Download and extract a zip artifact
 
         Arguments:
-            suffix
-            path
+            suffix: artifact to download
+            path: path to extract zip to
         """
         zip_fd, zip_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".zip")
         os.close(zip_fd)
@@ -1267,14 +1276,14 @@ class Fetcher(object):
         finally:
             os.unlink(zip_fn)
 
-    def extract_tar(self, suffix, path="."):
+    def extract_tar(self, suffix: str, path: PathArg = ".") -> None:
         """
         Extract builds with .tar.(*) extension
         When unpacking a build archive, only extract the firefox directory
 
         Arguments:
-            suffix
-            path
+            suffix: artifact to download
+            path: path to extract tar to
         """
         mode = suffix.split(".")[-1]
         tar_fd, tar_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=f".tar.{mode}")
@@ -1286,7 +1295,7 @@ class Fetcher(object):
         finally:
             os.unlink(tar_fn)
 
-    def download_apk(self, path="."):
+    def download_apk(self, path: PathArg = ".") -> None:
         """
         Download Android .apk
 
@@ -1301,18 +1310,18 @@ class Fetcher(object):
             artifact_path = "/".join(self._artifact_base.split("/")[:-1])
             url = f"{self._artifacts_url}/{artifact_path}/geckoview_example.apk"
             download_url(url, apk_fn)
-            shutil.copy(apk_fn, os.path.join(path, "target.apk"))
+            shutil.copy(apk_fn, Path(path) / "target.apk")
         finally:
             os.unlink(apk_fn)
 
-    def extract_dmg(self, path="."):
+    def extract_dmg(self, path: PathArg = ".") -> None:
         """
         Extract builds with .dmg extension
 
         Will only work if `hdiutil` is available.
 
         Arguments:
-            path
+            path: path to extract dmg contents to
         """
         dmg_fd, dmg_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".dmg")
         os.close(dmg_fd)
@@ -1323,12 +1332,14 @@ class Fetcher(object):
                 extract_dmg(dmg_fn, path)
             else:
                 LOG.warning(".. can't extract target.dmg on %s", std_platform.system())
-                shutil.copy(dmg_fn, os.path.join(path, "target.dmg"))
+                shutil.copy(dmg_fn, Path(path) / "target.dmg")
         finally:
             os.unlink(dmg_fn)
 
     @classmethod
-    def from_args(cls, args=None, skip_dir_check=False):
+    def from_args(
+        cls, args: Optional[Sequence[str]] = None, skip_dir_check: bool = False
+    ) -> Tuple["Fetcher", Dict[str, Union[bool, Path, Sequence[str]]]]:
         """
         Construct a Fetcher from given command line arguments.
 
@@ -1392,7 +1403,7 @@ class Fetcher(object):
         return obj, extract_options
 
     @classmethod
-    def main(cls):
+    def main(cls) -> None:
         """
         fuzzfetch main entry point
 

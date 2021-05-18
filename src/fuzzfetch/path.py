@@ -7,18 +7,18 @@
 import os
 import platform
 import stat
-import subprocess
+from pathlib import Path
+from typing import Any, Callable, Union
 
 if platform.system() == "Windows":
     import _winapi  # pylint: disable=import-error
 
 
-FILE_ATTRIBUTE_REPARSE_POINT = 1024
+PathArg = Union[str, Path]
 
 
-def onerror(func, path, _exc_info):
-    """
-    Error handler for `shutil.rmtree`.
+def onerror(func: Callable, path: PathArg, _exc_info: Any) -> None:
+    """Error handler for `shutil.rmtree`.
 
     If the error is due to an access error (read only file)
     it attempts to add write permission and then retries.
@@ -40,10 +40,10 @@ def onerror(func, path, _exc_info):
         raise  # pylint: disable=misplaced-bare-raise
 
 
-def rmtree(path):
+def rmtree(path: PathArg) -> None:
     """shutil.rmtree() but also handle junction points and access errors on Windows."""
     if islink(path):
-        unlink(path)
+        os.unlink(path)
     elif os.path.isdir(path):
         for sub in os.listdir(path):
             sub = os.path.join(path, sub)
@@ -59,7 +59,7 @@ def rmtree(path):
         raise RuntimeError("rmtree called on non-link/folder")
 
 
-def islink(path):
+def islink(path: PathArg) -> bool:
     """os.path.islink() but return True for junction points on Windows."""
     if platform.system() == "Windows":
         try:
@@ -74,21 +74,11 @@ def islink(path):
     return os.path.islink(path)
 
 
-def unlink(link):
-    """os.unlink() but handle junction points on Windows."""
-    if islink(link) and platform.system() == "Windows":
-        # deleting junction points was added to os.unlink in 3.5
-        # https://bugs.python.org/issue18314
-        subprocess.check_call(["rmdir", link], shell=True)
-    else:
-        os.unlink(link)
-
-
-def symlink(target, link):
+def symlink(target: PathArg, link: PathArg) -> None:
     """os.symlink() but use a junction point on Windows."""
     if islink(link):
-        unlink(link)
+        os.unlink(link)
     if platform.system() == "Windows":
-        _winapi.CreateJunction(target, link)
+        _winapi.CreateJunction(str(target), str(link))
     else:
         os.symlink(target, link)  # pylint: disable=no-member

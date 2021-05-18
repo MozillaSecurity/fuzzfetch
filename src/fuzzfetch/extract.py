@@ -3,77 +3,65 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
-# pylint: disable=too-many-statements
-
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import logging
 import os
 import shutil
 import stat
-import subprocess
 import tarfile
 import tempfile
 import zipfile
+from pathlib import Path
+from subprocess import DEVNULL, call, check_call, check_output
 
-from .path import onerror
+from .path import PathArg, onerror
 
 LOG = logging.getLogger("fuzzfetch")
 
 
-HDIUTIL_PATH = None
-P7Z_PATH = None
+HDIUTIL_PATH = shutil.which("hdiutil")
+P7Z_PATH = shutil.which("7z")
 
 
-def _extract_file(zip_fp, info, path):
-    """Extract files while explicitly setting the proper permissions"""
-    zip_fp.extract(info.filename, path=path)
-    out_path = os.path.join(path, info.filename)
-
-    perm = info.external_attr >> 16
-    perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
-    os.chmod(out_path, perm)
-
-
-def extract_zip(zip_fn, path="."):
-    """
-    Download and extract a zip artifact
+def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
+    """Download and extract a zip artifact
 
     Arguments:
-        zip_fn
-        path
+        zip_fn: path to zip archive
+        path: where to extract zip contents
     """
-    global P7Z_PATH  # pylint: disable=global-statement
-    if P7Z_PATH is None:
-        P7Z_PATH = shutil.which("7z") or ""
+    path = Path(path)
+
+    def _extract_file(zip_fp: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
+        """Extract files while explicitly setting the proper permissions"""
+        zip_fp.extract(info.filename, path=path)
+        out_path = path / info.filename
+
+        perm = info.external_attr >> 16
+        perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
+        out_path.chmod(perm)
+
     if P7Z_PATH:
-        subprocess.check_output([P7Z_PATH, "x", "-bd", f"-o{path}", zip_fn])
+        check_output([P7Z_PATH, "x", "-bd", f"-o{path}", zip_fn])
     else:
         with zipfile.ZipFile(zip_fn) as zip_fp:
             for info in zip_fp.infolist():
-                _extract_file(zip_fp, info, path)
+                _extract_file(zip_fp, info)
 
 
-def extract_tar(tar_fn, mode="", path="."):
-    """
-    Extract builds with .tar.(*) extension
+def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
+    """Extract builds with .tar.(*) extension
     When unpacking a build archive, only extract the firefox directory
 
     Arguments:
-        tar_fn
-        mode
-        path
+        tar_fn: path to tar archive
+        mode: compression type
+        path: where to extract tar contents
     """
-    global P7Z_PATH  # pylint: disable=global-statement
-    if P7Z_PATH is None:
-        P7Z_PATH = shutil.which("7z") or ""
     try:
         if P7Z_PATH and mode in {"7z", "bz2", "gz", "lzma", "xz"}:
             p7z_fd, p7z_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
-            with open(os.devnull, "w") as devnull:
-                result = subprocess.call(
-                    [P7Z_PATH, "e", "-so", tar_fn], stdout=p7z_fd, stderr=devnull
-                )
+            result = call([P7Z_PATH, "e", "-so", tar_fn], stdout=p7z_fd, stderr=DEVNULL)
             os.close(p7z_fd)
             if result == 0:
                 mode = ""
@@ -97,33 +85,28 @@ def extract_tar(tar_fn, mode="", path="."):
             os.unlink(p7z_fn)
 
 
-def extract_dmg(dmg_fn, path="."):
-    """
-    Extract builds with .dmg extension
+def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
+    """Extract builds with .dmg extension
 
     Will only work if `hdiutil` is available.
 
     Arguments:
-        path
+        dmg_fn: path to dmg image
+        path: where to extract dmg contents
     """
-    global HDIUTIL_PATH  # pylint: disable=global-statement
-    if HDIUTIL_PATH is None:
-        HDIUTIL_PATH = shutil.which("hdiutil") or ""
     assert HDIUTIL_PATH, "Extracting .dmg requires hdiutil"
-    out_tmp = tempfile.mkdtemp(prefix="fuzzfetch-", suffix=".tmp")
+    out_tmp = Path(tempfile.mkdtemp(prefix="fuzzfetch-", suffix=".tmp"))
     try:
-        subprocess.check_call(
-            [HDIUTIL_PATH, "attach", "-quiet", "-mountpoint", out_tmp, dmg_fn]
-        )
+        check_call([HDIUTIL_PATH, "attach", "-quiet", "-mountpoint", out_tmp, dmg_fn])
         try:
-            apps = [mt for mt in os.listdir(out_tmp) if mt.endswith("app")]
+            apps = [mt for mt in out_tmp.glob("*") if mt.suffix == ".app"]
             assert len(apps) == 1
             shutil.copytree(
-                os.path.join(out_tmp, apps[0]),
-                os.path.join(path, apps[0]),
+                out_tmp / apps[0].name,
+                path / apps[0].name,
                 symlinks=True,
             )
         finally:
-            subprocess.check_call([HDIUTIL_PATH, "detach", "-quiet", out_tmp])
+            check_call([HDIUTIL_PATH, "detach", "-quiet", out_tmp])
     finally:
         shutil.rmtree(out_tmp, onerror=onerror)

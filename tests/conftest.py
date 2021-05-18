@@ -78,17 +78,17 @@ def _cache_requests(request, context):
             request.headers,
         )
         try:
-            real_http = urlopen(urllib_request)
+            with urlopen(urllib_request) as real_http:
+                data = real_http.read()
+                if data[:2] == b"\x1f\x8b":  # gzip magic number
+                    data = gzip.decompress(data)  # pylint: disable=no-member
+                path.write_bytes(data)
+                context.status_code = real_http.getcode()
+            LOG.debug("-> %d (%d bytes from http)", context.status_code, len(data))
+            return data
         except HTTPError as exc:
             context.status_code = exc.code
             return None
-        data = real_http.read()
-        if data[:2] == b"\x1f\x8b":  # gzip magic number
-            data = gzip.decompress(data)  # pylint: disable=no-member
-        path.write_bytes(data)
-        context.status_code = real_http.getcode()
-        LOG.debug("-> %d (%d bytes from http)", context.status_code, len(data))
-        return data
     context.status_code = 404
     LOG.debug("-> 404 (at %s)", path)
     return None

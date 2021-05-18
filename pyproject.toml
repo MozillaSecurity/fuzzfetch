@@ -30,7 +30,6 @@ disable = [
     "C0326",
     "bad-continuation",
     "fixme",
-    "import-error",
     "subprocess-run-check",
     "too-few-public-methods",
     "too-many-arguments",
