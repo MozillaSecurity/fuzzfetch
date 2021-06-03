@@ -126,9 +126,10 @@ def get_builds_to_test():
     possible_branches = ("central", "try", "esr-next", "esr-stable")
     possible_os = ("Android", "Darwin", "Linux", "Windows")
     possible_cpus = ("x86", "x64", "arm", "arm64")
+    possible_targets = ("firefox", "js")
 
-    for branch, flags, os_, cpu in itertools.product(
-        possible_branches, possible_flags, possible_os, possible_cpus
+    for target, branch, flags, os_, cpu in itertools.product(
+        possible_targets, possible_branches, possible_flags, possible_os, possible_cpus
     ):
         try:
             fuzzfetch.fetch.Platform(os_, cpu)
