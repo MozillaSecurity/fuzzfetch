@@ -379,11 +379,12 @@ class BuildTask:
             else:
                 namespace = f"gecko.v2.{branch}.latest"
 
-            product = "mobile" if "android" in target_platform else "firefox"
+            prod = "mobile" if "android" in target_platform else "firefox"
             task_path = (
-                f"/task/{namespace}.{product}.{target_platform}{flags.build_string()}"
+                f"/task/{namespace}.{prod}.{target_platform}{flags.build_string()}",
+                f"/task/{namespace}.{prod}.sm-{target_platform}{flags.build_string()}",
             )
-            task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
+            task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_path)
 
         else:
             # try to use build argument directly as a namespace
@@ -935,6 +936,7 @@ class Fetcher:
         # build the automatic name
         if (
             not isinstance(build, BuildTask)
+            and self.moz_info["platform_guess"] is not None
             and self.moz_info["platform_guess"] in build
         ):
             options = build.split(self.moz_info["platform_guess"], 1)[1]
