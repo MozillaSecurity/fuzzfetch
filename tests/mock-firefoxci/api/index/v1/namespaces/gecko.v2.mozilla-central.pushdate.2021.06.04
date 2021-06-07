@@ -1,0 +1,24 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2021.06.04.20210604102111",
+      "name": "20210604102111",
+      "expires": "2022-06-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2021.06.04.20210604154219",
+      "name": "20210604154219",
+      "expires": "2022-06-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2021.06.04.20210604213013",
+      "name": "20210604213013",
+      "expires": "2022-06-07T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.pushdate.2021.06.04.latest",
+      "name": "latest",
+      "expires": "2022-06-07T00:00:00.000Z"
+    }
+  ]
+}

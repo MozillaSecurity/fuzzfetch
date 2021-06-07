@@ -1,0 +1,14 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-central.shippable.2021.06.04.latest",
+      "name": "latest",
+      "expires": "2022-06-06T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-central.shippable.2021.06.04.revision",
+      "name": "revision",
+      "expires": "2022-06-07T00:00:00.000Z"
+    }
+  ]
+}

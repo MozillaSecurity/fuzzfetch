@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/fetches/clang/bin/clang -std=gnu99",
+  "buildid": "20200609151649",
+  "cc": "/builds/worker/fetches/clang/bin/clang -std=gnu99",
+  "cxx": "/builds/worker/fetches/clang/bin/clang++ -std=gnu++17",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "79.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "79.0a1",
+  "moz_pkg_platform": "linux-x86_64",
+  "moz_source_repo": "https://hg.mozilla.org/mozilla-central",
+  "moz_source_stamp": "7f7b983390650cbc7d736e92fd3e1f629a30ac02",
+  "moz_update_channel": "nightly",
+  "target_alias": "x86_64-pc-linux-gnu",
+  "target_cpu": "x86_64",
+  "target_os": "linux-gnu",
+  "target_vendor": "pc"
+}
