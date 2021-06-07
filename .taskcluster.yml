@@ -61,6 +61,22 @@ tasks:
                 name: TWINE_PASSWORD
                 key: password
 
+    # Filter github event to only necessary fields.
+    #   Since we use a large list of test fixtures, broad changes can exceed
+    #   Docker environment variable size limits.
+    gh_event:
+      sender: {$eval: event.sender}
+      repository: {$eval: event.repository}
+      before: {$eval: "event['before']"}
+      after: {$eval: "event['after']"}
+      number: {$eval: "event['number']"}
+      release: {$eval: "event['release']"}
+      ref: {$eval: "event['ref']"}
+      pull_request:
+        $if: 'tasks_for == "github-pull-request"'
+        then:
+          head: {$eval: event.pull_request.head}
+          base: {$eval: event.pull_request.base}
 
   in:
     $if: 'tasks_for != "github-pull-request" || event["action"] in ["opened", "reopened", "synchronize"]'
@@ -80,7 +96,7 @@ tasks:
           env:
             PROJECT_NAME: ${project_name}
             CI_MATRIX: {$json: {$eval: matrix}}
-            GITHUB_EVENT: {$json: {$eval: event}}
+            GITHUB_EVENT: {$json: {$eval: gh_event}}
             GITHUB_ACTION: ${tasks_for}
             TASKCLUSTER_NOW: ${now}
           command:
