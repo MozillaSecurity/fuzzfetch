@@ -452,10 +452,12 @@ class BuildTask:
             product = "mobile" if "android" in target_platform else "firefox"
             json = base.json()
             for namespace in sorted(json["namespaces"], key=lambda x: x["name"]):
-                yield (
-                    cls.TASKCLUSTER_API,
+                task_paths = (
                     f"/task/{namespace['namespace']}.{product}.{target_platform}",
+                    f"/task/{namespace['namespace']}.{product}.sm-{target_platform}",
                 )
+                for pair in itertools.product((cls.TASKCLUSTER_API,), task_paths):
+                    yield pair
 
     @classmethod
     def _revision_paths(
@@ -473,6 +475,7 @@ class BuildTask:
         for namespace in namespaces:
             product = "mobile" if "android" in target_platform else "firefox"
             yield f"/task/{namespace}.{product}.{target_platform}"
+            yield f"/task/{namespace}.{product}.sm-{target_platform}"
 
 
 class FetcherArgs:
