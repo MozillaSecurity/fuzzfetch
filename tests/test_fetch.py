@@ -126,10 +126,9 @@ def get_builds_to_test():
     possible_branches = ("central", "try", "esr-next", "esr-stable")
     possible_os = ("Android", "Darwin", "Linux", "Windows")
     possible_cpus = ("x86", "x64", "arm", "arm64")
-    possible_targets = ("firefox", "js")
 
-    for target, branch, flags, os_, cpu in itertools.product(
-        possible_targets, possible_branches, possible_flags, possible_os, possible_cpus
+    for branch, flags, os_, cpu in itertools.product(
+        possible_branches, possible_flags, possible_os, possible_cpus
     ):
         try:
             fuzzfetch.fetch.Platform(os_, cpu)
@@ -194,7 +193,7 @@ def test_metadata(branch, build_flags, os_, cpu):
     the build is recent.
     """
     # BuildFlags(asan, debug, fuzzing, coverage, valgrind)
-    # Fetcher(target, branch, build, flags, arch_32)
+    # Fetcher(branch, build, flags, arch_32)
     # Set freeze_time to a date ahead of the latest mock build
     platform_ = fuzzfetch.fetch.Platform(os_, cpu)
     for as_args in (True, False):  # try as API and as command line
