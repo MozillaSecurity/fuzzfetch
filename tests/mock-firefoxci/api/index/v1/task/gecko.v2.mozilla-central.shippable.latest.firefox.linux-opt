@@ -1,7 +1,7 @@
 {
   "namespace": "gecko.v2.mozilla-central.shippable.latest.firefox.linux-opt",
-  "taskId": "J_9uUM3VRHSCaJFpaYkOJA",
-  "rank": 1623059269,
+  "taskId": "QfvuqKBURzWSbAzj2nbVKA",
+  "rank": 1623167870,
   "data": {},
-  "expires": "2022-06-07T09:51:01.973Z"
+  "expires": "2022-06-08T16:03:04.765Z"
 }

@@ -261,7 +261,7 @@ def test_metadata(branch, build_flags, os_, cpu):
     "requested, expected, direction",
     (
         ("2020-06-06", "2020-06-09", fuzzfetch.BuildSearchOrder.ASC),
-        ("2021-06-08", "2021-06-07", fuzzfetch.BuildSearchOrder.DESC),
+        ("2021-06-09", "2021-06-08", fuzzfetch.BuildSearchOrder.DESC),
         (
             "32fba417ebd01dfb2c2a392cdb1fad7ef66e96e8",
             "7f7b983390650cbc7d736e92fd3e1f629a30ac02",
