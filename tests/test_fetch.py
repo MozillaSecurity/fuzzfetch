@@ -334,7 +334,7 @@ def test_hash_resolution():
 @pytest.mark.usefixtures("requests_mock_cache")
 def test_fuzzilli_builds():
     """
-    Test shortened hashes are resolved
+    One-off test for retrieving fuzzilli enabled builds
     """
     flags = fuzzfetch.BuildFlags(
         asan=False,
