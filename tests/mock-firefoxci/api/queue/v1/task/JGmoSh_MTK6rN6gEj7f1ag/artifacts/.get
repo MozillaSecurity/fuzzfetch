@@ -1,0 +1,52 @@
+{
+  "artifacts": [
+    {
+      "storageType": "s3",
+      "name": "public/build/llvm-symbolizer.gz",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/main_raw.log",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mozconfig.autospider",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.json",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.jsshell.zip",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.mozinfo.json",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/live_backing.log",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "storageType": "reference",
+      "name": "public/logs/live.log",
+      "expires": "2022-06-08T16:02:51.631Z",
+      "contentType": "text/plain; charset=utf-8"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import pytest  # pylint: disable=import-error
 from freezegun import freeze_time  # pylint: disable=import-error
 
 import fuzzfetch
+from fuzzfetch import FetcherException
 
 LOG = logging.getLogger("fuzzfetch_test")
 logging.getLogger("requests").setLevel(logging.WARNING)
@@ -31,6 +32,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # debug
         fuzzfetch.BuildFlags(
@@ -41,6 +43,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # ccov
         fuzzfetch.BuildFlags(
@@ -51,6 +54,7 @@ def get_builds_to_test():
             coverage=True,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # asan-opt
         fuzzfetch.BuildFlags(
@@ -61,6 +65,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # asan-opt-fuzzing
         fuzzfetch.BuildFlags(
@@ -71,6 +76,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # tsan-opt
         fuzzfetch.BuildFlags(
@@ -81,6 +87,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # tsan-opt-fuzzing
         fuzzfetch.BuildFlags(
@@ -91,6 +98,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # debug-fuzzing
         fuzzfetch.BuildFlags(
@@ -101,6 +109,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # ccov-fuzzing
         fuzzfetch.BuildFlags(
@@ -111,6 +120,7 @@ def get_builds_to_test():
             coverage=True,
             valgrind=False,
             no_opt=False,
+            fuzzilli=False,
         ),
         # valgrind-opt
         fuzzfetch.BuildFlags(
@@ -121,6 +131,7 @@ def get_builds_to_test():
             coverage=False,
             valgrind=True,
             no_opt=False,
+            fuzzilli=False,
         ),
     )
     possible_branches = ("central", "try", "esr-next", "esr-stable")
@@ -193,7 +204,7 @@ def test_metadata(branch, build_flags, os_, cpu):
     the build is recent.
     """
     # BuildFlags(asan, debug, fuzzing, coverage, valgrind)
-    # Fetcher(target, branch, build, flags, arch_32)
+    # Fetcher(branch, build, flags, arch_32)
     # Set freeze_time to a date ahead of the latest mock build
     platform_ = fuzzfetch.fetch.Platform(os_, cpu)
     for as_args in (True, False):  # try as API and as command line
@@ -249,17 +260,12 @@ def test_metadata(branch, build_flags, os_, cpu):
 @pytest.mark.parametrize(
     "requested, expected, direction",
     (
-        ("2019-11-06", "2019-11-07", fuzzfetch.BuildSearchOrder.ASC),
-        ("2020-08-06", "2020-08-05", fuzzfetch.BuildSearchOrder.DESC),
+        ("2020-06-06", "2020-06-09", fuzzfetch.BuildSearchOrder.ASC),
+        ("2021-06-09", "2021-06-08", fuzzfetch.BuildSearchOrder.DESC),
         (
-            "d271c572a9bcd008ed14bf104b2eb81949952e4c",
-            "ac63c8962183502a4b0ec32222efc67d3841d157",
+            "32fba417ebd01dfb2c2a392cdb1fad7ef66e96e8",
+            "7f7b983390650cbc7d736e92fd3e1f629a30ac02",
             fuzzfetch.BuildSearchOrder.ASC,
-        ),
-        (
-            "d271c572a9bcd008ed14bf104b2eb81949952e4c",
-            "e8b7c48d4e7ed1b63aeedff379b51e566ea499d9",
-            fuzzfetch.BuildSearchOrder.DESC,
         ),
     ),
 )
@@ -277,10 +283,11 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
         coverage=False,
         valgrind=False,
         no_opt=False,
+        fuzzilli=False,
     )
 
     # Set freeze_time to a date ahead of the latest mock build
-    with freeze_time("2020-08-05"):
+    with freeze_time("2021-06-08"):
         LOG.debug("looking for nearest to %s", requested)
         if is_namespace:
             if fuzzfetch.BuildTask.RE_DATE.match(requested):
@@ -317,7 +324,29 @@ def test_hash_resolution():
         coverage=False,
         valgrind=False,
         no_opt=False,
+        fuzzilli=False,
     )
-    rev = "d1001fea6e4c66b98bb4983df49c6e47d2db5ceb"
+    rev = "24938c537a55f9db3913072d33b178b210e7d6b5"
     build = fuzzfetch.Fetcher("central", rev[:12], flags)
     assert build.changeset == rev
+
+
+@pytest.mark.usefixtures("requests_mock_cache")
+def test_fuzzilli_builds():
+    """
+    One-off test for retrieving fuzzilli enabled builds
+    """
+    flags = fuzzfetch.BuildFlags(
+        asan=False,
+        tsan=False,
+        debug=True,
+        fuzzing=False,
+        coverage=False,
+        valgrind=False,
+        no_opt=False,
+        fuzzilli=True,
+    )
+    try:
+        fuzzfetch.Fetcher("central", "latest", flags)
+    except FetcherException:
+        pytest.fail()

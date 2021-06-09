@@ -1,0 +1,1882 @@
+{
+"node": "32fba417ebd01dfb2c2a392cdb1fad7ef66e96e8",
+"date": [1591687455.0, 0],
+"desc": "Bug 1641737 - P6. Remove the need for an extra promise for when a DocumentChannel would connect. r=mattwoodrow\n\nThe earlier changes make this unnecessary. The load will start and will automatically resume once the PDocumentChannelParent::RedirectToRealChannel promise gets resolved when a DocumentChannel claim the DocumentLoadListener.\n\nDifferential Revision: https://phabricator.services.mozilla.com/D78488",
+"backedoutby": "0f4b97c32ba05a9e4285a2c32add44305c2aa727",
+"branch": "default",
+"bookmarks": [],
+"tags": [],
+"user": "Jean-Yves Avenard \u003cjyavenard@mozilla.com\u003e",
+"parents": ["abd9cd77f3cb3e6a7734af2b8e4a22de4b931382"],
+"files": [{
+"file": "netwerk/ipc/DocumentLoadListener.cpp",
+"status": "modified"
+}, {
+"file": "netwerk/ipc/DocumentLoadListener.h",
+"status": "modified"
+}],
+"diff": [{
+"blockno": 1,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/netwerk/ipc/DocumentLoadListener.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/netwerk/ipc/DocumentLoadListener.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -255,25 +255,16 @@ NS_INTERFACE_MAP_END\n"
+}, {
+"t": "",
+"n": 4,
+"l": " \n"
+}, {
+"t": "",
+"n": 5,
+"l": " DocumentLoadListener::DocumentLoadListener(\n"
+}, {
+"t": "",
+"n": 6,
+"l": "     CanonicalBrowsingContext* aBrowsingContext) {\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   LOG((\"DocumentLoadListener ctor [this=%p]\", this));\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   mParentChannelListener = new ParentChannelListener(\n"
+}, {
+"t": "",
+"n": 9,
+"l": "       this, aBrowsingContext, aBrowsingContext-\u003eUsePrivateBrowsing());\n"
+}, {
+"t": "",
+"n": 10,
+"l": " }\n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-DocumentLoadListener::DocumentLoadListener(\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-    CanonicalBrowsingContext* aBrowsingContext,\n"
+}, {
+"t": "-",
+"n": 14,
+"l": "-    base::ProcessId aPendingBridgeProcess) {\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-  LOG((\"DocumentLoadListener ctor [this=%p]\", this));\n"
+}, {
+"t": "-",
+"n": 16,
+"l": "-  mParentChannelListener = new ParentChannelListener(\n"
+}, {
+"t": "-",
+"n": 17,
+"l": "-      this, aBrowsingContext, aBrowsingContext-\u003eUsePrivateBrowsing());\n"
+}, {
+"t": "-",
+"n": 18,
+"l": "-  mPendingDocumentChannelBridgeProcess = Some(aPendingBridgeProcess);\n"
+}, {
+"t": "-",
+"n": 19,
+"l": "-}\n"
+}, {
+"t": "-",
+"n": 20,
+"l": "-\n"
+}, {
+"t": "",
+"n": 21,
+"l": " DocumentLoadListener::~DocumentLoadListener() {\n"
+}, {
+"t": "",
+"n": 22,
+"l": "   LOG((\"DocumentLoadListener dtor [this=%p]\", this));\n"
+}, {
+"t": "",
+"n": 23,
+"l": " }\n"
+}, {
+"t": "",
+"n": 24,
+"l": " \n"
+}, {
+"t": "",
+"n": 25,
+"l": " void DocumentLoadListener::AddURIVisit(nsIChannel* aChannel,\n"
+}, {
+"t": "",
+"n": 26,
+"l": "                                        uint32_t aLoadFlags) {\n"
+}, {
+"t": "",
+"n": 27,
+"l": "   if (mLoadStateLoadType == LOAD_ERROR_PAGE ||\n"
+}, {
+"t": "",
+"n": 28,
+"l": "       mLoadStateLoadType == LOAD_BYPASS_HISTORY) {\n"
+}, {
+"t": "@",
+"n": 29,
+"l": "@@ -530,17 +521,18 @@ auto DocumentLoadListener::Open(\n"
+}, {
+"t": "",
+"n": 30,
+"l": "         browsingContext-\u003eCreateSessionHistoryEntryForLoad(aLoadState, mChannel);\n"
+}, {
+"t": "",
+"n": 31,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 32,
+"l": " \n"
+}, {
+"t": "",
+"n": 33,
+"l": "   if (auto* ctx = GetBrowsingContext()) {\n"
+}, {
+"t": "",
+"n": 34,
+"l": "     ctx-\u003eStartDocumentLoad(this);\n"
+}, {
+"t": "",
+"n": 35,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 36,
+"l": " \n"
+}, {
+"t": "",
+"n": 37,
+"l": "   *aRv = NS_OK;\n"
+}, {
+"t": "-",
+"n": 38,
+"l": "-  return mOpenPromise.Ensure(__func__);\n"
+}, {
+"t": "+",
+"n": 39,
+"l": "+  mOpenPromise = new OpenPromise::Private(__func__);\n"
+}, {
+"t": "+",
+"n": 40,
+"l": "+  return mOpenPromise;\n"
+}, {
+"t": "",
+"n": 41,
+"l": " }\n"
+}, {
+"t": "",
+"n": 42,
+"l": " \n"
+}, {
+"t": "",
+"n": 43,
+"l": " /* static */\n"
+}, {
+"t": "",
+"n": 44,
+"l": " bool DocumentLoadListener::OpenFromParent(\n"
+}, {
+"t": "",
+"n": 45,
+"l": "     dom::CanonicalBrowsingContext* aBrowsingContext,\n"
+}, {
+"t": "",
+"n": 46,
+"l": "     nsDocShellLoadState* aLoadState, uint64_t aOuterWindowId,\n"
+}, {
+"t": "",
+"n": 47,
+"l": "     uint32_t* aOutIdent) {\n"
+}, {
+"t": "",
+"n": 48,
+"l": "   LOG((\"DocumentLoadListener::OpenFromParent\"));\n"
+}, {
+"t": "@",
+"n": 49,
+"l": "@@ -598,24 +590,24 @@ bool DocumentLoadListener::OpenFromParen\n"
+}, {
+"t": "",
+"n": 50,
+"l": "   // observers, so we need to preserve the value in the parent. That can't have\n"
+}, {
+"t": "",
+"n": 51,
+"l": "   // happened here, so Nothing() is fine.\n"
+}, {
+"t": "",
+"n": 52,
+"l": "   Maybe\u003cuint64_t\u003e channelId = Nothing();\n"
+}, {
+"t": "",
+"n": 53,
+"l": " \n"
+}, {
+"t": "",
+"n": 54,
+"l": "   // Initial client info is only relevant for subdocument loads, which we're\n"
+}, {
+"t": "",
+"n": 55,
+"l": "   // not supporting yet.\n"
+}, {
+"t": "",
+"n": 56,
+"l": "   Maybe\u003cdom::ClientInfo\u003e initialClientInfo;\n"
+}, {
+"t": "",
+"n": 57,
+"l": " \n"
+}, {
+"t": "-",
+"n": 58,
+"l": "-  RefPtr\u003cDocumentLoadListener\u003e listener = new DocumentLoadListener(\n"
+}, {
+"t": "-",
+"n": 59,
+"l": "-      aBrowsingContext, aBrowsingContext-\u003eGetContentParent()-\u003eOtherPid());\n"
+}, {
+"t": "+",
+"n": 60,
+"l": "+  RefPtr\u003cDocumentLoadListener\u003e listener =\n"
+}, {
+"t": "+",
+"n": 61,
+"l": "+      new DocumentLoadListener(aBrowsingContext);\n"
+}, {
+"t": "",
+"n": 62,
+"l": " \n"
+}, {
+"t": "",
+"n": 63,
+"l": "   nsresult rv;\n"
+}, {
+"t": "-",
+"n": 64,
+"l": "-  auto promise =\n"
+}, {
+"t": "-",
+"n": 65,
+"l": "-      listener-\u003eOpen(loadState, cacheKey, channelId, TimeStamp::Now(), timing,\n"
+}, {
+"t": "-",
+"n": 66,
+"l": "-                     std::move(initialClientInfo), aOuterWindowId, false,\n"
+}, {
+"t": "-",
+"n": 67,
+"l": "-                     Nothing(), Nothing(), 0, &rv);\n"
+}, {
+"t": "+",
+"n": 68,
+"l": "+  auto promise = listener-\u003eOpen(\n"
+}, {
+"t": "+",
+"n": 69,
+"l": "+      loadState, cacheKey, channelId, TimeStamp::Now(), timing,\n"
+}, {
+"t": "+",
+"n": 70,
+"l": "+      std::move(initialClientInfo), aOuterWindowId, false, Nothing(), Nothing(),\n"
+}, {
+"t": "+",
+"n": 71,
+"l": "+      aBrowsingContext-\u003eGetContentParent()-\u003eOtherPid(), &rv);\n"
+}, {
+"t": "",
+"n": 72,
+"l": "   if (promise) {\n"
+}, {
+"t": "",
+"n": 73,
+"l": "     MOZ_ASSERT(NS_SUCCEEDED(rv));\n"
+}, {
+"t": "",
+"n": 74,
+"l": "     // Create an entry in the redirect channel registrar to\n"
+}, {
+"t": "",
+"n": 75,
+"l": "     // allocate an identifier for this load.\n"
+}, {
+"t": "",
+"n": 76,
+"l": "     nsCOMPtr\u003cnsIRedirectChannelRegistrar\u003e registrar =\n"
+}, {
+"t": "",
+"n": 77,
+"l": "         RedirectChannelRegistrar::GetOrCreate();\n"
+}, {
+"t": "",
+"n": 78,
+"l": "     rv = registrar-\u003eRegisterChannel(nullptr, aOutIdent);\n"
+}, {
+"t": "",
+"n": 79,
+"l": "     MOZ_ASSERT(NS_SUCCEEDED(rv));\n"
+}, {
+"t": "@",
+"n": 80,
+"l": "@@ -632,61 +624,51 @@ void DocumentLoadListener::CleanupParent\n"
+}, {
+"t": "",
+"n": 81,
+"l": " \n"
+}, {
+"t": "",
+"n": 82,
+"l": "   nsCOMPtr\u003cnsIParentChannel\u003e parentChannel;\n"
+}, {
+"t": "",
+"n": 83,
+"l": "   registrar-\u003eGetParentChannel(aLoadIdent, getter_AddRefs(parentChannel));\n"
+}, {
+"t": "",
+"n": 84,
+"l": "   RefPtr\u003cDocumentLoadListener\u003e loadListener = do_QueryObject(parentChannel);\n"
+}, {
+"t": "",
+"n": 85,
+"l": " \n"
+}, {
+"t": "",
+"n": 86,
+"l": "   if (loadListener) {\n"
+}, {
+"t": "",
+"n": 87,
+"l": "     // If the load listener is still registered, then we must have failed\n"
+}, {
+"t": "",
+"n": 88,
+"l": "     // to connect DocumentChannel into it. Better cancel it!\n"
+}, {
+"t": "-",
+"n": 89,
+"l": "-    loadListener-\u003eNotifyBridgeFailed();\n"
+}, {
+"t": "+",
+"n": 90,
+"l": "+    loadListener-\u003eNotifyDocumentChannelFailed();\n"
+}, {
+"t": "",
+"n": 91,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 92,
+"l": " \n"
+}, {
+"t": "",
+"n": 93,
+"l": "   registrar-\u003eDeregisterChannels(aLoadIdent);\n"
+}, {
+"t": "",
+"n": 94,
+"l": " }\n"
+}, {
+"t": "",
+"n": 95,
+"l": " \n"
+}, {
+"t": "",
+"n": 96,
+"l": " auto DocumentLoadListener::ClaimParentLoad(DocumentLoadListener** aListener,\n"
+}, {
+"t": "",
+"n": 97,
+"l": "                                            uint32_t aLoadIdent)\n"
+}, {
+"t": "",
+"n": 98,
+"l": "     -\u003e RefPtr\u003cOpenPromise\u003e {\n"
+}, {
+"t": "",
+"n": 99,
+"l": "   nsCOMPtr\u003cnsIRedirectChannelRegistrar\u003e registrar =\n"
+}, {
+"t": "",
+"n": 100,
+"l": "       RedirectChannelRegistrar::GetOrCreate();\n"
+}, {
+"t": "",
+"n": 101,
+"l": " \n"
+}, {
+"t": "",
+"n": 102,
+"l": "   nsCOMPtr\u003cnsIParentChannel\u003e parentChannel;\n"
+}, {
+"t": "",
+"n": 103,
+"l": "   registrar-\u003eGetParentChannel(aLoadIdent, getter_AddRefs(parentChannel));\n"
+}, {
+"t": "",
+"n": 104,
+"l": "   RefPtr\u003cDocumentLoadListener\u003e loadListener = do_QueryObject(parentChannel);\n"
+}, {
+"t": "",
+"n": 105,
+"l": "   registrar-\u003eDeregisterChannels(aLoadIdent);\n"
+}, {
+"t": "",
+"n": 106,
+"l": " \n"
+}, {
+"t": "-",
+"n": 107,
+"l": "-  MOZ_ASSERT(loadListener && !loadListener-\u003emOpenPromise.IsEmpty());\n"
+}, {
+"t": "-",
+"n": 108,
+"l": "-  if (loadListener) {\n"
+}, {
+"t": "-",
+"n": 109,
+"l": "-    loadListener-\u003eNotifyBridgeConnected();\n"
+}, {
+"t": "-",
+"n": 110,
+"l": "-  }\n"
+}, {
+"t": "-",
+"n": 111,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 112,
+"l": "-  RefPtr\u003cOpenPromise\u003e p = loadListener-\u003emOpenPromise.Ensure(__func__);\n"
+}, {
+"t": "+",
+"n": 113,
+"l": "+  MOZ_ASSERT(loadListener && loadListener-\u003emOpenPromise);\n"
+}, {
+"t": "",
+"n": 114,
+"l": "   loadListener.forget(aListener);\n"
+}, {
+"t": "",
+"n": 115,
+"l": " \n"
+}, {
+"t": "-",
+"n": 116,
+"l": "-  return p;\n"
+}, {
+"t": "+",
+"n": 117,
+"l": "+  return (*aListener)-\u003emOpenPromise;\n"
+}, {
+"t": "",
+"n": 118,
+"l": " }\n"
+}, {
+"t": "",
+"n": 119,
+"l": " \n"
+}, {
+"t": "-",
+"n": 120,
+"l": "-void DocumentLoadListener::NotifyBridgeConnected() {\n"
+}, {
+"t": "-",
+"n": 121,
+"l": "-  LOG((\"DocumentLoadListener NotifyBridgeConnected [this=%p]\", this));\n"
+}, {
+"t": "-",
+"n": 122,
+"l": "-  MOZ_ASSERT(mPendingDocumentChannelBridgeProcess);\n"
+}, {
+"t": "-",
+"n": 123,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 124,
+"l": "-  mOtherPid = *mPendingDocumentChannelBridgeProcess;\n"
+}, {
+"t": "-",
+"n": 125,
+"l": "-  mPendingDocumentChannelBridgeProcess.reset();\n"
+}, {
+"t": "-",
+"n": 126,
+"l": "-  mBridgePromise.ResolveIfExists(true, __func__);\n"
+}, {
+"t": "-",
+"n": 127,
+"l": "-}\n"
+}, {
+"t": "-",
+"n": 128,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 129,
+"l": "-void DocumentLoadListener::NotifyBridgeFailed() {\n"
+}, {
+"t": "-",
+"n": 130,
+"l": "-  LOG((\"DocumentLoadListener NotifyBridgeFailed [this=%p]\", this));\n"
+}, {
+"t": "-",
+"n": 131,
+"l": "-  MOZ_ASSERT(mPendingDocumentChannelBridgeProcess);\n"
+}, {
+"t": "-",
+"n": 132,
+"l": "-  mPendingDocumentChannelBridgeProcess.reset();\n"
+}, {
+"t": "+",
+"n": 133,
+"l": "+void DocumentLoadListener::NotifyDocumentChannelFailed() {\n"
+}, {
+"t": "+",
+"n": 134,
+"l": "+  LOG((\"DocumentLoadListener NotifyDocumentChannelFailed [this=%p]\", this));\n"
+}, {
+"t": "+",
+"n": 135,
+"l": "+  // There's been no calls to ClaimParentLoad, and so no listeners have been\n"
+}, {
+"t": "+",
+"n": 136,
+"l": "+  // attached to mOpenPromise yet. As such we can run Then() on it.\n"
+}, {
+"t": "+",
+"n": 137,
+"l": "+  mOpenPromise-\u003eThen(\n"
+}, {
+"t": "+",
+"n": 138,
+"l": "+      GetMainThreadSerialEventTarget(), __func__,\n"
+}, {
+"t": "+",
+"n": 139,
+"l": "+      [](DocumentLoadListener::OpenPromiseSucceededType&& aResolveValue) {\n"
+}, {
+"t": "+",
+"n": 140,
+"l": "+        aResolveValue.mPromise-\u003eResolve(NS_BINDING_ABORTED, __func__);\n"
+}, {
+"t": "+",
+"n": 141,
+"l": "+      },\n"
+}, {
+"t": "+",
+"n": 142,
+"l": "+      []() {});\n"
+}, {
+"t": "",
+"n": 143,
+"l": " \n"
+}, {
+"t": "",
+"n": 144,
+"l": "   Cancel(NS_BINDING_ABORTED);\n"
+}, {
+"t": "-",
+"n": 145,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 146,
+"l": "-  mBridgePromise.RejectIfExists(NS_BINDING_ABORTED, __func__);\n"
+}, {
+"t": "",
+"n": 147,
+"l": " }\n"
+}, {
+"t": "",
+"n": 148,
+"l": " \n"
+}, {
+"t": "",
+"n": 149,
+"l": " void DocumentLoadListener::Disconnect() {\n"
+}, {
+"t": "",
+"n": 150,
+"l": "   LOG((\"DocumentLoadListener Disconnect [this=%p]\", this));\n"
+}, {
+"t": "",
+"n": 151,
+"l": "   // The nsHttpChannel may have a reference to this parent, release it\n"
+}, {
+"t": "",
+"n": 152,
+"l": "   // to avoid circular references.\n"
+}, {
+"t": "",
+"n": 153,
+"l": "   RefPtr\u003cnsHttpChannel\u003e httpChannelImpl = do_QueryObject(mChannel);\n"
+}, {
+"t": "",
+"n": 154,
+"l": "   if (httpChannelImpl) {\n"
+}, {
+"t": "@",
+"n": 155,
+"l": "@@ -721,45 +703,35 @@ void DocumentLoadListener::Cancel(const \n"
+}, {
+"t": "",
+"n": 156,
+"l": " \n"
+}, {
+"t": "",
+"n": 157,
+"l": " void DocumentLoadListener::DisconnectListeners(nsresult aStatus,\n"
+}, {
+"t": "",
+"n": 158,
+"l": "                                                nsresult aLoadGroupStatus) {\n"
+}, {
+"t": "",
+"n": 159,
+"l": "   LOG(\n"
+}, {
+"t": "",
+"n": 160,
+"l": "       (\"DocumentLoadListener DisconnectListener [this=%p, \"\n"
+}, {
+"t": "",
+"n": 161,
+"l": "        \"aStatus=%\" PRIx32 \" aLoadGroupStatus=%\" PRIx32 \" ]\",\n"
+}, {
+"t": "",
+"n": 162,
+"l": "        this, static_cast\u003cuint32_t\u003e(aStatus),\n"
+}, {
+"t": "",
+"n": 163,
+"l": "        static_cast\u003cuint32_t\u003e(aLoadGroupStatus)));\n"
+}, {
+"t": "-",
+"n": 164,
+"l": "-  if (mPendingDocumentChannelBridgeProcess) {\n"
+}, {
+"t": "-",
+"n": 165,
+"l": "-    RefPtr\u003cDocumentLoadListener\u003e self = this;\n"
+}, {
+"t": "-",
+"n": 166,
+"l": "-    EnsureBridge()-\u003eThen(\n"
+}, {
+"t": "-",
+"n": 167,
+"l": "-        GetCurrentThreadSerialEventTarget(), __func__,\n"
+}, {
+"t": "-",
+"n": 168,
+"l": "-        [self, aStatus, aLoadGroupStatus](bool aDummy) {\n"
+}, {
+"t": "-",
+"n": 169,
+"l": "-          self-\u003eRejectOpenPromiseIfExists(aStatus, aLoadGroupStatus, __func__);\n"
+}, {
+"t": "-",
+"n": 170,
+"l": "-        },\n"
+}, {
+"t": "-",
+"n": 171,
+"l": "-        [self](nsresult aError) {\n"
+}, {
+"t": "-",
+"n": 172,
+"l": "-          self-\u003eRejectOpenPromiseIfExists(aError, aError, __func__);\n"
+}, {
+"t": "-",
+"n": 173,
+"l": "-        });\n"
+}, {
+"t": "-",
+"n": 174,
+"l": "-  } else {\n"
+}, {
+"t": "-",
+"n": 175,
+"l": "-    RejectOpenPromiseIfExists(aStatus, aLoadGroupStatus, __func__);\n"
+}, {
+"t": "-",
+"n": 176,
+"l": "-  }\n"
+}, {
+"t": "+",
+"n": 177,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 178,
+"l": "+  RejectOpenPromise(aStatus, aLoadGroupStatus, __func__);\n"
+}, {
+"t": "",
+"n": 179,
+"l": " \n"
+}, {
+"t": "",
+"n": 180,
+"l": "   Disconnect();\n"
+}, {
+"t": "",
+"n": 181,
+"l": " \n"
+}, {
+"t": "",
+"n": 182,
+"l": "   // If we're not going to send anything else to the content process, and\n"
+}, {
+"t": "",
+"n": 183,
+"l": "   // we haven't yet consumed a stream filter promise, then we're never going\n"
+}, {
+"t": "",
+"n": 184,
+"l": "   // to.\n"
+}, {
+"t": "",
+"n": 185,
+"l": "   // TODO: This might be because we retargeted the stream to the download\n"
+}, {
+"t": "",
+"n": 186,
+"l": "   // handler or similar. Do we need to attach a stream filter to that?\n"
+}, {
+"t": "",
+"n": 187,
+"l": "   mStreamFilterRequests.Clear();\n"
+}, {
+"t": "",
+"n": 188,
+"l": " }\n"
+}, {
+"t": "",
+"n": 189,
+"l": " \n"
+}, {
+"t": "",
+"n": 190,
+"l": " void DocumentLoadListener::RedirectToRealChannelFinished(nsresult aRv) {\n"
+}, {
+"t": "",
+"n": 191,
+"l": "   LOG(\n"
+}, {
+"t": "",
+"n": 192,
+"l": "       (\"DocumentLoadListener RedirectToRealChannelFinished [this=%p, \"\n"
+}, {
+"t": "",
+"n": 193,
+"l": "        \"aRv=%\" PRIx32 \" ]\",\n"
+}, {
+"t": "",
+"n": 194,
+"l": "        this, static_cast\u003cuint32_t\u003e(aRv)));\n"
+}, {
+"t": "+",
+"n": 195,
+"l": "+\n"
+}, {
+"t": "",
+"n": 196,
+"l": "   if (NS_FAILED(aRv) || !mRedirectChannelId) {\n"
+}, {
+"t": "",
+"n": 197,
+"l": "     FinishReplacementChannelSetup(aRv);\n"
+}, {
+"t": "",
+"n": 198,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 199,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 200,
+"l": " \n"
+}, {
+"t": "",
+"n": 201,
+"l": "   // Wait for background channel ready on target channel\n"
+}, {
+"t": "",
+"n": 202,
+"l": "   nsCOMPtr\u003cnsIRedirectChannelRegistrar\u003e redirectReg =\n"
+}, {
+"t": "",
+"n": 203,
+"l": "       RedirectChannelRegistrar::GetOrCreate();\n"
+}, {
+"t": "@",
+"n": 204,
+"l": "@@ -1387,25 +1359,16 @@ bool DocumentLoadListener::MaybeTriggerP\n"
+}, {
+"t": "",
+"n": 205,
+"l": "           },\n"
+}, {
+"t": "",
+"n": 206,
+"l": "           [self](nsresult aStatusCode) {\n"
+}, {
+"t": "",
+"n": 207,
+"l": "             MOZ_ASSERT(NS_FAILED(aStatusCode), \"Status should be error\");\n"
+}, {
+"t": "",
+"n": 208,
+"l": "             self-\u003eRedirectToRealChannelFinished(aStatusCode);\n"
+}, {
+"t": "",
+"n": 209,
+"l": "           });\n"
+}, {
+"t": "",
+"n": 210,
+"l": "   return true;\n"
+}, {
+"t": "",
+"n": 211,
+"l": " }\n"
+}, {
+"t": "",
+"n": 212,
+"l": " \n"
+}, {
+"t": "-",
+"n": 213,
+"l": "-RefPtr\u003cGenericPromise\u003e DocumentLoadListener::EnsureBridge() {\n"
+}, {
+"t": "-",
+"n": 214,
+"l": "-  if (!mPendingDocumentChannelBridgeProcess) {\n"
+}, {
+"t": "-",
+"n": 215,
+"l": "-    MOZ_ASSERT(mBridgePromise.IsEmpty());\n"
+}, {
+"t": "-",
+"n": 216,
+"l": "-    return GenericPromise::CreateAndResolve(true, __func__);\n"
+}, {
+"t": "-",
+"n": 217,
+"l": "-  }\n"
+}, {
+"t": "-",
+"n": 218,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 219,
+"l": "-  return mBridgePromise.Ensure(__func__);\n"
+}, {
+"t": "-",
+"n": 220,
+"l": "-}\n"
+}, {
+"t": "-",
+"n": 221,
+"l": "-\n"
+}, {
+"t": "",
+"n": 222,
+"l": " RefPtr\u003cPDocumentChannelParent::RedirectToRealChannelPromise\u003e\n"
+}, {
+"t": "",
+"n": 223,
+"l": " DocumentLoadListener::RedirectToRealChannel(\n"
+}, {
+"t": "",
+"n": 224,
+"l": "     uint32_t aRedirectFlags, uint32_t aLoadFlags,\n"
+}, {
+"t": "",
+"n": 225,
+"l": "     const Maybe\u003cuint64_t\u003e& aDestinationProcess,\n"
+}, {
+"t": "",
+"n": 226,
+"l": "     nsTArray\u003cParentEndpoint\u003e&& aStreamFilterEndpoints) {\n"
+}, {
+"t": "",
+"n": 227,
+"l": "   LOG(\n"
+}, {
+"t": "",
+"n": 228,
+"l": "       (\"DocumentLoadListener RedirectToRealChannel [this=%p] \"\n"
+}, {
+"t": "",
+"n": 229,
+"l": "        \"aRedirectFlags=%\" PRIx32 \", aLoadFlags=%\" PRIx32,\n"
+}, {
+"t": "@",
+"n": 230,
+"l": "@@ -1462,42 +1425,44 @@ DocumentLoadListener::RedirectToRealChan\n"
+}, {
+"t": "",
+"n": 231,
+"l": "           triggeringPrincipalOrErr.unwrap();\n"
+}, {
+"t": "",
+"n": 232,
+"l": "       cp-\u003eTransmitBlobDataIfBlobURL(args.uri(), triggeringPrincipal);\n"
+}, {
+"t": "",
+"n": 233,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 234,
+"l": " \n"
+}, {
+"t": "",
+"n": 235,
+"l": "     return cp-\u003eSendCrossProcessRedirect(args,\n"
+}, {
+"t": "",
+"n": 236,
+"l": "                                         std::move(aStreamFilterEndpoints));\n"
+}, {
+"t": "",
+"n": 237,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 238,
+"l": " \n"
+}, {
+"t": "-",
+"n": 239,
+"l": "-  return EnsureBridge()-\u003eThen(\n"
+}, {
+"t": "-",
+"n": 240,
+"l": "-      GetCurrentThreadSerialEventTarget(), __func__,\n"
+}, {
+"t": "-",
+"n": 241,
+"l": "-      [self = RefPtr\u003cDocumentLoadListener\u003e(this),\n"
+}, {
+"t": "-",
+"n": 242,
+"l": "-       endpoints = std::move(aStreamFilterEndpoints), aRedirectFlags,\n"
+}, {
+"t": "-",
+"n": 243,
+"l": "-       aLoadFlags](bool aDummy) mutable\n"
+}, {
+"t": "-",
+"n": 244,
+"l": "-      -\u003e RefPtr\u003cPDocumentChannelParent::RedirectToRealChannelPromise\u003e {\n"
+}, {
+"t": "-",
+"n": 245,
+"l": "-        if (self-\u003emCancelled || self-\u003emOpenPromise.IsEmpty()) {\n"
+}, {
+"t": "-",
+"n": 246,
+"l": "-          return PDocumentChannelParent::RedirectToRealChannelPromise::\n"
+}, {
+"t": "-",
+"n": 247,
+"l": "-              CreateAndResolve(NS_BINDING_ABORTED, __func__);\n"
+}, {
+"t": "-",
+"n": 248,
+"l": "-        }\n"
+}, {
+"t": "-",
+"n": 249,
+"l": "-        // This promise will be passed on the promise listener which will\n"
+}, {
+"t": "-",
+"n": 250,
+"l": "-        // resolve this promise for us.\n"
+}, {
+"t": "-",
+"n": 251,
+"l": "-        auto promise = MakeRefPtr\u003c\n"
+}, {
+"t": "-",
+"n": 252,
+"l": "-            PDocumentChannelParent::RedirectToRealChannelPromise::Private\u003e(\n"
+}, {
+"t": "-",
+"n": 253,
+"l": "-            __func__);\n"
+}, {
+"t": "-",
+"n": 254,
+"l": "-        self-\u003emOpenPromise.Resolve(\n"
+}, {
+"t": "-",
+"n": 255,
+"l": "-            OpenPromiseSucceededType(\n"
+}, {
+"t": "-",
+"n": 256,
+"l": "-                {std::move(endpoints), aRedirectFlags, aLoadFlags, promise}),\n"
+}, {
+"t": "-",
+"n": 257,
+"l": "-            __func__);\n"
+}, {
+"t": "-",
+"n": 258,
+"l": "-        return promise;\n"
+}, {
+"t": "-",
+"n": 259,
+"l": "-      },\n"
+}, {
+"t": "-",
+"n": 260,
+"l": "-      [](nsresult aDummy) {\n"
+}, {
+"t": "-",
+"n": 261,
+"l": "-        return PDocumentChannelParent::RedirectToRealChannelPromise::\n"
+}, {
+"t": "-",
+"n": 262,
+"l": "-            CreateAndReject(ipc::ResponseRejectReason::ActorDestroyed,\n"
+}, {
+"t": "-",
+"n": 263,
+"l": "-                            __func__);\n"
+}, {
+"t": "-",
+"n": 264,
+"l": "-      });\n"
+}, {
+"t": "+",
+"n": 265,
+"l": "+  if (mOpenPromiseResolved) {\n"
+}, {
+"t": "+",
+"n": 266,
+"l": "+    LOG(\n"
+}, {
+"t": "+",
+"n": 267,
+"l": "+        (\"DocumentLoadListener RedirectToRealChannel [this=%p] \"\n"
+}, {
+"t": "+",
+"n": 268,
+"l": "+         \"promise already resolved. Aborting.\",\n"
+}, {
+"t": "+",
+"n": 269,
+"l": "+         this));\n"
+}, {
+"t": "+",
+"n": 270,
+"l": "+    // The promise has already been resolved or aborted, so we have no way to\n"
+}, {
+"t": "+",
+"n": 271,
+"l": "+    // return a promise again to the listener which would cancel the operation.\n"
+}, {
+"t": "+",
+"n": 272,
+"l": "+    // Reject the promise immediately.\n"
+}, {
+"t": "+",
+"n": 273,
+"l": "+    return PDocumentChannelParent::RedirectToRealChannelPromise::\n"
+}, {
+"t": "+",
+"n": 274,
+"l": "+        CreateAndResolve(NS_BINDING_ABORTED, __func__);\n"
+}, {
+"t": "+",
+"n": 275,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 276,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 277,
+"l": "+  // This promise will be passed on the promise listener which will\n"
+}, {
+"t": "+",
+"n": 278,
+"l": "+  // resolve this promise for us.\n"
+}, {
+"t": "+",
+"n": 279,
+"l": "+  auto promise =\n"
+}, {
+"t": "+",
+"n": 280,
+"l": "+      MakeRefPtr\u003cPDocumentChannelParent::RedirectToRealChannelPromise::Private\u003e(\n"
+}, {
+"t": "+",
+"n": 281,
+"l": "+          __func__);\n"
+}, {
+"t": "+",
+"n": 282,
+"l": "+  mOpenPromise-\u003eResolve(\n"
+}, {
+"t": "+",
+"n": 283,
+"l": "+      OpenPromiseSucceededType({std::move(aStreamFilterEndpoints),\n"
+}, {
+"t": "+",
+"n": 284,
+"l": "+                                aRedirectFlags, aLoadFlags, promise}),\n"
+}, {
+"t": "+",
+"n": 285,
+"l": "+      __func__);\n"
+}, {
+"t": "+",
+"n": 286,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 287,
+"l": "+  // There is no way we could come back here if the promise had been resolved\n"
+}, {
+"t": "+",
+"n": 288,
+"l": "+  // previously. But for clarity and to avoid all doubt, we set this boolean to\n"
+}, {
+"t": "+",
+"n": 289,
+"l": "+  // true.\n"
+}, {
+"t": "+",
+"n": 290,
+"l": "+  mOpenPromiseResolved = true;\n"
+}, {
+"t": "+",
+"n": 291,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 292,
+"l": "+  return promise;\n"
+}, {
+"t": "",
+"n": 293,
+"l": " }\n"
+}, {
+"t": "",
+"n": 294,
+"l": " \n"
+}, {
+"t": "",
+"n": 295,
+"l": " void DocumentLoadListener::TriggerRedirectToRealChannel(\n"
+}, {
+"t": "",
+"n": 296,
+"l": "     const Maybe\u003cuint64_t\u003e& aDestinationProcess) {\n"
+}, {
+"t": "",
+"n": 297,
+"l": "   LOG((\n"
+}, {
+"t": "",
+"n": 298,
+"l": "       \"DocumentLoadListener::TriggerRedirectToRealChannel [this=%p] \"\n"
+}, {
+"t": "",
+"n": 299,
+"l": "       \"aDestinationProcess=%\" PRId64,\n"
+}, {
+"t": "",
+"n": 300,
+"l": "       this, aDestinationProcess ? int64_t(*aDestinationProcess) : int64_t(-1)));\n"
+}, {
+"t": "@",
+"n": 301,
+"l": "@@ -1618,17 +1583,17 @@ DocumentLoadListener::OnStartRequest(nsI\n"
+}, {
+"t": "",
+"n": 302,
+"l": "   if (status == NS_ERROR_NO_CONTENT) {\n"
+}, {
+"t": "",
+"n": 303,
+"l": "     DisconnectListeners(status, status);\n"
+}, {
+"t": "",
+"n": 304,
+"l": "     return NS_OK;\n"
+}, {
+"t": "",
+"n": 305,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 306,
+"l": " \n"
+}, {
+"t": "",
+"n": 307,
+"l": "   mStreamListenerFunctions.AppendElement(StreamListenerFunction{\n"
+}, {
+"t": "",
+"n": 308,
+"l": "       VariantIndex\u003c0\u003e{}, OnStartRequestParams{aRequest}});\n"
+}, {
+"t": "",
+"n": 309,
+"l": " \n"
+}, {
+"t": "-",
+"n": 310,
+"l": "-  if (mOpenPromise.IsEmpty() || mInitiatedRedirectToRealChannel) {\n"
+}, {
+"t": "+",
+"n": 311,
+"l": "+  if (mOpenPromiseResolved || mInitiatedRedirectToRealChannel) {\n"
+}, {
+"t": "",
+"n": 312,
+"l": "     // I we have already resolved the promise, there's no point to continue\n"
+}, {
+"t": "",
+"n": 313,
+"l": "     // attempting a process switch or redirecting to the real channel.\n"
+}, {
+"t": "",
+"n": 314,
+"l": "     // We can also have multiple calls to OnStartRequest when dealing with\n"
+}, {
+"t": "",
+"n": 315,
+"l": "     // multi-part content, but only want to redirect once.\n"
+}, {
+"t": "",
+"n": 316,
+"l": "     return NS_OK;\n"
+}, {
+"t": "",
+"n": 317,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 318,
+"l": " \n"
+}, {
+"t": "",
+"n": 319,
+"l": "   mChannel-\u003eSuspend();\n"
+}]
+}, {
+"blockno": 2,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/netwerk/ipc/DocumentLoadListener.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/netwerk/ipc/DocumentLoadListener.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -123,20 +123,20 @@ class DocumentLoadListener : public nsII\n"
+}, {
+"t": "",
+"n": 4,
+"l": "                            const TimeStamp& aAsyncOpenTime,\n"
+}, {
+"t": "",
+"n": 5,
+"l": "                            nsDOMNavigationTiming* aTiming,\n"
+}, {
+"t": "",
+"n": 6,
+"l": "                            Maybe\u003cdom::ClientInfo\u003e&& aInfo,\n"
+}, {
+"t": "",
+"n": 7,
+"l": "                            uint64_t aOuterWindowId, bool aHasGesture,\n"
+}, {
+"t": "",
+"n": 8,
+"l": "                            Maybe\u003cbool\u003e aUriModified, Maybe\u003cbool\u003e aIsXFOError,\n"
+}, {
+"t": "",
+"n": 9,
+"l": "                            base::ProcessId aPid, nsresult* aRv);\n"
+}, {
+"t": "",
+"n": 10,
+"l": " \n"
+}, {
+"t": "",
+"n": 11,
+"l": "   // Creates a DocumentLoadListener directly in the parent process without\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  // an associated DocumentChannelBridge.\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+  // an associated DocumentChannel.\n"
+}, {
+"t": "",
+"n": 14,
+"l": "   // If successful it registers a unique identifier (return in aOutIdent) to\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-  // keep it alive until a future bridge can attach to it, or we fail and\n"
+}, {
+"t": "-",
+"n": 16,
+"l": "-  // clean up.\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+  // keep it alive until a future DocumentChannel can attach to it, or we fail\n"
+}, {
+"t": "+",
+"n": 18,
+"l": "+  // and clean up.\n"
+}, {
+"t": "",
+"n": 19,
+"l": "   static bool OpenFromParent(dom::CanonicalBrowsingContext* aBrowsingContext,\n"
+}, {
+"t": "",
+"n": 20,
+"l": "                              nsDocShellLoadState* aLoadState,\n"
+}, {
+"t": "",
+"n": 21,
+"l": "                              uint64_t aOuterWindowId, uint32_t* aOutIdent);\n"
+}, {
+"t": "",
+"n": 22,
+"l": " \n"
+}, {
+"t": "",
+"n": 23,
+"l": "   // Ensures that a load identifier allocated by OpenFromParent has\n"
+}, {
+"t": "",
+"n": 24,
+"l": "   // been deregistered if it hasn't already been claimed.\n"
+}, {
+"t": "",
+"n": 25,
+"l": "   // This also cancels the load.\n"
+}, {
+"t": "",
+"n": 26,
+"l": "   static void CleanupParentLoadAttempt(uint32_t aLoadIdent);\n"
+}, {
+"t": "@",
+"n": 27,
+"l": "@@ -202,54 +202,40 @@ class DocumentLoadListener : public nsII\n"
+}, {
+"t": "",
+"n": 28,
+"l": "     params.mURL = aURL;\n"
+}, {
+"t": "",
+"n": 29,
+"l": "     params.mContentType = aContentType;\n"
+}, {
+"t": "",
+"n": 30,
+"l": "     mSecurityWarningFunctions.AppendElement(\n"
+}, {
+"t": "",
+"n": 31,
+"l": "         SecurityWarningFunction{VariantIndex\u003c2\u003e{}, std::move(params)});\n"
+}, {
+"t": "",
+"n": 32,
+"l": "     return NS_OK;\n"
+}, {
+"t": "",
+"n": 33,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 34,
+"l": " \n"
+}, {
+"t": "",
+"n": 35,
+"l": "   base::ProcessId OtherPid() const {\n"
+}, {
+"t": "-",
+"n": 36,
+"l": "-    if (mPendingDocumentChannelBridgeProcess) {\n"
+}, {
+"t": "-",
+"n": 37,
+"l": "-      return *mPendingDocumentChannelBridgeProcess;\n"
+}, {
+"t": "-",
+"n": 38,
+"l": "-    }\n"
+}, {
+"t": "",
+"n": 39,
+"l": "     return mOtherPid;\n"
+}, {
+"t": "",
+"n": 40,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 41,
+"l": " \n"
+}, {
+"t": "",
+"n": 42,
+"l": "   [[nodiscard]] RefPtr\u003cChildEndpointPromise\u003e AttachStreamFilter(\n"
+}, {
+"t": "",
+"n": 43,
+"l": "       base::ProcessId aChildProcessId);\n"
+}, {
+"t": "",
+"n": 44,
+"l": " \n"
+}, {
+"t": "",
+"n": 45,
+"l": "   // Serializes all data needed to setup the new replacement channel\n"
+}, {
+"t": "",
+"n": 46,
+"l": "   // in the content process into the RedirectToRealChannelArgs struct.\n"
+}, {
+"t": "",
+"n": 47,
+"l": "   void SerializeRedirectData(RedirectToRealChannelArgs& aArgs,\n"
+}, {
+"t": "",
+"n": 48,
+"l": "                              bool aIsCrossProcess, uint32_t aRedirectFlags,\n"
+}, {
+"t": "",
+"n": 49,
+"l": "                              uint32_t aLoadFlags,\n"
+}, {
+"t": "",
+"n": 50,
+"l": "                              dom::ContentParent* aParent) const;\n"
+}, {
+"t": "",
+"n": 51,
+"l": " \n"
+}, {
+"t": "",
+"n": 52,
+"l": "  protected:\n"
+}, {
+"t": "-",
+"n": 53,
+"l": "-  DocumentLoadListener(dom::CanonicalBrowsingContext* aBrowsingContext,\n"
+}, {
+"t": "-",
+"n": 54,
+"l": "-                       base::ProcessId aPendingBridgeProcess);\n"
+}, {
+"t": "",
+"n": 55,
+"l": "   virtual ~DocumentLoadListener();\n"
+}, {
+"t": "",
+"n": 56,
+"l": " \n"
+}, {
+"t": "",
+"n": 57,
+"l": "  private:\n"
+}, {
+"t": "",
+"n": 58,
+"l": "   friend class ParentProcessDocumentOpenInfo;\n"
+}, {
+"t": "",
+"n": 59,
+"l": "   // Will reject the promise to notify the DLL consumer that we are done.\n"
+}, {
+"t": "",
+"n": 60,
+"l": "   void DisconnectListeners(nsresult aStatus, nsresult aLoadGroupStatus);\n"
+}, {
+"t": "-",
+"n": 61,
+"l": "-  // Called when we were created without a document channel bridge,\n"
+}, {
+"t": "-",
+"n": 62,
+"l": "-  // and now it has been created and attached.\n"
+}, {
+"t": "-",
+"n": 63,
+"l": "-  void NotifyBridgeConnected();\n"
+}, {
+"t": "",
+"n": 64,
+"l": " \n"
+}, {
+"t": "-",
+"n": 65,
+"l": "-  // Called when we were created without a document channel bridge,\n"
+}, {
+"t": "-",
+"n": 66,
+"l": "-  // and creation has failed, and won't ever be attached.\n"
+}, {
+"t": "-",
+"n": 67,
+"l": "-  void NotifyBridgeFailed();\n"
+}, {
+"t": "-",
+"n": 68,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 69,
+"l": "-  // Returns a promise that resolves with the document channel bridge,\n"
+}, {
+"t": "-",
+"n": 70,
+"l": "-  // waiting for a pending one if necessary.\n"
+}, {
+"t": "-",
+"n": 71,
+"l": "-  // If we've failed to create a bridge, or a bridge has already been\n"
+}, {
+"t": "-",
+"n": 72,
+"l": "-  // detached then rejects.\n"
+}, {
+"t": "-",
+"n": 73,
+"l": "-  RefPtr\u003cGenericPromise\u003e EnsureBridge();\n"
+}, {
+"t": "+",
+"n": 74,
+"l": "+  // Called when we were created without a document channel, and creation has\n"
+}, {
+"t": "+",
+"n": 75,
+"l": "+  // failed, and won't ever be attached.\n"
+}, {
+"t": "+",
+"n": 76,
+"l": "+  void NotifyDocumentChannelFailed();\n"
+}, {
+"t": "",
+"n": 77,
+"l": " \n"
+}, {
+"t": "",
+"n": 78,
+"l": "   // Initiates the switch from DocumentChannel to the real protocol-specific\n"
+}, {
+"t": "",
+"n": 79,
+"l": "   // channel, and ensures that RedirectToRealChannelFinished is called when\n"
+}, {
+"t": "",
+"n": 80,
+"l": "   // this is complete.\n"
+}, {
+"t": "",
+"n": 81,
+"l": "   void TriggerRedirectToRealChannel(\n"
+}, {
+"t": "",
+"n": 82,
+"l": "       const Maybe\u003cuint64_t\u003e& aDestinationProcess = Nothing());\n"
+}, {
+"t": "",
+"n": 83,
+"l": " \n"
+}, {
+"t": "",
+"n": 84,
+"l": "   // Called once the content-process side on setting up a replacement\n"
+}, {
+"t": "@",
+"n": 85,
+"l": "@@ -385,25 +371,16 @@ class DocumentLoadListener : public nsII\n"
+}, {
+"t": "",
+"n": 86,
+"l": " \n"
+}, {
+"t": "",
+"n": 87,
+"l": "   // An instance of ParentChannelListener that we use as a listener\n"
+}, {
+"t": "",
+"n": 88,
+"l": "   // between mChannel (and any future redirected mChannels) and us.\n"
+}, {
+"t": "",
+"n": 89,
+"l": "   // This handles service worker interception, and retargetting\n"
+}, {
+"t": "",
+"n": 90,
+"l": "   // OnDataAvailable/OnStopRequest messages onto the listener that\n"
+}, {
+"t": "",
+"n": 91,
+"l": "   // replaces us.\n"
+}, {
+"t": "",
+"n": 92,
+"l": "   RefPtr\u003cParentChannelListener\u003e mParentChannelListener;\n"
+}, {
+"t": "",
+"n": 93,
+"l": " \n"
+}, {
+"t": "-",
+"n": 94,
+"l": "-  // If we were created without a bridge, then this is set\n"
+}, {
+"t": "-",
+"n": 95,
+"l": "-  // to Some() with the process id of the content process\n"
+}, {
+"t": "-",
+"n": 96,
+"l": "-  // that will be creating our bridge soon.\n"
+}, {
+"t": "-",
+"n": 97,
+"l": "-  Maybe\u003cbase::ProcessId\u003e mPendingDocumentChannelBridgeProcess;\n"
+}, {
+"t": "-",
+"n": 98,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 99,
+"l": "-  // Holds a promise for callers that want to wait on the document\n"
+}, {
+"t": "-",
+"n": 100,
+"l": "-  // channel bridge becoming available.\n"
+}, {
+"t": "-",
+"n": 101,
+"l": "-  MozPromiseHolder\u003cGenericPromise\u003e mBridgePromise;\n"
+}, {
+"t": "-",
+"n": 102,
+"l": "-\n"
+}, {
+"t": "",
+"n": 103,
+"l": "   // The original URI of the current channel. If there are redirects,\n"
+}, {
+"t": "",
+"n": 104,
+"l": "   // then the value on the channel gets overwritten with the original\n"
+}, {
+"t": "",
+"n": 105,
+"l": "   // URI of the first channel in the redirect chain, so we cache the\n"
+}, {
+"t": "",
+"n": 106,
+"l": "   // value we need here.\n"
+}, {
+"t": "",
+"n": 107,
+"l": "   nsCOMPtr\u003cnsIURI\u003e mChannelCreationURI;\n"
+}, {
+"t": "",
+"n": 108,
+"l": " \n"
+}, {
+"t": "",
+"n": 109,
+"l": "   // The original navigation timing information containing various timestamps\n"
+}, {
+"t": "",
+"n": 110,
+"l": "   // such as when the original load started.\n"
+}, {
+"t": "@",
+"n": 111,
+"l": "@@ -457,22 +434,28 @@ class DocumentLoadListener : public nsII\n"
+}, {
+"t": "",
+"n": 112,
+"l": " \n"
+}, {
+"t": "",
+"n": 113,
+"l": "   // True if cancelled.\n"
+}, {
+"t": "",
+"n": 114,
+"l": "   bool mCancelled = false;\n"
+}, {
+"t": "",
+"n": 115,
+"l": " \n"
+}, {
+"t": "",
+"n": 116,
+"l": "   // The process id of the content process that we are being called from\n"
+}, {
+"t": "",
+"n": 117,
+"l": "   // or 0 initiated from a parent process load.\n"
+}, {
+"t": "",
+"n": 118,
+"l": "   base::ProcessId mOtherPid = 0;\n"
+}, {
+"t": "",
+"n": 119,
+"l": " \n"
+}, {
+"t": "-",
+"n": 120,
+"l": "-  void RejectOpenPromiseIfExists(nsresult aStatus, nsresult aLoadGroupStatus,\n"
+}, {
+"t": "-",
+"n": 121,
+"l": "-                                 const char* aLocation) {\n"
+}, {
+"t": "-",
+"n": 122,
+"l": "-    mOpenPromise.RejectIfExists(\n"
+}, {
+"t": "-",
+"n": 123,
+"l": "-        OpenPromiseFailedType({aStatus, aLoadGroupStatus}), aLocation);\n"
+}, {
+"t": "+",
+"n": 124,
+"l": "+  void RejectOpenPromise(nsresult aStatus, nsresult aLoadGroupStatus,\n"
+}, {
+"t": "+",
+"n": 125,
+"l": "+                         const char* aLocation) {\n"
+}, {
+"t": "+",
+"n": 126,
+"l": "+    // It is possible for mOpenPromise to not be set if AsyncOpen failed and\n"
+}, {
+"t": "+",
+"n": 127,
+"l": "+    // the DocumentChannel got canceled.\n"
+}, {
+"t": "+",
+"n": 128,
+"l": "+    if (!mOpenPromiseResolved && mOpenPromise) {\n"
+}, {
+"t": "+",
+"n": 129,
+"l": "+      mOpenPromise-\u003eReject(OpenPromiseFailedType({aStatus, aLoadGroupStatus}),\n"
+}, {
+"t": "+",
+"n": 130,
+"l": "+                           aLocation);\n"
+}, {
+"t": "+",
+"n": 131,
+"l": "+      mOpenPromiseResolved = true;\n"
+}, {
+"t": "+",
+"n": 132,
+"l": "+    }\n"
+}, {
+"t": "",
+"n": 133,
+"l": "   }\n"
+}, {
+"t": "-",
+"n": 134,
+"l": "-  MozPromiseHolder\u003cOpenPromise\u003e mOpenPromise;\n"
+}, {
+"t": "+",
+"n": 135,
+"l": "+  RefPtr\u003cOpenPromise::Private\u003e mOpenPromise;\n"
+}, {
+"t": "+",
+"n": 136,
+"l": "+  bool mOpenPromiseResolved = false;\n"
+}, {
+"t": "",
+"n": 137,
+"l": " };\n"
+}, {
+"t": "",
+"n": 138,
+"l": " \n"
+}, {
+"t": "",
+"n": 139,
+"l": " NS_DEFINE_STATIC_IID_ACCESSOR(DocumentLoadListener, DOCUMENT_LOAD_LISTENER_IID)\n"
+}, {
+"t": "",
+"n": 140,
+"l": " \n"
+}, {
+"t": "",
+"n": 141,
+"l": " inline nsISupports* ToSupports(DocumentLoadListener* aObj) {\n"
+}, {
+"t": "",
+"n": 142,
+"l": "   return static_cast\u003cnsIInterfaceRequestor*\u003e(aObj);\n"
+}, {
+"t": "",
+"n": 143,
+"l": " }\n"
+}, {
+"t": "",
+"n": 144,
+"l": " \n"
+}]
+}],
+"phase": "public",
+"pushid": 37492,
+"pushdate": [1591715809, 0],
+"pushuser": "apavel@mozilla.com",
+"landingsystem": "lando"
+}

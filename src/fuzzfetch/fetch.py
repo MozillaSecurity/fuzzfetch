@@ -198,7 +198,16 @@ def _create_utc_datetime(datetime_string: str) -> datetime:
 class BuildFlags(
     namedtuple(
         "BuildFlagsBase",
-        ("asan", "tsan", "debug", "fuzzing", "coverage", "valgrind", "no_opt"),
+        (
+            "asan",
+            "tsan",
+            "debug",
+            "fuzzing",
+            "coverage",
+            "valgrind",
+            "no_opt",
+            "fuzzilli",
+        ),
     )
 ):
     """Class for storing TaskCluster build flags"""
@@ -211,6 +220,7 @@ class BuildFlags(
         """
         return (
             ("-ccov" if self.coverage else "")
+            + ("-fuzzilli" if self.fuzzilli else "")
             + ("-fuzzing" if self.fuzzing else "")
             + ("-asan" if self.asan else "")
             + ("-tsan" if self.tsan else "")
@@ -379,11 +389,12 @@ class BuildTask:
             else:
                 namespace = f"gecko.v2.{branch}.latest"
 
-            product = "mobile" if "android" in target_platform else "firefox"
+            prod = "mobile" if "android" in target_platform else "firefox"
             task_path = (
-                f"/task/{namespace}.{product}.{target_platform}{flags.build_string()}"
+                f"/task/{namespace}.{prod}.{target_platform}{flags.build_string()}",
+                f"/task/{namespace}.{prod}.sm-{target_platform}{flags.build_string()}",
             )
-            task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
+            task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_path)
 
         else:
             # try to use build argument directly as a namespace
@@ -451,10 +462,12 @@ class BuildTask:
             product = "mobile" if "android" in target_platform else "firefox"
             json = base.json()
             for namespace in sorted(json["namespaces"], key=lambda x: x["name"]):
-                yield (
-                    cls.TASKCLUSTER_API,
+                task_paths = (
                     f"/task/{namespace['namespace']}.{product}.{target_platform}",
+                    f"/task/{namespace['namespace']}.{product}.sm-{target_platform}",
                 )
+                for pair in itertools.product((cls.TASKCLUSTER_API,), task_paths):
+                    yield pair
 
     @classmethod
     def _revision_paths(
@@ -472,6 +485,7 @@ class BuildTask:
         for namespace in namespaces:
             product = "mobile" if "android" in target_platform else "firefox"
             yield f"/task/{namespace}.{product}.{target_platform}"
+            yield f"/task/{namespace}.{product}.sm-{target_platform}"
 
 
 class FetcherArgs:
@@ -599,6 +613,11 @@ class FetcherArgs:
             "--fuzzing", action="store_true", help="Download --enable-fuzzing builds."
         )
         build_group.add_argument(
+            "--fuzzilli",
+            action="store_true",
+            help="Download --enable-js-fuzzilli builds.",
+        )
+        build_group.add_argument(
             "--coverage", action="store_true", help="Download --coverage builds."
         )
         build_group.add_argument(
@@ -700,6 +719,9 @@ class FetcherArgs:
             LOG.warning("--gtest is deprecated, add 'gtest' to --target instead.")
             args.target.append("gtest")
 
+        if "firefox" in args.target and args.fuzzilli:
+            self.parser.error("Cannot specify --target firefox and --fuzzilli")
+
     def parse_args(self, argv: Optional[Sequence[str]] = None) -> Namespace:
         """Parse and validate args
 
@@ -740,7 +762,7 @@ class Fetcher:
             build: build identifier. acceptable identifiers are: TaskCluster
                    namespace, hg changeset, date, 'latest'
             flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan',
-                    'no_opt'),
+                    'no_opt', 'fuzzilli'),
                    each a bool, not all combinations exist in TaskCluster
             platform: force platform if different than current system
             nearest: Search for nearest build, not exact
@@ -779,7 +801,16 @@ class Fetcher:
                     )
 
                 # If flags weren't set, try and retrieve it from the build string
-                asan, debug, fuzzing, coverage, valgrind, tsan, no_opt = self._flags
+                (
+                    asan,
+                    debug,
+                    fuzzing,
+                    coverage,
+                    valgrind,
+                    tsan,
+                    no_opt,
+                    fuzzilli,
+                ) = self._flags
                 if not debug:
                     debug = "-debug" in build or "-dbg" in build
                 if not asan:
@@ -794,9 +825,11 @@ class Fetcher:
                     valgrind = "-valgrind" in build
                 if not no_opt:
                     no_opt = "-noopt" in build
+                if not fuzzilli:
+                    fuzzilli = "-fuzzilli" in build
 
                 self._flags = BuildFlags(
-                    asan, tsan, debug, fuzzing, coverage, valgrind, no_opt
+                    asan, tsan, debug, fuzzing, coverage, valgrind, no_opt, fuzzilli
                 )
 
                 # Validate flags
@@ -833,6 +866,11 @@ class Fetcher:
                 if self._flags.no_opt and "-noopt" not in build:
                     raise FetcherException(
                         "'build' is not a non-optimized build, but no_opt=True given "
+                        f"(build={build})"
+                    )
+                if self._flags.fuzzilli and "-fuzzilli" not in build:
+                    raise FetcherException(
+                        "'build' is not a fuzzilli build, but fuzzilli=True given "
                         f"(build={build})"
                     )
 
@@ -935,6 +973,7 @@ class Fetcher:
         # build the automatic name
         if (
             not isinstance(build, BuildTask)
+            and self.moz_info["platform_guess"] is not None
             and self.moz_info["platform_guess"] in build
         ):
             options = build.split(self.moz_info["platform_guess"], 1)[1]
@@ -1097,7 +1136,7 @@ class Fetcher:
                 try:
                     resolve_url(self.artifact_url("crashreporter-symbols.zip"))
                 except FetcherException:
-                    if not self._flags.fuzzing:
+                    if not (self._flags.fuzzing or self._flags.fuzzilli):
                         raise
 
         for target in targets_remaining:
@@ -1196,7 +1235,7 @@ class Fetcher:
                     # fuzzing debug builds no longer have crashreporter-symbols.zip
                     # (bug 1649062)
                     # we want to maintain support for older builds for now
-                    if not self._flags.fuzzing:
+                    if not (self._flags.fuzzing or self._flags.fuzzilli):
                         raise
 
         # any still remaining targets are assumed to be test artifacts
@@ -1378,6 +1417,7 @@ class Fetcher:
             args.coverage,
             args.valgrind,
             args.no_opt,
+            args.fuzzilli,
         )
         obj = cls(
             args.branch,

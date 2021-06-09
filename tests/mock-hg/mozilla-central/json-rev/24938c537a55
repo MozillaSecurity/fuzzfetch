@@ -1,0 +1,7808 @@
+{
+"node": "24938c537a55f9db3913072d33b178b210e7d6b5",
+"date": [1623059226.0, -10800],
+"desc": "Merge autoland to mozilla-central. a=merge",
+"backedoutby": "",
+"branch": "default",
+"bookmarks": [],
+"tags": [],
+"user": "Noemi Erli \u003cnerli@mozilla.com\u003e",
+"parents": ["b8840fca4819c88bbad851f4c2cf76e448d970d3", "36657071438cb73af2fd51669fc191858f641e95"],
+"files": [],
+"diff": [{
+"blockno": 1,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/browser/base/content/test/performance/browser.ini\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/browser/base/content/test/performance/browser.ini\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -41,17 +41,17 @@ run-if = debug || nightly_build # Requir\n"
+}, {
+"t": "",
+"n": 4,
+"l": " [browser_startup_hiddenwindow.js]\n"
+}, {
+"t": "",
+"n": 5,
+"l": " skip-if = os == 'mac'\n"
+}, {
+"t": "",
+"n": 6,
+"l": " [browser_tabclose_grow.js]\n"
+}, {
+"t": "",
+"n": 7,
+"l": " [browser_tabclose.js]\n"
+}, {
+"t": "",
+"n": 8,
+"l": " skip-if = (os == 'win') || (os == 'mac') # Bug 1488537, Bug 1531417, Bug 1497713\n"
+}, {
+"t": "",
+"n": 9,
+"l": " [browser_tabdetach.js]\n"
+}, {
+"t": "",
+"n": 10,
+"l": " [browser_tabopen.js]\n"
+}, {
+"t": "",
+"n": 11,
+"l": " skip-if =\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  (verify && (os == 'mac'))\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+  apple_catalina # Bug 1594274\n"
+}, {
+"t": "",
+"n": 14,
+"l": " [browser_tabopen_squeeze.js]\n"
+}, {
+"t": "",
+"n": 15,
+"l": " [browser_tabstrip_overflow_underflow.js]\n"
+}, {
+"t": "",
+"n": 16,
+"l": " skip-if = (verify && !debug && (os == 'win')) || (os == 'win' && bits == 32) # Bug 1502255\n"
+}, {
+"t": "",
+"n": 17,
+"l": " [browser_tabswitch.js]\n"
+}, {
+"t": "",
+"n": 18,
+"l": " skip-if = os == 'win' #Bug 1455054\n"
+}, {
+"t": "",
+"n": 19,
+"l": " [browser_toolbariconcolor_restyles.js]\n"
+}, {
+"t": "",
+"n": 20,
+"l": " [browser_urlbar_keyed_search.js]\n"
+}, {
+"t": "",
+"n": 21,
+"l": " skip-if = (os == 'win' && bits == 32) || (os == 'mac') # Disabled on Win32 because of intermittent OOM failures (bug 1448241), macosx1014 due to 1565619\n"
+}]
+}, {
+"blockno": 2,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/docs/config.yml\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/docs/config.yml\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -68,20 +68,22 @@ redirects:\n"
+}, {
+"t": "",
+"n": 4,
+"l": "     contributing/mercurial_bundles.html: contributing/vcs/mercurial_bundles.html\n"
+}, {
+"t": "",
+"n": 5,
+"l": "     dom/dom: dom\n"
+}, {
+"t": "",
+"n": 6,
+"l": "     layout/layout: layout\n"
+}, {
+"t": "",
+"n": 7,
+"l": "     gfx/gfx: gfx\n"
+}, {
+"t": "",
+"n": 8,
+"l": "     intl/l10n/l10n: l10n\n"
+}, {
+"t": "",
+"n": 9,
+"l": "     modules/libpref/libpref: modules/libpref\n"
+}, {
+"t": "",
+"n": 10,
+"l": "     python/mach: mach\n"
+}, {
+"t": "",
+"n": 11,
+"l": "     python/python: python\n"
+}, {
+"t": "+",
+"n": 12,
+"l": "+    setup/getting_set_up.html: contributing/contributing_to_mozilla.html\n"
+}, {
+"t": "",
+"n": 13,
+"l": "     taskcluster/taskcluster: taskcluster\n"
+}, {
+"t": "",
+"n": 14,
+"l": "     testing/geckodriver/geckodriver: testing/geckodriver\n"
+}, {
+"t": "",
+"n": 15,
+"l": "     testing/marionette/marionette: testing/marionette\n"
+}, {
+"t": "",
+"n": 16,
+"l": "     toolkit/components/telemetry/telemetry: toolkit/components/telemetry\n"
+}, {
+"t": "",
+"n": 17,
+"l": "     tools/compare-locales/index.html: build/buildsystem/locales.html\n"
+}, {
+"t": "",
+"n": 18,
+"l": "     tools/docs/index.html: tools/moztreedocs/index.html\n"
+}, {
+"t": "",
+"n": 19,
+"l": "     tools/docs/contribute/how_to_contribute_firefox.html: contributing/how_to_contribute_firefox.html\n"
+}, {
+"t": "",
+"n": 20,
+"l": "     tools/docs/contribute/directory_structure.html: contributing/directory_structure.html\n"
+}, {
+"t": "",
+"n": 21,
+"l": "     tools/lint: code-quality/lint\n"
+}, {
+"t": "",
+"n": 22,
+"l": "     tools/lint/coding-style: code-quality/coding-style\n"
+}, {
+"t": "",
+"n": 23,
+"l": "     tools/static-analysis/index.html: code-quality/static-analysis.html\n"
+}, {
+"t": "",
+"n": 24,
+"l": "     xpcom/xpcom: xpcom\n"
+}, {
+"t": "+",
+"n": 25,
+"l": "+\n"
+}]
+}, {
+"blockno": 3,
+"lines": [{
+"t": "",
+"n": 1,
+"l": "rename from docs/setup/getting_set_up.rst\n"
+}, {
+"t": "",
+"n": 2,
+"l": "rename to docs/contributing/contributing_to_mozilla.rst\n"
+}, {
+"t": "-",
+"n": 3,
+"l": "--- a/docs/setup/getting_set_up.rst\n"
+}, {
+"t": "+",
+"n": 4,
+"l": "+++ b/docs/contributing/contributing_to_mozilla.rst\n"
+}, {
+"t": "@",
+"n": 5,
+"l": "@@ -1,14 +1,14 @@\n"
+}, {
+"t": "-",
+"n": 6,
+"l": "-Welcome to the Firefox codebase!\n"
+}, {
+"t": "-",
+"n": 7,
+"l": "---------------------------------\n"
+}, {
+"t": "+",
+"n": 8,
+"l": "+Contributing to Mozilla projects\n"
+}, {
+"t": "+",
+"n": 9,
+"l": "+================================\n"
+}, {
+"t": "",
+"n": 10,
+"l": " \n"
+}, {
+"t": "",
+"n": 11,
+"l": " This page is here to help you get from \"I want to build Firefox\"\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-to \"I'm building my own Firefox\" to \"I can contribute to Firefox\". \n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-So if you'd like to help Mozilla build the best web browser in the\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+to \"I'm building my own Firefox\" to \"I can contribute to Firefox\".\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+So if you'd like to help Mozilla build the best web browsers in the\n"
+}, {
+"t": "",
+"n": 16,
+"l": " world, you're in the right place.\n"
+}, {
+"t": "",
+"n": 17,
+"l": " \n"
+}, {
+"t": "",
+"n": 18,
+"l": " .. rubric:: Need help?\n"
+}, {
+"t": "",
+"n": 19,
+"l": "    :name: Need_help\n"
+}, {
+"t": "",
+"n": 20,
+"l": " \n"
+}, {
+"t": "",
+"n": 21,
+"l": " The Mozilla community prides itself on being an open, accessible, and\n"
+}, {
+"t": "",
+"n": 22,
+"l": " friendly community for new participants. If you have any difficulties\n"
+}, {
+"t": "",
+"n": 23,
+"l": " getting involved or finding answers to your questions, please `come and\n"
+}, {
+"t": "@",
+"n": 24,
+"l": "@@ -17,49 +17,48 @@ chatroom \u003chttps://chat.mozilla.org/#/roo\n"
+}, {
+"t": "",
+"n": 25,
+"l": " where we can help you get started.\n"
+}, {
+"t": "",
+"n": 26,
+"l": " \n"
+}, {
+"t": "",
+"n": 27,
+"l": " We know even before you start contributing that getting set up to work\n"
+}, {
+"t": "",
+"n": 28,
+"l": " on Firefox and finding a bug that's a good fit for your skills can be a\n"
+}, {
+"t": "",
+"n": 29,
+"l": " challenge, and we're always looking for ways to improve this process: making\n"
+}, {
+"t": "",
+"n": 30,
+"l": " Mozilla more open, accessible, and easier to participate with. If you're\n"
+}, {
+"t": "",
+"n": 31,
+"l": " having any trouble following this documentation, or hit a barrier you\n"
+}, {
+"t": "",
+"n": 32,
+"l": " can't get around, please join us in the the Introduction room on Matrix\n"
+}, {
+"t": "-",
+"n": 33,
+"l": "-or contact Mike Hoye directly at mhoye@mozilla.com. \n"
+}, {
+"t": "+",
+"n": 34,
+"l": "+or contact Mike Hoye directly at mhoye@mozilla.com.\n"
+}, {
+"t": "",
+"n": 35,
+"l": " \n"
+}, {
+"t": "",
+"n": 36,
+"l": " What skills do I need?\n"
+}, {
+"t": "",
+"n": 37,
+"l": " ----------------------\n"
+}, {
+"t": "",
+"n": 38,
+"l": " \n"
+}, {
+"t": "-",
+"n": 39,
+"l": "-Mozilla is a large project and we are thrilled to have contributors with\n"
+}, {
+"t": "+",
+"n": 40,
+"l": "+Mozilla maintains small and large projects and we are thrilled to have contributors with\n"
+}, {
+"t": "",
+"n": 41,
+"l": " very diverse skills:\n"
+}, {
+"t": "",
+"n": 42,
+"l": " \n"
+}, {
+"t": "",
+"n": 43,
+"l": " -  If you know **C++,** **Rust,** **JavaScript,** **HTML** or **CSS**,\n"
+}, {
+"t": "-",
+"n": 44,
+"l": "-   you can contribute to the core layers of Firefox and many other Mozilla\n"
+}, {
+"t": "-",
+"n": 45,
+"l": "-   projects. \n"
+}, {
+"t": "-",
+"n": 46,
+"l": "--  If you know **Rust**, you can also contribute to the Rust programming\n"
+}, {
+"t": "-",
+"n": 47,
+"l": "-   language itself, and `Servo \u003chttps://servo.org/\u003e`_, the web browser engine\n"
+}, {
+"t": "-",
+"n": 48,
+"l": "-   designed for parallelism and safety.\n"
+}, {
+"t": "-",
+"n": 49,
+"l": "--  If you know **Java**, you can contribute to Firefox on Android,\n"
+}, {
+"t": "-",
+"n": 50,
+"l": "-   `Firefox Focus for\n"
+}, {
+"t": "-",
+"n": 51,
+"l": "-   Android \u003chttps://github.com/mozilla-mobile/focus-android\u003e`_ .\n"
+}, {
+"t": "+",
+"n": 52,
+"l": "+   you can :ref:`contribute to the core layers \u003cFirefox Contributors' Quick Reference\u003e` of\n"
+}, {
+"t": "+",
+"n": 53,
+"l": "+   Firefox and many other Mozilla projects.\n"
+}, {
+"t": "+",
+"n": 54,
+"l": "+-  If you know **Rust**, you can also contribute to the `Rust programming\n"
+}, {
+"t": "+",
+"n": 55,
+"l": "+   language \u003chttps://github.com/rust-lang/rust\u003e`_ itself, numerous crates like `grcov \u003chttps://github.com/mozilla/grcov/\u003e`_\n"
+}, {
+"t": "+",
+"n": 56,
+"l": "+   or `Servo \u003chttps://servo.org/\u003e`_, the web browser engine designed for parallelism and safety.\n"
+}, {
+"t": "",
+"n": 57,
+"l": " -  If you know **Kotlin**, you can contribute to `Firefox\n"
+}, {
+"t": "-",
+"n": 58,
+"l": "-   Preview \u003chttps://github.com/mozilla-mobile/fenix\u003e`_ (code name:\n"
+}, {
+"t": "+",
+"n": 59,
+"l": "+   for Android \u003chttps://github.com/mozilla-mobile/fenix\u003e`_ (code name:\n"
+}, {
+"t": "",
+"n": 60,
+"l": "    \"Fenix\").\n"
+}, {
+"t": "",
+"n": 61,
+"l": " -  If you know **Swift**, you can contribute to `Firefox for\n"
+}, {
+"t": "",
+"n": 62,
+"l": "    iOS \u003chttps://github.com/mozilla-mobile/firefox-ios\u003e`_ and `Firefox\n"
+}, {
+"t": "-",
+"n": 63,
+"l": "-   Focus for iOS \u003chttps://github.com/mozilla-mobile/focus-ios\u003e`_\n"
+}, {
+"t": "+",
+"n": 64,
+"l": "+   Focus for iOS \u003chttps://github.com/mozilla-mobile/focus-ios\u003e`_.\n"
+}, {
+"t": "+",
+"n": 65,
+"l": "+-  If you know **C++**, you can contribute to our `VPN client \u003chttps://github.com/mozilla-mobile/mozilla-vpn-client\u003e`_.\n"
+}, {
+"t": "",
+"n": 66,
+"l": " -  If you know **Python**, you can contribute to our web services,\n"
+}, {
+"t": "-",
+"n": 67,
+"l": "-   including Firefox Sync and Firefox Accounts\n"
+}, {
+"t": "+",
+"n": 68,
+"l": "+   including Firefox Sync and Firefox Accounts.\n"
+}, {
+"t": "",
+"n": 69,
+"l": " -  If you know **Make**, **shell**, **Perl**, or **Python**, you can\n"
+}, {
+"t": "-",
+"n": 70,
+"l": "-   contribute to our build systems, release engineering, and automation\n"
+}, {
+"t": "-",
+"n": 71,
+"l": "--  If you know **C**, you can contribute to NSS, Opus, and Daala\n"
+}, {
+"t": "+",
+"n": 72,
+"l": "+   contribute to our build systems, release engineering, and automation.\n"
+}, {
+"t": "+",
+"n": 73,
+"l": "+-  If you know **Go** or **JavaScript**, you can contribute to `TaskCluster\n"
+}, {
+"t": "+",
+"n": 74,
+"l": "+   \u003chttps://github.com/taskcluster/taskcluster\u003e`_  our CI infrastructure.\n"
+}, {
+"t": "+",
+"n": 75,
+"l": "+-  If you know **C**, you can contribute to `NSS \u003chttps://developer.mozilla.org/docs/Mozilla/Projects/NSS\u003e`_,\n"
+}, {
+"t": "+",
+"n": 76,
+"l": "+   `Opus \u003chttps://opus-codec.org/\u003e`_, and `Daala \u003chttps://wiki.xiph.org/Daala\u003e`_.\n"
+}, {
+"t": "",
+"n": 77,
+"l": " -  There are even many ways to contribute to the Mozilla mission without\n"
+}, {
+"t": "",
+"n": 78,
+"l": "    programming. If getting involved in design, support, translation,\n"
+}, {
+"t": "",
+"n": 79,
+"l": "    testing, or other types of contributions sparks your interest please\n"
+}, {
+"t": "",
+"n": 80,
+"l": "    see the `Volunteer Opportunities\n"
+}, {
+"t": "",
+"n": 81,
+"l": "    wiki \u003chttps://contribute.mozilla.org\u003e`_ or the `Mozilla\n"
+}, {
+"t": "",
+"n": 82,
+"l": "    community \u003chttps://mozilla.community/\u003e`_ site.\n"
+}, {
+"t": "",
+"n": 83,
+"l": " \n"
+}, {
+"t": "",
+"n": 84,
+"l": " Perhaps you do not know programming yet, but you want to start learning?\n"
+}, {
+"t": "",
+"n": 85,
+"l": " There are `plenty of\n"
+}, {
+"t": "",
+"n": 86,
+"l": " resources \u003chttps://developer.mozilla.org/learn\u003e`_ available on\n"
+}, {
+"t": "",
+"n": 87,
+"l": " the MDN Web Docs!\n"
+}, {
+"t": "-",
+"n": 88,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 89,
+"l": "-Read on for information about how to set up your machine to build Firefox.\n"
+}]
+}, {
+"blockno": 4,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/docs/setup/index.rst\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/docs/setup/index.rst\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -1,17 +1,17 @@\n"
+}, {
+"t": "",
+"n": 4,
+"l": " Getting Set Up To Work On The Firefox Codebase\n"
+}, {
+"t": "",
+"n": 5,
+"l": " ==============================================\n"
+}, {
+"t": "",
+"n": 6,
+"l": " \n"
+}, {
+"t": "",
+"n": 7,
+"l": " This page will help you get set up to build Firefox on your own machine.\n"
+}, {
+"t": "",
+"n": 8,
+"l": " \n"
+}, {
+"t": "",
+"n": 9,
+"l": " .. toctree::\n"
+}, {
+"t": "",
+"n": 10,
+"l": "    :caption: Thank you for contributing to Firefox \n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-   getting_set_up\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+   /contributing/contributing_to_mozilla\n"
+}, {
+"t": "",
+"n": 14,
+"l": " \n"
+}, {
+"t": "",
+"n": 15,
+"l": " .. toctree::\n"
+}, {
+"t": "",
+"n": 16,
+"l": "    :caption: Setting Up Your Machine\n"
+}, {
+"t": "",
+"n": 17,
+"l": "    :maxdepth: 1\n"
+}, {
+"t": "",
+"n": 18,
+"l": " \n"
+}, {
+"t": "",
+"n": 19,
+"l": "    windows_build\n"
+}, {
+"t": "",
+"n": 20,
+"l": "    macos_build\n"
+}, {
+"t": "",
+"n": 21,
+"l": "    linux_build\n"
+}]
+}, {
+"blockno": 5,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/dom/events/IMEContentObserver.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/dom/events/IMEContentObserver.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -712,20 +712,20 @@ bool IMEContentObserver::OnMouseButtonEv\n"
+}, {
+"t": "",
+"n": 4,
+"l": "         aMouseEvent-\u003emWidget-\u003eWidgetToScreenOffset() -\n"
+}, {
+"t": "",
+"n": 5,
+"l": "         mWidget-\u003eWidgetToScreenOffset();\n"
+}, {
+"t": "",
+"n": 6,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 7,
+"l": " \n"
+}, {
+"t": "",
+"n": 8,
+"l": "   IMENotification notification(NOTIFY_IME_OF_MOUSE_BUTTON_EVENT);\n"
+}, {
+"t": "",
+"n": 9,
+"l": "   notification.mMouseButtonEventData.mEventMessage = aMouseEvent-\u003emMessage;\n"
+}, {
+"t": "",
+"n": 10,
+"l": "   notification.mMouseButtonEventData.mOffset =\n"
+}, {
+"t": "",
+"n": 11,
+"l": "       queryCharAtPointEvent.mReply-\u003eStartOffset();\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  notification.mMouseButtonEventData.mCursorPos.Set(\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-      queryCharAtPointEvent.mRefPoint.ToUnknownPoint());\n"
+}, {
+"t": "-",
+"n": 14,
+"l": "-  notification.mMouseButtonEventData.mCharRect.Set(\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-      queryCharAtPointEvent.mReply-\u003emRect.ToUnknownRect());\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+  notification.mMouseButtonEventData.mCursorPos =\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+      queryCharAtPointEvent.mRefPoint;\n"
+}, {
+"t": "+",
+"n": 18,
+"l": "+  notification.mMouseButtonEventData.mCharRect =\n"
+}, {
+"t": "+",
+"n": 19,
+"l": "+      queryCharAtPointEvent.mReply-\u003emRect;\n"
+}, {
+"t": "",
+"n": 20,
+"l": "   notification.mMouseButtonEventData.mButton = aMouseEvent-\u003emButton;\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   notification.mMouseButtonEventData.mButtons = aMouseEvent-\u003emButtons;\n"
+}, {
+"t": "",
+"n": 22,
+"l": "   notification.mMouseButtonEventData.mModifiers = aMouseEvent-\u003emModifiers;\n"
+}, {
+"t": "",
+"n": 23,
+"l": " \n"
+}, {
+"t": "",
+"n": 24,
+"l": "   nsresult rv = IMEStateManager::NotifyIME(notification, mWidget);\n"
+}, {
+"t": "",
+"n": 25,
+"l": "   if (NS_WARN_IF(NS_FAILED(rv))) {\n"
+}, {
+"t": "",
+"n": 26,
+"l": "     return false;\n"
+}, {
+"t": "",
+"n": 27,
+"l": "   }\n"
+}]
+}, {
+"blockno": 6,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/gfx/layers/composite/ContentHost.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/gfx/layers/composite/ContentHost.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -99,18 +99,16 @@ class ContentHostBase : public ContentHo\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   virtual ~ContentHostBase();\n"
+}, {
+"t": "",
+"n": 5,
+"l": " \n"
+}, {
+"t": "",
+"n": 6,
+"l": "   gfx::IntRect GetBufferRect() override { return mBufferRect; }\n"
+}, {
+"t": "",
+"n": 7,
+"l": " \n"
+}, {
+"t": "",
+"n": 8,
+"l": "   virtual nsIntPoint GetOriginOffset() {\n"
+}, {
+"t": "",
+"n": 9,
+"l": "     return mBufferRect.TopLeft() - mBufferRotation;\n"
+}, {
+"t": "",
+"n": 10,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  gfx::IntPoint GetBufferRotation() { return mBufferRotation.ToUnknownPoint(); }\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-\n"
+}, {
+"t": "",
+"n": 14,
+"l": "  protected:\n"
+}, {
+"t": "",
+"n": 15,
+"l": "   gfx::IntRect mBufferRect;\n"
+}, {
+"t": "",
+"n": 16,
+"l": "   nsIntPoint mBufferRotation;\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   bool mInitialised;\n"
+}, {
+"t": "",
+"n": 18,
+"l": " };\n"
+}, {
+"t": "",
+"n": 19,
+"l": " \n"
+}, {
+"t": "",
+"n": 20,
+"l": " /**\n"
+}, {
+"t": "",
+"n": 21,
+"l": "  * Shared ContentHostBase implementation for content hosts that\n"
+}]
+}, {
+"blockno": 7,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/gfx/thebes/SharedFontList.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/gfx/thebes/SharedFontList.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -6,16 +6,17 @@\n"
+}, {
+"t": "",
+"n": 4,
+"l": " #include \"gfxPlatformFontList.h\"\n"
+}, {
+"t": "",
+"n": 5,
+"l": " #include \"gfxFontUtils.h\"\n"
+}, {
+"t": "",
+"n": 6,
+"l": " #include \"gfxFont.h\"\n"
+}, {
+"t": "",
+"n": 7,
+"l": " #include \"nsReadableUtils.h\"\n"
+}, {
+"t": "",
+"n": 8,
+"l": " #include \"prerror.h\"\n"
+}, {
+"t": "",
+"n": 9,
+"l": " #include \"mozilla/dom/ContentChild.h\"\n"
+}, {
+"t": "",
+"n": 10,
+"l": " #include \"mozilla/dom/ContentParent.h\"\n"
+}, {
+"t": "",
+"n": 11,
+"l": " #include \"mozilla/Logging.h\"\n"
+}, {
+"t": "+",
+"n": 12,
+"l": "+#include \"mozilla/Unused.h\"\n"
+}, {
+"t": "",
+"n": 13,
+"l": " \n"
+}, {
+"t": "",
+"n": 14,
+"l": " #define LOG_FONTLIST(args) \\\n"
+}, {
+"t": "",
+"n": 15,
+"l": "   MOZ_LOG(gfxPlatform::GetLog(eGfxLog_fontlist), LogLevel::Debug, args)\n"
+}, {
+"t": "",
+"n": 16,
+"l": " #define LOG_FONTLIST_ENABLED() \\\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   MOZ_LOG_TEST(gfxPlatform::GetLog(eGfxLog_fontlist), LogLevel::Debug)\n"
+}, {
+"t": "",
+"n": 18,
+"l": " \n"
+}, {
+"t": "",
+"n": 19,
+"l": " namespace mozilla {\n"
+}, {
+"t": "",
+"n": 20,
+"l": " namespace fontlist {\n"
+}, {
+"t": "@",
+"n": 21,
+"l": "@@ -226,127 +227,218 @@ void Family::AddFaces(FontList* aList, c\n"
+}, {
+"t": "",
+"n": 22,
+"l": "           (\"(shared-fontlist) family (%s) added face (%s) index %u, weight \"\n"
+}, {
+"t": "",
+"n": 23,
+"l": "            \"%s, style %s, stretch %s\",\n"
+}, {
+"t": "",
+"n": 24,
+"l": "            fam.get(), aFaces[j].mDescriptor.get(), aFaces[j].mIndex,\n"
+}, {
+"t": "",
+"n": 25,
+"l": "            weight.get(), style.get(), stretch.get()));\n"
+}, {
+"t": "",
+"n": 26,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 27,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 28,
+"l": " }\n"
+}, {
+"t": "",
+"n": 29,
+"l": " \n"
+}, {
+"t": "-",
+"n": 30,
+"l": "-void Family::FindAllFacesForStyle(FontList* aList, const gfxFontStyle& aStyle,\n"
+}, {
+"t": "-",
+"n": 31,
+"l": "-                                  nsTArray\u003cFace*\u003e& aFaceList,\n"
+}, {
+"t": "-",
+"n": 32,
+"l": "-                                  bool aIgnoreSizeTolerance) const {\n"
+}, {
+"t": "+",
+"n": 33,
+"l": "+bool Family::FindAllFacesForStyleInternal(FontList* aList,\n"
+}, {
+"t": "+",
+"n": 34,
+"l": "+                                          const gfxFontStyle& aStyle,\n"
+}, {
+"t": "+",
+"n": 35,
+"l": "+                                          nsTArray\u003cFace*\u003e& aFaceList) const {\n"
+}, {
+"t": "",
+"n": 36,
+"l": "   MOZ_ASSERT(aFaceList.IsEmpty());\n"
+}, {
+"t": "",
+"n": 37,
+"l": "   if (!IsInitialized()) {\n"
+}, {
+"t": "-",
+"n": 38,
+"l": "-    return;\n"
+}, {
+"t": "+",
+"n": 39,
+"l": "+    return false;\n"
+}, {
+"t": "",
+"n": 40,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 41,
+"l": " \n"
+}, {
+"t": "",
+"n": 42,
+"l": "   Pointer* facePtrs = Faces(aList);\n"
+}, {
+"t": "",
+"n": 43,
+"l": "   if (!facePtrs) {\n"
+}, {
+"t": "-",
+"n": 44,
+"l": "-    return;\n"
+}, {
+"t": "+",
+"n": 45,
+"l": "+    return false;\n"
+}, {
+"t": "",
+"n": 46,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 47,
+"l": " \n"
+}, {
+"t": "-",
+"n": 48,
+"l": "-  // If the family has only one face, we simply return it; no further\n"
+}, {
+"t": "-",
+"n": 49,
+"l": "-  // checking needed.\n"
+}, {
+"t": "+",
+"n": 50,
+"l": "+  // Depending on the kind of family, we have to do varying amounts of work\n"
+}, {
+"t": "+",
+"n": 51,
+"l": "+  // to figure out what face(s) to use for the requested style properties.\n"
+}, {
+"t": "+",
+"n": 52,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 53,
+"l": "+  // If the family has only one face, we simply use it; no further style\n"
+}, {
+"t": "+",
+"n": 54,
+"l": "+  // checking needed. (However, for bitmap fonts we may still need to check\n"
+}, {
+"t": "+",
+"n": 55,
+"l": "+  // whether the size is acceptable.)\n"
+}, {
+"t": "",
+"n": 56,
+"l": "   if (NumFaces() == 1) {\n"
+}, {
+"t": "",
+"n": 57,
+"l": "     MOZ_ASSERT(!facePtrs[0].IsNull());\n"
+}, {
+"t": "-",
+"n": 58,
+"l": "-    aFaceList.AppendElement(static_cast\u003cFace*\u003e(facePtrs[0].ToPtr(aList)));\n"
+}, {
+"t": "-",
+"n": 59,
+"l": "-    return;\n"
+}, {
+"t": "+",
+"n": 60,
+"l": "+    Face* face = static_cast\u003cFace*\u003e(facePtrs[0].ToPtr(aList));\n"
+}, {
+"t": "+",
+"n": 61,
+"l": "+    if (face && face-\u003eHasValidDescriptor()) {\n"
+}, {
+"t": "+",
+"n": 62,
+"l": "+      aFaceList.AppendElement(face);\n"
+}, {
+"t": "+",
+"n": 63,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 64,
+"l": "+      if (face-\u003emSize) {\n"
+}, {
+"t": "+",
+"n": 65,
+"l": "+        return true;\n"
+}, {
+"t": "+",
+"n": 66,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 67,
+"l": "+#endif\n"
+}, {
+"t": "+",
+"n": 68,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 69,
+"l": "+    return false;\n"
+}, {
+"t": "",
+"n": 70,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 71,
+"l": " \n"
+}, {
+"t": "",
+"n": 72,
+"l": "   // Most families are \"simple\", having just Regular/Bold/Italic/BoldItalic,\n"
+}, {
+"t": "",
+"n": 73,
+"l": "   // or some subset of these. In this case, we have exactly 4 entries in\n"
+}, {
+"t": "",
+"n": 74,
+"l": "   // mAvailableFonts, stored in the above order; note that some of the entries\n"
+}, {
+"t": "",
+"n": 75,
+"l": "   // may be nullptr. We can then pick the required entry based on whether the\n"
+}, {
+"t": "-",
+"n": 76,
+"l": "-  // request is for bold or non-bold, italic or non-italic, without running the\n"
+}, {
+"t": "-",
+"n": 77,
+"l": "-  // more complex matching algorithm used for larger families with many weights\n"
+}, {
+"t": "-",
+"n": 78,
+"l": "-  // and/or widths.\n"
+}, {
+"t": "+",
+"n": 79,
+"l": "+  // request is for bold or non-bold, italic or non-italic, without running\n"
+}, {
+"t": "+",
+"n": 80,
+"l": "+  // the more complex matching algorithm used for larger families with many\n"
+}, {
+"t": "+",
+"n": 81,
+"l": "+  // weights and/or widths.\n"
+}, {
+"t": "",
+"n": 82,
+"l": " \n"
+}, {
+"t": "",
+"n": 83,
+"l": "   if (mIsSimple) {\n"
+}, {
+"t": "",
+"n": 84,
+"l": "     // Family has no more than the \"standard\" 4 faces, at fixed indexes;\n"
+}, {
+"t": "",
+"n": 85,
+"l": "     // calculate which one we want.\n"
+}, {
+"t": "",
+"n": 86,
+"l": "     // Note that we cannot simply return it as not all 4 faces are necessarily\n"
+}, {
+"t": "",
+"n": 87,
+"l": "     // present.\n"
+}, {
+"t": "",
+"n": 88,
+"l": "     bool wantBold = aStyle.weight \u003e= FontWeight(600);\n"
+}, {
+"t": "",
+"n": 89,
+"l": "     bool wantItalic = !aStyle.style.IsNormal();\n"
+}, {
+"t": "",
+"n": 90,
+"l": "     uint8_t faceIndex =\n"
+}, {
+"t": "",
+"n": 91,
+"l": "         (wantItalic ? kItalicMask : 0) | (wantBold ? kBoldMask : 0);\n"
+}, {
+"t": "",
+"n": 92,
+"l": " \n"
+}, {
+"t": "-",
+"n": 93,
+"l": "-    // if the desired style is available, return it directly\n"
+}, {
+"t": "+",
+"n": 94,
+"l": "+    // If the desired style is available, use it directly.\n"
+}, {
+"t": "",
+"n": 95,
+"l": "     Face* face = static_cast\u003cFace*\u003e(facePtrs[faceIndex].ToPtr(aList));\n"
+}, {
+"t": "",
+"n": 96,
+"l": "     if (face && face-\u003eHasValidDescriptor()) {\n"
+}, {
+"t": "",
+"n": 97,
+"l": "       aFaceList.AppendElement(face);\n"
+}, {
+"t": "-",
+"n": 98,
+"l": "-      return;\n"
+}, {
+"t": "+",
+"n": 99,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 100,
+"l": "+      if (face-\u003emSize) {\n"
+}, {
+"t": "+",
+"n": 101,
+"l": "+        return true;\n"
+}, {
+"t": "+",
+"n": 102,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 103,
+"l": "+#endif\n"
+}, {
+"t": "+",
+"n": 104,
+"l": "+      return false;\n"
+}, {
+"t": "",
+"n": 105,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 106,
+"l": " \n"
+}, {
+"t": "-",
+"n": 107,
+"l": "-    // order to check fallback faces in a simple family, depending on requested\n"
+}, {
+"t": "-",
+"n": 108,
+"l": "-    // style\n"
+}, {
+"t": "+",
+"n": 109,
+"l": "+    // Order to check fallback faces in a simple family, depending on the\n"
+}, {
+"t": "+",
+"n": 110,
+"l": "+    // requested style.\n"
+}, {
+"t": "",
+"n": 111,
+"l": "     static const uint8_t simpleFallbacks[4][3] = {\n"
+}, {
+"t": "",
+"n": 112,
+"l": "         {kBoldFaceIndex, kItalicFaceIndex,\n"
+}, {
+"t": "",
+"n": 113,
+"l": "          kBoldItalicFaceIndex},  // fallback sequence for Regular\n"
+}, {
+"t": "",
+"n": 114,
+"l": "         {kRegularFaceIndex, kBoldItalicFaceIndex, kItalicFaceIndex},  // Bold\n"
+}, {
+"t": "",
+"n": 115,
+"l": "         {kBoldItalicFaceIndex, kRegularFaceIndex, kBoldFaceIndex},    // Italic\n"
+}, {
+"t": "",
+"n": 116,
+"l": "         {kItalicFaceIndex, kBoldFaceIndex, kRegularFaceIndex}  // BoldItalic\n"
+}, {
+"t": "",
+"n": 117,
+"l": "     };\n"
+}, {
+"t": "",
+"n": 118,
+"l": "     const uint8_t* order = simpleFallbacks[faceIndex];\n"
+}, {
+"t": "",
+"n": 119,
+"l": " \n"
+}, {
+"t": "",
+"n": 120,
+"l": "     for (uint8_t trial = 0; trial \u003c 3; ++trial) {\n"
+}, {
+"t": "",
+"n": 121,
+"l": "       // check remaining faces in order of preference to find the first that\n"
+}, {
+"t": "",
+"n": 122,
+"l": "       // actually exists\n"
+}, {
+"t": "",
+"n": 123,
+"l": "       face = static_cast\u003cFace*\u003e(facePtrs[order[trial]].ToPtr(aList));\n"
+}, {
+"t": "",
+"n": 124,
+"l": "       if (face && face-\u003eHasValidDescriptor()) {\n"
+}, {
+"t": "",
+"n": 125,
+"l": "         aFaceList.AppendElement(face);\n"
+}, {
+"t": "-",
+"n": 126,
+"l": "-        return;\n"
+}, {
+"t": "+",
+"n": 127,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 128,
+"l": "+        if (face-\u003emSize) {\n"
+}, {
+"t": "+",
+"n": 129,
+"l": "+          return true;\n"
+}, {
+"t": "+",
+"n": 130,
+"l": "+        }\n"
+}, {
+"t": "+",
+"n": 131,
+"l": "+#endif\n"
+}, {
+"t": "+",
+"n": 132,
+"l": "+        return false;\n"
+}, {
+"t": "",
+"n": 133,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 134,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 135,
+"l": " \n"
+}, {
+"t": "",
+"n": 136,
+"l": "     // We can only reach here if we failed to resolve the face pointer, which\n"
+}, {
+"t": "",
+"n": 137,
+"l": "     // can happen if we're on a stylo thread and caught the font list being\n"
+}, {
+"t": "",
+"n": 138,
+"l": "     // updated; in that case we just fail quietly and let font fallback do\n"
+}, {
+"t": "",
+"n": 139,
+"l": "     // something for the time being.\n"
+}, {
+"t": "-",
+"n": 140,
+"l": "-    return;\n"
+}, {
+"t": "+",
+"n": 141,
+"l": "+    return false;\n"
+}, {
+"t": "",
+"n": 142,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 143,
+"l": " \n"
+}, {
+"t": "",
+"n": 144,
+"l": "   // Pick the font(s) that are closest to the desired weight, style, and\n"
+}, {
+"t": "",
+"n": 145,
+"l": "   // stretch. Iterate over all fonts, measuring the weight/style distance.\n"
+}, {
+"t": "",
+"n": 146,
+"l": "   // Because of unicode-range values, there may be more than one font for a\n"
+}, {
+"t": "",
+"n": 147,
+"l": "   // given but the 99% use case is only a single font entry per\n"
+}, {
+"t": "",
+"n": 148,
+"l": "   // weight/style/stretch distance value. To optimize this, only add entries\n"
+}, {
+"t": "",
+"n": 149,
+"l": "   // to the matched font array when another entry already has the same\n"
+}, {
+"t": "",
+"n": 150,
+"l": "   // weight/style/stretch distance and add the last matched font entry. For\n"
+}, {
+"t": "",
+"n": 151,
+"l": "   // normal platform fonts with a single font entry for each\n"
+}, {
+"t": "",
+"n": 152,
+"l": "   // weight/style/stretch combination, only the last matched font entry will\n"
+}, {
+"t": "",
+"n": 153,
+"l": "   // be added.\n"
+}, {
+"t": "-",
+"n": 154,
+"l": "-\n"
+}, {
+"t": "",
+"n": 155,
+"l": "   double minDistance = INFINITY;\n"
+}, {
+"t": "",
+"n": 156,
+"l": "   Face* matched = nullptr;\n"
+}, {
+"t": "+",
+"n": 157,
+"l": "+  // Keep track of whether we've included any non-scalable font resources in\n"
+}, {
+"t": "+",
+"n": 158,
+"l": "+  // the selected set.\n"
+}, {
+"t": "+",
+"n": 159,
+"l": "+  bool anyNonScalable = false;\n"
+}, {
+"t": "",
+"n": 160,
+"l": "   for (uint32_t i = 0; i \u003c NumFaces(); i++) {\n"
+}, {
+"t": "",
+"n": 161,
+"l": "     Face* face = static_cast\u003cFace*\u003e(facePtrs[i].ToPtr(aList));\n"
+}, {
+"t": "",
+"n": 162,
+"l": "     if (face) {\n"
+}, {
+"t": "",
+"n": 163,
+"l": "       // weight/style/stretch priority: stretch \u003e\u003e style \u003e\u003e weight\n"
+}, {
+"t": "",
+"n": 164,
+"l": "       double distance = WSSDistance(face, aStyle);\n"
+}, {
+"t": "",
+"n": 165,
+"l": "       if (distance \u003c minDistance) {\n"
+}, {
+"t": "",
+"n": 166,
+"l": "         matched = face;\n"
+}, {
+"t": "",
+"n": 167,
+"l": "         if (!aFaceList.IsEmpty()) {\n"
+}, {
+"t": "",
+"n": 168,
+"l": "           aFaceList.Clear();\n"
+}, {
+"t": "",
+"n": 169,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 170,
+"l": "         minDistance = distance;\n"
+}, {
+"t": "",
+"n": 171,
+"l": "       } else if (distance == minDistance) {\n"
+}, {
+"t": "",
+"n": 172,
+"l": "         if (matched) {\n"
+}, {
+"t": "",
+"n": 173,
+"l": "           aFaceList.AppendElement(matched);\n"
+}, {
+"t": "+",
+"n": 174,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 175,
+"l": "+          if (matched-\u003emSize) {\n"
+}, {
+"t": "+",
+"n": 176,
+"l": "+            anyNonScalable = true;\n"
+}, {
+"t": "+",
+"n": 177,
+"l": "+          }\n"
+}, {
+"t": "+",
+"n": 178,
+"l": "+#endif\n"
+}, {
+"t": "",
+"n": 179,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 180,
+"l": "         matched = face;\n"
+}, {
+"t": "",
+"n": 181,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 182,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 183,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 184,
+"l": " \n"
+}, {
+"t": "",
+"n": 185,
+"l": "   MOZ_ASSERT(matched, \"didn't match a font within a family\");\n"
+}, {
+"t": "",
+"n": 186,
+"l": "   if (matched) {\n"
+}, {
+"t": "",
+"n": 187,
+"l": "     aFaceList.AppendElement(matched);\n"
+}, {
+"t": "+",
+"n": 188,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 189,
+"l": "+    if (matched-\u003emSize) {\n"
+}, {
+"t": "+",
+"n": 190,
+"l": "+      anyNonScalable = true;\n"
+}, {
+"t": "+",
+"n": 191,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 192,
+"l": "+#endif\n"
+}, {
+"t": "",
+"n": 193,
+"l": "   }\n"
+}, {
+"t": "+",
+"n": 194,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 195,
+"l": "+  return anyNonScalable;\n"
+}, {
+"t": "+",
+"n": 196,
+"l": "+}\n"
+}, {
+"t": "+",
+"n": 197,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 198,
+"l": "+void Family::FindAllFacesForStyle(FontList* aList, const gfxFontStyle& aStyle,\n"
+}, {
+"t": "+",
+"n": 199,
+"l": "+                                  nsTArray\u003cFace*\u003e& aFaceList,\n"
+}, {
+"t": "+",
+"n": 200,
+"l": "+                                  bool aIgnoreSizeTolerance) const {\n"
+}, {
+"t": "+",
+"n": 201,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 202,
+"l": "+  bool anyNonScalable =\n"
+}, {
+"t": "+",
+"n": 203,
+"l": "+#else\n"
+}, {
+"t": "+",
+"n": 204,
+"l": "+  Unused \u003c\u003c\n"
+}, {
+"t": "+",
+"n": 205,
+"l": "+#endif\n"
+}, {
+"t": "+",
+"n": 206,
+"l": "+      FindAllFacesForStyleInternal(aList, aStyle, aFaceList);\n"
+}, {
+"t": "+",
+"n": 207,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 208,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 209,
+"l": "+  // aFaceList now contains whatever faces are the best style match for\n"
+}, {
+"t": "+",
+"n": 210,
+"l": "+  // the requested style. If specifically-sized bitmap faces are supported,\n"
+}, {
+"t": "+",
+"n": 211,
+"l": "+  // we need to additionally filter the list to choose the appropriate size.\n"
+}, {
+"t": "+",
+"n": 212,
+"l": "+  //\n"
+}, {
+"t": "+",
+"n": 213,
+"l": "+  // It would be slightly more efficient to integrate this directly into the\n"
+}, {
+"t": "+",
+"n": 214,
+"l": "+  // face-selection algorithm above, but it's a rare case that doesn't apply\n"
+}, {
+"t": "+",
+"n": 215,
+"l": "+  // at all to most font families.\n"
+}, {
+"t": "+",
+"n": 216,
+"l": "+  //\n"
+}, {
+"t": "+",
+"n": 217,
+"l": "+  // Currently we only support pixel-sized bitmap font faces on Linux/Gtk (i.e.\n"
+}, {
+"t": "+",
+"n": 218,
+"l": "+  // when using the gfxFcPlatformFontList implementation), so this filtering is\n"
+}, {
+"t": "+",
+"n": 219,
+"l": "+  // not needed on other platforms.\n"
+}, {
+"t": "+",
+"n": 220,
+"l": "+  //\n"
+}, {
+"t": "+",
+"n": 221,
+"l": "+  // (Note that color-bitmap emoji fonts like Apple Color Emoji or Noto Color\n"
+}, {
+"t": "+",
+"n": 222,
+"l": "+  // Emoji don't count here; they package multiple bitmap sizes into a single\n"
+}, {
+"t": "+",
+"n": 223,
+"l": "+  // OpenType wrapper, so they appear as a single \"scalable\" face in our list.)\n"
+}, {
+"t": "+",
+"n": 224,
+"l": "+  if (anyNonScalable) {\n"
+}, {
+"t": "+",
+"n": 225,
+"l": "+    uint16_t best = 0;\n"
+}, {
+"t": "+",
+"n": 226,
+"l": "+    gfxFloat dist = 0.0;\n"
+}, {
+"t": "+",
+"n": 227,
+"l": "+    for (const auto& f : aFaceList) {\n"
+}, {
+"t": "+",
+"n": 228,
+"l": "+      if (f-\u003emSize == 0) {\n"
+}, {
+"t": "+",
+"n": 229,
+"l": "+        // Scalable face; no size distance to compute.\n"
+}, {
+"t": "+",
+"n": 230,
+"l": "+        continue;\n"
+}, {
+"t": "+",
+"n": 231,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 232,
+"l": "+      gfxFloat d = fabs(gfxFloat(f-\u003emSize) - aStyle.size);\n"
+}, {
+"t": "+",
+"n": 233,
+"l": "+      if (!aIgnoreSizeTolerance && (d * 5.0 \u003e f-\u003emSize)) {\n"
+}, {
+"t": "+",
+"n": 234,
+"l": "+        continue;  // Too far from the requested size, ignore.\n"
+}, {
+"t": "+",
+"n": 235,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 236,
+"l": "+      // If we haven't found a \"best\" bitmap size yet, or if this is a better\n"
+}, {
+"t": "+",
+"n": 237,
+"l": "+      // match, remember it.\n"
+}, {
+"t": "+",
+"n": 238,
+"l": "+      if (!best || d \u003c dist) {\n"
+}, {
+"t": "+",
+"n": 239,
+"l": "+        best = f-\u003emSize;\n"
+}, {
+"t": "+",
+"n": 240,
+"l": "+        dist = d;\n"
+}, {
+"t": "+",
+"n": 241,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 242,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 243,
+"l": "+    // Discard all faces except the chosen \"best\" size; or if no pixel size was\n"
+}, {
+"t": "+",
+"n": 244,
+"l": "+    // chosen, all except scalable faces.\n"
+}, {
+"t": "+",
+"n": 245,
+"l": "+    // This may eliminate *all* faces in the family, if all were bitmaps and\n"
+}, {
+"t": "+",
+"n": 246,
+"l": "+    // none was a good enough size match, in which case we'll fall back to the\n"
+}, {
+"t": "+",
+"n": 247,
+"l": "+    // next font-family name.\n"
+}, {
+"t": "+",
+"n": 248,
+"l": "+    aFaceList.RemoveElementsBy([=](const auto& e) { return e-\u003emSize != best; });\n"
+}, {
+"t": "+",
+"n": 249,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 250,
+"l": "+#endif\n"
+}, {
+"t": "",
+"n": 251,
+"l": " }\n"
+}, {
+"t": "",
+"n": 252,
+"l": " \n"
+}, {
+"t": "",
+"n": 253,
+"l": " Face* Family::FindFaceForStyle(FontList* aList, const gfxFontStyle& aStyle,\n"
+}, {
+"t": "",
+"n": 254,
+"l": "                                bool aIgnoreSizeTolerance) const {\n"
+}, {
+"t": "",
+"n": 255,
+"l": "   AutoTArray\u003cFace*, 4\u003e faces;\n"
+}, {
+"t": "",
+"n": 256,
+"l": "   FindAllFacesForStyle(aList, aStyle, faces, aIgnoreSizeTolerance);\n"
+}, {
+"t": "",
+"n": 257,
+"l": "   return faces.IsEmpty() ? nullptr : faces[0];\n"
+}, {
+"t": "",
+"n": 258,
+"l": " }\n"
+}]
+}, {
+"blockno": 8,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/gfx/thebes/SharedFontList.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/gfx/thebes/SharedFontList.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -152,42 +152,52 @@ struct String {\n"
+}, {
+"t": "",
+"n": 4,
+"l": "  * fontconfig pattern, etc).\n"
+}, {
+"t": "",
+"n": 5,
+"l": "  */\n"
+}, {
+"t": "",
+"n": 6,
+"l": " struct Face {\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   // Data required to initialize a Face\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   struct InitData {\n"
+}, {
+"t": "",
+"n": 9,
+"l": "     nsCString mDescriptor;  // descriptor that can be used to instantiate a\n"
+}, {
+"t": "",
+"n": 10,
+"l": "                             // platform font reference\n"
+}, {
+"t": "",
+"n": 11,
+"l": "     uint16_t mIndex;        // an index used with descriptor (on some platforms)\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-    bool mFixedPitch;       // is the face fixed-pitch (monospaced)?\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+    uint16_t mSize;  // pixel size if bitmap; zero indicates scalable\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+#endif\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+    bool mFixedPitch;                  // is the face fixed-pitch (monospaced)?\n"
+}, {
+"t": "",
+"n": 17,
+"l": "     mozilla::WeightRange mWeight;      // CSS font-weight value\n"
+}, {
+"t": "",
+"n": 18,
+"l": "     mozilla::StretchRange mStretch;    // CSS font-stretch value\n"
+}, {
+"t": "",
+"n": 19,
+"l": "     mozilla::SlantStyleRange mStyle;   // CSS font-style value\n"
+}, {
+"t": "",
+"n": 20,
+"l": "     RefPtr\u003cgfxCharacterMap\u003e mCharMap;  // character map, or null if not loaded\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   };\n"
+}, {
+"t": "",
+"n": 22,
+"l": " \n"
+}, {
+"t": "",
+"n": 23,
+"l": "   // Note that mCharacterMap is not set from the InitData by this constructor;\n"
+}, {
+"t": "",
+"n": 24,
+"l": "   // the caller must use SetCharacterMap to handle that separately if required.\n"
+}, {
+"t": "",
+"n": 25,
+"l": "   Face(FontList* aList, const InitData& aData)\n"
+}, {
+"t": "",
+"n": 26,
+"l": "       : mDescriptor(aList, aData.mDescriptor),\n"
+}, {
+"t": "",
+"n": 27,
+"l": "         mIndex(aData.mIndex),\n"
+}, {
+"t": "+",
+"n": 28,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 29,
+"l": "+        mSize(aData.mSize),\n"
+}, {
+"t": "+",
+"n": 30,
+"l": "+#endif\n"
+}, {
+"t": "",
+"n": 31,
+"l": "         mFixedPitch(aData.mFixedPitch),\n"
+}, {
+"t": "",
+"n": 32,
+"l": "         mWeight(aData.mWeight),\n"
+}, {
+"t": "",
+"n": 33,
+"l": "         mStretch(aData.mStretch),\n"
+}, {
+"t": "",
+"n": 34,
+"l": "         mStyle(aData.mStyle),\n"
+}, {
+"t": "-",
+"n": 35,
+"l": "-        mCharacterMap(Pointer::Null()) {}\n"
+}, {
+"t": "+",
+"n": 36,
+"l": "+        mCharacterMap(Pointer::Null()) {\n"
+}, {
+"t": "+",
+"n": 37,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 38,
+"l": " \n"
+}, {
+"t": "",
+"n": 39,
+"l": "   bool HasValidDescriptor() const {\n"
+}, {
+"t": "",
+"n": 40,
+"l": "     return !mDescriptor.IsNull() && mIndex != uint16_t(-1);\n"
+}, {
+"t": "",
+"n": 41,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 42,
+"l": " \n"
+}, {
+"t": "",
+"n": 43,
+"l": "   void SetCharacterMap(FontList* aList, gfxCharacterMap* aCharMap);\n"
+}, {
+"t": "",
+"n": 44,
+"l": " \n"
+}, {
+"t": "",
+"n": 45,
+"l": "   String mDescriptor;\n"
+}, {
+"t": "",
+"n": 46,
+"l": "   uint16_t mIndex;\n"
+}, {
+"t": "+",
+"n": 47,
+"l": "+#ifdef MOZ_WIDGET_GTK\n"
+}, {
+"t": "+",
+"n": 48,
+"l": "+  uint16_t mSize;\n"
+}, {
+"t": "+",
+"n": 49,
+"l": "+#endif\n"
+}, {
+"t": "",
+"n": 50,
+"l": "   bool mFixedPitch;\n"
+}, {
+"t": "",
+"n": 51,
+"l": "   mozilla::WeightRange mWeight;\n"
+}, {
+"t": "",
+"n": 52,
+"l": "   mozilla::StretchRange mStretch;\n"
+}, {
+"t": "",
+"n": 53,
+"l": "   mozilla::SlantStyleRange mStyle;\n"
+}, {
+"t": "",
+"n": 54,
+"l": "   Pointer mCharacterMap;\n"
+}, {
+"t": "",
+"n": 55,
+"l": " };\n"
+}, {
+"t": "",
+"n": 56,
+"l": " \n"
+}, {
+"t": "",
+"n": 57,
+"l": " /**\n"
+}, {
+"t": "@",
+"n": 58,
+"l": "@@ -304,16 +314,21 @@ struct Family {\n"
+}, {
+"t": "",
+"n": 59,
+"l": "   Face* FindFaceForStyle(FontList* aList, const gfxFontStyle& aStyle,\n"
+}, {
+"t": "",
+"n": 60,
+"l": "                          bool aIgnoreSizeTolerance = false) const;\n"
+}, {
+"t": "",
+"n": 61,
+"l": " \n"
+}, {
+"t": "",
+"n": 62,
+"l": "   void SearchAllFontsForChar(FontList* aList, GlobalFontMatch* aMatchData);\n"
+}, {
+"t": "",
+"n": 63,
+"l": " \n"
+}, {
+"t": "",
+"n": 64,
+"l": "   void SetupFamilyCharMap(FontList* aList);\n"
+}, {
+"t": "",
+"n": 65,
+"l": " \n"
+}, {
+"t": "",
+"n": 66,
+"l": "  private:\n"
+}, {
+"t": "+",
+"n": 67,
+"l": "+  // Returns true if there are specifically-sized bitmap faces in the list,\n"
+}, {
+"t": "+",
+"n": 68,
+"l": "+  // so size selection still needs to be done. (Currently only on Linux.)\n"
+}, {
+"t": "+",
+"n": 69,
+"l": "+  bool FindAllFacesForStyleInternal(FontList* aList, const gfxFontStyle& aStyle,\n"
+}, {
+"t": "+",
+"n": 70,
+"l": "+                                    nsTArray\u003cFace*\u003e& aFaceList) const;\n"
+}, {
+"t": "+",
+"n": 71,
+"l": "+\n"
+}, {
+"t": "",
+"n": 72,
+"l": "   std::atomic\u003cuint32_t\u003e mFaceCount;\n"
+}, {
+"t": "",
+"n": 73,
+"l": "   String mKey;\n"
+}, {
+"t": "",
+"n": 74,
+"l": "   String mName;\n"
+}, {
+"t": "",
+"n": 75,
+"l": "   Pointer mCharacterMap;  // If non-null, union of character coverage of all\n"
+}, {
+"t": "",
+"n": 76,
+"l": "                           // faces in the family\n"
+}, {
+"t": "",
+"n": 77,
+"l": "   Pointer mFaces;         // Pointer to array of |mFaceCount| face pointers\n"
+}, {
+"t": "",
+"n": 78,
+"l": "   uint32_t mIndex;        // [win] Top bit set indicates app-bundled font family\n"
+}, {
+"t": "",
+"n": 79,
+"l": "   FontVisibility mVisibility;\n"
+}]
+}, {
+"blockno": 9,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/gfx/thebes/gfxFcPlatformFontList.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/gfx/thebes/gfxFcPlatformFontList.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -200,17 +200,18 @@ static FontStretch MapFcWidth(int aFcWid\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   if (aFcWidth \u003c= (FC_WIDTH_EXTRAEXPANDED + FC_WIDTH_ULTRAEXPANDED) / 2) {\n"
+}, {
+"t": "",
+"n": 5,
+"l": "     return FontStretch::ExtraExpanded();\n"
+}, {
+"t": "",
+"n": 6,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   return FontStretch::UltraExpanded();\n"
+}, {
+"t": "",
+"n": 8,
+"l": " }\n"
+}, {
+"t": "",
+"n": 9,
+"l": " \n"
+}, {
+"t": "",
+"n": 10,
+"l": " static void GetFontProperties(FcPattern* aFontPattern, WeightRange* aWeight,\n"
+}, {
+"t": "",
+"n": 11,
+"l": "                               StretchRange* aStretch,\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-                              SlantStyleRange* aSlantStyle) {\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+                              SlantStyleRange* aSlantStyle,\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+                              uint16_t* aSize = nullptr) {\n"
+}, {
+"t": "",
+"n": 15,
+"l": "   // weight\n"
+}, {
+"t": "",
+"n": 16,
+"l": "   int weight;\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   if (FcPatternGetInteger(aFontPattern, FC_WEIGHT, 0, &weight) !=\n"
+}, {
+"t": "",
+"n": 18,
+"l": "       FcResultMatch) {\n"
+}, {
+"t": "",
+"n": 19,
+"l": "     weight = FC_WEIGHT_REGULAR;\n"
+}, {
+"t": "",
+"n": 20,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   *aWeight = WeightRange(MapFcWeight(weight));\n"
+}, {
+"t": "",
+"n": 22,
+"l": " \n"
+}, {
+"t": "@",
+"n": 23,
+"l": "@@ -226,16 +227,34 @@ static void GetFontProperties(FcPattern*\n"
+}, {
+"t": "",
+"n": 24,
+"l": "   if (FcPatternGetInteger(aFontPattern, FC_SLANT, 0, &slant) != FcResultMatch) {\n"
+}, {
+"t": "",
+"n": 25,
+"l": "     slant = FC_SLANT_ROMAN;\n"
+}, {
+"t": "",
+"n": 26,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 27,
+"l": "   if (slant == FC_SLANT_OBLIQUE) {\n"
+}, {
+"t": "",
+"n": 28,
+"l": "     *aSlantStyle = SlantStyleRange(FontSlantStyle::Oblique());\n"
+}, {
+"t": "",
+"n": 29,
+"l": "   } else if (slant \u003e 0) {\n"
+}, {
+"t": "",
+"n": 30,
+"l": "     *aSlantStyle = SlantStyleRange(FontSlantStyle::Italic());\n"
+}, {
+"t": "",
+"n": 31,
+"l": "   }\n"
+}, {
+"t": "+",
+"n": 32,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 33,
+"l": "+  if (aSize) {\n"
+}, {
+"t": "+",
+"n": 34,
+"l": "+    // pixel size, or zero if scalable\n"
+}, {
+"t": "+",
+"n": 35,
+"l": "+    FcBool scalable;\n"
+}, {
+"t": "+",
+"n": 36,
+"l": "+    if (FcPatternGetBool(aFontPattern, FC_SCALABLE, 0, &scalable) ==\n"
+}, {
+"t": "+",
+"n": 37,
+"l": "+            FcResultMatch &&\n"
+}, {
+"t": "+",
+"n": 38,
+"l": "+        scalable) {\n"
+}, {
+"t": "+",
+"n": 39,
+"l": "+      *aSize = 0;\n"
+}, {
+"t": "+",
+"n": 40,
+"l": "+    } else {\n"
+}, {
+"t": "+",
+"n": 41,
+"l": "+      double size;\n"
+}, {
+"t": "+",
+"n": 42,
+"l": "+      if (FcPatternGetDouble(aFontPattern, FC_PIXEL_SIZE, 0, &size) ==\n"
+}, {
+"t": "+",
+"n": 43,
+"l": "+          FcResultMatch) {\n"
+}, {
+"t": "+",
+"n": 44,
+"l": "+        *aSize = uint16_t(NS_round(size));\n"
+}, {
+"t": "+",
+"n": 45,
+"l": "+      } else {\n"
+}, {
+"t": "+",
+"n": 46,
+"l": "+        *aSize = 0;\n"
+}, {
+"t": "+",
+"n": 47,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 48,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 49,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 50,
+"l": " }\n"
+}, {
+"t": "",
+"n": 51,
+"l": " \n"
+}, {
+"t": "",
+"n": 52,
+"l": " gfxFontconfigFontEntry::gfxFontconfigFontEntry(const nsACString& aFaceName,\n"
+}, {
+"t": "",
+"n": 53,
+"l": "                                                FcPattern* aFontPattern,\n"
+}, {
+"t": "",
+"n": 54,
+"l": "                                                bool aIgnoreFcCharmap)\n"
+}, {
+"t": "",
+"n": 55,
+"l": "     : gfxFT2FontEntryBase(aFaceName),\n"
+}, {
+"t": "",
+"n": 56,
+"l": "       mFontPattern(aFontPattern),\n"
+}, {
+"t": "",
+"n": 57,
+"l": "       mFTFaceInitialized(false),\n"
+}, {
+"t": "@",
+"n": 58,
+"l": "@@ -1662,20 +1681,21 @@ void gfxFcPlatformFontList::InitSharedFo\n"
+}, {
+"t": "",
+"n": 59,
+"l": "         // insert backslash after the =, before the space\n"
+}, {
+"t": "",
+"n": 60,
+"l": "         descriptor.Insert('\\\\', index + 9);\n"
+}, {
+"t": "",
+"n": 61,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 62,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 63,
+"l": " \n"
+}, {
+"t": "",
+"n": 64,
+"l": "     WeightRange weight(FontWeight::Normal());\n"
+}, {
+"t": "",
+"n": 65,
+"l": "     StretchRange stretch(FontStretch::Normal());\n"
+}, {
+"t": "",
+"n": 66,
+"l": "     SlantStyleRange style(FontSlantStyle::Normal());\n"
+}, {
+"t": "-",
+"n": 67,
+"l": "-    GetFontProperties(aPattern, &weight, &stretch, &style);\n"
+}, {
+"t": "+",
+"n": 68,
+"l": "+    uint16_t size;\n"
+}, {
+"t": "+",
+"n": 69,
+"l": "+    GetFontProperties(aPattern, &weight, &stretch, &style, &size);\n"
+}, {
+"t": "",
+"n": 70,
+"l": " \n"
+}, {
+"t": "-",
+"n": 71,
+"l": "-    auto initData =\n"
+}, {
+"t": "-",
+"n": 72,
+"l": "-        fontlist::Face::InitData{descriptor, 0, false, weight, stretch, style};\n"
+}, {
+"t": "+",
+"n": 73,
+"l": "+    auto initData = fontlist::Face::InitData{descriptor, 0,       size, false,\n"
+}, {
+"t": "+",
+"n": 74,
+"l": "+                                             weight,     stretch, style};\n"
+}, {
+"t": "",
+"n": 75,
+"l": " \n"
+}, {
+"t": "",
+"n": 76,
+"l": "     // Add entries for any other localized family names. (Most fonts only have\n"
+}, {
+"t": "",
+"n": 77,
+"l": "     // a single family name, so the first call to GetString will usually fail).\n"
+}, {
+"t": "",
+"n": 78,
+"l": "     FcChar8* otherName;\n"
+}, {
+"t": "",
+"n": 79,
+"l": "     int n = (cIndex == 0 ? 1 : 0);\n"
+}, {
+"t": "",
+"n": 80,
+"l": "     while (FcPatternGetString(aPattern, FC_FAMILY, n, &otherName) ==\n"
+}, {
+"t": "",
+"n": 81,
+"l": "            FcResultMatch) {\n"
+}, {
+"t": "",
+"n": 82,
+"l": "       nsAutoCString otherFamilyName(ToCharPtr(otherName));\n"
+}]
+}, {
+"blockno": 10,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/gfx/thebes/gfxPlatformFontList.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/gfx/thebes/gfxPlatformFontList.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -17,16 +17,17 @@\n"
+}, {
+"t": "",
+"n": 4,
+"l": " #include \"GeckoProfiler.h\"\n"
+}, {
+"t": "",
+"n": 5,
+"l": " #include \"nsCRT.h\"\n"
+}, {
+"t": "",
+"n": 6,
+"l": " #include \"nsGkAtoms.h\"\n"
+}, {
+"t": "",
+"n": 7,
+"l": " #include \"nsServiceManagerUtils.h\"\n"
+}, {
+"t": "",
+"n": 8,
+"l": " #include \"nsUnicharUtils.h\"\n"
+}, {
+"t": "",
+"n": 9,
+"l": " #include \"nsUnicodeProperties.h\"\n"
+}, {
+"t": "",
+"n": 10,
+"l": " #include \"nsXULAppAPI.h\"\n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "+",
+"n": 12,
+"l": "+#include \"mozilla/AppShutdown.h\"\n"
+}, {
+"t": "",
+"n": 13,
+"l": " #include \"mozilla/Attributes.h\"\n"
+}, {
+"t": "",
+"n": 14,
+"l": " #include \"mozilla/Likely.h\"\n"
+}, {
+"t": "",
+"n": 15,
+"l": " #include \"mozilla/MemoryReporting.h\"\n"
+}, {
+"t": "",
+"n": 16,
+"l": " #include \"mozilla/Mutex.h\"\n"
+}, {
+"t": "",
+"n": 17,
+"l": " #include \"mozilla/Preferences.h\"\n"
+}, {
+"t": "",
+"n": 18,
+"l": " #include \"mozilla/StaticPrefs_gfx.h\"\n"
+}, {
+"t": "",
+"n": 19,
+"l": " #include \"mozilla/StaticPrefs_layout.h\"\n"
+}, {
+"t": "",
+"n": 20,
+"l": " #include \"mozilla/Telemetry.h\"\n"
+}, {
+"t": "@",
+"n": 21,
+"l": "@@ -1233,22 +1234,56 @@ void gfxPlatformFontList::StartCmapLoadi\n"
+}, {
+"t": "",
+"n": 22,
+"l": "           list-\u003eGetGeneration(), aStartIndex);\n"
+}, {
+"t": "",
+"n": 23,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 24,
+"l": "   } else {\n"
+}, {
+"t": "",
+"n": 25,
+"l": "     NS_DispatchToMainThread(new StartCmapLoadingRunnable(aStartIndex));\n"
+}, {
+"t": "",
+"n": 26,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 27,
+"l": " }\n"
+}, {
+"t": "",
+"n": 28,
+"l": " \n"
+}, {
+"t": "",
+"n": 29,
+"l": " class LoadCmapsRunnable : public CancelableRunnable {\n"
+}, {
+"t": "+",
+"n": 30,
+"l": "+  class WillShutdownObserver : public nsIObserver {\n"
+}, {
+"t": "+",
+"n": 31,
+"l": "+   public:\n"
+}, {
+"t": "+",
+"n": 32,
+"l": "+    NS_DECL_ISUPPORTS\n"
+}, {
+"t": "+",
+"n": 33,
+"l": "+    NS_DECL_NSIOBSERVER\n"
+}, {
+"t": "+",
+"n": 34,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 35,
+"l": "+    explicit WillShutdownObserver(LoadCmapsRunnable* aRunnable)\n"
+}, {
+"t": "+",
+"n": 36,
+"l": "+        : mRunnable(aRunnable) {}\n"
+}, {
+"t": "+",
+"n": 37,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 38,
+"l": "+    void Remove() {\n"
+}, {
+"t": "+",
+"n": 39,
+"l": "+      nsCOMPtr\u003cnsIObserverService\u003e obs = services::GetObserverService();\n"
+}, {
+"t": "+",
+"n": 40,
+"l": "+      if (obs) {\n"
+}, {
+"t": "+",
+"n": 41,
+"l": "+        obs-\u003eRemoveObserver(this, NS_XPCOM_WILL_SHUTDOWN_OBSERVER_ID);\n"
+}, {
+"t": "+",
+"n": 42,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 43,
+"l": "+      mRunnable = nullptr;\n"
+}, {
+"t": "+",
+"n": 44,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 45,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 46,
+"l": "+   protected:\n"
+}, {
+"t": "+",
+"n": 47,
+"l": "+    virtual ~WillShutdownObserver() = default;\n"
+}, {
+"t": "+",
+"n": 48,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 49,
+"l": "+    LoadCmapsRunnable* mRunnable;\n"
+}, {
+"t": "+",
+"n": 50,
+"l": "+  };\n"
+}, {
+"t": "+",
+"n": 51,
+"l": "+\n"
+}, {
+"t": "",
+"n": 52,
+"l": "  public:\n"
+}, {
+"t": "",
+"n": 53,
+"l": "   explicit LoadCmapsRunnable(uint32_t aGeneration, uint32_t aFamilyIndex)\n"
+}, {
+"t": "",
+"n": 54,
+"l": "       : CancelableRunnable(\"gfxPlatformFontList::LoadCmapsRunnable\"),\n"
+}, {
+"t": "",
+"n": 55,
+"l": "         mGeneration(aGeneration),\n"
+}, {
+"t": "",
+"n": 56,
+"l": "         mStartIndex(aFamilyIndex),\n"
+}, {
+"t": "-",
+"n": 57,
+"l": "-        mIndex(aFamilyIndex) {}\n"
+}, {
+"t": "+",
+"n": 58,
+"l": "+        mIndex(aFamilyIndex) {\n"
+}, {
+"t": "+",
+"n": 59,
+"l": "+    nsCOMPtr\u003cnsIObserverService\u003e obs = services::GetObserverService();\n"
+}, {
+"t": "+",
+"n": 60,
+"l": "+    if (obs) {\n"
+}, {
+"t": "+",
+"n": 61,
+"l": "+      mObserver = new WillShutdownObserver(this);\n"
+}, {
+"t": "+",
+"n": 62,
+"l": "+      obs-\u003eAddObserver(mObserver, NS_XPCOM_WILL_SHUTDOWN_OBSERVER_ID, false);\n"
+}, {
+"t": "+",
+"n": 63,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 64,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 65,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 66,
+"l": "+  virtual ~LoadCmapsRunnable() {\n"
+}, {
+"t": "+",
+"n": 67,
+"l": "+    if (mObserver) {\n"
+}, {
+"t": "+",
+"n": 68,
+"l": "+      mObserver-\u003eRemove();\n"
+}, {
+"t": "+",
+"n": 69,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 70,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 71,
+"l": " \n"
+}, {
+"t": "",
+"n": 72,
+"l": "   // Reset the current family index, if the value passed is earlier than our\n"
+}, {
+"t": "",
+"n": 73,
+"l": "   // original starting position. We don't \"reset\" if it would move the current\n"
+}, {
+"t": "",
+"n": 74,
+"l": "   // position forward, or back into the already-scanned range.\n"
+}, {
+"t": "",
+"n": 75,
+"l": "   // We could optimize further by remembering the current position reached,\n"
+}, {
+"t": "",
+"n": 76,
+"l": "   // and then skipping ahead from the original start, but it doesn't seem worth\n"
+}, {
+"t": "",
+"n": 77,
+"l": "   // extra complexity for a task that usually only happens once, and already-\n"
+}, {
+"t": "",
+"n": 78,
+"l": "   // processed families will be skipped pretty quickly in Run() anyhow.\n"
+}, {
+"t": "@",
+"n": 79,
+"l": "@@ -1305,24 +1340,45 @@ class LoadCmapsRunnable : public Cancela\n"
+}, {
+"t": "",
+"n": 80,
+"l": "     return NS_OK;\n"
+}, {
+"t": "",
+"n": 81,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 82,
+"l": " \n"
+}, {
+"t": "",
+"n": 83,
+"l": "  private:\n"
+}, {
+"t": "",
+"n": 84,
+"l": "   uint32_t mGeneration;\n"
+}, {
+"t": "",
+"n": 85,
+"l": "   uint32_t mStartIndex;\n"
+}, {
+"t": "",
+"n": 86,
+"l": "   uint32_t mIndex;\n"
+}, {
+"t": "",
+"n": 87,
+"l": "   bool mIsCanceled = false;\n"
+}, {
+"t": "+",
+"n": 88,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 89,
+"l": "+  RefPtr\u003cWillShutdownObserver\u003e mObserver;\n"
+}, {
+"t": "",
+"n": 90,
+"l": " };\n"
+}, {
+"t": "",
+"n": 91,
+"l": " \n"
+}, {
+"t": "+",
+"n": 92,
+"l": "+NS_IMPL_ISUPPORTS(LoadCmapsRunnable::WillShutdownObserver, nsIObserver)\n"
+}, {
+"t": "+",
+"n": 93,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 94,
+"l": "+NS_IMETHODIMP\n"
+}, {
+"t": "+",
+"n": 95,
+"l": "+LoadCmapsRunnable::WillShutdownObserver::Observe(nsISupports* aSubject,\n"
+}, {
+"t": "+",
+"n": 96,
+"l": "+                                                 const char* aTopic,\n"
+}, {
+"t": "+",
+"n": 97,
+"l": "+                                                 const char16_t* aData) {\n"
+}, {
+"t": "+",
+"n": 98,
+"l": "+  if (!nsCRT::strcmp(aTopic, NS_XPCOM_WILL_SHUTDOWN_OBSERVER_ID)) {\n"
+}, {
+"t": "+",
+"n": 99,
+"l": "+    if (mRunnable) {\n"
+}, {
+"t": "+",
+"n": 100,
+"l": "+      mRunnable-\u003eCancel();\n"
+}, {
+"t": "+",
+"n": 101,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 102,
+"l": "+  } else {\n"
+}, {
+"t": "+",
+"n": 103,
+"l": "+    MOZ_ASSERT_UNREACHABLE(\"unexpected notification topic\");\n"
+}, {
+"t": "+",
+"n": 104,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 105,
+"l": "+  return NS_OK;\n"
+}, {
+"t": "+",
+"n": 106,
+"l": "+}\n"
+}, {
+"t": "+",
+"n": 107,
+"l": "+\n"
+}, {
+"t": "",
+"n": 108,
+"l": " void gfxPlatformFontList::StartCmapLoading(uint32_t aGeneration,\n"
+}, {
+"t": "",
+"n": 109,
+"l": "                                            uint32_t aStartIndex) {\n"
+}, {
+"t": "",
+"n": 110,
+"l": "   MOZ_RELEASE_ASSERT(XRE_IsParentProcess());\n"
+}, {
+"t": "",
+"n": 111,
+"l": "   if (aGeneration != SharedFontList()-\u003eGetGeneration()) {\n"
+}, {
+"t": "",
+"n": 112,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 113,
+"l": "   }\n"
+}, {
+"t": "+",
+"n": 114,
+"l": "+  if (AppShutdown::IsShuttingDown()) {\n"
+}, {
+"t": "+",
+"n": 115,
+"l": "+    return;\n"
+}, {
+"t": "+",
+"n": 116,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 117,
+"l": "   if (mLoadCmapsRunnable) {\n"
+}, {
+"t": "",
+"n": 118,
+"l": "     // We already have a runnable; just make sure it covers the full range of\n"
+}, {
+"t": "",
+"n": 119,
+"l": "     // families needed.\n"
+}, {
+"t": "",
+"n": 120,
+"l": "     static_cast\u003cLoadCmapsRunnable*\u003e(mLoadCmapsRunnable.get())\n"
+}, {
+"t": "",
+"n": 121,
+"l": "         -\u003eMaybeResetIndex(aStartIndex);\n"
+}, {
+"t": "",
+"n": 122,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 123,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 124,
+"l": "   mLoadCmapsRunnable = new LoadCmapsRunnable(aGeneration, aStartIndex);\n"
+}, {
+"t": "@",
+"n": 125,
+"l": "@@ -2707,16 +2763,19 @@ void gfxPlatformFontList::InitializeFami\n"
+}, {
+"t": "",
+"n": 126,
+"l": "   auto list = SharedFontList();\n"
+}, {
+"t": "",
+"n": 127,
+"l": "   MOZ_ASSERT(list);\n"
+}, {
+"t": "",
+"n": 128,
+"l": "   if (!list) {\n"
+}, {
+"t": "",
+"n": 129,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 130,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 131,
+"l": "   if (list-\u003eGetGeneration() != aGeneration) {\n"
+}, {
+"t": "",
+"n": 132,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 133,
+"l": "   }\n"
+}, {
+"t": "+",
+"n": 134,
+"l": "+  if (AppShutdown::IsShuttingDown()) {\n"
+}, {
+"t": "+",
+"n": 135,
+"l": "+    return;\n"
+}, {
+"t": "+",
+"n": 136,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 137,
+"l": "   if (aFamilyIndex \u003e= list-\u003eNumFamilies()) {\n"
+}, {
+"t": "",
+"n": 138,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 139,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 140,
+"l": "   fontlist::Family* family = list-\u003eFamilies() + aFamilyIndex;\n"
+}, {
+"t": "",
+"n": 141,
+"l": "   if (!family-\u003eIsInitialized() || aLoadCmaps) {\n"
+}, {
+"t": "",
+"n": 142,
+"l": "     Unused \u003c\u003c InitializeFamily(family, aLoadCmaps);\n"
+}, {
+"t": "",
+"n": 143,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 144,
+"l": " }\n"
+}, {
+"t": "@",
+"n": 145,
+"l": "@@ -2728,16 +2787,19 @@ void gfxPlatformFontList::SetCharacterMa\n"
+}, {
+"t": "",
+"n": 146,
+"l": "   auto list = SharedFontList();\n"
+}, {
+"t": "",
+"n": 147,
+"l": "   MOZ_ASSERT(list);\n"
+}, {
+"t": "",
+"n": 148,
+"l": "   if (!list) {\n"
+}, {
+"t": "",
+"n": 149,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 150,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 151,
+"l": "   if (list-\u003eGetGeneration() != aGeneration) {\n"
+}, {
+"t": "",
+"n": 152,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 153,
+"l": "   }\n"
+}, {
+"t": "+",
+"n": 154,
+"l": "+  if (AppShutdown::IsShuttingDown()) {\n"
+}, {
+"t": "+",
+"n": 155,
+"l": "+    return;\n"
+}, {
+"t": "+",
+"n": 156,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 157,
+"l": "   fontlist::Face* face = static_cast\u003cfontlist::Face*\u003e(aFacePtr.ToPtr(list));\n"
+}, {
+"t": "",
+"n": 158,
+"l": "   if (face) {\n"
+}, {
+"t": "",
+"n": 159,
+"l": "     face-\u003emCharacterMap = GetShmemCharMap(&aMap);\n"
+}, {
+"t": "",
+"n": 160,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 161,
+"l": " }\n"
+}, {
+"t": "",
+"n": 162,
+"l": " \n"
+}, {
+"t": "",
+"n": 163,
+"l": " void gfxPlatformFontList::SetupFamilyCharMap(\n"
+}, {
+"t": "",
+"n": 164,
+"l": "     uint32_t aGeneration, const fontlist::Pointer& aFamilyPtr) {\n"
+}, {
+"t": "@",
+"n": 165,
+"l": "@@ -2745,16 +2807,19 @@ void gfxPlatformFontList::SetupFamilyCha\n"
+}, {
+"t": "",
+"n": 166,
+"l": "   auto list = SharedFontList();\n"
+}, {
+"t": "",
+"n": 167,
+"l": "   MOZ_ASSERT(list);\n"
+}, {
+"t": "",
+"n": 168,
+"l": "   if (!list) {\n"
+}, {
+"t": "",
+"n": 169,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 170,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 171,
+"l": "   if (list-\u003eGetGeneration() != aGeneration) {\n"
+}, {
+"t": "",
+"n": 172,
+"l": "     return;\n"
+}, {
+"t": "",
+"n": 173,
+"l": "   }\n"
+}, {
+"t": "+",
+"n": 174,
+"l": "+  if (AppShutdown::IsShuttingDown()) {\n"
+}, {
+"t": "+",
+"n": 175,
+"l": "+    return;\n"
+}, {
+"t": "+",
+"n": 176,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 177,
+"l": " \n"
+}, {
+"t": "",
+"n": 178,
+"l": "   // aFamilyPtr was passed from a content process which may not be trusted,\n"
+}, {
+"t": "",
+"n": 179,
+"l": "   // so we cannot assume it is valid or safe to use. If the Pointer value is\n"
+}, {
+"t": "",
+"n": 180,
+"l": "   // bad, we must not crash or do anything bad, just bail out.\n"
+}, {
+"t": "",
+"n": 181,
+"l": "   // (In general, if the child process was trying to use an invalid pointer it\n"
+}, {
+"t": "",
+"n": 182,
+"l": "   // should have hit the MOZ_DIAGNOSTIC_ASSERT in FontList::ToSharedPointer\n"
+}, {
+"t": "",
+"n": 183,
+"l": "   // rather than passing a null or bad pointer to the parent.)\n"
+}, {
+"t": "",
+"n": 184,
+"l": " \n"
+}, {
+"t": "@",
+"n": 185,
+"l": "@@ -2798,16 +2863,19 @@ bool gfxPlatformFontList::InitOtherFamil\n"
+}, {
+"t": "",
+"n": 186,
+"l": "   auto list = SharedFontList();\n"
+}, {
+"t": "",
+"n": 187,
+"l": "   MOZ_ASSERT(list);\n"
+}, {
+"t": "",
+"n": 188,
+"l": "   if (!list) {\n"
+}, {
+"t": "",
+"n": 189,
+"l": "     return false;\n"
+}, {
+"t": "",
+"n": 190,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 191,
+"l": "   if (list-\u003eGetGeneration() != aGeneration) {\n"
+}, {
+"t": "",
+"n": 192,
+"l": "     return false;\n"
+}, {
+"t": "",
+"n": 193,
+"l": "   }\n"
+}, {
+"t": "+",
+"n": 194,
+"l": "+  if (AppShutdown::IsShuttingDown()) {\n"
+}, {
+"t": "+",
+"n": 195,
+"l": "+    return false;\n"
+}, {
+"t": "+",
+"n": 196,
+"l": "+  }\n"
+}, {
+"t": "",
+"n": 197,
+"l": "   return InitOtherFamilyNames(aDefer);\n"
+}, {
+"t": "",
+"n": 198,
+"l": " }\n"
+}, {
+"t": "",
+"n": 199,
+"l": " \n"
+}, {
+"t": "",
+"n": 200,
+"l": " uint32_t gfxPlatformFontList::GetGeneration() const {\n"
+}, {
+"t": "",
+"n": 201,
+"l": "   return SharedFontList() ? SharedFontList()-\u003eGetGeneration() : 0;\n"
+}, {
+"t": "",
+"n": 202,
+"l": " }\n"
+}, {
+"t": "",
+"n": 203,
+"l": " \n"
+}, {
+"t": "",
+"n": 204,
+"l": " #undef LOG\n"
+}]
+}, {
+"blockno": 11,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/layout/base/nsPresContext.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/layout/base/nsPresContext.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -614,16 +614,23 @@ class nsPresContext : public nsISupports\n"
+}, {
+"t": "",
+"n": 4,
+"l": "     return NSAppUnitsToFloatPixels(CSSPixelsToAppUnits(aPixels),\n"
+}, {
+"t": "",
+"n": 5,
+"l": "                                    float(AppUnitsPerDevPixel()));\n"
+}, {
+"t": "",
+"n": 6,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 7,
+"l": " \n"
+}, {
+"t": "",
+"n": 8,
+"l": "   int32_t DevPixelsToIntCSSPixels(int32_t aPixels) {\n"
+}, {
+"t": "",
+"n": 9,
+"l": "     return AppUnitsToIntCSSPixels(DevPixelsToAppUnits(aPixels));\n"
+}, {
+"t": "",
+"n": 10,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "+",
+"n": 12,
+"l": "+  mozilla::CSSIntPoint DevPixelsToIntCSSPixels(\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+      const mozilla::LayoutDeviceIntPoint& aPoint) {\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+    return mozilla::CSSIntPoint(\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+        AppUnitsToIntCSSPixels(DevPixelsToAppUnits(aPoint.x)),\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+        AppUnitsToIntCSSPixels(DevPixelsToAppUnits(aPoint.y)));\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 18,
+"l": "+\n"
+}, {
+"t": "",
+"n": 19,
+"l": "   float DevPixelsToFloatCSSPixels(int32_t aPixels) const {\n"
+}, {
+"t": "",
+"n": 20,
+"l": "     return AppUnitsToFloatCSSPixels(DevPixelsToAppUnits(aPixels));\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 22,
+"l": " \n"
+}, {
+"t": "",
+"n": 23,
+"l": "   mozilla::CSSToLayoutDeviceScale CSSToDevPixelScale() const {\n"
+}, {
+"t": "",
+"n": 24,
+"l": "     return mozilla::CSSToLayoutDeviceScale(\n"
+}, {
+"t": "",
+"n": 25,
+"l": "         float(mozilla::AppUnitsPerCSSPixel()) / float(AppUnitsPerDevPixel()));\n"
+}, {
+"t": "",
+"n": 26,
+"l": "   }\n"
+}]
+}, {
+"blockno": 12,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/layout/forms/nsComboboxControlFrame.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/layout/forms/nsComboboxControlFrame.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -1428,17 +1428,17 @@ void nsComboboxControlFrame::SetInitialC\n"
+}, {
+"t": "",
+"n": 4,
+"l": "     nsBlockFrame::SetInitialChildList(aListID, aChildList);\n"
+}, {
+"t": "",
+"n": 5,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 6,
+"l": " }\n"
+}, {
+"t": "",
+"n": 7,
+"l": " \n"
+}, {
+"t": "",
+"n": 8,
+"l": " //----------------------------------------------------------------------\n"
+}, {
+"t": "",
+"n": 9,
+"l": " // nsIRollupListener\n"
+}, {
+"t": "",
+"n": 10,
+"l": " //----------------------------------------------------------------------\n"
+}, {
+"t": "",
+"n": 11,
+"l": " bool nsComboboxControlFrame::Rollup(uint32_t aCount, bool aFlush,\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-                                    const nsIntPoint* pos,\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+                                    const LayoutDeviceIntPoint* pos,\n"
+}, {
+"t": "",
+"n": 14,
+"l": "                                     nsIContent** aLastRolledUp) {\n"
+}, {
+"t": "",
+"n": 15,
+"l": "   if (aLastRolledUp) {\n"
+}, {
+"t": "",
+"n": 16,
+"l": "     *aLastRolledUp = nullptr;\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 18,
+"l": " \n"
+}, {
+"t": "",
+"n": 19,
+"l": "   if (!mDroppedDown) {\n"
+}, {
+"t": "",
+"n": 20,
+"l": "     return false;\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   }\n"
+}]
+}, {
+"blockno": 13,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/layout/forms/nsComboboxControlFrame.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/layout/forms/nsComboboxControlFrame.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -174,17 +174,18 @@ class nsComboboxControlFrame final : pub\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   OnSetSelectedIndex(int32_t aOldIndex, int32_t aNewIndex) override;\n"
+}, {
+"t": "",
+"n": 5,
+"l": " \n"
+}, {
+"t": "",
+"n": 6,
+"l": "   // nsIRollupListener\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   /**\n"
+}, {
+"t": "",
+"n": 8,
+"l": "    * Hide the dropdown menu and stop capturing mouse events.\n"
+}, {
+"t": "",
+"n": 9,
+"l": "    * @note This method might destroy |this|.\n"
+}, {
+"t": "",
+"n": 10,
+"l": "    */\n"
+}, {
+"t": "",
+"n": 11,
+"l": "   MOZ_CAN_RUN_SCRIPT_BOUNDARY\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  virtual bool Rollup(uint32_t aCount, bool aFlush, const nsIntPoint* pos,\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+  virtual bool Rollup(uint32_t aCount, bool aFlush,\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+                      const mozilla::LayoutDeviceIntPoint* pos,\n"
+}, {
+"t": "",
+"n": 15,
+"l": "                       nsIContent** aLastRolledUp) override;\n"
+}, {
+"t": "",
+"n": 16,
+"l": "   virtual void NotifyGeometryChange() override;\n"
+}, {
+"t": "",
+"n": 17,
+"l": " \n"
+}, {
+"t": "",
+"n": 18,
+"l": "   /**\n"
+}, {
+"t": "",
+"n": 19,
+"l": "    * A combobox should roll up if a mousewheel event happens outside of\n"
+}, {
+"t": "",
+"n": 20,
+"l": "    * the popup area.\n"
+}, {
+"t": "",
+"n": 21,
+"l": "    */\n"
+}, {
+"t": "",
+"n": 22,
+"l": "   virtual bool ShouldRollupOnMouseWheelEvent() override { return true; }\n"
+}]
+}, {
+"blockno": 14,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/layout/xul/nsXULPopupManager.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/layout/xul/nsXULPopupManager.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -196,17 +196,17 @@ bool nsXULPopupManager::RollupNativeMenu\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   if (mNativeMenu) {\n"
+}, {
+"t": "",
+"n": 5,
+"l": "     RefPtr\u003cNativeMenu\u003e menu = mNativeMenu;\n"
+}, {
+"t": "",
+"n": 6,
+"l": "     return menu-\u003eClose();\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   return false;\n"
+}, {
+"t": "",
+"n": 9,
+"l": " }\n"
+}, {
+"t": "",
+"n": 10,
+"l": " \n"
+}, {
+"t": "",
+"n": 11,
+"l": " bool nsXULPopupManager::Rollup(uint32_t aCount, bool aFlush,\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-                               const nsIntPoint* pos,\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+                               const LayoutDeviceIntPoint* pos,\n"
+}, {
+"t": "",
+"n": 14,
+"l": "                                nsIContent** aLastRolledUp) {\n"
+}, {
+"t": "",
+"n": 15,
+"l": "   if (aLastRolledUp) {\n"
+}, {
+"t": "",
+"n": 16,
+"l": "     *aLastRolledUp = nullptr;\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 18,
+"l": " \n"
+}, {
+"t": "",
+"n": 19,
+"l": "   // We can disable the autohide behavior via a pref to ease debugging.\n"
+}, {
+"t": "",
+"n": 20,
+"l": "   if (StaticPrefs::ui_popup_disable_autohide()) {\n"
+}, {
+"t": "",
+"n": 21,
+"l": "     // Required on linux to allow events to work on other targets.\n"
+}, {
+"t": "@",
+"n": 22,
+"l": "@@ -297,18 +297,17 @@ bool nsXULPopupManager::Rollup(uint32_t \n"
+}, {
+"t": "",
+"n": 23,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 24,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 25,
+"l": " \n"
+}, {
+"t": "",
+"n": 26,
+"l": "       // It's possible that some other element is above the anchor at the same\n"
+}, {
+"t": "",
+"n": 27,
+"l": "       // position, but the only thing that would happen is that the mouse\n"
+}, {
+"t": "",
+"n": 28,
+"l": "       // event will get consumed, so here only a quick coordinates check is\n"
+}, {
+"t": "",
+"n": 29,
+"l": "       // done rather than a slower complete check of what is at that location.\n"
+}, {
+"t": "",
+"n": 30,
+"l": "       nsPresContext* presContext = item-\u003eFrame()-\u003ePresContext();\n"
+}, {
+"t": "-",
+"n": 31,
+"l": "-      CSSIntPoint posCSSPixels(presContext-\u003eDevPixelsToIntCSSPixels(pos-\u003ex),\n"
+}, {
+"t": "-",
+"n": 32,
+"l": "-                               presContext-\u003eDevPixelsToIntCSSPixels(pos-\u003ey));\n"
+}, {
+"t": "+",
+"n": 33,
+"l": "+      CSSIntPoint posCSSPixels = presContext-\u003eDevPixelsToIntCSSPixels(*pos);\n"
+}, {
+"t": "",
+"n": 34,
+"l": "       if (anchorRect.Contains(posCSSPixels)) {\n"
+}, {
+"t": "",
+"n": 35,
+"l": "         if (consumeResult == ConsumeOutsideClicks_ParentOnly) {\n"
+}, {
+"t": "",
+"n": 36,
+"l": "           consume = true;\n"
+}, {
+"t": "",
+"n": 37,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 38,
+"l": " \n"
+}, {
+"t": "",
+"n": 39,
+"l": "         if (noRollupOnAnchor) {\n"
+}, {
+"t": "",
+"n": 40,
+"l": "           rollup = false;\n"
+}, {
+"t": "",
+"n": 41,
+"l": "         }\n"
+}]
+}, {
+"blockno": 15,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/layout/xul/nsXULPopupManager.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/layout/xul/nsXULPopupManager.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -346,17 +346,18 @@ class nsXULPopupManager final : public n\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   friend class TransitionEnder;\n"
+}, {
+"t": "",
+"n": 5,
+"l": " \n"
+}, {
+"t": "",
+"n": 6,
+"l": "   NS_DECL_ISUPPORTS\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   NS_DECL_NSIOBSERVER\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   NS_DECL_NSIDOMEVENTLISTENER\n"
+}, {
+"t": "",
+"n": 9,
+"l": " \n"
+}, {
+"t": "",
+"n": 10,
+"l": "   // nsIRollupListener\n"
+}, {
+"t": "",
+"n": 11,
+"l": "   MOZ_CAN_RUN_SCRIPT_BOUNDARY\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  virtual bool Rollup(uint32_t aCount, bool aFlush, const nsIntPoint* pos,\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+  virtual bool Rollup(uint32_t aCount, bool aFlush,\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+                      const mozilla::LayoutDeviceIntPoint* pos,\n"
+}, {
+"t": "",
+"n": 15,
+"l": "                       nsIContent** aLastRolledUp) override;\n"
+}, {
+"t": "",
+"n": 16,
+"l": "   virtual bool ShouldRollupOnMouseWheelEvent() override;\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   virtual bool ShouldConsumeOnMouseWheelEvent() override;\n"
+}, {
+"t": "",
+"n": 18,
+"l": "   virtual bool ShouldRollupOnMouseActivate() override;\n"
+}, {
+"t": "",
+"n": 19,
+"l": "   virtual uint32_t GetSubmenuWidgetChain(\n"
+}, {
+"t": "",
+"n": 20,
+"l": "       nsTArray\u003cnsIWidget*\u003e* aWidgetChain) override;\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   virtual void NotifyGeometryChange() override {}\n"
+}, {
+"t": "",
+"n": 22,
+"l": "   virtual nsIWidget* GetRollupWidget() override;\n"
+}]
+}, {
+"blockno": 16,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/mobile/android/geckoview/src/main/java/org/mozilla/geckoview/GeckoEditable.java\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/mobile/android/geckoview/src/main/java/org/mozilla/geckoview/GeckoEditable.java\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -1882,16 +1882,23 @@ import android.view.inputmethod.EditorIn\n"
+}, {
+"t": "",
+"n": 4,
+"l": "                                  .append(unboundedOldEnd).append(\")\");\n"
+}, {
+"t": "",
+"n": 5,
+"l": "             Log.d(LOGTAG, sb.toString());\n"
+}, {
+"t": "",
+"n": 6,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 7,
+"l": " \n"
+}, {
+"t": "",
+"n": 8,
+"l": "         if (!binderCheckToken(token, /* allowNull */ false)) {\n"
+}, {
+"t": "",
+"n": 9,
+"l": "             return;\n"
+}, {
+"t": "",
+"n": 10,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "+",
+"n": 12,
+"l": "+        if (unboundedOldEnd \u003e= Integer.MAX_VALUE / 2) {\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+            // Integer.MAX_VALUE / 2 is a magic number to synchronize all.\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+            // (See GeckoEditableSupport::FlushIMEText.)\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+            // Previous text transactions are unnecessary now, so we have to ignore it.\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+            mActions.clear();\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+        }\n"
+}, {
+"t": "+",
+"n": 18,
+"l": "+\n"
+}, {
+"t": "",
+"n": 19,
+"l": "         final int currentLength = mText.getCurrentText().length();\n"
+}, {
+"t": "",
+"n": 20,
+"l": "         final int oldEnd = unboundedOldEnd \u003e currentLength ? currentLength : unboundedOldEnd;\n"
+}, {
+"t": "",
+"n": 21,
+"l": "         final int newEnd = start + text.length();\n"
+}, {
+"t": "",
+"n": 22,
+"l": " \n"
+}, {
+"t": "",
+"n": 23,
+"l": "         if (start == 0 && unboundedOldEnd \u003e currentLength) {\n"
+}, {
+"t": "",
+"n": 24,
+"l": "             // | oldEnd \u003e currentLength | signals entire text is cleared (e.g. for\n"
+}, {
+"t": "",
+"n": 25,
+"l": "             // newly-focused editors). Simply replace the text in that case; replace in\n"
+}, {
+"t": "",
+"n": 26,
+"l": "             // two steps to properly clear composing spans that span the whole range.\n"
+}]
+}, {
+"blockno": 17,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/security/sandbox/mac/Sandbox.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/security/sandbox/mac/Sandbox.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -6,17 +6,16 @@\n"
+}, {
+"t": "",
+"n": 4,
+"l": " #ifndef mozilla_Sandbox_h\n"
+}, {
+"t": "",
+"n": 5,
+"l": " #define mozilla_Sandbox_h\n"
+}, {
+"t": "",
+"n": 6,
+"l": " \n"
+}, {
+"t": "",
+"n": 7,
+"l": " #include \u003cstring\u003e\n"
+}, {
+"t": "",
+"n": 8,
+"l": " \n"
+}, {
+"t": "",
+"n": 9,
+"l": " enum MacSandboxType {\n"
+}, {
+"t": "",
+"n": 10,
+"l": "   MacSandboxType_Default = 0,\n"
+}, {
+"t": "",
+"n": 11,
+"l": "   MacSandboxType_Content,\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  MacSandboxType_Flash,\n"
+}, {
+"t": "",
+"n": 13,
+"l": "   MacSandboxType_GMP,\n"
+}, {
+"t": "",
+"n": 14,
+"l": "   MacSandboxType_RDD,\n"
+}, {
+"t": "",
+"n": 15,
+"l": "   MacSandboxType_Socket,\n"
+}, {
+"t": "",
+"n": 16,
+"l": "   MacSandboxType_Utility,\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   MacSandboxType_Invalid\n"
+}, {
+"t": "",
+"n": 18,
+"l": " };\n"
+}, {
+"t": "",
+"n": 19,
+"l": " \n"
+}, {
+"t": "",
+"n": 20,
+"l": " typedef struct _MacSandboxInfo {\n"
+}]
+}, {
+"blockno": 18,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/security/sandbox/mac/Sandbox.mm\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/security/sandbox/mac/Sandbox.mm\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -17,17 +17,16 @@\n"
+}, {
+"t": "",
+"n": 4,
+"l": " #include \u003csys/sysctl.h\u003e\n"
+}, {
+"t": "",
+"n": 5,
+"l": " #include \u003csys/types.h\u003e\n"
+}, {
+"t": "",
+"n": 6,
+"l": " \n"
+}, {
+"t": "",
+"n": 7,
+"l": " #include \u003ciostream\u003e\n"
+}, {
+"t": "",
+"n": 8,
+"l": " #include \u003csstream\u003e\n"
+}, {
+"t": "",
+"n": 9,
+"l": " #include \u003cvector\u003e\n"
+}, {
+"t": "",
+"n": 10,
+"l": " \n"
+}, {
+"t": "",
+"n": 11,
+"l": " #include \"SandboxPolicyContent.h\"\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-#include \"SandboxPolicyFlash.h\"\n"
+}, {
+"t": "",
+"n": 13,
+"l": " #include \"SandboxPolicyGMP.h\"\n"
+}, {
+"t": "",
+"n": 14,
+"l": " #include \"SandboxPolicyRDD.h\"\n"
+}, {
+"t": "",
+"n": 15,
+"l": " #include \"SandboxPolicySocket.h\"\n"
+}, {
+"t": "",
+"n": 16,
+"l": " #include \"SandboxPolicyUtility.h\"\n"
+}, {
+"t": "",
+"n": 17,
+"l": " #include \"mozilla/Assertions.h\"\n"
+}, {
+"t": "",
+"n": 18,
+"l": " \n"
+}, {
+"t": "",
+"n": 19,
+"l": " // Undocumented sandbox setup routines.\n"
+}, {
+"t": "",
+"n": 20,
+"l": " extern \"C\" int sandbox_init_with_parameters(const char* profile, uint64_t flags,\n"
+}, {
+"t": "@",
+"n": 21,
+"l": "@@ -273,68 +272,20 @@ bool StartMacSandbox(MacSandboxInfo cons\n"
+}, {
+"t": "",
+"n": 22,
+"l": "   int32_t major = 0, minor = 0;\n"
+}, {
+"t": "",
+"n": 23,
+"l": "   OSXVersion::Get(major, minor);\n"
+}, {
+"t": "",
+"n": 24,
+"l": "   MOZ_ASSERT(minor \u003e= 0 && minor \u003c 100);\n"
+}, {
+"t": "",
+"n": 25,
+"l": "   std::string combinedVersion = std::to_string((major * 100) + minor);\n"
+}, {
+"t": "",
+"n": 26,
+"l": " \n"
+}, {
+"t": "",
+"n": 27,
+"l": "   params.push_back(\"IS_ROSETTA_TRANSLATED\");\n"
+}, {
+"t": "",
+"n": 28,
+"l": "   params.push_back(ProcessIsRosettaTranslated() ? \"TRUE\" : \"FALSE\");\n"
+}, {
+"t": "",
+"n": 29,
+"l": " \n"
+}, {
+"t": "-",
+"n": 30,
+"l": "-  // Used for the Flash sandbox. Declared here so that they\n"
+}, {
+"t": "-",
+"n": 31,
+"l": "-  // stay in scope until sandbox_init_with_parameters is called.\n"
+}, {
+"t": "-",
+"n": 32,
+"l": "-  std::string flashTempDir, flashPath;\n"
+}, {
+"t": "-",
+"n": 33,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 34,
+"l": "-  // Used for the content process to access to parts of the cache dir,\n"
+}, {
+"t": "-",
+"n": 35,
+"l": "-  // and also for the Flash sandbox (which is presumably going away soon).\n"
+}, {
+"t": "+",
+"n": 36,
+"l": "+  // Used for the content process to access to parts of the cache dir.\n"
+}, {
+"t": "",
+"n": 37,
+"l": "   std::string userCacheDir;\n"
+}, {
+"t": "",
+"n": 38,
+"l": " \n"
+}, {
+"t": "-",
+"n": 39,
+"l": "-  if (aInfo.type == MacSandboxType_Flash) {\n"
+}, {
+"t": "-",
+"n": 40,
+"l": "-    profile = SandboxPolicyFlash;\n"
+}, {
+"t": "-",
+"n": 41,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 42,
+"l": "-    params.push_back(\"SHOULD_LOG\");\n"
+}, {
+"t": "-",
+"n": 43,
+"l": "-    params.push_back(aInfo.shouldLog ? \"TRUE\" : \"FALSE\");\n"
+}, {
+"t": "-",
+"n": 44,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 45,
+"l": "-    params.push_back(\"SANDBOX_LEVEL_1\");\n"
+}, {
+"t": "-",
+"n": 46,
+"l": "-    params.push_back(aInfo.level == 1 ? \"TRUE\" : \"FALSE\");\n"
+}, {
+"t": "-",
+"n": 47,
+"l": "-    params.push_back(\"SANDBOX_LEVEL_2\");\n"
+}, {
+"t": "-",
+"n": 48,
+"l": "-    params.push_back(aInfo.level == 2 ? \"TRUE\" : \"FALSE\");\n"
+}, {
+"t": "-",
+"n": 49,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 50,
+"l": "-    params.push_back(\"MAC_OS_VERSION\");\n"
+}, {
+"t": "-",
+"n": 51,
+"l": "-    params.push_back(combinedVersion.c_str());\n"
+}, {
+"t": "-",
+"n": 52,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 53,
+"l": "-    params.push_back(\"HOME_PATH\");\n"
+}, {
+"t": "-",
+"n": 54,
+"l": "-    params.push_back(getenv(\"HOME\"));\n"
+}, {
+"t": "-",
+"n": 55,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 56,
+"l": "-    params.push_back(\"PLUGIN_BINARY_PATH\");\n"
+}, {
+"t": "-",
+"n": 57,
+"l": "-    if (!GetRealPath(flashPath, aInfo.pluginBinaryPath.c_str())) {\n"
+}, {
+"t": "-",
+"n": 58,
+"l": "-      return false;\n"
+}, {
+"t": "-",
+"n": 59,
+"l": "-    }\n"
+}, {
+"t": "-",
+"n": 60,
+"l": "-    params.push_back(flashPath.c_str());\n"
+}, {
+"t": "-",
+"n": 61,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 62,
+"l": "-    // User cache dir\n"
+}, {
+"t": "-",
+"n": 63,
+"l": "-    params.push_back(\"DARWIN_USER_CACHE_DIR\");\n"
+}, {
+"t": "-",
+"n": 64,
+"l": "-    char confStrBuf[PATH_MAX];\n"
+}, {
+"t": "-",
+"n": 65,
+"l": "-    if (!confstr(_CS_DARWIN_USER_CACHE_DIR, confStrBuf, sizeof(confStrBuf))) {\n"
+}, {
+"t": "-",
+"n": 66,
+"l": "-      return false;\n"
+}, {
+"t": "-",
+"n": 67,
+"l": "-    }\n"
+}, {
+"t": "-",
+"n": 68,
+"l": "-    if (!GetRealPath(userCacheDir, confStrBuf)) {\n"
+}, {
+"t": "-",
+"n": 69,
+"l": "-      return false;\n"
+}, {
+"t": "-",
+"n": 70,
+"l": "-    }\n"
+}, {
+"t": "-",
+"n": 71,
+"l": "-    params.push_back(userCacheDir.c_str());\n"
+}, {
+"t": "-",
+"n": 72,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 73,
+"l": "-    // User temp dir\n"
+}, {
+"t": "-",
+"n": 74,
+"l": "-    params.push_back(\"DARWIN_USER_TEMP_DIR\");\n"
+}, {
+"t": "-",
+"n": 75,
+"l": "-    if (!confstr(_CS_DARWIN_USER_TEMP_DIR, confStrBuf, sizeof(confStrBuf))) {\n"
+}, {
+"t": "-",
+"n": 76,
+"l": "-      return false;\n"
+}, {
+"t": "-",
+"n": 77,
+"l": "-    }\n"
+}, {
+"t": "-",
+"n": 78,
+"l": "-    if (!GetRealPath(flashTempDir, confStrBuf)) {\n"
+}, {
+"t": "-",
+"n": 79,
+"l": "-      return false;\n"
+}, {
+"t": "-",
+"n": 80,
+"l": "-    }\n"
+}, {
+"t": "-",
+"n": 81,
+"l": "-    params.push_back(flashTempDir.c_str());\n"
+}, {
+"t": "-",
+"n": 82,
+"l": "-  } else if (aInfo.type == MacSandboxType_Utility) {\n"
+}, {
+"t": "+",
+"n": 83,
+"l": "+  if (aInfo.type == MacSandboxType_Utility) {\n"
+}, {
+"t": "",
+"n": 84,
+"l": "     profile = const_cast\u003cchar*\u003e(SandboxPolicyUtility);\n"
+}, {
+"t": "",
+"n": 85,
+"l": "     params.push_back(\"SHOULD_LOG\");\n"
+}, {
+"t": "",
+"n": 86,
+"l": "     params.push_back(aInfo.shouldLog ? \"TRUE\" : \"FALSE\");\n"
+}, {
+"t": "",
+"n": 87,
+"l": "     params.push_back(\"APP_PATH\");\n"
+}, {
+"t": "",
+"n": 88,
+"l": "     params.push_back(aInfo.appPath.c_str());\n"
+}, {
+"t": "",
+"n": 89,
+"l": "     if (!aInfo.crashServerPort.empty()) {\n"
+}, {
+"t": "",
+"n": 90,
+"l": "       params.push_back(\"CRASH_PORT\");\n"
+}, {
+"t": "",
+"n": 91,
+"l": "       params.push_back(aInfo.crashServerPort.c_str());\n"
+}]
+}, {
+"blockno": 19,
+"lines": [{
+"t": "",
+"n": 1,
+"l": "deleted file mode 100644\n"
+}, {
+"t": "-",
+"n": 2,
+"l": "--- a/security/sandbox/mac/SandboxPolicyFlash.h\n"
+}, {
+"t": "+",
+"n": 3,
+"l": "+++ /dev/null\n"
+}, {
+"t": "@",
+"n": 4,
+"l": "@@ -1,407 +0,0 @@\n"
+}, {
+"t": "-",
+"n": 5,
+"l": "-/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */\n"
+}, {
+"t": "-",
+"n": 6,
+"l": "-/* This Source Code Form is subject to the terms of the Mozilla Public\n"
+}, {
+"t": "-",
+"n": 7,
+"l": "- * License, v. 2.0. If a copy of the MPL was not distributed with this\n"
+}, {
+"t": "-",
+"n": 8,
+"l": "- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n"
+}, {
+"t": "-",
+"n": 9,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 10,
+"l": "-#ifndef mozilla_SandboxPolicyFlash_h\n"
+}, {
+"t": "-",
+"n": 11,
+"l": "-#define mozilla_SandboxPolicyFlash_h\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-namespace mozilla {\n"
+}, {
+"t": "-",
+"n": 14,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-// Flash NPAPI plugin process profile\n"
+}, {
+"t": "-",
+"n": 16,
+"l": "-static const char SandboxPolicyFlash[] = R\"SANDBOX_LITERAL(\n"
+}, {
+"t": "-",
+"n": 17,
+"l": "-  (version 1)\n"
+}, {
+"t": "-",
+"n": 18,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 19,
+"l": "-  ; Parameters\n"
+}, {
+"t": "-",
+"n": 20,
+"l": "-  (define shouldLog (param \"SHOULD_LOG\"))\n"
+}, {
+"t": "-",
+"n": 21,
+"l": "-  (define sandbox-level-1 (param \"SANDBOX_LEVEL_1\"))\n"
+}, {
+"t": "-",
+"n": 22,
+"l": "-  (define sandbox-level-2 (param \"SANDBOX_LEVEL_2\"))\n"
+}, {
+"t": "-",
+"n": 23,
+"l": "-  (define macosVersion (string-\u003enumber (param \"MAC_OS_VERSION\")))\n"
+}, {
+"t": "-",
+"n": 24,
+"l": "-  (define homeDir (param \"HOME_PATH\"))\n"
+}, {
+"t": "-",
+"n": 25,
+"l": "-  (define tempDir (param \"DARWIN_USER_TEMP_DIR\"))\n"
+}, {
+"t": "-",
+"n": 26,
+"l": "-  (define cacheDir (param \"DARWIN_USER_CACHE_DIR\"))\n"
+}, {
+"t": "-",
+"n": 27,
+"l": "-  (define pluginPath (param \"PLUGIN_BINARY_PATH\"))\n"
+}, {
+"t": "-",
+"n": 28,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 29,
+"l": "-  (if (string=? shouldLog \"TRUE\")\n"
+}, {
+"t": "-",
+"n": 30,
+"l": "-      (deny default)\n"
+}, {
+"t": "-",
+"n": 31,
+"l": "-      (deny default (with no-log)))\n"
+}, {
+"t": "-",
+"n": 32,
+"l": "-  (debug deny)\n"
+}, {
+"t": "-",
+"n": 33,
+"l": "-  (allow system-audit file-read-metadata)\n"
+}, {
+"t": "-",
+"n": 34,
+"l": "-  ; These are not included in (deny default)\n"
+}, {
+"t": "-",
+"n": 35,
+"l": "-  (deny process-info*)\n"
+}, {
+"t": "-",
+"n": 36,
+"l": "-  ; This isn't available in some older macOS releases.\n"
+}, {
+"t": "-",
+"n": 37,
+"l": "-  (if (defined? 'nvram*)\n"
+}, {
+"t": "-",
+"n": 38,
+"l": "-    (deny nvram*))\n"
+}, {
+"t": "-",
+"n": 39,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 40,
+"l": "-  ; Allow read access to standard system paths.\n"
+}, {
+"t": "-",
+"n": 41,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 42,
+"l": "-    (require-all (file-mode #o0004)\n"
+}, {
+"t": "-",
+"n": 43,
+"l": "-      (require-any\n"
+}, {
+"t": "-",
+"n": 44,
+"l": "-        (subpath \"/System\")\n"
+}, {
+"t": "-",
+"n": 45,
+"l": "-        (subpath \"/usr/lib\")\n"
+}, {
+"t": "-",
+"n": 46,
+"l": "-        (subpath \"/Library/Filesystems/NetFSPlugins\")\n"
+}, {
+"t": "-",
+"n": 47,
+"l": "-        (subpath \"/Library/GPUBundles\")\n"
+}, {
+"t": "-",
+"n": 48,
+"l": "-        (subpath \"/usr/share\"))))\n"
+}, {
+"t": "-",
+"n": 49,
+"l": "-  (allow file-read-metadata\n"
+}, {
+"t": "-",
+"n": 50,
+"l": "-         (literal \"/etc\")\n"
+}, {
+"t": "-",
+"n": 51,
+"l": "-         (literal \"/tmp\")\n"
+}, {
+"t": "-",
+"n": 52,
+"l": "-         (literal \"/var\"))\n"
+}, {
+"t": "-",
+"n": 53,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 54,
+"l": "-         (literal \"/dev/autofs_nowait\")\n"
+}, {
+"t": "-",
+"n": 55,
+"l": "-         (literal \"/dev/random\")\n"
+}, {
+"t": "-",
+"n": 56,
+"l": "-         (literal \"/dev/urandom\"))\n"
+}, {
+"t": "-",
+"n": 57,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 58,
+"l": "-         file-write-data\n"
+}, {
+"t": "-",
+"n": 59,
+"l": "-         (literal \"/dev/null\")\n"
+}, {
+"t": "-",
+"n": 60,
+"l": "-         (literal \"/dev/zero\"))\n"
+}, {
+"t": "-",
+"n": 61,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 62,
+"l": "-         file-write-data\n"
+}, {
+"t": "-",
+"n": 63,
+"l": "-         file-ioctl\n"
+}, {
+"t": "-",
+"n": 64,
+"l": "-         (literal \"/dev/dtracehelper\"))\n"
+}, {
+"t": "-",
+"n": 65,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 66,
+"l": "-  ; Timezone\n"
+}, {
+"t": "-",
+"n": 67,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 68,
+"l": "-    (subpath \"/private/var/db/timezone\")\n"
+}, {
+"t": "-",
+"n": 69,
+"l": "-    (subpath \"/usr/share/zoneinfo\")\n"
+}, {
+"t": "-",
+"n": 70,
+"l": "-    (subpath \"/usr/share/zoneinfo.default\")\n"
+}, {
+"t": "-",
+"n": 71,
+"l": "-    (literal \"/private/etc/localtime\"))\n"
+}, {
+"t": "-",
+"n": 72,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 73,
+"l": "-  ; Graphics\n"
+}, {
+"t": "-",
+"n": 74,
+"l": "-  (allow user-preference-read\n"
+}, {
+"t": "-",
+"n": 75,
+"l": "-         (preference-domain \"com.apple.opengl\")\n"
+}, {
+"t": "-",
+"n": 76,
+"l": "-         (preference-domain \"com.nvidia.OpenGL\"))\n"
+}, {
+"t": "-",
+"n": 77,
+"l": "-  (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 78,
+"l": "-         (global-name \"com.apple.cvmsServ\"))\n"
+}, {
+"t": "-",
+"n": 79,
+"l": "-  (allow iokit-open\n"
+}, {
+"t": "-",
+"n": 80,
+"l": "-         (iokit-connection \"IOAccelerator\")\n"
+}, {
+"t": "-",
+"n": 81,
+"l": "-         (iokit-user-client-class \"IOAccelerationUserClient\")\n"
+}, {
+"t": "-",
+"n": 82,
+"l": "-         (iokit-user-client-class \"IOSurfaceRootUserClient\")\n"
+}, {
+"t": "-",
+"n": 83,
+"l": "-         (iokit-user-client-class \"IOSurfaceSendRight\"))\n"
+}, {
+"t": "-",
+"n": 84,
+"l": "-  (allow iokit-open\n"
+}, {
+"t": "-",
+"n": 85,
+"l": "-         (iokit-user-client-class \"AppleIntelMEUserClient\")\n"
+}, {
+"t": "-",
+"n": 86,
+"l": "-         (iokit-user-client-class \"AppleSNBFBUserClient\"))\n"
+}, {
+"t": "-",
+"n": 87,
+"l": "-  (allow iokit-open\n"
+}, {
+"t": "-",
+"n": 88,
+"l": "-         (iokit-user-client-class \"AGPMClient\")\n"
+}, {
+"t": "-",
+"n": 89,
+"l": "-         (iokit-user-client-class \"AppleGraphicsControlClient\")\n"
+}, {
+"t": "-",
+"n": 90,
+"l": "-         (iokit-user-client-class \"AppleGraphicsPolicyClient\"))\n"
+}, {
+"t": "-",
+"n": 91,
+"l": "-  ; Camera access\n"
+}, {
+"t": "-",
+"n": 92,
+"l": "-  (allow iokit-open\n"
+}, {
+"t": "-",
+"n": 93,
+"l": "-         (iokit-user-client-class \"IOUSBDeviceUserClientV2\")\n"
+}, {
+"t": "-",
+"n": 94,
+"l": "-         (iokit-user-client-class \"IOUSBInterfaceUserClientV2\"))\n"
+}, {
+"t": "-",
+"n": 95,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 96,
+"l": "-  ; Network\n"
+}, {
+"t": "-",
+"n": 97,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 98,
+"l": "-         (literal \"/Library/Preferences/com.apple.networkd.plist\"))\n"
+}, {
+"t": "-",
+"n": 99,
+"l": "-  (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 100,
+"l": "-         (global-name \"com.apple.SystemConfiguration.PPPController\")\n"
+}, {
+"t": "-",
+"n": 101,
+"l": "-         (global-name \"com.apple.SystemConfiguration.SCNetworkReachability\")\n"
+}, {
+"t": "-",
+"n": 102,
+"l": "-         (global-name \"com.apple.nehelper\")\n"
+}, {
+"t": "-",
+"n": 103,
+"l": "-         (global-name \"com.apple.networkd\")\n"
+}, {
+"t": "-",
+"n": 104,
+"l": "-         (global-name \"com.apple.nsurlstorage-cache\")\n"
+}, {
+"t": "-",
+"n": 105,
+"l": "-         (global-name \"com.apple.symptomsd\")\n"
+}, {
+"t": "-",
+"n": 106,
+"l": "-         (global-name \"com.apple.usymptomsd\"))\n"
+}, {
+"t": "-",
+"n": 107,
+"l": "-  (allow network-outbound\n"
+}, {
+"t": "-",
+"n": 108,
+"l": "-         (control-name \"com.apple.netsrc\")\n"
+}, {
+"t": "-",
+"n": 109,
+"l": "-         (control-name \"com.apple.network.statistics\"))\n"
+}, {
+"t": "-",
+"n": 110,
+"l": "-  (allow system-socket\n"
+}, {
+"t": "-",
+"n": 111,
+"l": "-         (require-all (socket-domain AF_SYSTEM)\n"
+}, {
+"t": "-",
+"n": 112,
+"l": "-                      (socket-protocol 2)) ; SYSPROTO_CONTROL\n"
+}, {
+"t": "-",
+"n": 113,
+"l": "-         (socket-domain AF_ROUTE))\n"
+}, {
+"t": "-",
+"n": 114,
+"l": "-  (allow network-outbound\n"
+}, {
+"t": "-",
+"n": 115,
+"l": "-      (literal \"/private/var/run/mDNSResponder\")\n"
+}, {
+"t": "-",
+"n": 116,
+"l": "-      (literal \"/private/var/run/asl_input\")\n"
+}, {
+"t": "-",
+"n": 117,
+"l": "-      (literal \"/private/var/run/syslog\")\n"
+}, {
+"t": "-",
+"n": 118,
+"l": "-      (remote tcp)\n"
+}, {
+"t": "-",
+"n": 119,
+"l": "-      (remote udp))\n"
+}, {
+"t": "-",
+"n": 120,
+"l": "-  (allow network-inbound\n"
+}, {
+"t": "-",
+"n": 121,
+"l": "-      (local udp))\n"
+}, {
+"t": "-",
+"n": 122,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 123,
+"l": "-  (allow process-info-pidinfo)\n"
+}, {
+"t": "-",
+"n": 124,
+"l": "-  (allow process-info-setcontrol (target self))\n"
+}, {
+"t": "-",
+"n": 125,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 126,
+"l": "-  (allow sysctl-read\n"
+}, {
+"t": "-",
+"n": 127,
+"l": "-    (sysctl-name\n"
+}, {
+"t": "-",
+"n": 128,
+"l": "-      \"hw.activecpu\"\n"
+}, {
+"t": "-",
+"n": 129,
+"l": "-      \"hw.availcpu\"\n"
+}, {
+"t": "-",
+"n": 130,
+"l": "-      \"hw.busfrequency_max\"\n"
+}, {
+"t": "-",
+"n": 131,
+"l": "-      \"hw.cpu64bit_capable\"\n"
+}, {
+"t": "-",
+"n": 132,
+"l": "-      \"hw.cputype\"\n"
+}, {
+"t": "-",
+"n": 133,
+"l": "-      \"hw.physicalcpu_max\"\n"
+}, {
+"t": "-",
+"n": 134,
+"l": "-      \"hw.logicalcpu_max\"\n"
+}, {
+"t": "-",
+"n": 135,
+"l": "-      \"hw.machine\"\n"
+}, {
+"t": "-",
+"n": 136,
+"l": "-      \"hw.model\"\n"
+}, {
+"t": "-",
+"n": 137,
+"l": "-      \"hw.ncpu\"\n"
+}, {
+"t": "-",
+"n": 138,
+"l": "-      \"hw.optional.avx1_0\"\n"
+}, {
+"t": "-",
+"n": 139,
+"l": "-      \"hw.optional.avx2_0\"\n"
+}, {
+"t": "-",
+"n": 140,
+"l": "-      \"hw.optional.sse2\"\n"
+}, {
+"t": "-",
+"n": 141,
+"l": "-      \"hw.optional.sse3\"\n"
+}, {
+"t": "-",
+"n": 142,
+"l": "-      \"hw.optional.sse4_1\"\n"
+}, {
+"t": "-",
+"n": 143,
+"l": "-      \"hw.optional.sse4_2\"\n"
+}, {
+"t": "-",
+"n": 144,
+"l": "-      \"hw.optional.x86_64\"\n"
+}, {
+"t": "-",
+"n": 145,
+"l": "-      \"kern.hostname\"\n"
+}, {
+"t": "-",
+"n": 146,
+"l": "-      \"kern.maxfilesperproc\"\n"
+}, {
+"t": "-",
+"n": 147,
+"l": "-      \"kern.memorystatus_level\"\n"
+}, {
+"t": "-",
+"n": 148,
+"l": "-      \"kern.osrelease\"\n"
+}, {
+"t": "-",
+"n": 149,
+"l": "-      \"kern.ostype\"\n"
+}, {
+"t": "-",
+"n": 150,
+"l": "-      \"kern.osvariant_status\"\n"
+}, {
+"t": "-",
+"n": 151,
+"l": "-      \"kern.osversion\"\n"
+}, {
+"t": "-",
+"n": 152,
+"l": "-      \"kern.safeboot\"\n"
+}, {
+"t": "-",
+"n": 153,
+"l": "-      \"kern.version\"\n"
+}, {
+"t": "-",
+"n": 154,
+"l": "-      \"vm.footprint_suspend\"))\n"
+}, {
+"t": "-",
+"n": 155,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 156,
+"l": "-  ; Utilities for allowing access to home subdirectories\n"
+}, {
+"t": "-",
+"n": 157,
+"l": "-  (define home-library-path\n"
+}, {
+"t": "-",
+"n": 158,
+"l": "-    (string-append homeDir \"/Library\"))\n"
+}, {
+"t": "-",
+"n": 159,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 160,
+"l": "-  (define (home-subpath home-relative-subpath)\n"
+}, {
+"t": "-",
+"n": 161,
+"l": "-    (subpath (string-append homeDir home-relative-subpath)))\n"
+}, {
+"t": "-",
+"n": 162,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 163,
+"l": "-  (define home-library-prefs-path\n"
+}, {
+"t": "-",
+"n": 164,
+"l": "-    (string-append homeDir \"/Library\" \"/Preferences\"))\n"
+}, {
+"t": "-",
+"n": 165,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 166,
+"l": "-  (define (home-literal home-relative-literal)\n"
+}, {
+"t": "-",
+"n": 167,
+"l": "-    (literal (string-append homeDir home-relative-literal)))\n"
+}, {
+"t": "-",
+"n": 168,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 169,
+"l": "-  (define (home-library-regex home-library-relative-regex)\n"
+}, {
+"t": "-",
+"n": 170,
+"l": "-    (regex (string-append \"^\" (regex-quote home-library-path))\n"
+}, {
+"t": "-",
+"n": 171,
+"l": "-           home-library-relative-regex))\n"
+}, {
+"t": "-",
+"n": 172,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 173,
+"l": "-  (define (home-library-subpath home-library-relative-subpath)\n"
+}, {
+"t": "-",
+"n": 174,
+"l": "-      (subpath (string-append home-library-path home-library-relative-subpath)))\n"
+}, {
+"t": "-",
+"n": 175,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 176,
+"l": "-  (define (home-library-literal home-library-relative-literal)\n"
+}, {
+"t": "-",
+"n": 177,
+"l": "-      (literal (string-append home-library-path home-library-relative-literal)))\n"
+}, {
+"t": "-",
+"n": 178,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 179,
+"l": "-  (define (home-library-preferences-literal\n"
+}, {
+"t": "-",
+"n": 180,
+"l": "-           home-library-preferences-relative-literal)\n"
+}, {
+"t": "-",
+"n": 181,
+"l": "-      (literal (string-append home-library-prefs-path\n"
+}, {
+"t": "-",
+"n": 182,
+"l": "-                home-library-preferences-relative-literal)))\n"
+}, {
+"t": "-",
+"n": 183,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 184,
+"l": "-  ; Utility for allowing access to a temp dir subdirectory\n"
+}, {
+"t": "-",
+"n": 185,
+"l": "-  (define (tempDir-regex tempDir-relative-regex)\n"
+}, {
+"t": "-",
+"n": 186,
+"l": "-    (regex (string-append \"^\" (regex-quote tempDir)) tempDir-relative-regex))\n"
+}, {
+"t": "-",
+"n": 187,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 188,
+"l": "-  ; Utility for allowing access to specific files within the cache dir\n"
+}, {
+"t": "-",
+"n": 189,
+"l": "-  (define (cache-literal cache-relative-literal)\n"
+}, {
+"t": "-",
+"n": 190,
+"l": "-    (literal (string-append cacheDir cache-relative-literal)))\n"
+}, {
+"t": "-",
+"n": 191,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 192,
+"l": "-  ; Read-only paths\n"
+}, {
+"t": "-",
+"n": 193,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 194,
+"l": "-      (literal \"/\")\n"
+}, {
+"t": "-",
+"n": 195,
+"l": "-      (literal \"/private/etc/services\")\n"
+}, {
+"t": "-",
+"n": 196,
+"l": "-      (literal \"/private/etc/resolv.conf\")\n"
+}, {
+"t": "-",
+"n": 197,
+"l": "-      (literal \"/private/var/run/resolv.conf\")\n"
+}, {
+"t": "-",
+"n": 198,
+"l": "-      (subpath \"/Library/Frameworks\")\n"
+}, {
+"t": "-",
+"n": 199,
+"l": "-      (subpath \"/Library/Managed Preferences\")\n"
+}, {
+"t": "-",
+"n": 200,
+"l": "-      (home-literal \"/.CFUserTextEncoding\")\n"
+}, {
+"t": "-",
+"n": 201,
+"l": "-      (home-library-subpath \"/Audio\")\n"
+}, {
+"t": "-",
+"n": 202,
+"l": "-      (home-library-subpath \"/ColorPickers\")\n"
+}, {
+"t": "-",
+"n": 203,
+"l": "-      (home-library-subpath \"/ColorSync\")\n"
+}, {
+"t": "-",
+"n": 204,
+"l": "-      (subpath \"/Library/Components\")\n"
+}, {
+"t": "-",
+"n": 205,
+"l": "-      (home-library-subpath \"/Components\")\n"
+}, {
+"t": "-",
+"n": 206,
+"l": "-      (subpath \"/Library/Contextual Menu Items\")\n"
+}, {
+"t": "-",
+"n": 207,
+"l": "-      (subpath \"/Library/Input Methods\")\n"
+}, {
+"t": "-",
+"n": 208,
+"l": "-      (home-library-subpath \"/Input Methods\")\n"
+}, {
+"t": "-",
+"n": 209,
+"l": "-      (subpath \"/Library/InputManagers\")\n"
+}, {
+"t": "-",
+"n": 210,
+"l": "-      (home-library-subpath \"/InputManagers\")\n"
+}, {
+"t": "-",
+"n": 211,
+"l": "-      (home-library-subpath \"/KeyBindings\")\n"
+}, {
+"t": "-",
+"n": 212,
+"l": "-      (subpath \"/Library/Keyboard Layouts\")\n"
+}, {
+"t": "-",
+"n": 213,
+"l": "-      (home-library-subpath \"/Keyboard Layouts\")\n"
+}, {
+"t": "-",
+"n": 214,
+"l": "-      (subpath \"/Library/Spelling\")\n"
+}, {
+"t": "-",
+"n": 215,
+"l": "-      (home-library-subpath \"/Spelling\")\n"
+}, {
+"t": "-",
+"n": 216,
+"l": "-      (home-library-literal \"/Caches/com.apple.coreaudio.components.plist\")\n"
+}, {
+"t": "-",
+"n": 217,
+"l": "-      (subpath \"/Library/Audio/Sounds\")\n"
+}, {
+"t": "-",
+"n": 218,
+"l": "-      (subpath \"/Library/Audio/Plug-Ins/Components\")\n"
+}, {
+"t": "-",
+"n": 219,
+"l": "-      (home-library-subpath \"/Audio/Plug-Ins/Components\")\n"
+}, {
+"t": "-",
+"n": 220,
+"l": "-      (subpath \"/Library/Audio/Plug-Ins/HAL\")\n"
+}, {
+"t": "-",
+"n": 221,
+"l": "-      (subpath \"/Library/CoreMediaIO/Plug-Ins/DAL\")\n"
+}, {
+"t": "-",
+"n": 222,
+"l": "-      (subpath \"/Library/QuickTime\")\n"
+}, {
+"t": "-",
+"n": 223,
+"l": "-      (home-library-subpath \"/QuickTime\")\n"
+}, {
+"t": "-",
+"n": 224,
+"l": "-      (subpath \"/Library/Video/Plug-Ins\")\n"
+}, {
+"t": "-",
+"n": 225,
+"l": "-      (home-library-subpath \"/Caches/QuickTime\")\n"
+}, {
+"t": "-",
+"n": 226,
+"l": "-      (subpath \"/Library/ColorSync\")\n"
+}, {
+"t": "-",
+"n": 227,
+"l": "-      (home-literal \"/Library/Preferences/com.apple.lookup.shared.plist\"))\n"
+}, {
+"t": "-",
+"n": 228,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 229,
+"l": "-  (allow iokit-open\n"
+}, {
+"t": "-",
+"n": 230,
+"l": "-      (iokit-user-client-class \"IOAudioControlUserClient\")\n"
+}, {
+"t": "-",
+"n": 231,
+"l": "-      (iokit-user-client-class \"IOAudioEngineUserClient\")\n"
+}, {
+"t": "-",
+"n": 232,
+"l": "-      (iokit-user-client-class \"IOHIDParamUserClient\")\n"
+}, {
+"t": "-",
+"n": 233,
+"l": "-      (iokit-user-client-class \"RootDomainUserClient\"))\n"
+}, {
+"t": "-",
+"n": 234,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 235,
+"l": "-  ; Services\n"
+}, {
+"t": "-",
+"n": 236,
+"l": "-  (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 237,
+"l": "-      (global-name \"com.apple.audio.AudioComponentRegistrar\")\n"
+}, {
+"t": "-",
+"n": 238,
+"l": "-      (global-name \"com.apple.DiskArbitration.diskarbitrationd\")\n"
+}, {
+"t": "-",
+"n": 239,
+"l": "-      (global-name \"com.apple.ImageCaptureExtension2.presence\")\n"
+}, {
+"t": "-",
+"n": 240,
+"l": "-      (global-name \"com.apple.PowerManagement.control\")\n"
+}, {
+"t": "-",
+"n": 241,
+"l": "-      (global-name \"com.apple.SecurityServer\")\n"
+}, {
+"t": "-",
+"n": 242,
+"l": "-      (global-name \"com.apple.SystemConfiguration.PPPController\")\n"
+}, {
+"t": "-",
+"n": 243,
+"l": "-      (global-name \"com.apple.SystemConfiguration.configd\")\n"
+}, {
+"t": "-",
+"n": 244,
+"l": "-      (global-name \"com.apple.UNCUserNotification\")\n"
+}, {
+"t": "-",
+"n": 245,
+"l": "-      (global-name \"com.apple.audio.audiohald\")\n"
+}, {
+"t": "-",
+"n": 246,
+"l": "-      (global-name \"com.apple.audio.coreaudiod\")\n"
+}, {
+"t": "-",
+"n": 247,
+"l": "-      (global-name \"com.apple.cfnetwork.AuthBrokerAgent\")\n"
+}, {
+"t": "-",
+"n": 248,
+"l": "-      (global-name \"com.apple.lsd.mapdb\")\n"
+}, {
+"t": "-",
+"n": 249,
+"l": "-      (global-name \"com.apple.pasteboard.1\") ; Allows paste into input field\n"
+}, {
+"t": "-",
+"n": 250,
+"l": "-      (global-name \"com.apple.dock.server\")\n"
+}, {
+"t": "-",
+"n": 251,
+"l": "-      (global-name \"com.apple.dock.fullscreen\")\n"
+}, {
+"t": "-",
+"n": 252,
+"l": "-      (global-name \"com.apple.coreservices.appleevents\")\n"
+}, {
+"t": "-",
+"n": 253,
+"l": "-      (global-name \"com.apple.coreservices.launchservicesd\")\n"
+}, {
+"t": "-",
+"n": 254,
+"l": "-      (global-name \"com.apple.window_proxies\")\n"
+}, {
+"t": "-",
+"n": 255,
+"l": "-      (local-name \"com.apple.tsm.portname\")\n"
+}, {
+"t": "-",
+"n": 256,
+"l": "-      (global-name \"com.apple.axserver\")\n"
+}, {
+"t": "-",
+"n": 257,
+"l": "-      (global-name \"com.apple.pbs.fetch_services\")\n"
+}, {
+"t": "-",
+"n": 258,
+"l": "-      (global-name \"com.apple.tsm.uiserver\")\n"
+}, {
+"t": "-",
+"n": 259,
+"l": "-      (global-name \"com.apple.inputmethodkit.launchagent\")\n"
+}, {
+"t": "-",
+"n": 260,
+"l": "-      (global-name \"com.apple.inputmethodkit.launcher\")\n"
+}, {
+"t": "-",
+"n": 261,
+"l": "-      (global-name \"com.apple.inputmethodkit.getxpcendpoint\")\n"
+}, {
+"t": "-",
+"n": 262,
+"l": "-      (global-name \"com.apple.decalog4.incoming\")\n"
+}, {
+"t": "-",
+"n": 263,
+"l": "-      (global-name \"com.apple.windowserver.active\")\n"
+}, {
+"t": "-",
+"n": 264,
+"l": "-      (global-name \"com.apple.trustd.agent\")\n"
+}, {
+"t": "-",
+"n": 265,
+"l": "-      (global-name \"com.apple.ocspd\"))\n"
+}, {
+"t": "-",
+"n": 266,
+"l": "-  ; Required for camera access\n"
+}, {
+"t": "-",
+"n": 267,
+"l": "-  (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 268,
+"l": "-      (global-name \"com.apple.tccd\")\n"
+}, {
+"t": "-",
+"n": 269,
+"l": "-      (global-name \"com.apple.tccd.system\")\n"
+}, {
+"t": "-",
+"n": 270,
+"l": "-      (global-name \"com.apple.cmio.AppleCameraAssistant\")\n"
+}, {
+"t": "-",
+"n": 271,
+"l": "-      (global-name \"com.apple.cmio.IIDCVideoAssistant\")\n"
+}, {
+"t": "-",
+"n": 272,
+"l": "-      (global-name \"com.apple.cmio.AVCAssistant\")\n"
+}, {
+"t": "-",
+"n": 273,
+"l": "-      (global-name \"com.apple.cmio.VDCAssistant\"))\n"
+}, {
+"t": "-",
+"n": 274,
+"l": "-  (if (\u003e= macosVersion 1015)\n"
+}, {
+"t": "-",
+"n": 275,
+"l": "-     (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 276,
+"l": "-      (global-name \"com.apple.ViewBridgeAuxiliary\")\n"
+}, {
+"t": "-",
+"n": 277,
+"l": "-      (global-name \"com.apple.appkit.xpc.openAndSavePanelService\")\n"
+}, {
+"t": "-",
+"n": 278,
+"l": "-      (global-name \"com.apple.MTLCompilerService\")))\n"
+}, {
+"t": "-",
+"n": 279,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 280,
+"l": "-  ; Fonts\n"
+}, {
+"t": "-",
+"n": 281,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 282,
+"l": "-    (subpath \"/Library/Fonts\")\n"
+}, {
+"t": "-",
+"n": 283,
+"l": "-    (subpath \"/Library/Application Support/Apple/Fonts\")\n"
+}, {
+"t": "-",
+"n": 284,
+"l": "-    (home-library-subpath \"/Fonts\")\n"
+}, {
+"t": "-",
+"n": 285,
+"l": "-    ; Allow read access to paths allowed via sandbox extensions.\n"
+}, {
+"t": "-",
+"n": 286,
+"l": "-    ; This is needed for fonts in non-standard locations normally\n"
+}, {
+"t": "-",
+"n": 287,
+"l": "-    ; due to third party font managers. The extensions are\n"
+}, {
+"t": "-",
+"n": 288,
+"l": "-    ; automatically issued by the font server in response to font\n"
+}, {
+"t": "-",
+"n": 289,
+"l": "-    ; API calls.\n"
+}, {
+"t": "-",
+"n": 290,
+"l": "-    (extension \"com.apple.app-sandbox.read\"))\n"
+}, {
+"t": "-",
+"n": 291,
+"l": "-  ; Fonts may continue to work without explicitly allowing these\n"
+}, {
+"t": "-",
+"n": 292,
+"l": "-  ; services because, at present, connections are made to the services\n"
+}, {
+"t": "-",
+"n": 293,
+"l": "-  ; before the sandbox is enabled as a side-effect of some API calls.\n"
+}, {
+"t": "-",
+"n": 294,
+"l": "-  (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 295,
+"l": "-    (global-name \"com.apple.fonts\")\n"
+}, {
+"t": "-",
+"n": 296,
+"l": "-    (global-name \"com.apple.FontObjectsServer\"))\n"
+}, {
+"t": "-",
+"n": 297,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 298,
+"l": "-  ; level 1: global read access permitted, no global write access\n"
+}, {
+"t": "-",
+"n": 299,
+"l": "-  (if (string=? sandbox-level-1 \"TRUE\") (allow file-read*))\n"
+}, {
+"t": "-",
+"n": 300,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 301,
+"l": "-  ; level 2: read access via file dialog exceptions, no global write access\n"
+}, {
+"t": "-",
+"n": 302,
+"l": "-  (if (or (string=? sandbox-level-2 \"TRUE\")\n"
+}, {
+"t": "-",
+"n": 303,
+"l": "-          (string=? sandbox-level-1 \"TRUE\")) (begin\n"
+}, {
+"t": "-",
+"n": 304,
+"l": "-    ; Open file dialogs\n"
+}, {
+"t": "-",
+"n": 305,
+"l": "-    (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 306,
+"l": "-\t; needed for the dialog sidebar\n"
+}, {
+"t": "-",
+"n": 307,
+"l": "-\t(global-name \"com.apple.coreservices.sharedfilelistd.xpc\")\n"
+}, {
+"t": "-",
+"n": 308,
+"l": "-\t; bird(8) -- \"Documents in the Cloud\"\n"
+}, {
+"t": "-",
+"n": 309,
+"l": "-\t; needed to avoid iCloud error dialogs and to display iCloud files\n"
+}, {
+"t": "-",
+"n": 310,
+"l": "-\t(global-name \"com.apple.bird\")\n"
+}, {
+"t": "-",
+"n": 311,
+"l": "-\t(global-name \"com.apple.bird.token\")\n"
+}, {
+"t": "-",
+"n": 312,
+"l": "-\t; needed for icons in the file dialog\n"
+}, {
+"t": "-",
+"n": 313,
+"l": "-\t(global-name \"com.apple.iconservices\"))\n"
+}, {
+"t": "-",
+"n": 314,
+"l": "-    ; Needed for read access to files selected by the user with the\n"
+}, {
+"t": "-",
+"n": 315,
+"l": "-    ; file dialog. The extensions are granted when the dialog is\n"
+}, {
+"t": "-",
+"n": 316,
+"l": "-    ; displayed. Unfortunately (testing revealed) that displaying\n"
+}, {
+"t": "-",
+"n": 317,
+"l": "-    ; the file dialog grants access to all files within the directory\n"
+}, {
+"t": "-",
+"n": 318,
+"l": "-    ; displayed by the file dialog--a small improvement compared\n"
+}, {
+"t": "-",
+"n": 319,
+"l": "-    ; to global read access.\n"
+}, {
+"t": "-",
+"n": 320,
+"l": "-    (allow file-read*\n"
+}, {
+"t": "-",
+"n": 321,
+"l": "-\t(extension \"com.apple.app-sandbox.read-write\"))))\n"
+}, {
+"t": "-",
+"n": 322,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 323,
+"l": "-  (allow ipc-posix-shm*\n"
+}, {
+"t": "-",
+"n": 324,
+"l": "-      (ipc-posix-name-regex #\"^AudioIO\")\n"
+}, {
+"t": "-",
+"n": 325,
+"l": "-      (ipc-posix-name-regex #\"^CFPBS:\"))\n"
+}, {
+"t": "-",
+"n": 326,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 327,
+"l": "-  (allow ipc-posix-shm-read*\n"
+}, {
+"t": "-",
+"n": 328,
+"l": "-      (ipc-posix-name-regex #\"^/tmp/com\\.apple\\.csseed\\.\")\n"
+}, {
+"t": "-",
+"n": 329,
+"l": "-      (ipc-posix-name \"FNetwork.defaultStorageSession\")\n"
+}, {
+"t": "-",
+"n": 330,
+"l": "-      (ipc-posix-name \"apple.shm.notification_center\"))\n"
+}, {
+"t": "-",
+"n": 331,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 332,
+"l": "-  ; Printing\n"
+}, {
+"t": "-",
+"n": 333,
+"l": "-  (allow network-outbound (literal \"/private/var/run/cupsd\"))\n"
+}, {
+"t": "-",
+"n": 334,
+"l": "-  (allow mach-lookup\n"
+}, {
+"t": "-",
+"n": 335,
+"l": "-      (global-name \"com.apple.printuitool.agent\")\n"
+}, {
+"t": "-",
+"n": 336,
+"l": "-      (global-name \"com.apple.printtool.agent\")\n"
+}, {
+"t": "-",
+"n": 337,
+"l": "-      (global-name \"com.apple.printtool.daemon\"))\n"
+}, {
+"t": "-",
+"n": 338,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 339,
+"l": "-      (subpath \"/Library/Printers\")\n"
+}, {
+"t": "-",
+"n": 340,
+"l": "-      (home-literal \"/.cups/lpoptions\")\n"
+}, {
+"t": "-",
+"n": 341,
+"l": "-      (home-literal \"/.cups/client.conf\")\n"
+}, {
+"t": "-",
+"n": 342,
+"l": "-      (literal \"/private/etc/cups/client.conf\")\n"
+}, {
+"t": "-",
+"n": 343,
+"l": "-      (literal \"/private/etc/cups/lpoptions\")\n"
+}, {
+"t": "-",
+"n": 344,
+"l": "-      (subpath \"/private/etc/cups/ppd\")\n"
+}, {
+"t": "-",
+"n": 345,
+"l": "-      (literal \"/private/var/run/cupsd\"))\n"
+}, {
+"t": "-",
+"n": 346,
+"l": "-  (allow user-preference-read\n"
+}, {
+"t": "-",
+"n": 347,
+"l": "-      (preference-domain \"org.cups.PrintingPrefs\"))\n"
+}, {
+"t": "-",
+"n": 348,
+"l": "-  ; Temporary files read/written here during printing\n"
+}, {
+"t": "-",
+"n": 349,
+"l": "-  (allow file-read* file-write-create file-write-data\n"
+}, {
+"t": "-",
+"n": 350,
+"l": "-      (tempDir-regex \"/FlashTmp\"))\n"
+}, {
+"t": "-",
+"n": 351,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 352,
+"l": "-  ; Camera/Mic\n"
+}, {
+"t": "-",
+"n": 353,
+"l": "-  (allow device-camera)\n"
+}, {
+"t": "-",
+"n": 354,
+"l": "-  (allow device-microphone)\n"
+}, {
+"t": "-",
+"n": 355,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 356,
+"l": "-  ; Path to the plugin binary, user cache dir, and user temp dir\n"
+}, {
+"t": "-",
+"n": 357,
+"l": "-  (allow file-read* (subpath pluginPath))\n"
+}, {
+"t": "-",
+"n": 358,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 359,
+"l": "-  ; Per Adobe, needed for Flash LocalConnection functionality\n"
+}, {
+"t": "-",
+"n": 360,
+"l": "-  (allow ipc-posix-sem\n"
+}, {
+"t": "-",
+"n": 361,
+"l": "-      (ipc-posix-name \"MacromediaSemaphoreDig\"))\n"
+}, {
+"t": "-",
+"n": 362,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 363,
+"l": "-  ; Flash debugger and enterprise deployment config files\n"
+}, {
+"t": "-",
+"n": 364,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 365,
+"l": "-      (home-literal \"/mm.cfg\")\n"
+}, {
+"t": "-",
+"n": 366,
+"l": "-      (home-literal \"/mms.cfg\"))\n"
+}, {
+"t": "-",
+"n": 367,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 368,
+"l": "-  (allow file-read* file-write-create file-write-mode file-write-owner\n"
+}, {
+"t": "-",
+"n": 369,
+"l": "-      (home-library-literal \"/Caches/Adobe\")\n"
+}, {
+"t": "-",
+"n": 370,
+"l": "-      (home-library-preferences-literal \"/Macromedia\"))\n"
+}, {
+"t": "-",
+"n": 371,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 372,
+"l": "-  (allow file-read* file-write-create file-write-data\n"
+}, {
+"t": "-",
+"n": 373,
+"l": "-      (literal \"/Library/Application Support/Macromedia/mms.cfg\")\n"
+}, {
+"t": "-",
+"n": 374,
+"l": "-      (home-library-literal \"/Application Support/Macromedia/mms.cfg\")\n"
+}, {
+"t": "-",
+"n": 375,
+"l": "-      (home-library-subpath \"/Caches/Adobe/Flash Player\"))\n"
+}, {
+"t": "-",
+"n": 376,
+"l": "-  (allow file-read* file-write-create file-write-data file-write-unlink\n"
+}, {
+"t": "-",
+"n": 377,
+"l": "-      (home-library-subpath \"/Preferences/Macromedia/Flash Player\"))\n"
+}, {
+"t": "-",
+"n": 378,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 379,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 380,
+"l": "-      (literal \"/Library/PreferencePanes/Flash Player.prefPane\")\n"
+}, {
+"t": "-",
+"n": 381,
+"l": "-      (home-library-literal \"/PreferencePanes/Flash Player.prefPane\")\n"
+}, {
+"t": "-",
+"n": 382,
+"l": "-      (home-library-regex \"/Application Support/Macromedia/ss\\.(cfg|cfn|sgn)$\"))\n"
+}, {
+"t": "-",
+"n": 383,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 384,
+"l": "-  (allow file-read*\n"
+}, {
+"t": "-",
+"n": 385,
+"l": "-      (literal \"/Library/Preferences/com.apple.security.plist\")\n"
+}, {
+"t": "-",
+"n": 386,
+"l": "-      (subpath \"/private/var/db/mds\"))\n"
+}, {
+"t": "-",
+"n": 387,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 388,
+"l": "-  ; Additional read/write paths needed for encrypted video playback.\n"
+}, {
+"t": "-",
+"n": 389,
+"l": "-  ; Tests revealed file-write-{data,create,flags} are required for the\n"
+}, {
+"t": "-",
+"n": 390,
+"l": "-  ; accesses to the mds files. file-write-{data,create,mode,unlink}\n"
+}, {
+"t": "-",
+"n": 391,
+"l": "-  ; required for CertStore.dat access. Allow file-write* to match system\n"
+}, {
+"t": "-",
+"n": 392,
+"l": "-  ; profiles and for better compatibilty.\n"
+}, {
+"t": "-",
+"n": 393,
+"l": "-  (allow file-read* file-write*\n"
+}, {
+"t": "-",
+"n": 394,
+"l": "-      (require-all\n"
+}, {
+"t": "-",
+"n": 395,
+"l": "-          (vnode-type REGULAR-FILE)\n"
+}, {
+"t": "-",
+"n": 396,
+"l": "-          (require-any\n"
+}, {
+"t": "-",
+"n": 397,
+"l": "-              (cache-literal \"/mds/mds.lock\")\n"
+}, {
+"t": "-",
+"n": 398,
+"l": "-              (cache-literal \"/mds/mdsDirectory.db\")\n"
+}, {
+"t": "-",
+"n": 399,
+"l": "-              (cache-literal \"/mds/mdsDirectory.db_\")\n"
+}, {
+"t": "-",
+"n": 400,
+"l": "-              (cache-literal \"/mds/mdsObject.db\")\n"
+}, {
+"t": "-",
+"n": 401,
+"l": "-              (cache-literal \"/mds/mdsObject.db_\")\n"
+}, {
+"t": "-",
+"n": 402,
+"l": "-              (tempDir-regex \"/TemporaryItems/[^/]+/CertStore.dat\"))))\n"
+}, {
+"t": "-",
+"n": 403,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 404,
+"l": "-  (allow network-bind (local ip))\n"
+}, {
+"t": "-",
+"n": 405,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 406,
+"l": "-  (deny file-write-create (vnode-type SYMLINK))\n"
+}, {
+"t": "-",
+"n": 407,
+"l": "-)SANDBOX_LITERAL\";\n"
+}, {
+"t": "-",
+"n": 408,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 409,
+"l": "-}  // namespace mozilla\n"
+}, {
+"t": "-",
+"n": 410,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 411,
+"l": "-#endif  // mozilla_SandboxPolicyFlash_h\n"
+}]
+}, {
+"blockno": 20,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/security/sandbox/mac/moz.build\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/security/sandbox/mac/moz.build\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -2,17 +2,16 @@\n"
+}, {
+"t": "",
+"n": 4,
+"l": " # vim: set filetype=python:\n"
+}, {
+"t": "",
+"n": 5,
+"l": " # This Source Code Form is subject to the terms of the Mozilla Public\n"
+}, {
+"t": "",
+"n": 6,
+"l": " # License, v. 2.0. If a copy of the MPL was not distributed with this\n"
+}, {
+"t": "",
+"n": 7,
+"l": " # file, You can obtain one at http://mozilla.org/MPL/2.0/.\n"
+}, {
+"t": "",
+"n": 8,
+"l": " \n"
+}, {
+"t": "",
+"n": 9,
+"l": " EXPORTS.mozilla += [\n"
+}, {
+"t": "",
+"n": 10,
+"l": "     \"Sandbox.h\",\n"
+}, {
+"t": "",
+"n": 11,
+"l": "     \"SandboxPolicyContent.h\",\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-    \"SandboxPolicyFlash.h\",\n"
+}, {
+"t": "",
+"n": 13,
+"l": "     \"SandboxPolicyGMP.h\",\n"
+}, {
+"t": "",
+"n": 14,
+"l": "     \"SandboxPolicyRDD.h\",\n"
+}, {
+"t": "",
+"n": 15,
+"l": "     \"SandboxPolicyUtility.h\",\n"
+}, {
+"t": "",
+"n": 16,
+"l": " ]\n"
+}, {
+"t": "",
+"n": 17,
+"l": " \n"
+}, {
+"t": "",
+"n": 18,
+"l": " SOURCES += [\n"
+}, {
+"t": "",
+"n": 19,
+"l": "     \"Sandbox.mm\",\n"
+}, {
+"t": "",
+"n": 20,
+"l": " ]\n"
+}]
+}, {
+"blockno": 21,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/toolkit/xre/glxtest.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/toolkit/xre/glxtest.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -830,26 +830,28 @@ static void get_glx_status(int* gotGlxIn\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   // 973192\n"
+}, {
+"t": "",
+"n": 5,
+"l": "   XSync(dpy, False);\n"
+}, {
+"t": "",
+"n": 6,
+"l": " #  endif\n"
+}, {
+"t": "",
+"n": 7,
+"l": " \n"
+}, {
+"t": "",
+"n": 8,
+"l": "   dlclose(libgl);\n"
+}, {
+"t": "",
+"n": 9,
+"l": " }\n"
+}, {
+"t": "",
+"n": 10,
+"l": " \n"
+}, {
+"t": "",
+"n": 11,
+"l": " static bool x11_egltest(int pci_count) {\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  if (!get_egl_status(nullptr, true, pci_count != 1)) {\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-    return false;\n"
+}, {
+"t": "-",
+"n": 14,
+"l": "-  }\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-\n"
+}, {
+"t": "",
+"n": 16,
+"l": "   Display* dpy = XOpenDisplay(nullptr);\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   if (!dpy) {\n"
+}, {
+"t": "",
+"n": 18,
+"l": "     return false;\n"
+}, {
+"t": "",
+"n": 19,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 20,
+"l": "   XSetErrorHandler(x_error_handler);\n"
+}, {
+"t": "",
+"n": 21,
+"l": " \n"
+}, {
+"t": "+",
+"n": 22,
+"l": "+  // On at least amdgpu open source driver, eglInitialize fails unless\n"
+}, {
+"t": "+",
+"n": 23,
+"l": "+  // a valid XDisplay pointer is passed as the native display.\n"
+}, {
+"t": "+",
+"n": 24,
+"l": "+  if (!get_egl_status(dpy, true, pci_count != 1)) {\n"
+}, {
+"t": "+",
+"n": 25,
+"l": "+    return false;\n"
+}, {
+"t": "+",
+"n": 26,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 27,
+"l": "+\n"
+}, {
+"t": "",
+"n": 28,
+"l": "   get_x11_screen_info(dpy);\n"
+}, {
+"t": "",
+"n": 29,
+"l": " \n"
+}, {
+"t": "",
+"n": 30,
+"l": "   XCloseDisplay(dpy);\n"
+}, {
+"t": "",
+"n": 31,
+"l": "   record_value(\"TEST_TYPE\\nEGL\\n\");\n"
+}, {
+"t": "",
+"n": 32,
+"l": "   return true;\n"
+}, {
+"t": "",
+"n": 33,
+"l": " }\n"
+}, {
+"t": "",
+"n": 34,
+"l": " \n"
+}, {
+"t": "",
+"n": 35,
+"l": " static void glxtest() {\n"
+}]
+}, {
+"blockno": 22,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/IMEData.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/IMEData.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -632,18 +632,18 @@ struct IMENotification final {\n"
+}, {
+"t": "",
+"n": 4,
+"l": "         mSelectionChangeData.Clear();\n"
+}, {
+"t": "",
+"n": 5,
+"l": "         break;\n"
+}, {
+"t": "",
+"n": 6,
+"l": "       case NOTIFY_IME_OF_TEXT_CHANGE:\n"
+}, {
+"t": "",
+"n": 7,
+"l": "         mTextChangeData.Clear();\n"
+}, {
+"t": "",
+"n": 8,
+"l": "         break;\n"
+}, {
+"t": "",
+"n": 9,
+"l": "       case NOTIFY_IME_OF_MOUSE_BUTTON_EVENT:\n"
+}, {
+"t": "",
+"n": 10,
+"l": "         mMouseButtonEventData.mEventMessage = eVoidEvent;\n"
+}, {
+"t": "",
+"n": 11,
+"l": "         mMouseButtonEventData.mOffset = UINT32_MAX;\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-        mMouseButtonEventData.mCursorPos.Set(nsIntPoint(0, 0));\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-        mMouseButtonEventData.mCharRect.Set(nsIntRect(0, 0, 0, 0));\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+        mMouseButtonEventData.mCursorPos.MoveTo(0, 0);\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+        mMouseButtonEventData.mCharRect.SetRect(0, 0, 0, 0);\n"
+}, {
+"t": "",
+"n": 16,
+"l": "         mMouseButtonEventData.mButton = -1;\n"
+}, {
+"t": "",
+"n": 17,
+"l": "         mMouseButtonEventData.mButtons = 0;\n"
+}, {
+"t": "",
+"n": 18,
+"l": "         mMouseButtonEventData.mModifiers = 0;\n"
+}, {
+"t": "",
+"n": 19,
+"l": "         break;\n"
+}, {
+"t": "",
+"n": 20,
+"l": "       default:\n"
+}, {
+"t": "",
+"n": 21,
+"l": "         break;\n"
+}, {
+"t": "",
+"n": 22,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 23,
+"l": "   }\n"
+}, {
+"t": "@",
+"n": 24,
+"l": "@@ -709,39 +709,16 @@ struct IMENotification final {\n"
+}, {
+"t": "",
+"n": 25,
+"l": "       default:\n"
+}, {
+"t": "",
+"n": 26,
+"l": "         MOZ_CRASH(\"Merging notification isn't supported\");\n"
+}, {
+"t": "",
+"n": 27,
+"l": "         break;\n"
+}, {
+"t": "",
+"n": 28,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 29,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 30,
+"l": " \n"
+}, {
+"t": "",
+"n": 31,
+"l": "   IMEMessage mMessage;\n"
+}, {
+"t": "",
+"n": 32,
+"l": " \n"
+}, {
+"t": "-",
+"n": 33,
+"l": "-  struct Point {\n"
+}, {
+"t": "-",
+"n": 34,
+"l": "-    int32_t mX;\n"
+}, {
+"t": "-",
+"n": 35,
+"l": "-    int32_t mY;\n"
+}, {
+"t": "-",
+"n": 36,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 37,
+"l": "-    void Set(const nsIntPoint& aPoint) {\n"
+}, {
+"t": "-",
+"n": 38,
+"l": "-      mX = aPoint.x;\n"
+}, {
+"t": "-",
+"n": 39,
+"l": "-      mY = aPoint.y;\n"
+}, {
+"t": "-",
+"n": 40,
+"l": "-    }\n"
+}, {
+"t": "-",
+"n": 41,
+"l": "-    nsIntPoint AsIntPoint() const { return nsIntPoint(mX, mY); }\n"
+}, {
+"t": "-",
+"n": 42,
+"l": "-  };\n"
+}, {
+"t": "-",
+"n": 43,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 44,
+"l": "-  struct Rect {\n"
+}, {
+"t": "-",
+"n": 45,
+"l": "-    int32_t mX;\n"
+}, {
+"t": "-",
+"n": 46,
+"l": "-    int32_t mY;\n"
+}, {
+"t": "-",
+"n": 47,
+"l": "-    int32_t mWidth;\n"
+}, {
+"t": "-",
+"n": 48,
+"l": "-    int32_t mHeight;\n"
+}, {
+"t": "-",
+"n": 49,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 50,
+"l": "-    void Set(const nsIntRect& aRect) {\n"
+}, {
+"t": "-",
+"n": 51,
+"l": "-      aRect.GetRect(&mX, &mY, &mWidth, &mHeight);\n"
+}, {
+"t": "-",
+"n": 52,
+"l": "-    }\n"
+}, {
+"t": "-",
+"n": 53,
+"l": "-    nsIntRect AsIntRect() const { return nsIntRect(mX, mY, mWidth, mHeight); }\n"
+}, {
+"t": "-",
+"n": 54,
+"l": "-  };\n"
+}, {
+"t": "-",
+"n": 55,
+"l": "-\n"
+}, {
+"t": "",
+"n": 56,
+"l": "   // NOTIFY_IME_OF_SELECTION_CHANGE specific data\n"
+}, {
+"t": "",
+"n": 57,
+"l": "   struct SelectionChangeDataBase {\n"
+}, {
+"t": "",
+"n": 58,
+"l": "     // Selection range.\n"
+}, {
+"t": "",
+"n": 59,
+"l": "     uint32_t mOffset;\n"
+}, {
+"t": "",
+"n": 60,
+"l": " \n"
+}, {
+"t": "",
+"n": 61,
+"l": "     // Selected string\n"
+}, {
+"t": "",
+"n": 62,
+"l": "     nsString* mString;\n"
+}, {
+"t": "",
+"n": 63,
+"l": " \n"
+}, {
+"t": "@",
+"n": 64,
+"l": "@@ -918,19 +895,19 @@ struct IMENotification final {\n"
+}, {
+"t": "",
+"n": 65,
+"l": "   };\n"
+}, {
+"t": "",
+"n": 66,
+"l": " \n"
+}, {
+"t": "",
+"n": 67,
+"l": "   struct MouseButtonEventData {\n"
+}, {
+"t": "",
+"n": 68,
+"l": "     // The value of WidgetEvent::mMessage\n"
+}, {
+"t": "",
+"n": 69,
+"l": "     EventMessage mEventMessage;\n"
+}, {
+"t": "",
+"n": 70,
+"l": "     // Character offset from the start of the focused editor under the cursor\n"
+}, {
+"t": "",
+"n": 71,
+"l": "     uint32_t mOffset;\n"
+}, {
+"t": "",
+"n": 72,
+"l": "     // Cursor position in pixels relative to the widget\n"
+}, {
+"t": "-",
+"n": 73,
+"l": "-    Point mCursorPos;\n"
+}, {
+"t": "+",
+"n": 74,
+"l": "+    LayoutDeviceIntPoint mCursorPos;\n"
+}, {
+"t": "",
+"n": 75,
+"l": "     // Character rect in pixels under the cursor relative to the widget\n"
+}, {
+"t": "-",
+"n": 76,
+"l": "-    Rect mCharRect;\n"
+}, {
+"t": "+",
+"n": 77,
+"l": "+    LayoutDeviceIntRect mCharRect;\n"
+}, {
+"t": "",
+"n": 78,
+"l": "     // The value of WidgetMouseEventBase::button and buttons\n"
+}, {
+"t": "",
+"n": 79,
+"l": "     int16_t mButton;\n"
+}, {
+"t": "",
+"n": 80,
+"l": "     int16_t mButtons;\n"
+}, {
+"t": "",
+"n": 81,
+"l": "     // The value of WidgetInputEvent::modifiers\n"
+}, {
+"t": "",
+"n": 82,
+"l": "     Modifiers mModifiers;\n"
+}, {
+"t": "",
+"n": 83,
+"l": "   };\n"
+}, {
+"t": "",
+"n": 84,
+"l": " \n"
+}, {
+"t": "",
+"n": 85,
+"l": "   union {\n"
+}]
+}, {
+"blockno": 23,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/cocoa/nsChildView.mm\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/cocoa/nsChildView.mm\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -2586,18 +2586,17 @@ NSEvent* gLastDragMouseDownEvent = nil; \n"
+}, {
+"t": "",
+"n": 4,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 5,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 6,
+"l": " \n"
+}, {
+"t": "",
+"n": 7,
+"l": "       if (shouldRollup) {\n"
+}, {
+"t": "",
+"n": 8,
+"l": "         if ([theEvent type] == NSEventTypeLeftMouseDown) {\n"
+}, {
+"t": "",
+"n": 9,
+"l": "           NSPoint point = [NSEvent mouseLocation];\n"
+}, {
+"t": "",
+"n": 10,
+"l": "           FlipCocoaScreenCoordinate(point);\n"
+}, {
+"t": "",
+"n": 11,
+"l": "           LayoutDeviceIntPoint devPoint = mGeckoChild-\u003eCocoaPointsToDevPixels(point);\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-          gfx::IntPoint pos = devPoint.ToUnknownPoint();\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-          consumeEvent = (BOOL)rollupListener-\u003eRollup(popupsToRollup, true, &pos, nullptr);\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+          consumeEvent = (BOOL)rollupListener-\u003eRollup(popupsToRollup, true, &devPoint, nullptr);\n"
+}, {
+"t": "",
+"n": 15,
+"l": "         } else {\n"
+}, {
+"t": "",
+"n": 16,
+"l": "           consumeEvent = (BOOL)rollupListener-\u003eRollup(popupsToRollup, true, nullptr, nullptr);\n"
+}, {
+"t": "",
+"n": 17,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 18,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 19,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 20,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 21,
+"l": " \n"
+}, {
+"t": "",
+"n": 22,
+"l": "   return consumeEvent;\n"
+}]
+}, {
+"blockno": 24,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/gtk/nsWindow.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/gtk/nsWindow.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -6934,20 +6934,19 @@ bool nsWindow::CheckForRollup(gdouble aM\n"
+}, {
+"t": "",
+"n": 4,
+"l": "           }\n"
+}, {
+"t": "",
+"n": 5,
+"l": "           break;\n"
+}, {
+"t": "",
+"n": 6,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 7,
+"l": "       }  // foreach parent menu widget\n"
+}, {
+"t": "",
+"n": 8,
+"l": "     }    // if rollup listener knows about menus\n"
+}, {
+"t": "",
+"n": 9,
+"l": " \n"
+}, {
+"t": "",
+"n": 10,
+"l": "     // if we've determined that we should still rollup, do it.\n"
+}, {
+"t": "",
+"n": 11,
+"l": "     bool usePoint = !aIsWheel && !aAlwaysRollup;\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-    IntPoint point;\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+    LayoutDeviceIntPoint point;\n"
+}, {
+"t": "",
+"n": 14,
+"l": "     if (usePoint) {\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-      LayoutDeviceIntPoint p = GdkEventCoordsToDevicePixels(aMouseX, aMouseY);\n"
+}, {
+"t": "-",
+"n": 16,
+"l": "-      point = p.ToUnknownPoint();\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+      point = GdkEventCoordsToDevicePixels(aMouseX, aMouseY);\n"
+}, {
+"t": "",
+"n": 18,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 19,
+"l": "     if (rollup &&\n"
+}, {
+"t": "",
+"n": 20,
+"l": "         rollupListener-\u003eRollup(popupsToRollup, true,\n"
+}, {
+"t": "",
+"n": 21,
+"l": "                                usePoint ? &point : nullptr, nullptr)) {\n"
+}, {
+"t": "",
+"n": 22,
+"l": "       retVal = true;\n"
+}, {
+"t": "",
+"n": 23,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 24,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 25,
+"l": "   return retVal;\n"
+}]
+}, {
+"blockno": 25,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/nsGUIEventIPC.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/nsGUIEventIPC.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -690,52 +690,16 @@ struct ParamTraits\u003cmozilla::widget::Nati\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   static bool Read(const Message* aMsg, PickleIterator* aIter,\n"
+}, {
+"t": "",
+"n": 5,
+"l": "                    paramType* aResult) {\n"
+}, {
+"t": "",
+"n": 6,
+"l": "     return ReadParam(aMsg, aIter, &aResult-\u003emRawNativeIMEContext) &&\n"
+}, {
+"t": "",
+"n": 7,
+"l": "            ReadParam(aMsg, aIter, &aResult-\u003emOriginProcessID);\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 9,
+"l": " };\n"
+}, {
+"t": "",
+"n": 10,
+"l": " \n"
+}, {
+"t": "",
+"n": 11,
+"l": " template \u003c\u003e\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-struct ParamTraits\u003cmozilla::widget::IMENotification::Point\u003e {\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-  typedef mozilla::widget::IMENotification::Point paramType;\n"
+}, {
+"t": "-",
+"n": 14,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-  static void Write(Message* aMsg, const paramType& aParam) {\n"
+}, {
+"t": "-",
+"n": 16,
+"l": "-    WriteParam(aMsg, aParam.mX);\n"
+}, {
+"t": "-",
+"n": 17,
+"l": "-    WriteParam(aMsg, aParam.mY);\n"
+}, {
+"t": "-",
+"n": 18,
+"l": "-  }\n"
+}, {
+"t": "-",
+"n": 19,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 20,
+"l": "-  static bool Read(const Message* aMsg, PickleIterator* aIter,\n"
+}, {
+"t": "-",
+"n": 21,
+"l": "-                   paramType* aResult) {\n"
+}, {
+"t": "-",
+"n": 22,
+"l": "-    return ReadParam(aMsg, aIter, &aResult-\u003emX) &&\n"
+}, {
+"t": "-",
+"n": 23,
+"l": "-           ReadParam(aMsg, aIter, &aResult-\u003emY);\n"
+}, {
+"t": "-",
+"n": 24,
+"l": "-  }\n"
+}, {
+"t": "-",
+"n": 25,
+"l": "-};\n"
+}, {
+"t": "-",
+"n": 26,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 27,
+"l": "-template \u003c\u003e\n"
+}, {
+"t": "-",
+"n": 28,
+"l": "-struct ParamTraits\u003cmozilla::widget::IMENotification::Rect\u003e {\n"
+}, {
+"t": "-",
+"n": 29,
+"l": "-  typedef mozilla::widget::IMENotification::Rect paramType;\n"
+}, {
+"t": "-",
+"n": 30,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 31,
+"l": "-  static void Write(Message* aMsg, const paramType& aParam) {\n"
+}, {
+"t": "-",
+"n": 32,
+"l": "-    WriteParam(aMsg, aParam.mX);\n"
+}, {
+"t": "-",
+"n": 33,
+"l": "-    WriteParam(aMsg, aParam.mY);\n"
+}, {
+"t": "-",
+"n": 34,
+"l": "-    WriteParam(aMsg, aParam.mWidth);\n"
+}, {
+"t": "-",
+"n": 35,
+"l": "-    WriteParam(aMsg, aParam.mHeight);\n"
+}, {
+"t": "-",
+"n": 36,
+"l": "-  }\n"
+}, {
+"t": "-",
+"n": 37,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 38,
+"l": "-  static bool Read(const Message* aMsg, PickleIterator* aIter,\n"
+}, {
+"t": "-",
+"n": 39,
+"l": "-                   paramType* aResult) {\n"
+}, {
+"t": "-",
+"n": 40,
+"l": "-    return ReadParam(aMsg, aIter, &aResult-\u003emX) &&\n"
+}, {
+"t": "-",
+"n": 41,
+"l": "-           ReadParam(aMsg, aIter, &aResult-\u003emY) &&\n"
+}, {
+"t": "-",
+"n": 42,
+"l": "-           ReadParam(aMsg, aIter, &aResult-\u003emWidth) &&\n"
+}, {
+"t": "-",
+"n": 43,
+"l": "-           ReadParam(aMsg, aIter, &aResult-\u003emHeight);\n"
+}, {
+"t": "-",
+"n": 44,
+"l": "-  }\n"
+}, {
+"t": "-",
+"n": 45,
+"l": "-};\n"
+}, {
+"t": "-",
+"n": 46,
+"l": "-\n"
+}, {
+"t": "-",
+"n": 47,
+"l": "-template \u003c\u003e\n"
+}, {
+"t": "",
+"n": 48,
+"l": " struct ParamTraits\u003cmozilla::widget::IMENotification::SelectionChangeDataBase\u003e {\n"
+}, {
+"t": "",
+"n": 49,
+"l": "   typedef mozilla::widget::IMENotification::SelectionChangeDataBase paramType;\n"
+}, {
+"t": "",
+"n": 50,
+"l": " \n"
+}, {
+"t": "",
+"n": 51,
+"l": "   static void Write(Message* aMsg, const paramType& aParam) {\n"
+}, {
+"t": "",
+"n": 52,
+"l": "     MOZ_RELEASE_ASSERT(aParam.mString);\n"
+}, {
+"t": "",
+"n": 53,
+"l": "     WriteParam(aMsg, aParam.mOffset);\n"
+}, {
+"t": "",
+"n": 54,
+"l": "     WriteParam(aMsg, *aParam.mString);\n"
+}, {
+"t": "",
+"n": 55,
+"l": "     WriteParam(aMsg, aParam.mWritingMode);\n"
+}]
+}, {
+"blockno": 26,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/nsIRollupListener.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/nsIRollupListener.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -27,17 +27,18 @@ class nsIRollupListener {\n"
+}, {
+"t": "",
+"n": 4,
+"l": "    * aCount is the number of popups in a chain to close. If this is\n"
+}, {
+"t": "",
+"n": 5,
+"l": "    * UINT32_MAX, then all popups are closed.\n"
+}, {
+"t": "",
+"n": 6,
+"l": "    * If aLastRolledUp is non-null, it will be set to the last rolled up popup,\n"
+}, {
+"t": "",
+"n": 7,
+"l": "    * if this is supported. aLastRolledUp is not addrefed.\n"
+}, {
+"t": "",
+"n": 8,
+"l": "    *\n"
+}, {
+"t": "",
+"n": 9,
+"l": "    * Returns true if the event that the caller is processing should be consumed.\n"
+}, {
+"t": "",
+"n": 10,
+"l": "    */\n"
+}, {
+"t": "",
+"n": 11,
+"l": "   MOZ_CAN_RUN_SCRIPT_BOUNDARY\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  virtual bool Rollup(uint32_t aCount, bool aFlush, const nsIntPoint* aPoint,\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+  virtual bool Rollup(uint32_t aCount, bool aFlush,\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+                      const mozilla::LayoutDeviceIntPoint* aPoint,\n"
+}, {
+"t": "",
+"n": 15,
+"l": "                       nsIContent** aLastRolledUp) = 0;\n"
+}, {
+"t": "",
+"n": 16,
+"l": " \n"
+}, {
+"t": "",
+"n": 17,
+"l": "   /**\n"
+}, {
+"t": "",
+"n": 18,
+"l": "    * Asks the RollupListener if it should rollup on mouse wheel events\n"
+}, {
+"t": "",
+"n": 19,
+"l": "    */\n"
+}, {
+"t": "",
+"n": 20,
+"l": "   virtual bool ShouldRollupOnMouseWheelEvent() = 0;\n"
+}, {
+"t": "",
+"n": 21,
+"l": " \n"
+}, {
+"t": "",
+"n": 22,
+"l": "   /**\n"
+}]
+}, {
+"blockno": 27,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/windows/IMMHandler.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/windows/IMMHandler.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -2223,20 +2223,20 @@ nsresult IMMHandler::OnMouseButtonEvent(\n"
+}, {
+"t": "",
+"n": 4,
+"l": "     default:\n"
+}, {
+"t": "",
+"n": 5,
+"l": "       return NS_OK;\n"
+}, {
+"t": "",
+"n": 6,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 7,
+"l": " \n"
+}, {
+"t": "",
+"n": 8,
+"l": "   // calcurate positioning and offset\n"
+}, {
+"t": "",
+"n": 9,
+"l": "   // char :            JCH1|JCH2|JCH3\n"
+}, {
+"t": "",
+"n": 10,
+"l": "   // offset:           0011 1122 2233\n"
+}, {
+"t": "",
+"n": 11,
+"l": "   // positioning:      2301 2301 2301\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  nsIntPoint cursorPos =\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-      aIMENotification.mMouseButtonEventData.mCursorPos.AsIntPoint();\n"
+}, {
+"t": "-",
+"n": 14,
+"l": "-  nsIntRect charRect =\n"
+}, {
+"t": "-",
+"n": 15,
+"l": "-      aIMENotification.mMouseButtonEventData.mCharRect.AsIntRect();\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+  LayoutDeviceIntPoint cursorPos =\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+      aIMENotification.mMouseButtonEventData.mCursorPos;\n"
+}, {
+"t": "+",
+"n": 18,
+"l": "+  LayoutDeviceIntRect charRect =\n"
+}, {
+"t": "+",
+"n": 19,
+"l": "+      aIMENotification.mMouseButtonEventData.mCharRect;\n"
+}, {
+"t": "",
+"n": 20,
+"l": "   int32_t cursorXInChar = cursorPos.x - charRect.X();\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   // The event might hit to zero-width character, see bug 694913.\n"
+}, {
+"t": "",
+"n": 22,
+"l": "   // The reason might be:\n"
+}, {
+"t": "",
+"n": 23,
+"l": "   // * There are some zero-width characters are actually.\n"
+}, {
+"t": "",
+"n": 24,
+"l": "   // * font-size is specified zero.\n"
+}, {
+"t": "",
+"n": 25,
+"l": "   // But nobody reproduced this bug actually...\n"
+}, {
+"t": "",
+"n": 26,
+"l": "   // We should assume that user clicked on right most of the zero-width\n"
+}, {
+"t": "",
+"n": 27,
+"l": "   // character in such case.\n"
+}]
+}, {
+"blockno": 28,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/windows/TSFTextStore.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/windows/TSFTextStore.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -6299,41 +6299,36 @@ nsresult TSFTextStore::OnMouseButtonEven\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 5,
+"l": " \n"
+}, {
+"t": "",
+"n": 6,
+"l": "   if (mMouseTrackers.IsEmpty()) {\n"
+}, {
+"t": "",
+"n": 7,
+"l": "     return NS_OK;\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 9,
+"l": " \n"
+}, {
+"t": "",
+"n": 10,
+"l": "   MOZ_LOG(sTextStoreLog, LogLevel::Debug,\n"
+}, {
+"t": "",
+"n": 11,
+"l": "           (\"0x%p   TSFTextStore::OnMouseButtonEventInternal(\"\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-           \"aIMENotification={ mEventMessage=%s, mOffset=%u, mCursorPos={ \"\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-           \"mX=%d, mY=%d }, mCharRect={ mX=%d, mY=%d, mWidth=%d, mHeight=%d }, \"\n"
+}, {
+"t": "-",
+"n": 14,
+"l": "-           \"mButton=%s, mButtons=%s, mModifiers=%s })\",\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+           \"aIMENotification={ mEventMessage=%s, mOffset=%u, mCursorPos=%s, \"\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+           \"mCharRect=%s, mButton=%s, mButtons=%s, mModifiers=%s })\",\n"
+}, {
+"t": "",
+"n": 17,
+"l": "            this, ToChar(aIMENotification.mMouseButtonEventData.mEventMessage),\n"
+}, {
+"t": "",
+"n": 18,
+"l": "            aIMENotification.mMouseButtonEventData.mOffset,\n"
+}, {
+"t": "-",
+"n": 19,
+"l": "-           aIMENotification.mMouseButtonEventData.mCursorPos.mX,\n"
+}, {
+"t": "-",
+"n": 20,
+"l": "-           aIMENotification.mMouseButtonEventData.mCursorPos.mY,\n"
+}, {
+"t": "-",
+"n": 21,
+"l": "-           aIMENotification.mMouseButtonEventData.mCharRect.mX,\n"
+}, {
+"t": "-",
+"n": 22,
+"l": "-           aIMENotification.mMouseButtonEventData.mCharRect.mY,\n"
+}, {
+"t": "-",
+"n": 23,
+"l": "-           aIMENotification.mMouseButtonEventData.mCharRect.mWidth,\n"
+}, {
+"t": "-",
+"n": 24,
+"l": "-           aIMENotification.mMouseButtonEventData.mCharRect.mHeight,\n"
+}, {
+"t": "+",
+"n": 25,
+"l": "+           ToString(aIMENotification.mMouseButtonEventData.mCursorPos).c_str(),\n"
+}, {
+"t": "+",
+"n": 26,
+"l": "+           ToString(aIMENotification.mMouseButtonEventData.mCharRect).c_str(),\n"
+}, {
+"t": "",
+"n": 27,
+"l": "            GetMouseButtonName(aIMENotification.mMouseButtonEventData.mButton),\n"
+}, {
+"t": "",
+"n": 28,
+"l": "            GetMouseButtonsName(aIMENotification.mMouseButtonEventData.mButtons)\n"
+}, {
+"t": "",
+"n": 29,
+"l": "                .get(),\n"
+}, {
+"t": "",
+"n": 30,
+"l": "            GetModifiersName(aIMENotification.mMouseButtonEventData.mModifiers)\n"
+}, {
+"t": "",
+"n": 31,
+"l": "                .get()));\n"
+}, {
+"t": "",
+"n": 32,
+"l": " \n"
+}, {
+"t": "",
+"n": 33,
+"l": "   uint32_t offset = aIMENotification.mMouseButtonEventData.mOffset;\n"
+}, {
+"t": "",
+"n": 34,
+"l": "   if (offset \u003e static_cast\u003cuint32_t\u003e(LONG_MAX)) {\n"
+}, {
+"t": "",
+"n": 35,
+"l": "     return NS_OK;\n"
+}, {
+"t": "",
+"n": 36,
+"l": "   }\n"
+}, {
+"t": "-",
+"n": 37,
+"l": "-  nsIntRect charRect =\n"
+}, {
+"t": "-",
+"n": 38,
+"l": "-      aIMENotification.mMouseButtonEventData.mCharRect.AsIntRect();\n"
+}, {
+"t": "-",
+"n": 39,
+"l": "-  nsIntPoint cursorPos =\n"
+}, {
+"t": "-",
+"n": 40,
+"l": "-      aIMENotification.mMouseButtonEventData.mCursorPos.AsIntPoint();\n"
+}, {
+"t": "+",
+"n": 41,
+"l": "+  LayoutDeviceIntRect charRect =\n"
+}, {
+"t": "+",
+"n": 42,
+"l": "+      aIMENotification.mMouseButtonEventData.mCharRect;\n"
+}, {
+"t": "+",
+"n": 43,
+"l": "+  LayoutDeviceIntPoint cursorPos =\n"
+}, {
+"t": "+",
+"n": 44,
+"l": "+      aIMENotification.mMouseButtonEventData.mCursorPos;\n"
+}, {
+"t": "",
+"n": 45,
+"l": "   ULONG quadrant = 1;\n"
+}, {
+"t": "",
+"n": 46,
+"l": "   if (charRect.Width() \u003e 0) {\n"
+}, {
+"t": "",
+"n": 47,
+"l": "     int32_t cursorXInChar = cursorPos.x - charRect.X();\n"
+}, {
+"t": "",
+"n": 48,
+"l": "     quadrant = cursorXInChar * 4 / charRect.Width();\n"
+}, {
+"t": "",
+"n": 49,
+"l": "     quadrant = (quadrant + 2) % 4;\n"
+}, {
+"t": "",
+"n": 50,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 51,
+"l": "   ULONG edge = quadrant \u003c 2 ? offset + 1 : offset;\n"
+}, {
+"t": "",
+"n": 52,
+"l": "   DWORD buttonStatus = 0;\n"
+}]
+}, {
+"blockno": 29,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/windows/nsWindow.cpp\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/windows/nsWindow.cpp\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -6972,18 +6972,19 @@ void nsWindow::UserActivity() {\n"
+}, {
+"t": "",
+"n": 4,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 5,
+"l": " \n"
+}, {
+"t": "",
+"n": 6,
+"l": "   // Check that we now have the idle service.\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   if (mIdleService) {\n"
+}, {
+"t": "",
+"n": 8,
+"l": "     mIdleService-\u003eResetIdleTimeOut(0);\n"
+}, {
+"t": "",
+"n": 9,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 10,
+"l": " }\n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-nsIntPoint nsWindow::GetTouchCoordinates(WPARAM wParam, LPARAM lParam) {\n"
+}, {
+"t": "-",
+"n": 13,
+"l": "-  nsIntPoint ret;\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+LayoutDeviceIntPoint nsWindow::GetTouchCoordinates(WPARAM wParam,\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+                                                   LPARAM lParam) {\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+  LayoutDeviceIntPoint ret;\n"
+}, {
+"t": "",
+"n": 17,
+"l": "   uint32_t cInputs = LOWORD(wParam);\n"
+}, {
+"t": "",
+"n": 18,
+"l": "   if (cInputs != 1) {\n"
+}, {
+"t": "",
+"n": 19,
+"l": "     // Just return 0,0 if there isn't exactly one touch point active\n"
+}, {
+"t": "",
+"n": 20,
+"l": "     return ret;\n"
+}, {
+"t": "",
+"n": 21,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 22,
+"l": "   PTOUCHINPUT pInputs = new TOUCHINPUT[cInputs];\n"
+}, {
+"t": "",
+"n": 23,
+"l": "   if (GetTouchInputInfo((HTOUCHINPUT)lParam, cInputs, pInputs,\n"
+}, {
+"t": "",
+"n": 24,
+"l": "                         sizeof(TOUCHINPUT))) {\n"
+}, {
+"t": "@",
+"n": 25,
+"l": "@@ -8353,27 +8354,27 @@ bool nsWindow::DealWithPopups(HWND aWnd,\n"
+}, {
+"t": "",
+"n": 26,
+"l": "       return false;\n"
+}, {
+"t": "",
+"n": 27,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 28,
+"l": " \n"
+}, {
+"t": "",
+"n": 29,
+"l": "   // Only need to deal with the last rollup for left mouse down events.\n"
+}, {
+"t": "",
+"n": 30,
+"l": "   NS_ASSERTION(!nsAutoRollup::GetLastRollup(), \"last rollup is null\");\n"
+}, {
+"t": "",
+"n": 31,
+"l": " \n"
+}, {
+"t": "",
+"n": 32,
+"l": "   if (nativeMessage == WM_TOUCH || nativeMessage == WM_LBUTTONDOWN ||\n"
+}, {
+"t": "",
+"n": 33,
+"l": "       nativeMessage == WM_POINTERDOWN) {\n"
+}, {
+"t": "-",
+"n": 34,
+"l": "-    nsIntPoint pos;\n"
+}, {
+"t": "+",
+"n": 35,
+"l": "+    LayoutDeviceIntPoint pos;\n"
+}, {
+"t": "",
+"n": 36,
+"l": "     if (nativeMessage == WM_TOUCH) {\n"
+}, {
+"t": "",
+"n": 37,
+"l": "       if (nsWindow* win = WinUtils::GetNSWindowPtr(aWnd)) {\n"
+}, {
+"t": "",
+"n": 38,
+"l": "         pos = win-\u003eGetTouchCoordinates(aWParam, aLParam);\n"
+}, {
+"t": "",
+"n": 39,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 40,
+"l": "     } else {\n"
+}, {
+"t": "",
+"n": 41,
+"l": "       POINT pt;\n"
+}, {
+"t": "",
+"n": 42,
+"l": "       pt.x = GET_X_LPARAM(aLParam);\n"
+}, {
+"t": "",
+"n": 43,
+"l": "       pt.y = GET_Y_LPARAM(aLParam);\n"
+}, {
+"t": "",
+"n": 44,
+"l": "       ::ClientToScreen(aWnd, &pt);\n"
+}, {
+"t": "-",
+"n": 45,
+"l": "-      pos = nsIntPoint(pt.x, pt.y);\n"
+}, {
+"t": "+",
+"n": 46,
+"l": "+      pos = LayoutDeviceIntPoint(pt.x, pt.y);\n"
+}, {
+"t": "",
+"n": 47,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 48,
+"l": " \n"
+}, {
+"t": "",
+"n": 49,
+"l": "     nsIContent* lastRollup;\n"
+}, {
+"t": "",
+"n": 50,
+"l": "     consumeRollupEvent =\n"
+}, {
+"t": "",
+"n": 51,
+"l": "         rollupListener-\u003eRollup(popupsToRollup, true, &pos, &lastRollup);\n"
+}, {
+"t": "",
+"n": 52,
+"l": "     nsAutoRollup::SetLastRollup(lastRollup);\n"
+}, {
+"t": "",
+"n": 53,
+"l": "   } else {\n"
+}, {
+"t": "",
+"n": 54,
+"l": "     consumeRollupEvent =\n"
+}]
+}, {
+"blockno": 30,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/widget/windows/nsWindow.h\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/widget/windows/nsWindow.h\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -441,17 +441,17 @@ class nsWindow final : public nsWindowBa\n"
+}, {
+"t": "",
+"n": 4,
+"l": "       mozilla::Maybe\u003cPOINT\u003e aEventPoint = mozilla::Nothing());\n"
+}, {
+"t": "",
+"n": 5,
+"l": "   // Convert nsEventStatus value to a windows boolean\n"
+}, {
+"t": "",
+"n": 6,
+"l": "   static bool ConvertStatus(nsEventStatus aStatus);\n"
+}, {
+"t": "",
+"n": 7,
+"l": "   static void PostSleepWakeNotification(const bool aIsSleepMode);\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   int32_t ClientMarginHitTestPoint(int32_t mx, int32_t my);\n"
+}, {
+"t": "",
+"n": 9,
+"l": "   TimeStamp GetMessageTimeStamp(LONG aEventTime) const;\n"
+}, {
+"t": "",
+"n": 10,
+"l": "   static void UpdateFirstEventTime(DWORD aEventTime);\n"
+}, {
+"t": "",
+"n": 11,
+"l": "   void FinishLiveResizing(ResizeState aNewState);\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-  nsIntPoint GetTouchCoordinates(WPARAM wParam, LPARAM lParam);\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+  LayoutDeviceIntPoint GetTouchCoordinates(WPARAM wParam, LPARAM lParam);\n"
+}, {
+"t": "",
+"n": 14,
+"l": "   mozilla::Maybe\u003cmozilla::PanGestureInput\u003e ConvertTouchToPanGesture(\n"
+}, {
+"t": "",
+"n": 15,
+"l": "       const mozilla::MultiTouchInput& aTouchInput, PTOUCHINPUT aOriginalEvent);\n"
+}, {
+"t": "",
+"n": 16,
+"l": "   void DispatchTouchOrPanGestureInput(mozilla::MultiTouchInput& aTouchInput,\n"
+}, {
+"t": "",
+"n": 17,
+"l": "                                       PTOUCHINPUT aOSEvent);\n"
+}, {
+"t": "",
+"n": 18,
+"l": " \n"
+}, {
+"t": "",
+"n": 19,
+"l": "   /**\n"
+}, {
+"t": "",
+"n": 20,
+"l": "    * Event handlers\n"
+}, {
+"t": "",
+"n": 21,
+"l": "    */\n"
+}]
+}],
+"phase": "public",
+"pushid": 38519,
+"pushdate": [1623059269, 0],
+"pushuser": "nerli@mozilla.com",
+"landingsystem": null
+}
