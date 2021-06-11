@@ -590,7 +590,7 @@ class FetcherArgs:
             action="store_const",
             const="autoland",
             dest="branch",
-            help="Download from try",
+            help="Download from autoland",
         )
 
         build_group = self.parser.add_argument_group("Build Arguments")
