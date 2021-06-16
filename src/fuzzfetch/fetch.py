@@ -1245,6 +1245,11 @@ class Fetcher:
             except FetcherException:
                 self.extract_zip(f"{target}.tests.zip", path=path)
 
+        # used by Pernosco to locate source ('\n' is expected)
+        (path / "taskcluster-build-task").write_bytes(
+            f"{self.task_id}\n".encode("utf-8")
+        )
+
         LOG.info("Extracted into %s", path)
 
     def _write_fuzzmanagerconf(self, target: str, path: Path) -> None:
