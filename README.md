@@ -22,14 +22,14 @@ Fuzzfetch supports the following arguments:
 
 ```
 usage: fuzzfetch [-h] [--target [TARGET [TARGET ...]]]
-                 [--os {Android,Darwin,Linux,Windows}] 
+                 [--os {Android,Darwin,Linux,Windows}]
                  [--cpu {AMD64,ARM64,aarch64,arm,arm64,i686,x64,x86,x86_64}]
                  [--build DATE|REV|NS]
-                 [--central | --release | --beta | --esr-stable | --esr-next | --try | --autoland] 
-                 [-d] [-a] [-t] [--fuzzing] [--fuzzilli] [--coverage] [--valgrind] [--no-opt] 
+                 [--central | --release | --beta | --esr-stable | --esr-next | --try | --autoland]
+                 [-d] [-a] [-t] [--fuzzing] [--fuzzilli] [--coverage] [--valgrind] [--no-opt]
                  [-n NAME] [-o OUT]
-                 [--dry-run] 
-                 [--nearest-newer | --nearest-older] 
+                 [--dry-run]
+                 [--nearest-newer | --nearest-older]
                  [-V]
 
 optional arguments:
