@@ -750,7 +750,7 @@ class Fetcher:
     def __init__(
         self,
         branch: str,
-        build: str,
+        build: Union[str, BuildTask],
         flags: Union[Sequence[bool], BuildFlags],
         platform: Optional[Platform] = None,
         nearest: Optional[BuildSearchOrder] = None,
