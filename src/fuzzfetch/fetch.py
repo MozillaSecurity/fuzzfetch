@@ -1181,11 +1181,11 @@ class Fetcher:
                 # move everything under firefox/ up a level to the destination path
                 firefox = path / "firefox"
                 for root, dirs, files in os.walk(firefox):
-                    newroot = path / root.relative_to(firefox)
+                    newroot = path / Path(root).relative_to(firefox)
                     for dirname in dirs:
                         (newroot / dirname).mkdir()
                     for filename in files:
-                        Path(root / filename).rename(newroot / filename)
+                        (Path(root) / filename).rename(newroot / filename)
                 shutil.rmtree(firefox, onerror=onerror)
             elif self._platform.system == "Android":
                 self.download_apk(path)
