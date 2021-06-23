@@ -5,19 +5,19 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
-import platform
 import stat
+import sys
 from pathlib import Path
 from typing import Any, Callable, Union
 
-if platform.system() == "Windows":
+if sys.platform.startswith("win"):
     import _winapi  # pylint: disable=import-error
 
 
 PathArg = Union[str, Path]
 
 
-def onerror(func: Callable, path: PathArg, _exc_info: Any) -> None:
+def onerror(func: Callable[[PathArg], None], path: PathArg, _exc_info: Any) -> None:
     """Error handler for `shutil.rmtree`.
 
     If the error is due to an access error (read only file)
@@ -61,7 +61,7 @@ def rmtree(path: PathArg) -> None:
 
 def islink(path: PathArg) -> bool:
     """os.path.islink() but return True for junction points on Windows."""
-    if platform.system() == "Windows":
+    if sys.platform.startswith("win"):
         try:
             st = os.lstat(path)  # pylint: disable=invalid-name
         except (OSError, AttributeError):
@@ -78,7 +78,7 @@ def symlink(target: PathArg, link: PathArg) -> None:
     """os.symlink() but use a junction point on Windows."""
     if islink(link):
         os.unlink(link)
-    if platform.system() == "Windows":
+    if sys.platform.startswith("win"):
         _winapi.CreateJunction(str(target), str(link))
     else:
         os.symlink(target, link)  # pylint: disable=no-member

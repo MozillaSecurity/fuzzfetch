@@ -30,19 +30,19 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
         zip_fn: path to zip archive
         path: where to extract zip contents
     """
-    path = Path(path)
+    dest_path = Path(path)
 
     def _extract_file(zip_fp: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
         """Extract files while explicitly setting the proper permissions"""
-        zip_fp.extract(info.filename, path=path)
-        out_path = path / info.filename
+        zip_fp.extract(info.filename, path=dest_path)
+        out_path = dest_path / info.filename
 
         perm = info.external_attr >> 16
         perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
         out_path.chmod(perm)
 
     if P7Z_PATH:
-        check_output([P7Z_PATH, "x", "-bd", f"-o{path}", zip_fn])
+        check_output([P7Z_PATH, "x", "-bd", f"-o{dest_path}", zip_fn])
     else:
         with zipfile.ZipFile(zip_fn) as zip_fp:
             for info in zip_fp.infolist():
@@ -96,6 +96,7 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
     """
     assert HDIUTIL_PATH, "Extracting .dmg requires hdiutil"
     out_tmp = Path(tempfile.mkdtemp(prefix="fuzzfetch-", suffix=".tmp"))
+    dest_path = Path(path)
     try:
         check_call([HDIUTIL_PATH, "attach", "-quiet", "-mountpoint", out_tmp, dmg_fn])
         try:
@@ -103,7 +104,7 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
             assert len(apps) == 1
             shutil.copytree(
                 out_tmp / apps[0].name,
-                path / apps[0].name,
+                dest_path / apps[0].name,
                 symlinks=True,
             )
         finally:
