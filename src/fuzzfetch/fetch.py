@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
 from sys import version_info
-from typing import Any, Dict, Iterator, Optional, Sequence, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Sequence, Tuple, Union
 
 from pytz import timezone
 from requests import Response, Session
@@ -126,7 +126,7 @@ def resolve_url(url: str) -> Response:
 class HgRevision:
     """Class representing a Mercurial revision."""
 
-    def __init__(self, revision: str, branch: str):
+    def __init__(self, revision: str, branch: str) -> None:
         """Create a Mercurial revision object.
 
         Arguments:
@@ -253,7 +253,9 @@ class Platform:
         "x64": "x86_64",
     }
 
-    def __init__(self, system: Optional[str] = None, machine: Optional[str] = None):
+    def __init__(
+        self, system: Optional[str] = None, machine: Optional[str] = None
+    ) -> None:
         if system is None:
             system = std_platform.system()
         if machine is None:
@@ -270,7 +272,7 @@ class Platform:
     @classmethod
     def from_platform_guess(cls, build_string: str) -> "Platform":
         """Create a platform object from a namespace build string"""
-        match = []
+        match: List[str] = []
         for system, platform in cls.SUPPORTED.items():
             for machine, platform_guess in platform.items():
                 if platform_guess in build_string and (
@@ -310,22 +312,25 @@ class BuildTask:
 
     def __init__(
         self,
-        build: str,
-        branch: str,
-        flags: BuildFlags,
+        build: Optional[str],
+        branch: Optional[str],
+        flags: Optional[BuildFlags],
         platform: Optional[Platform] = None,
         _blank: bool = False,
-    ):
+    ) -> None:
         """Retrieve the task JSON object
 
         Requires first generating the task URL based on the specified build type and
         platform
         """
         if _blank:
-            self.url = None
-            self.queue_server = None
-            self._data = {}
+            self.url: Optional[str] = None
+            self.queue_server: Optional[str] = None
+            self._data: Dict[str, Any] = {}
             return
+        assert build is not None
+        assert branch is not None
+        assert flags is not None
         for obj in self.iterall(build, branch, flags, platform=platform):
             self.url = obj.url
             self.queue_server = obj.queue_server
@@ -361,7 +366,7 @@ class BuildTask:
         is_namespace = False
         if cls.RE_DATE.match(build):
             flag_str = flags.build_string()
-            task_template_paths = tuple(
+            task_template_paths: Iterable[Tuple[str, str]] = tuple(
                 (template, path + flag_str)
                 for (template, path) in cls._pushdate_template_paths(
                     build.replace("-", "."), branch, target_platform
@@ -390,11 +395,11 @@ class BuildTask:
                 namespace = f"gecko.v2.{branch}.latest"
 
             prod = "mobile" if "android" in target_platform else "firefox"
-            task_path = (
+            task_paths = (
                 f"/task/{namespace}.{prod}.{target_platform}{flags.build_string()}",
                 f"/task/{namespace}.{prod}.sm-{target_platform}{flags.build_string()}",
             )
-            task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_path)
+            task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_paths)
 
         else:
             # try to use build argument directly as a namespace
@@ -493,7 +498,7 @@ class FetcherArgs:
 
     DEFAULT_TARGETS = ["firefox"]
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Instantiate a new FetcherArgs instance"""
         super().__init__()  # call super for multiple-inheritance support
         if not hasattr(self, "parser"):
@@ -690,7 +695,8 @@ class FetcherArgs:
         """
         # multiple-inheritance support
         if hasattr(super(), "sanity_check"):
-            super().sanity_check(args)  # pylint: disable=no-member
+            # pylint: disable=no-member
+            super().sanity_check(args)  # type: ignore
 
         if self.is_build_ns(args.build):
             # this is a custom build
@@ -754,7 +760,7 @@ class Fetcher:
         flags: Union[Sequence[bool], BuildFlags],
         platform: Optional[Platform] = None,
         nearest: Optional[BuildSearchOrder] = None,
-    ):
+    ) -> None:
         """
         Arguments:
             branch: a valid gecko branch, eg. 'central', 'autoland', 'beta',
@@ -767,7 +773,7 @@ class Fetcher:
             platform: force platform if different than current system
             nearest: Search for nearest build, not exact
         """
-        self._memo = {}
+        self._memo: Dict[str, Any] = {}
         "memorized values for @properties"
         self._branch = branch
         self._flags = BuildFlags(*flags)
@@ -897,11 +903,14 @@ class Fetcher:
                     # If no match, assume it's a TaskCluster namespace
                     if re.match(r".*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*", build) is not None:
                         match = re.search(r"[0-9]{4}\.[0-9]{2}\.[0-9]{2}", build)
+                        assert match is not None
                         date = datetime.strptime(match.group(0), "%Y.%m.%d")
                         requested = timezone("UTC").localize(date)
                     elif re.match(r".*revision.*[0-9[a-f]{40}", build):
                         match = re.search(r"[0-9[a-f]{40}", build)
+                        assert match is not None
                         requested = HgRevision(match.group(0), branch).pushdate
+                assert isinstance(requested, datetime)
 
                 # If start date is outside the range of the newest/oldest available
                 # build, adjust it
@@ -973,7 +982,7 @@ class Fetcher:
         # build the automatic name
         if (
             not isinstance(build, BuildTask)
-            and self.moz_info["platform_guess"] is not None
+            and isinstance(self.moz_info["platform_guess"], str)
             and self.moz_info["platform_guess"] in build
         ):
             options = build.split(self.moz_info["platform_guess"], 1)[1]
@@ -1002,7 +1011,7 @@ class Fetcher:
         return f"esr{match.group(0)}"
 
     @property
-    def _artifacts(self) -> Dict[str, Sequence[Dict[str, str]]]:
+    def _artifacts(self) -> Sequence[Dict[str, str]]:
         """Retrieve the artifacts json object"""
         if "_artifacts" not in self._memo:
             json = get_url(self._artifacts_url).json()
@@ -1028,6 +1037,7 @@ class Fetcher:
     @property
     def _artifacts_url(self) -> str:
         """Build the artifacts url"""
+        assert isinstance(self._task, BuildTask)
         return f"{self._task.queue_server}/task/{self.task_id}/artifacts"
 
     @property
@@ -1063,16 +1073,20 @@ class Fetcher:
     @property
     def rank(self) -> int:
         """Return the build's rank"""
+        assert isinstance(self._task, BuildTask)
         return self._task.rank
 
     @property
     def task_id(self) -> str:
         """Return the build's TaskCluster ID"""
+        assert isinstance(self._task, BuildTask)
         return self._task.taskId
 
     @property
     def task_url(self) -> str:
         """Return the TaskCluster base url"""
+        assert isinstance(self._task, BuildTask)
+        assert isinstance(self._task.url, str)
         return self._task.url
 
     def artifact_url(self, suffix: str) -> str:
@@ -1262,11 +1276,15 @@ class Fetcher:
         """
         output = configparser.RawConfigParser()
         output.add_section("Main")
-        output.set("Main", "platform", self.moz_info["processor"].replace("_", "-"))
+        processor = self.moz_info["processor"]
+        assert isinstance(processor, str)
+        output.set("Main", "platform", processor.replace("_", "-"))
         output.set("Main", "product", f"mozilla-{self._branch}")
         output.set("Main", "product_version", f"{self.id:.8}-{self.changeset:.12}")
         # make sure 'os' match what FM expects
-        os_name = self.moz_info["os"].lower()
+        os_cfg = self.moz_info["os"]
+        assert isinstance(os_cfg, str)
+        os_name = os_cfg.lower()
         if os_name.startswith("android"):
             output.set("Main", "os", "android")
         elif os_name.startswith("lin"):
@@ -1276,9 +1294,11 @@ class Fetcher:
         elif os_name.startswith("win"):
             output.set("Main", "os", "windows")
         else:
-            output.set("Main", "os", self.moz_info["os"])
+            output.set("Main", "os", os_cfg)
         output.add_section("Metadata")
-        output.set("Metadata", "pathPrefix", self.moz_info["topsrcdir"])
+        topsrcdir = self.moz_info["topsrcdir"]
+        assert isinstance(topsrcdir, str)
+        output.set("Metadata", "pathPrefix", topsrcdir)
         output.set("Metadata", "buildType", self._flags.build_string().lstrip("-"))
 
         if self._platform.system == "Windows":
@@ -1382,26 +1402,24 @@ class Fetcher:
 
     @classmethod
     def from_args(
-        cls, args: Optional[Sequence[str]] = None, skip_dir_check: bool = False
+        cls, argv: Optional[Sequence[str]] = None, skip_dir_check: bool = False
     ) -> Tuple["Fetcher", Dict[str, Union[bool, Path, Sequence[str]]]]:
-        """
-        Construct a Fetcher from given command line arguments.
+        """Construct a Fetcher from given command line arguments.
 
         Arguments:
-            args (list(str)): Command line arguments (optional). Default is to use args
-                              from sys.argv
-            skip_dir_check (bool): Boolean identifying whether to check for existing
-                                   build directory
+            argv: Command line arguments (optional). Default is to use args from
+                  sys.argv
+            skip_dir_check: Boolean identifying whether to check for existing build
+                            directory
 
         Returns:
-            tuple(Fetcher, output path): Returns a Fetcher object and keyword arguments
-                                         for extract_build.
+            Returns a Fetcher object and keyword arguments for extract_build.
         """
         parser = FetcherArgs()
         parser.parser.add_argument(
             "-V", "--version", action="store_true", help="print version and exit"
         )
-        args = parser.parse_args(args)
+        args = parser.parse_args(argv)
         if args.version:
             print(f"fuzzfetch {__version__}")
             raise SystemExit(0)
@@ -1476,9 +1494,11 @@ class Fetcher:
             return
 
         out = extract_args["out"]
+        assert isinstance(out, str)
         os.mkdir(out)
 
         try:
+            assert isinstance(extract_args["targets"], list)
             obj.extract_build(extract_args["targets"], out)
             os.makedirs(os.path.join(out, "download"))
             with open(os.path.join(out, "download", "firefox-temp.txt"), "a") as dl_fd:
