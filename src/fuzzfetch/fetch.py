@@ -157,6 +157,7 @@ class HgRevision:
     @property
     def hash(self) -> str:
         """Get the long hash of the revision."""
+        assert isinstance(self._data["node"], str)
         return self._data["node"]
 
 
@@ -466,7 +467,7 @@ class BuildTask:
 
             product = "mobile" if "android" in target_platform else "firefox"
             json = base.json()
-            for namespace in sorted(json["namespaces"], key=lambda x: x["name"]):
+            for namespace in sorted(json["namespaces"], key=lambda x: str(x["name"])):
                 task_paths = (
                     f"/task/{namespace['namespace']}.{product}.{target_platform}",
                     f"/task/{namespace['namespace']}.{product}.sm-{target_platform}",
@@ -1016,6 +1017,7 @@ class Fetcher:
         if "_artifacts" not in self._memo:
             json = get_url(self._artifacts_url).json()
             self._memo["_artifacts"] = json["artifacts"]
+        assert isinstance(self._memo["_artifacts"], list)
         return self._memo["_artifacts"]
 
     @property
@@ -1032,6 +1034,7 @@ class Fetcher:
             else:
                 raise FetcherException("Could not find build info in artifacts")
             self._memo["_artifact_base"] = artifact_base
+        assert isinstance(self._memo["_artifact_base"], str)
         return self._memo["_artifact_base"]
 
     @property
@@ -1056,6 +1059,7 @@ class Fetcher:
         """Return the build's info"""
         if "build_info" not in self._memo:
             self._memo["build_info"] = get_url(self.artifact_url("json")).json()
+        assert isinstance(self._memo["build_info"], dict)
         return self._memo["build_info"]
 
     @property
@@ -1068,18 +1072,21 @@ class Fetcher:
         """Return the build's mozinfo"""
         if "moz_info" not in self._memo:
             self._memo["moz_info"] = get_url(self.artifact_url("mozinfo.json")).json()
+        assert isinstance(self._memo["moz_info"], dict)
         return self._memo["moz_info"]
 
     @property
     def rank(self) -> int:
         """Return the build's rank"""
         assert isinstance(self._task, BuildTask)
+        assert isinstance(self._task.rank, int)
         return self._task.rank
 
     @property
     def task_id(self) -> str:
         """Return the build's TaskCluster ID"""
         assert isinstance(self._task, BuildTask)
+        assert isinstance(self._task.taskId, str)
         return self._task.taskId
 
     @property

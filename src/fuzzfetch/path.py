@@ -17,7 +17,7 @@ if sys.platform.startswith("win"):
 PathArg = Union[str, Path]
 
 
-def onerror(func: Callable, path: PathArg, _exc_info: Any) -> None:
+def onerror(func: Callable[[PathArg], None], path: PathArg, _exc_info: Any) -> None:
     """Error handler for `shutil.rmtree`.
 
     If the error is due to an access error (read only file)
