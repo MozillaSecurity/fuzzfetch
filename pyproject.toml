@@ -21,6 +21,12 @@ exclude_lines = [
 known_first_party = "fuzzfetch"
 profile = "black"
 
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
 [tool.pylint.format]
 max-line-length = 88
 
