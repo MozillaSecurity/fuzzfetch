@@ -142,7 +142,7 @@ def get_builds_to_test():
         possible_branches, possible_flags, possible_os, possible_cpus
     ):
         try:
-            fuzzfetch.fetch.Platform(os_, cpu)
+            fuzzfetch.Platform(os_, cpu)
         except fuzzfetch.FetcherException:
             continue
         if flags.coverage and (os_ != "Linux" or cpu != "x64" or branch != "central"):
@@ -206,7 +206,7 @@ def test_metadata(branch, build_flags, os_, cpu):
     # BuildFlags(asan, debug, fuzzing, coverage, valgrind)
     # Fetcher(branch, build, flags, arch_32)
     # Set freeze_time to a date ahead of the latest mock build
-    platform_ = fuzzfetch.fetch.Platform(os_, cpu)
+    platform_ = fuzzfetch.Platform(os_, cpu)
     for as_args in (True, False):  # try as API and as command line
         if as_args:
             args = [
