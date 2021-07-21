@@ -94,20 +94,29 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
         dmg_fn: path to dmg image
         path: where to extract dmg contents
     """
-    assert HDIUTIL_PATH, "Extracting .dmg requires hdiutil"
+    assert HDIUTIL_PATH or P7Z_PATH, "Extracting .dmg requires hdiutil"
     out_tmp = Path(tempfile.mkdtemp(prefix="fuzzfetch-", suffix=".tmp"))
     dest_path = Path(path)
     try:
-        check_call([HDIUTIL_PATH, "attach", "-quiet", "-mountpoint", out_tmp, dmg_fn])
+        if HDIUTIL_PATH:
+            check_call(
+                [HDIUTIL_PATH, "attach", "-quiet", "-mountpoint", out_tmp, dmg_fn]
+            )
+            glob = "*"
+        elif P7Z_PATH:
+            # if hdiutil not available (not on Mac) .. 7z can extract
+            check_output([P7Z_PATH, "x", "-bd", f"-o{out_tmp}", dmg_fn])
+            glob = "*/*"
         try:
-            apps = [mt for mt in out_tmp.glob("*") if mt.suffix == ".app"]
+            apps = [mt for mt in out_tmp.glob(glob) if mt.suffix == ".app"]
             assert len(apps) == 1
             shutil.copytree(
-                out_tmp / apps[0].name,
+                apps[0],
                 dest_path / apps[0].name,
                 symlinks=True,
             )
         finally:
-            check_call([HDIUTIL_PATH, "detach", "-quiet", out_tmp])
+            if HDIUTIL_PATH:
+                check_call([HDIUTIL_PATH, "detach", "-quiet", out_tmp])
     finally:
         shutil.rmtree(out_tmp, onerror=onerror)

@@ -7,7 +7,6 @@
 import configparser
 import logging
 import os
-import platform as std_platform
 import re
 import shutil
 import tempfile
@@ -701,12 +700,8 @@ class Fetcher:
         os.close(dmg_fd)
         try:
             download_url(self.artifact_url("dmg"), dmg_fn)
-            if std_platform.system() == "Darwin":
-                LOG.info(".. extracting")
-                extract_dmg(dmg_fn, path)
-            else:
-                LOG.warning(".. can't extract target.dmg on %s", std_platform.system())
-                shutil.copy(dmg_fn, Path(path) / "target.dmg")
+            LOG.info(".. extracting")
+            extract_dmg(dmg_fn, path)
         finally:
             os.unlink(dmg_fn)
 
