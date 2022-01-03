@@ -246,7 +246,10 @@ class FetcherArgs:
                 self.parser.error("Cannot specify --build namespace and --no-opt")
 
         if args.gtest:
-            LOG.warning("--gtest is deprecated, add 'gtest' to --target instead.")
+            LOG.warning(
+                "--gtest is deprecated, add 'gtest' to --target instead "
+                "(e.g. --target firefox gtest)"
+            )
             args.target.append("gtest")
 
         if "firefox" in args.target and args.fuzzilli:
