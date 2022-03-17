@@ -42,7 +42,7 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
         out_path.chmod(perm)
 
     if P7Z_PATH:
-        check_output([P7Z_PATH, "x", "-bd", f"-o{dest_path}", zip_fn])
+        check_output([P7Z_PATH, "x", "-bd", "-y", f"-o{dest_path}", zip_fn])
     else:
         with zipfile.ZipFile(zip_fn) as zip_fp:
             for info in zip_fp.infolist():
