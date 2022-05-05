@@ -71,7 +71,7 @@ class Fetcher:
             build: build identifier. acceptable identifiers are: TaskCluster
                    namespace, hg changeset, date, 'latest'
             flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan',
-                    'no_opt', 'fuzzilli'),
+                    'no_opt', 'fuzzilli', 'nyx'),
                    each a bool, not all combinations exist in TaskCluster
             platform: force platform if different than current system
             nearest: Search for nearest build, not exact
@@ -119,6 +119,7 @@ class Fetcher:
                     tsan,
                     no_opt,
                     fuzzilli,
+                    nyx,
                 ) = self._flags
                 if not debug:
                     debug = "-debug" in build or "-dbg" in build
@@ -136,9 +137,19 @@ class Fetcher:
                     no_opt = "-noopt" in build
                 if not fuzzilli:
                     fuzzilli = "-fuzzilli" in build
+                if not nyx:
+                    nyx = "-nyx" in build
 
                 self._flags = BuildFlags(
-                    asan, tsan, debug, fuzzing, coverage, valgrind, no_opt, fuzzilli
+                    asan,
+                    tsan,
+                    debug,
+                    fuzzing,
+                    coverage,
+                    valgrind,
+                    no_opt,
+                    fuzzilli,
+                    nyx,
                 )
 
                 # Validate flags
@@ -180,6 +191,11 @@ class Fetcher:
                 if self._flags.fuzzilli and "-fuzzilli" not in build:
                     raise FetcherException(
                         "'build' is not a fuzzilli build, but fuzzilli=True given "
+                        f"(build={build})"
+                    )
+                if self._flags.nyx and "-nyx" not in build:
+                    raise FetcherException(
+                        "'build' is not a Nyx build, but nyx=True given "
                         f"(build={build})"
                     )
 
@@ -748,6 +764,7 @@ class Fetcher:
             args.valgrind,
             args.no_opt,
             args.fuzzilli,
+            args.nyx,
         )
         obj = cls(
             args.branch,

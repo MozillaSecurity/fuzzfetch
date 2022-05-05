@@ -154,6 +154,9 @@ class FetcherArgs:
         build_group.add_argument(
             "--no-opt", action="store_true", help="Download non-optimized builds."
         )
+        build_group.add_argument(
+            "--nyx", action="store_true", help="Download Nyx snapshot builds."
+        )
 
         self.parser.add_argument(
             "--gtest",
@@ -243,6 +246,10 @@ class FetcherArgs:
                 self.parser.error("Cannot specify --build namespace and --valgrind")
             if args.no_opt:
                 self.parser.error("Cannot specify --build namespace and --no-opt")
+            if args.fuzzilli:
+                self.parser.error("Cannot specify --build namespace and --fuzzilli")
+            if args.nyx:
+                self.parser.error("Cannot specify --build namespace and --nyx")
 
         if args.gtest:
             LOG.warning(

@@ -33,6 +33,7 @@ class BuildFlags(
             "valgrind",
             "no_opt",
             "fuzzilli",
+            "nyx",
         ),
     )
 ):
@@ -50,6 +51,7 @@ class BuildFlags(
             + ("-fuzzing" if self.fuzzing else "")
             + ("-asan" if self.asan else "")
             + ("-tsan" if self.tsan else "")
+            + ("-nyx" if self.nyx else "")
             + ("-valgrind" if self.valgrind else "")
             + ("-noopt" if self.no_opt else "")
             + ("-debug" if self.debug else "")
