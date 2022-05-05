@@ -1,4 +1,3 @@
-# coding=utf-8
 """Core fuzzfetch implementation"""
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -570,9 +569,7 @@ class Fetcher:
                 self.extract_zip(f"{target}.tests.zip", path=path)
 
         # used by Pernosco to locate source ('\n' is expected)
-        (path / "taskcluster-build-task").write_bytes(
-            f"{self.task_id}\n".encode("utf-8")
-        )
+        (path / "taskcluster-build-task").write_bytes(f"{self.task_id}\n".encode())
 
         LOG.info("Extracted into %s", path)
 

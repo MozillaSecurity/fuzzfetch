@@ -1,4 +1,3 @@
-# coding=utf-8
 """fuzzfetch internal models"""
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -233,8 +232,7 @@ class BuildTask:
                     f"/task/{namespace['namespace']}.{product}.{target_platform}",
                     f"/task/{namespace['namespace']}.{product}.sm-{target_platform}",
                 )
-                for pair in itertools.product((cls.TASKCLUSTER_API,), task_paths):
-                    yield pair
+                yield from itertools.product((cls.TASKCLUSTER_API,), task_paths)
 
     @classmethod
     def _revision_paths(
