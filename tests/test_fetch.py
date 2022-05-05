@@ -12,7 +12,6 @@ import pytest  # pylint: disable=import-error
 from freezegun import freeze_time  # pylint: disable=import-error
 
 import fuzzfetch
-from fuzzfetch import FetcherException
 
 LOG = logging.getLogger("fuzzfetch_test")
 logging.getLogger("requests").setLevel(logging.WARNING)
@@ -32,6 +31,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # debug
         fuzzfetch.BuildFlags(
@@ -43,6 +43,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # ccov
         fuzzfetch.BuildFlags(
@@ -54,6 +55,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # asan-opt
         fuzzfetch.BuildFlags(
@@ -65,6 +67,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # asan-opt-fuzzing
         fuzzfetch.BuildFlags(
@@ -76,6 +79,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # tsan-opt
         fuzzfetch.BuildFlags(
@@ -87,6 +91,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # tsan-opt-fuzzing
         fuzzfetch.BuildFlags(
@@ -98,6 +103,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # debug-fuzzing
         fuzzfetch.BuildFlags(
@@ -109,6 +115,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # ccov-fuzzing
         fuzzfetch.BuildFlags(
@@ -120,6 +127,7 @@ def get_builds_to_test():
             valgrind=False,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
         # valgrind-opt
         fuzzfetch.BuildFlags(
@@ -131,6 +139,7 @@ def get_builds_to_test():
             valgrind=True,
             no_opt=False,
             fuzzilli=False,
+            nyx=False,
         ),
     )
     possible_branches = ("central", "try", "esr-next", "esr-stable")
@@ -283,6 +292,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
         valgrind=False,
         no_opt=False,
         fuzzilli=False,
+        nyx=False,
     )
 
     # Set freeze_time to a date ahead of the latest mock build
@@ -324,6 +334,7 @@ def test_hash_resolution():
         valgrind=False,
         no_opt=False,
         fuzzilli=False,
+        nyx=False,
     )
     rev = "24938c537a55f9db3913072d33b178b210e7d6b5"
     build = fuzzfetch.Fetcher("central", rev[:12], flags)
@@ -344,8 +355,25 @@ def test_fuzzilli_builds():
         valgrind=False,
         no_opt=False,
         fuzzilli=True,
+        nyx=False,
     )
-    try:
-        fuzzfetch.Fetcher("central", "latest", flags)
-    except FetcherException:
-        pytest.fail()
+    fuzzfetch.Fetcher("central", "latest", flags)
+
+
+@pytest.mark.usefixtures("requests_mock_cache")
+def test_nyx_builds():
+    """
+    Test for retrieving Nyx snapshot enabled builds
+    """
+    flags = fuzzfetch.BuildFlags(
+        asan=True,
+        tsan=False,
+        debug=False,
+        fuzzing=True,
+        coverage=False,
+        valgrind=False,
+        no_opt=False,
+        fuzzilli=False,
+        nyx=True,
+    )
+    fuzzfetch.Fetcher("central", "latest", flags)
