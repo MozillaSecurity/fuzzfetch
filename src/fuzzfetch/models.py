@@ -299,7 +299,7 @@ class Platform:
     SUPPORTED = {
         "Darwin": {"x86_64": "macosx64"},
         "Linux": {"x86_64": "linux64", "x86": "linux"},
-        "Windows": {"x86_64": "win64", "arm64": "win64-aarch64"},
+        "Windows": {"x86": "win32", "x86_64": "win64", "arm64": "win64-aarch64"},
         "Android": {
             "x86_64": "android-x86_64",
             "x86": "android-x86",
