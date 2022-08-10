@@ -1,0 +1,23 @@
+{
+  "as": "",
+  "buildid": "20220810182259",
+  "cc": "",
+  "cxx": "",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "105.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "105.0a1",
+  "moz_pkg_platform": "win32",
+  "moz_source_repo": "https://hg.mozilla.org/try",
+  "moz_source_stamp": "f56f27ff9c0fb3c901be7f8661358c4e3ed18cf8",
+  "moz_update_channel": "default",
+  "target_alias": "i686-pc-mingw32",
+  "target_cpu": "i686",
+  "target_os": "mingw32",
+  "target_vendor": "pc"
+}
