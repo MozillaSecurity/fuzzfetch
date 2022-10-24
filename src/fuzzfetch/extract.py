@@ -5,6 +5,7 @@
 
 import logging
 import os
+import os.path
 import shutil
 import stat
 import tarfile
@@ -48,6 +49,15 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
                 _extract_file(zip_fp, info)
 
 
+def _is_within_directory(directory: PathArg, target: PathArg) -> bool:
+    abs_directory = os.path.abspath(directory)
+    abs_target = os.path.abspath(target)
+
+    prefix = os.path.commonpath([abs_directory, abs_target])
+
+    return prefix == abs_directory
+
+
 def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
     """Extract builds with .tar.(*) extension
     When unpacking a build archive, only extract the firefox directory
@@ -57,6 +67,7 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
         mode: compression type
         path: where to extract tar contents
     """
+    p7z_fn = None
     try:
         if P7Z_PATH and mode in {"7z", "bz2", "gz", "lzma", "xz"}:
             p7z_fd, p7z_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
@@ -72,15 +83,17 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
         with tarfile.open(tar_fn, mode=f"r:{mode}") as tar:
             members = []
             for member in tar.getmembers():
-                if member.path.startswith("firefox/"):
-                    member.path = member.path[8:]
+                if not _is_within_directory(path, Path(path) / member.name):
+                    raise Exception("Attempted Path Traversal in Tar File")
+                if member.name.startswith("firefox/"):
+                    member.name = member.name[8:]
                     members.append(member)
-                elif member.path != "firefox":
+                elif member.name != "firefox":
                     # Ignore top-level build directory
                     members.append(member)
             tar.extractall(members=members, path=path)
     finally:
-        if P7Z_PATH:
+        if p7z_fn:
             os.unlink(p7z_fn)
 
 
