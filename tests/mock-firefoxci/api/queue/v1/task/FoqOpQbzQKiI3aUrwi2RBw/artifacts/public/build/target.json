@@ -1,0 +1,30 @@
+{
+  "as": [
+    "/builds/worker/fetches/sccache/sccache",
+    "/builds/worker/fetches/clang/bin/clang",
+    "--sysroot",
+    "/builds/worker/fetches/sysroot-aarch64-linux-gnu",
+    "-std=gnu99",
+    "--target=aarch64-linux-gnu"
+  ],
+  "buildid": "20220804043413",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-aarch64-linux-gnu -std=gnu99 --target=aarch64-linux-gnu",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++ --sysroot /builds/worker/fetches/sysroot-aarch64-linux-gnu -std=gnu++17 --target=aarch64-linux-gnu",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "105.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "105.0a1",
+  "moz_pkg_platform": "linux-aarch64",
+  "moz_source_repo": "https://hg.mozilla.org/mozilla-central",
+  "moz_source_stamp": "23d50b5617def9d4152023fd98210c0a9723e3c0",
+  "moz_update_channel": "default",
+  "target_alias": "aarch64-pc-linux-gnu",
+  "target_cpu": "aarch64",
+  "target_os": "linux-gnu",
+  "target_vendor": "pc"
+}

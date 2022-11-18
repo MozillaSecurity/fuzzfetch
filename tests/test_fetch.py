@@ -173,6 +173,8 @@ def get_builds_to_test():
             continue
         if os_ == "Darwin" and flags.asan and not flags.fuzzing:
             continue
+        if cpu == "arm64" and os_ in {"Darwin", "Linux"} and any(flags):
+            continue
         if os_ == "Android" and flags.debug and not flags.fuzzing and cpu != "arm":
             continue
         if (

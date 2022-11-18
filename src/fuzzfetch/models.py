@@ -304,14 +304,25 @@ class Platform:
     """Class representing target OS and CPU, and how it maps to a Gecko mozconfig"""
 
     SUPPORTED = {
-        "Darwin": {"x86_64": "macosx64"},
-        "Linux": {"x86_64": "linux64", "x86": "linux"},
-        "Windows": {"x86": "win32", "x86_64": "win64", "arm64": "win64-aarch64"},
+        "Darwin": {
+            "arm64": "macosx64-aarch64",
+            "x86_64": "macosx64",
+        },
+        "Linux": {
+            "arm64": "linux64-aarch64",
+            "x86": "linux",
+            "x86_64": "linux64",
+        },
+        "Windows": {
+            "arm64": "win64-aarch64",
+            "x86": "win32",
+            "x86_64": "win64",
+        },
         "Android": {
-            "x86_64": "android-x86_64",
-            "x86": "android-x86",
             "arm": "android-api-16",
             "arm64": "android-aarch64",
+            "x86": "android-x86",
+            "x86_64": "android-x86_64",
         },
     }
     CPU_ALIASES = {
