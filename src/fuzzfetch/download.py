@@ -10,7 +10,7 @@ from typing import Union
 from requests import Response, Session
 from requests.exceptions import RequestException
 
-from . import FetcherException
+from .errors import FetcherException
 from .path import PathArg
 
 HTTP_SESSION = Session()

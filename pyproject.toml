@@ -31,11 +31,7 @@ max-line-length = 88
 
 [tool.pylint.messages_control]
 disable = [
-    "C0330",
-    "C0326",
-    "bad-continuation",
     "fixme",
-    "subprocess-run-check",
     "too-few-public-methods",
     "too-many-arguments",
     "too-many-branches",
@@ -44,6 +40,7 @@ disable = [
     "too-many-locals",
     "too-many-nested-blocks",
     "too-many-statements",
+    "unspecified-encoding",
 ]
 
 [tool.pytest.ini_options]

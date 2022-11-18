@@ -36,14 +36,16 @@ tasks:
             version: "3.10"
             env:
               TOXENV: py310
-          - name: lint
-            version: "3.9"
+          - name: tests python 3.11
+            version: "3.11"
+            env:
+              TOXENV: py311
+          - name: lint python 3.11
+            version: "3.11"
             env:
               TOXENV: lint
-            script:
-              - tox
           - name: PyPI upload
-            version: "3.8"
+            version: "3.11"
             env:
               TOXENV: pypi
             script:
