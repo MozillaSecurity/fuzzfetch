@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/fetches/vs/vc/tools/msvc/14.16.27023/bin/hostx64/x64/ml64.exe",
+  "buildid": "20221118154632",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang-cl -Qunused-arguments -Xclang -std=gnu99",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang-cl -Qunused-arguments -Xclang -std=c++17",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "109.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "109.0a1",
+  "moz_pkg_platform": "win64-fuzzing",
+  "moz_source_repo": "https://hg.mozilla.org/mozilla-central",
+  "moz_source_stamp": "3b5a8f67189bd6549f0da19ea5da4a53f7e5c79a",
+  "moz_update_channel": "default",
+  "target_alias": "x86_64-pc-mingw32",
+  "target_cpu": "x86_64",
+  "target_os": "mingw32",
+  "target_vendor": "pc"
+}
