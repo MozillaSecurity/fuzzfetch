@@ -202,7 +202,13 @@ def get_builds_to_test():
                 # arm builds aren't available for esr-stable
                 continue
 
-        yield pytest.param(branch, flags, os_, cpu)
+        yield pytest.param(
+            branch,
+            flags,
+            os_,
+            cpu,
+            id=f"{branch} [{os_}-{cpu}{flags.build_string()}]",
+        )
 
 
 @pytest.mark.parametrize("branch, build_flags, os_, cpu", get_builds_to_test())
