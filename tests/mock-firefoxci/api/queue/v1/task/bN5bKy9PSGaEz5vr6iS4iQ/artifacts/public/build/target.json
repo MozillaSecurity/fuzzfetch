@@ -1,0 +1,30 @@
+{
+  "as": [
+    "/builds/worker/fetches/clang/bin/clang",
+    "--sysroot",
+    "/builds/worker/fetches/sysroot-aarch64-linux-gnu",
+    "-Qunused-arguments",
+    "-std=gnu99",
+    "--target=aarch64-linux-gnu"
+  ],
+  "buildid": "20221118003844",
+  "cc": "/builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-aarch64-linux-gnu -Qunused-arguments -std=gnu99 --target=aarch64-linux-gnu",
+  "cxx": "/builds/worker/fetches/clang/bin/clang++ --sysroot /builds/worker/fetches/sysroot-aarch64-linux-gnu -Qunused-arguments -std=gnu++17 --target=aarch64-linux-gnu",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "109.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "109.0a1",
+  "moz_pkg_platform": "linux-aarch64",
+  "moz_source_repo": "https://hg.mozilla.org/try",
+  "moz_source_stamp": "f79187bbf06cd0fab7f4cfcdad4419b67efb4b0b",
+  "moz_update_channel": "default",
+  "target_alias": "aarch64-pc-linux-gnu",
+  "target_cpu": "aarch64",
+  "target_os": "linux-gnu",
+  "target_vendor": "pc"
+}
