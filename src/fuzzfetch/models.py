@@ -9,6 +9,7 @@ import re
 from collections import namedtuple
 from datetime import datetime
 from enum import Enum
+from itertools import chain
 from logging import getLogger
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
@@ -151,16 +152,22 @@ class BuildTask:
             if branch not in {"autoland", "try"}:
                 branch = f"mozilla-{branch}"
 
+            namespaces = []
             if not any(flags):
                 # Opt builds are now indexed under 'shippable'
-                namespace = f"gecko.v2.{branch}.shippable.latest"
-            else:
-                namespace = f"gecko.v2.{branch}.latest"
+                namespaces.append(f"gecko.v2.{branch}.shippable.latest")
+            namespaces.append(f"gecko.v2.{branch}.latest")
 
             prod = "mobile" if "android" in target_platform else "firefox"
-            task_paths = (
-                f"/task/{namespace}.{prod}.{target_platform}{flags.build_string()}",
-                f"/task/{namespace}.{prod}.sm-{target_platform}{flags.build_string()}",
+            suffix = f"{target_platform}{flags.build_string()}"
+            task_paths = tuple(
+                chain.from_iterable(
+                    (
+                        f"/task/{namespace}.{prod}.{suffix}",
+                        f"/task/{namespace}.{prod}.sm-{suffix}",
+                    )
+                    for namespace in namespaces
+                )
             )
             task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_paths)
 
