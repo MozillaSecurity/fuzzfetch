@@ -15,8 +15,8 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 from pytz import timezone
 from requests import RequestException
 
-from . import FetcherException
 from .download import HTTP_SESSION, get_url
+from .errors import FetcherException
 
 LOG = getLogger("fuzzfetch")
 

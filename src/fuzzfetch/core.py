@@ -17,9 +17,9 @@ from typing import Any, Dict, Optional, Sequence, Tuple, Union
 
 from pytz import timezone
 
-from . import FetcherException
 from .args import FetcherArgs
 from .download import download_url, get_url, resolve_url
+from .errors import FetcherException
 from .extract import extract_dmg, extract_tar, extract_zip
 from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platform
 from .path import PathArg, onerror
