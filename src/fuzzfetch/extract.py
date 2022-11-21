@@ -3,6 +3,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import gzip
 import logging
 import os
 import os.path
@@ -12,7 +13,8 @@ import tarfile
 import tempfile
 import zipfile
 from pathlib import Path
-from subprocess import DEVNULL, call, check_call, check_output
+from platform import system
+from subprocess import DEVNULL, call, check_call
 
 from .path import PathArg, onerror
 
@@ -20,7 +22,8 @@ LOG = logging.getLogger("fuzzfetch")
 
 
 HDIUTIL_PATH = shutil.which("hdiutil")
-P7Z_PATH = shutil.which("7z")
+TAR_PATH = shutil.which("tar") if system() != "Darwin" else shutil.which("gtar")
+LBZIP2_PATH = shutil.which("lbzip2")
 
 
 def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
@@ -34,19 +37,27 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
 
     def _extract_file(zip_fp: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
         """Extract files while explicitly setting the proper permissions"""
-        zip_fp.extract(info.filename, path=dest_path)
-        out_path = dest_path / info.filename
+        rel_path = Path(info.filename)
+
+        # strip leading "firefox" from path
+        if rel_path.parts[0] == ".":
+            rel_path = Path(*rel_path.parts[1:])
+        if rel_path.parts[0] == "firefox":
+            rel_path = Path(*rel_path.parts[1:])
+
+        out_path = dest_path / rel_path
+
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with zip_fp.open(info) as zip_member_fp, out_path.open("wb") as out_fp:
+            shutil.copyfileobj(zip_member_fp, out_fp)
 
         perm = info.external_attr >> 16
         perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
         out_path.chmod(perm)
 
-    if P7Z_PATH:
-        check_output([P7Z_PATH, "x", "-bd", "-y", f"-o{dest_path}", zip_fn])
-    else:
-        with zipfile.ZipFile(zip_fn) as zip_fp:
-            for info in zip_fp.infolist():
-                _extract_file(zip_fp, info)
+    with zipfile.ZipFile(zip_fn) as zip_fp:
+        for info in zip_fp.infolist():
+            _extract_file(zip_fp, info)
 
 
 def _is_within_directory(directory: PathArg, target: PathArg) -> bool:
@@ -67,34 +78,58 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
         mode: compression type
         path: where to extract tar contents
     """
-    p7z_fn = None
+    tmp_fn = None
     try:
-        if P7Z_PATH and mode in {"7z", "bz2", "gz", "lzma", "xz"}:
-            p7z_fd, p7z_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
-            result = call([P7Z_PATH, "e", "-so", tar_fn], stdout=p7z_fd, stderr=DEVNULL)
-            os.close(p7z_fd)
+        if LBZIP2_PATH and mode == "bz2":
+            # fastest bz2 decompressor by far
+            tmp_fd, tmp_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
+            result = call([LBZIP2_PATH, "-dc", tar_fn], stdout=tmp_fd, stderr=DEVNULL)
+            os.close(tmp_fd)
             if result == 0:
                 mode = ""
-                tar_fn = p7z_fn
+                tar_fn = tmp_fn
             else:
                 LOG.warning(
-                    "7z was found, but returned %d decompressing %r", result, tar_fn
+                    "lbzip2 was found, but returned %d decompressing %r", result, tar_fn
                 )
-        with tarfile.open(tar_fn, mode=f"r:{mode}") as tar:
-            members = []
-            for member in tar.getmembers():
-                if not _is_within_directory(path, Path(path) / member.name):
-                    raise Exception("Attempted Path Traversal in Tar File")
-                if member.name.startswith("firefox/"):
-                    member.name = member.name[8:]
-                    members.append(member)
-                elif member.name != "firefox":
-                    # Ignore top-level build directory
-                    members.append(member)
-            tar.extractall(members=members, path=path)
+
+        elif TAR_PATH and mode == "gz":
+            # this is faster than gunzip somehow
+            tmp_fd, tmp_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
+            with gzip.open(tar_fn) as gz_fp, open(tmp_fd, "wb") as tmp_fp:
+                shutil.copyfileobj(gz_fp, tmp_fp)
+            mode = ""
+            tar_fn = tmp_fn
+
+        if TAR_PATH:
+            cmd = [TAR_PATH, r"--transform=s,^firefox/,,", "-C", str(path)]
+            if mode:
+                cmd.append(
+                    {
+                        "gz": "-z",
+                        "bz2": "-j",
+                        "lzma": "--lzma",
+                        "xz": "-J",
+                    }.get(mode, "--auto-compress")
+                )
+            cmd.extend(("-xf", str(tar_fn)))
+            check_call(cmd)
+        else:
+            with tarfile.open(tar_fn, mode=f"r:{mode}") as tar:
+                members = []
+                for member in tar.getmembers():
+                    if not _is_within_directory(path, Path(path) / member.name):
+                        raise Exception("Attempted Path Traversal in Tar File")
+                    if member.name.startswith("firefox/"):
+                        member.name = member.name[8:]
+                        members.append(member)
+                    elif member.name != "firefox":
+                        # Ignore top-level build directory
+                        members.append(member)
+                tar.extractall(members=members, path=path)
     finally:
-        if p7z_fn:
-            os.unlink(p7z_fn)
+        if tmp_fn is not None:
+            os.unlink(tmp_fn)
 
 
 def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:

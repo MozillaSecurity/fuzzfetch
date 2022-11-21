@@ -20,9 +20,9 @@ from pytz import timezone
 from .args import FetcherArgs
 from .download import download_url, get_url, resolve_url
 from .errors import FetcherException
-from .extract import extract_dmg, extract_tar, extract_zip
+from .extract import LBZIP2_PATH, extract_dmg, extract_tar, extract_zip
 from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platform
-from .path import PathArg, onerror
+from .path import PathArg
 from .path import rmtree as junction_rmtree
 
 if version_info[:2] < (3, 8):
@@ -501,6 +501,11 @@ class Fetcher:
         targets_remaining = set(targets)
         have_exec = False
 
+        # warn if we don't have a fast decompressor for bz2
+        if self._platform.system == "Linux" and "firefox" in targets_remaining:
+            if LBZIP2_PATH is None:
+                LOG.warning("WARNING: Install lbzip2 for much faster extraction.")
+
         if "js" in targets_remaining:
             targets_remaining.remove("js")
             have_exec = True
@@ -516,16 +521,6 @@ class Fetcher:
                 self.extract_dmg(path)
             elif self._platform.system == "Windows":
                 self.extract_zip("zip", path)
-                # windows builds are extracted under 'firefox/'
-                # move everything under firefox/ up a level to the destination path
-                firefox = path / "firefox"
-                for root, dirs, files in os.walk(firefox):
-                    newroot = path / Path(root).relative_to(firefox)
-                    for dirname in dirs:
-                        (newroot / dirname).mkdir()
-                    for filename in files:
-                        (Path(root) / filename).rename(newroot / filename)
-                shutil.rmtree(firefox, onerror=onerror)
             elif self._platform.system == "Android":
                 self.download_apk(path)
             else:
