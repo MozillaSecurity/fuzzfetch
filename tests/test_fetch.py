@@ -79,7 +79,9 @@ def get_builds_to_test():
             continue
         if flags.valgrind and (os_ != "Linux" or cpu != "x64" or esr):
             continue
-        if cpu == "arm64" and os_ in {"Darwin", "Linux"} and not opt:
+        if cpu == "arm64" and os_ == "Linux" and not opt:
+            continue
+        if cpu == "arm64" and os_ == "Darwin" and not (opt or flags.fuzzing):
             continue
         if branch == "central" and cpu == "x86" and os_ == "Linux" and flags.fuzzing:
             continue
