@@ -4,12 +4,14 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import tarfile
+from unittest.mock import patch
 
 import pytest  # pylint: disable=import-error
 
 from fuzzfetch.extract import extract_tar
 
 
+@patch("fuzzfetch.extract.TAR_PATH", None)
 def test_tarfile_good(tmp_path):
     """basic extract_tar functions"""
     (tmp_path / "empty").touch()
@@ -23,6 +25,7 @@ def test_tarfile_good(tmp_path):
     }
 
 
+@patch("fuzzfetch.extract.TAR_PATH", None)
 def test_tarfile_traversal_exc(tmp_path):
     """CVE-2007-4559"""
     (tmp_path / "empty").touch()
