@@ -35,8 +35,8 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
     """
     dest_path = Path(path)
 
-    def _extract_file(zip_fp: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
-        """Extract files while explicitly setting the proper permissions"""
+    def _extract_entry(zip_fp: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
+        """Extract entries while explicitly setting the proper permissions"""
         rel_path = Path(info.filename)
 
         # strip leading "firefox" from path
@@ -47,9 +47,12 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
 
         out_path = dest_path / rel_path
 
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        with zip_fp.open(info) as zip_member_fp, out_path.open("wb") as out_fp:
-            shutil.copyfileobj(zip_member_fp, out_fp)
+        if info.is_dir():
+            out_path.mkdir(parents=True, exist_ok=True)
+        else:
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            with zip_fp.open(info) as zip_member_fp, out_path.open("wb") as out_fp:
+                shutil.copyfileobj(zip_member_fp, out_fp)
 
         perm = info.external_attr >> 16
         perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
@@ -57,7 +60,7 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
 
     with zipfile.ZipFile(zip_fn) as zip_fp:
         for info in zip_fp.infolist():
-            _extract_file(zip_fp, info)
+            _extract_entry(zip_fp, info)
 
 
 def _is_within_directory(directory: PathArg, target: PathArg) -> bool:
