@@ -498,8 +498,7 @@ class Fetcher:
         self.resolve_targets(targets)
         path = Path(path)
 
-        if not path.exists():
-            os.mkdir(path)
+        path.mkdir(parents=True, exist_ok=True)
 
         targets_remaining = set(targets)
         have_exec = False
