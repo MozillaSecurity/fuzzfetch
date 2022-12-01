@@ -774,7 +774,7 @@ class Fetcher:
         if args.name is None:
             args.name = obj.get_auto_name()
 
-        final_dir = args.out / args.name
+        final_dir = (args.out / args.name).resolve()
         if not skip_dir_check and os.path.exists(final_dir):
             parser.parser.error(f"Folder exists: {final_dir} .. exiting")
 
