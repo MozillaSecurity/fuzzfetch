@@ -170,7 +170,7 @@ class FetcherArgs:
             "-o",
             "--out",
             type=Path,
-            default=Path().absolute(),
+            default=Path.cwd().resolve(),
             help="Specify output directory (default=.)",
         )
         misc_group.add_argument(
