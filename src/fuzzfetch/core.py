@@ -498,6 +498,9 @@ class Fetcher:
         self.resolve_targets(targets)
         path = Path(path)
 
+        if not path.exists():
+            os.mkdir(path)
+
         targets_remaining = set(targets)
         have_exec = False
 
@@ -772,7 +775,7 @@ class Fetcher:
         if args.name is None:
             args.name = obj.get_auto_name()
 
-        final_dir = os.path.realpath(os.path.join(args.out, args.name))
+        final_dir = args.out / args.name
         if not skip_dir_check and os.path.exists(final_dir):
             parser.parser.error(f"Folder exists: {final_dir} .. exiting")
 
@@ -813,8 +816,7 @@ class Fetcher:
             return
 
         out = extract_args["out"]
-        assert isinstance(out, str)
-        os.mkdir(out)
+        assert isinstance(out, Path)
 
         try:
             assert isinstance(extract_args["targets"], list)
@@ -823,6 +825,6 @@ class Fetcher:
             with open(os.path.join(out, "download", "firefox-temp.txt"), "a") as dl_fd:
                 dl_fd.write(f"buildID={obj.id}{os.linesep}")
         except:  # noqa
-            if os.path.isdir(out):
+            if out.is_dir():
                 junction_rmtree(out)
             raise

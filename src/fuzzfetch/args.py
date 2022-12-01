@@ -4,11 +4,11 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import itertools
-import os
 import platform as std_platform
 import re
 from argparse import SUPPRESS, ArgumentParser, Namespace
 from logging import getLogger
+from pathlib import Path
 from typing import Optional, Sequence
 
 from .models import BuildSearchOrder, Platform
@@ -169,7 +169,8 @@ class FetcherArgs:
         misc_group.add_argument(
             "-o",
             "--out",
-            default=os.getcwd(),
+            type=Path,
+            default=Path().absolute(),
             help="Specify output directory (default=.)",
         )
         misc_group.add_argument(
