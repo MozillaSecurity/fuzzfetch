@@ -484,7 +484,7 @@ class Fetcher:
             except FetcherException:
                 resolve_url(self.artifact_url(f"{target}.tests.zip"))
 
-    def extract_build(self, targets: Sequence[str], path: PathArg = ".") -> None:
+    def extract_build(self, targets: Sequence[str], path: PathArg) -> None:
         """Download and extract the build and requested extra artifacts.
 
         If an executable target is requested (js/firefox), coverage data
