@@ -44,6 +44,8 @@ tasks:
             version: "3.11"
             env:
               TOXENV: lint
+            script:
+              - tox
           - name: PyPI upload
             version: "3.11"
             env:
