@@ -122,7 +122,7 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
                 members = []
                 for member in tar.getmembers():
                     if not _is_within_directory(path, Path(path) / member.name):
-                        raise Exception("Attempted Path Traversal in Tar File")
+                        raise RuntimeError("Attempted Path Traversal in Tar File")
                     if member.name.startswith("firefox/"):
                         member.name = member.name[8:]
                         members.append(member)
