@@ -177,10 +177,9 @@ class BuildTask:
             is_namespace = True
             task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
-        for (template_path, try_wo_opt) in itertools.product(
+        for template_path, try_wo_opt in itertools.product(
             task_template_paths, (False, True)
         ):
-
             template, path = template_path
 
             if try_wo_opt:
