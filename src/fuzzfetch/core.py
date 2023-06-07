@@ -32,7 +32,6 @@ else:
     # pylint: disable=import-error
     from importlib.metadata import PackageNotFoundError, version
 
-
 try:
     __version__ = version("fuzzfetch")
 except PackageNotFoundError:
@@ -298,15 +297,7 @@ class Fetcher:
         else:
             self._task = build
 
-        # build the automatic name
-        if (
-            not isinstance(build, BuildTask)
-            and isinstance(self.moz_info["platform_guess"], str)
-            and self.moz_info["platform_guess"] in build
-        ):
-            options = build.split(self.moz_info["platform_guess"], 1)[1]
-        else:
-            options = self._flags.build_string()
+        options = self._flags.build_string()
         if self._branch in {"autoland", "try"}:
             branch = self._branch
         else:
@@ -389,7 +380,14 @@ class Fetcher:
     def moz_info(self) -> Dict[str, Union[str, bool, int]]:
         """Return the build's mozinfo"""
         if "moz_info" not in self._memo:
-            self._memo["moz_info"] = get_url(self.artifact_url("mozinfo.json")).json()
+            try:
+                self._memo["moz_info"] = get_url(
+                    self.artifact_url("mozinfo.json")
+                ).json()
+            except FetcherException:
+                # If mozinfo doesn't exist, set the default topsrcdir
+                self._memo["moz_info"] = {"topsrcdir": "/builds/worker/checkouts/gecko"}
+
         assert isinstance(self._memo["moz_info"], dict)
         return self._memo["moz_info"]
 
@@ -596,25 +594,19 @@ class Fetcher:
         """
         output = configparser.RawConfigParser()
         output.add_section("Main")
-        processor = self.moz_info["processor"]
+        processor = self._platform.machine
         assert isinstance(processor, str)
         output.set("Main", "platform", processor.replace("_", "-"))
         output.set("Main", "product", f"mozilla-{self._branch}")
         output.set("Main", "product_version", f"{self.id:.8}-{self.changeset:.12}")
-        # make sure 'os' match what FM expects
-        os_cfg = self.moz_info["os"]
-        assert isinstance(os_cfg, str)
-        os_name = os_cfg.lower()
-        if os_name.startswith("android"):
+        if self._platform.system == "Android":
             output.set("Main", "os", "android")
-        elif os_name.startswith("lin"):
+        elif self._platform.system == "Linux":
             output.set("Main", "os", "linux")
-        elif os_name.startswith("mac"):
+        elif self._platform.system == "Darwin":
             output.set("Main", "os", "macosx")
-        elif os_name.startswith("win"):
+        elif self._platform.system == "Windows":
             output.set("Main", "os", "windows")
-        else:
-            output.set("Main", "os", os_cfg)
         output.add_section("Metadata")
         topsrcdir = self.moz_info["topsrcdir"]
         assert isinstance(topsrcdir, str)
