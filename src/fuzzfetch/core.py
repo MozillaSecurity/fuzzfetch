@@ -461,6 +461,12 @@ class Fetcher:
                     f"'{self._platform.system}' is not a supported platform"
                 )
 
+        if "mozharness" in targets_remaining:
+            targets_remaining.remove("mozharness")
+            artifact_path = "/".join(self._artifact_base.split("/")[:-1])
+            url = f"{self._artifacts_url}/{artifact_path}/mozharness.zip"
+            resolve_url(url)
+
         if have_exec:
             if self._flags.coverage:
                 resolve_url(self.artifact_url("code-coverage-gcno.zip"))
@@ -494,8 +500,8 @@ class Fetcher:
         """
         # sanity check all targets before downloading any
         self.resolve_targets(targets)
-        path = Path(path)
 
+        path = Path(path)
         path.mkdir(parents=True, exist_ok=True)
 
         targets_remaining = set(targets)
@@ -509,18 +515,19 @@ class Fetcher:
         if "js" in targets_remaining:
             targets_remaining.remove("js")
             have_exec = True
-            self.extract_zip("jsshell.zip", path=path / "dist" / "bin")
+            _path = path / "dist" / "bin"
+            self.extract_zip(self.artifact_url("jsshell.zip"), _path)
             self._write_fuzzmanagerconf("js", path)
 
         if "firefox" in targets_remaining:
             targets_remaining.remove("firefox")
             have_exec = True
             if self._platform.system == "Linux":
-                self.extract_tar("tar.bz2", path)
+                self.extract_tar(self.artifact_url("tar.bz2"), path)
             elif self._platform.system == "Darwin":
                 self.extract_dmg(path)
             elif self._platform.system == "Windows":
-                self.extract_zip("zip", path)
+                self.extract_zip(self.artifact_url("zip"), path)
             elif self._platform.system == "Android":
                 self.download_apk(path)
             else:
@@ -532,9 +539,9 @@ class Fetcher:
         if "gtest" in targets_remaining:
             targets_remaining.remove("gtest")
             try:
-                self.extract_tar("gtest.tests.tar.gz", path=path)
+                self.extract_tar(self.artifact_url("gtest.tests.tar.gz"), path)
             except FetcherException:
-                self.extract_zip("gtest.tests.zip", path=path)
+                self.extract_zip(self.artifact_url("gtest.tests.zip"), path)
             if self._platform.system == "Windows":
                 libxul = "xul.dll"
             elif self._platform.system == "Linux":
@@ -553,9 +560,15 @@ class Fetcher:
                 path / "dependentlibs.list.gtest",
             )
 
+        if "mozharness" in targets_remaining:
+            targets_remaining.remove("mozharness")
+            artifact_path = "/".join(self._artifact_base.split("/")[:-1])
+            url = f"{self._artifacts_url}/{artifact_path}/mozharness.zip"
+            self.extract_zip(url, path)
+
         if have_exec:
             if self._flags.coverage:
-                self.extract_zip("code-coverage-gcno.zip", path=path)
+                self.extract_zip(self.artifact_url("code-coverage-gcno.zip"), path)
 
             if (
                 not self._flags.asan
@@ -564,7 +577,10 @@ class Fetcher:
             ):
                 (path / "symbols").mkdir()
                 try:
-                    self.extract_zip("crashreporter-symbols.zip", path=path / "symbols")
+                    self.extract_zip(
+                        self.artifact_url("crashreporter-symbols.zip"),
+                        path=path / "symbols",
+                    )
                 except FetcherException:
                     # fuzzing debug builds no longer have crashreporter-symbols.zip
                     # (bug 1649062)
@@ -575,9 +591,9 @@ class Fetcher:
         # any still remaining targets are assumed to be test artifacts
         for target in targets_remaining:
             try:
-                self.extract_tar(f"{target}.tests.tar.gz", path=path)
+                self.extract_tar(self.artifact_url(f"{target}.tests.tar.gz"), path=path)
             except FetcherException:
-                self.extract_zip(f"{target}.tests.zip", path=path)
+                self.extract_zip(self.artifact_url(f"{target}.tests.zip"), path=path)
 
         # used by Pernosco to locate source ('\n' is expected)
         (path / "taskcluster-build-task").write_bytes(f"{self.task_id}\n".encode())
@@ -635,37 +651,37 @@ class Fetcher:
         with open(conf_path, "w") as conf_fp:
             output.write(conf_fp)
 
-    def extract_zip(self, suffix: str, path: PathArg = ".") -> None:
+    def extract_zip(self, url: str, path: PathArg = ".") -> None:
         """
         Download and extract a zip artifact
 
         Arguments:
-            suffix: artifact to download
+            url: artifact to download
             path: path to extract zip to
         """
         zip_fd, zip_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".zip")
         os.close(zip_fd)
         try:
-            download_url(self.artifact_url(suffix), zip_fn)
+            download_url(url, zip_fn)
             LOG.info(".. extracting")
             extract_zip(zip_fn, path)
         finally:
             os.unlink(zip_fn)
 
-    def extract_tar(self, suffix: str, path: PathArg = ".") -> None:
+    def extract_tar(self, url: str, path: PathArg = ".") -> None:
         """
         Extract builds with .tar.(*) extension
         When unpacking a build archive, only extract the firefox directory
 
         Arguments:
-            suffix: artifact to download
+            url: artifact to download
             path: path to extract tar to
         """
-        mode = suffix.split(".")[-1]
+        mode = url.split(".")[-1]
         tar_fd, tar_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=f".tar.{mode}")
         os.close(tar_fd)
         try:
-            download_url(self.artifact_url(suffix), tar_fn)
+            download_url(url, tar_fn)
             LOG.info(".. extracting")
             extract_tar(tar_fn, mode, path)
         finally:
