@@ -37,7 +37,7 @@ class FetcherArgs:
             nargs="*",
             default=FetcherArgs.DEFAULT_TARGETS,
             help="Specify the build artifacts to download. "
-            "Valid options: firefox js common gtest "
+            "Valid options: firefox js common gtest mozharness"
             f"(default: {' '.join(FetcherArgs.DEFAULT_TARGETS)})",
         )
         target_group.add_argument(
