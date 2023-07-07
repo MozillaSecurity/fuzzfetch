@@ -11,8 +11,8 @@ import re
 import shutil
 import tempfile
 from datetime import datetime, timedelta
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from sys import version_info
 from typing import Any, Dict, Optional, Sequence, Tuple, Union
 
 from pytz import timezone
@@ -25,18 +25,11 @@ from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platfor
 from .path import PathArg
 from .path import rmtree as junction_rmtree
 
-if version_info[:2] < (3, 8):
-    # pylint: disable=import-error
-    from importlib_metadata import PackageNotFoundError, version
-else:
-    # pylint: disable=import-error
-    from importlib.metadata import PackageNotFoundError, version
-
 try:
     __version__ = version("fuzzfetch")
 except PackageNotFoundError:
     # package is not installed
-    __version__ = None
+    __version__ = "unknown"
 
 LOG = logging.getLogger("fuzzfetch")
 BUG_URL = "https://github.com/MozillaSecurity/fuzzfetch/issues/"
@@ -745,12 +738,13 @@ class Fetcher:
         """
         parser = FetcherArgs()
         parser.parser.add_argument(
-            "-V", "--version", action="store_true", help="print version and exit"
+            "-V",
+            "--version",
+            action="version",
+            version=__version__,
+            help="print version and exit",
         )
         args = parser.parse_args(argv)
-        if args.version:
-            print(f"fuzzfetch {__version__}")
-            raise SystemExit(0)
 
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
