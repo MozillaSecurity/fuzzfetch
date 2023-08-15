@@ -578,8 +578,7 @@ class Fetcher:
                     # fuzzing debug builds no longer have crashreporter-symbols.zip
                     # (bug 1649062)
                     # we want to maintain support for older builds for now
-                    if not (self._flags.fuzzing or self._flags.fuzzilli):
-                        raise
+                    pass
 
         # any still remaining targets are assumed to be test artifacts
         for target in targets_remaining:
