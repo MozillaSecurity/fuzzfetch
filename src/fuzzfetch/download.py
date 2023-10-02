@@ -5,7 +5,7 @@
 
 import time
 from logging import getLogger
-from typing import Union
+from typing import Optional, Union
 
 from requests import Response, Session
 from requests.exceptions import RequestException
@@ -49,10 +49,10 @@ def si(number: Union[float, int]) -> str:  # pylint: disable=invalid-name
     return f"{number:0.2f}{prefixes[0]}"
 
 
-def get_url(url: str) -> Response:
+def get_url(url: str, timeout: Optional[float] = None) -> Response:
     """Retrieve requested URL"""
     try:
-        data = HTTP_SESSION.get(url, stream=True)
+        data = HTTP_SESSION.get(url, stream=True, timeout=timeout)
         data.raise_for_status()
     except RequestException as exc:
         raise FetcherException(exc) from None
@@ -60,10 +60,10 @@ def get_url(url: str) -> Response:
     return data
 
 
-def resolve_url(url: str) -> Response:
+def resolve_url(url: str, timeout: Optional[float] = None) -> Response:
     """Resolve requested URL"""
     try:
-        data = HTTP_SESSION.head(url)
+        data = HTTP_SESSION.head(url, timeout=timeout)
         data.raise_for_status()
     except RequestException as exc:
         raise FetcherException(exc) from None
@@ -71,7 +71,7 @@ def resolve_url(url: str) -> Response:
     return data
 
 
-def download_url(url: str, outfile: PathArg) -> None:
+def download_url(url: str, outfile: PathArg, timeout: Optional[float] = 30.0) -> None:
     """Download a URL to a local path.
 
     Arguments:
@@ -80,21 +80,24 @@ def download_url(url: str, outfile: PathArg) -> None:
     """
     downloaded = 0
     start_time = report_time = time.time()
-    resp = get_url(url)
+    resp = get_url(url, timeout)
     total_size = int(resp.headers["Content-Length"])
     LOG.info("> Downloading: %s (%sB total)", url, iec(total_size))
     with open(outfile, "wb") as build_zip:
-        for chunk in resp.iter_content(1024 * 1024):
-            build_zip.write(chunk)
-            downloaded += len(chunk)
-            now = time.time()
-            if (now - report_time) > 30 and downloaded != total_size:
-                LOG.info(
-                    ".. still downloading (%0.1f%%, %sB/s)",
-                    100.0 * downloaded / total_size,
-                    si(float(downloaded) / (now - start_time)),
-                )
-                report_time = now
+        try:
+            for chunk in resp.iter_content(256 * 1024):
+                build_zip.write(chunk)
+                downloaded += len(chunk)
+                now = time.time()
+                if (now - report_time) > 30 and downloaded != total_size:
+                    LOG.info(
+                        ".. still downloading (%0.1f%%, %sB/s)",
+                        100.0 * downloaded / total_size,
+                        si(float(downloaded) / (now - start_time)),
+                    )
+                    report_time = now
+        except RequestException as exc:
+            raise FetcherException(exc) from None
     LOG.info(
         ".. downloaded (%sB/s)", si(float(downloaded) / (time.time() - start_time))
     )
