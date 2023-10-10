@@ -81,8 +81,12 @@ def download_url(url: str, outfile: PathArg, timeout: Optional[float] = 30.0) ->
     downloaded = 0
     start_time = report_time = time.time()
     resp = get_url(url, timeout)
-    total_size = int(resp.headers["Content-Length"])
-    LOG.info("> Downloading: %s (%sB total)", url, iec(total_size))
+    try:
+        total_size = int(resp.headers["Content-Length"])
+        LOG.info("> Downloading: %s (%sB total)", url, iec(total_size))
+    except KeyError:
+        total_size = None
+        LOG.info("> Downloading: %s (unknown size)", url)
     with open(outfile, "wb") as build_zip:
         try:
             for chunk in resp.iter_content(256 * 1024):
@@ -90,11 +94,18 @@ def download_url(url: str, outfile: PathArg, timeout: Optional[float] = 30.0) ->
                 downloaded += len(chunk)
                 now = time.time()
                 if (now - report_time) > 30 and downloaded != total_size:
-                    LOG.info(
-                        ".. still downloading (%0.1f%%, %sB/s)",
-                        100.0 * downloaded / total_size,
-                        si(float(downloaded) / (now - start_time)),
-                    )
+                    if total_size is None:
+                        LOG.info(
+                            ".. still downloading (%sB, %sB/s)",
+                            iec(downloaded),
+                            si(float(downloaded) / (now - start_time)),
+                        )
+                    else:
+                        LOG.info(
+                            ".. still downloading (%0.1f%%, %sB/s)",
+                            100.0 * downloaded / total_size,
+                            si(float(downloaded) / (now - start_time)),
+                        )
                     report_time = now
         except RequestException as exc:
             raise FetcherException(exc) from None
