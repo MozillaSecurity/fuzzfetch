@@ -42,6 +42,12 @@ tasks:
               TOXENV: lint
             script:
               - tox
+          - name: build python 3.11
+            version: "3.11"
+            env:
+              TOXENV: build
+            script:
+              - tox
           - name: PyPI upload
             version: "3.11"
             env:
@@ -54,11 +60,7 @@ tasks:
             secrets:
               - type: env
                 secret: project/fuzzing/pypi-fuzzfetch
-                name: TWINE_USERNAME
-                key: username
-              - type: env
-                secret: project/fuzzing/pypi-fuzzfetch
-                name: TWINE_PASSWORD
+                name: POETRY_PYPI_TOKEN_PYPI
                 key: password
 
     # Filter github event to only necessary fields.
