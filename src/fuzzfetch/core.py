@@ -788,14 +788,14 @@ class Fetcher:
         return obj, extract_options
 
     @classmethod
-    def main(cls) -> None:
+    def main(cls) -> int:
         """
         fuzzfetch main entry point
 
         Run with --help for usage
         """
         log_level = logging.INFO
-        log_fmt = "[%(asctime)s] %(message)s"
+        log_fmt = "%(message)s"
         if bool(os.getenv("DEBUG")):
             log_level = logging.DEBUG
             log_fmt = "%(levelname).1s %(name)s [%(asctime)s] %(message)s"
@@ -804,27 +804,32 @@ class Fetcher:
         )
         logging.getLogger("requests").setLevel(logging.WARNING)
 
-        obj, extract_args = cls.from_args()
-
-        LOG.info("Identified task: %s", obj.task_url)
-        LOG.info("> Task ID: %s", obj.task_id)
-        LOG.info("> Rank: %s", obj.rank)
-        LOG.info("> Changeset: %s", obj.changeset)
-        LOG.info("> Build ID: %s", obj.id)
-
-        if extract_args["dry_run"]:
-            return
-
-        out = extract_args["out"]
-        assert isinstance(out, Path)
-
         try:
-            assert isinstance(extract_args["targets"], list)
-            obj.extract_build(extract_args["targets"], out)
-            os.makedirs(os.path.join(out, "download"))
-            with open(os.path.join(out, "download", "firefox-temp.txt"), "a") as dl_fd:
-                dl_fd.write(f"buildID={obj.id}{os.linesep}")
-        except:  # noqa
-            if out.is_dir():
-                junction_rmtree(out)
-            raise
+            obj, extract_args = cls.from_args()
+
+            LOG.info("Identified task: %s", obj.task_url)
+            LOG.info("> Task ID: %s", obj.task_id)
+            LOG.info("> Rank: %s", obj.rank)
+            LOG.info("> Changeset: %s", obj.changeset)
+            LOG.info("> Build ID: %s", obj.id)
+
+            if extract_args["dry_run"]:
+                return 0
+
+            out = extract_args["out"]
+            assert isinstance(out, Path)
+
+            try:
+                assert isinstance(extract_args["targets"], list)
+                obj.extract_build(extract_args["targets"], out)
+                (out / "download").mkdir(parents=True)
+                with (out / "download" / "firefox-temp.txt").open("a") as dl_fd:
+                    dl_fd.write(f"buildID={obj.id}{os.linesep}")
+            except:  # noqa
+                if out.is_dir():
+                    junction_rmtree(out)
+                raise
+        except FetcherException as exc:
+            LOG.error(str(exc))
+            return 1
+        return 0
