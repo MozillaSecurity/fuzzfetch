@@ -79,7 +79,7 @@ def get_builds_to_test():
             continue
         if flags.tsan and ((cpu != "x64" or os_ != "Linux") or esr):
             continue
-        if flags.valgrind and (os_ != "Linux" or cpu != "x64" or esr):
+        if flags.valgrind:
             continue
         if cpu == "arm64" and os_ == "Linux" and not opt:
             continue
@@ -93,6 +93,8 @@ def get_builds_to_test():
         } and flags == build_flags_factory(asan=True):
             continue
         if os_ == "Android":
+            if cpu == "x86":
+                continue
             if flags.fuzzing and (cpu != "x86" or flags.asan or not flags.debug):
                 continue
             if flags.debug and not flags.fuzzing and cpu != "arm":
