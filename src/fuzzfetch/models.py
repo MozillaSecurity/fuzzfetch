@@ -318,7 +318,7 @@ class Platform:
             "x86_64": "win64",
         },
         "Android": {
-            "arm": "android-api-16",
+            "arm": "android-arm",
             "arm64": "android-aarch64",
             "x86": "android-x86",
             "x86_64": "android-x86_64",
@@ -376,7 +376,7 @@ class Platform:
             return ""
         platform = {
             "linux": "linux32",
-            "android-api-16": "android-arm",
+            "android-arm": "android-arm",
             "android-aarch64": "android-arm64",
         }.get(self.gecko_platform, self.gecko_platform)
         return f"{platform}-"
