@@ -1,0 +1,579 @@
+{
+"node": "5096e8be57730ef6902aaa8954b79aa0a21b32d6",
+"date": [1672421719.0, 0],
+"desc": "Bug 1805385 - Flip direction of absolutely positioned feature callout in RTL layouts r=mviar\n\nDepends on D164628\n\nDifferential Revision: https://phabricator.services.mozilla.com/D164592",
+"backedoutby": "",
+"branch": "default",
+"bookmarks": [],
+"tags": [],
+"user": "Jason Prickett \u003cjprickett@mozilla.com\u003e",
+"parents": ["4b8d7e324495557a9f19cbfae050e87b5d99eea4"],
+"children": ["0254637cfb2f33d7e8c2f2331f399a718136d973"],
+"files": [{
+"file": "browser/components/newtab/test/browser/browser_feature_callout_in_chrome.js",
+"status": "modified"
+}, {
+"file": "browser/modules/FeatureCallout.sys.mjs",
+"status": "modified"
+}],
+"diff": [{
+"blockno": 1,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/browser/components/newtab/test/browser/browser_feature_callout_in_chrome.js\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/browser/components/newtab/test/browser/browser_feature_callout_in_chrome.js\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -61,16 +61,40 @@ const validateCalloutCustomPosition = (e\n"
+}, {
+"t": "",
+"n": 4,
+"l": "           return false;\n"
+}, {
+"t": "",
+"n": 5,
+"l": "         }\n"
+}, {
+"t": "",
+"n": 6,
+"l": "       }\n"
+}, {
+"t": "",
+"n": 7,
+"l": "     }\n"
+}, {
+"t": "",
+"n": 8,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 9,
+"l": "   return true;\n"
+}, {
+"t": "",
+"n": 10,
+"l": " };\n"
+}, {
+"t": "",
+"n": 11,
+"l": " \n"
+}, {
+"t": "+",
+"n": 12,
+"l": "+const validateCalloutRTLPosition = (element, positionOverride) =\u003e {\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+  for (let position in positionOverride) {\n"
+}, {
+"t": "+",
+"n": 14,
+"l": "+    if (Object.prototype.hasOwnProperty.call(positionOverride, position)) {\n"
+}, {
+"t": "+",
+"n": 15,
+"l": "+      const pixelPosition = positionOverride[position];\n"
+}, {
+"t": "+",
+"n": 16,
+"l": "+      if (position === \"left\") {\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+        const actualLeft = Number(\n"
+}, {
+"t": "+",
+"n": 18,
+"l": "+          pixelPosition.substring(0, pixelPosition.length - 2)\n"
+}, {
+"t": "+",
+"n": 19,
+"l": "+        );\n"
+}, {
+"t": "+",
+"n": 20,
+"l": "+        if (element.getBoundingClientRect().right !== actualLeft) {\n"
+}, {
+"t": "+",
+"n": 21,
+"l": "+          return false;\n"
+}, {
+"t": "+",
+"n": 22,
+"l": "+        }\n"
+}, {
+"t": "+",
+"n": 23,
+"l": "+      } else if (position === \"right\") {\n"
+}, {
+"t": "+",
+"n": 24,
+"l": "+        const expectedLeft = Number(\n"
+}, {
+"t": "+",
+"n": 25,
+"l": "+          pixelPosition.substring(0, pixelPosition.length - 2)\n"
+}, {
+"t": "+",
+"n": 26,
+"l": "+        );\n"
+}, {
+"t": "+",
+"n": 27,
+"l": "+        if (element.getBoundingClientRect().left !== expectedLeft) {\n"
+}, {
+"t": "+",
+"n": 28,
+"l": "+          return false;\n"
+}, {
+"t": "+",
+"n": 29,
+"l": "+        }\n"
+}, {
+"t": "+",
+"n": 30,
+"l": "+      }\n"
+}, {
+"t": "+",
+"n": 31,
+"l": "+    }\n"
+}, {
+"t": "+",
+"n": 32,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 33,
+"l": "+  return true;\n"
+}, {
+"t": "+",
+"n": 34,
+"l": "+};\n"
+}, {
+"t": "+",
+"n": 35,
+"l": "+\n"
+}, {
+"t": "",
+"n": 36,
+"l": " const testMessage = {\n"
+}, {
+"t": "",
+"n": 37,
+"l": "   message: {\n"
+}, {
+"t": "",
+"n": 38,
+"l": "     id: \"TEST_MESSAGE\",\n"
+}, {
+"t": "",
+"n": 39,
+"l": "     template: \"feature_callout\",\n"
+}, {
+"t": "",
+"n": 40,
+"l": "     content: {\n"
+}, {
+"t": "",
+"n": 41,
+"l": "       id: \"TEST_MESSAGE\",\n"
+}, {
+"t": "",
+"n": 42,
+"l": "       template: \"multistage\",\n"
+}, {
+"t": "",
+"n": 43,
+"l": "       backdrop: \"transparent\",\n"
+}, {
+"t": "@",
+"n": 44,
+"l": "@@ -340,8 +364,53 @@ add_task(\n"
+}, {
+"t": "",
+"n": 45,
+"l": "       ),\n"
+}, {
+"t": "",
+"n": 46,
+"l": "       \"Callout custom position is as expected while navigator toolbox height is extended\"\n"
+}, {
+"t": "",
+"n": 47,
+"l": "     );\n"
+}, {
+"t": "",
+"n": 48,
+"l": "     BrowserTestUtils.removeTab(tab);\n"
+}, {
+"t": "",
+"n": 49,
+"l": "     await BrowserTestUtils.closeWindow(win);\n"
+}, {
+"t": "",
+"n": 50,
+"l": "     sandbox.restore();\n"
+}, {
+"t": "",
+"n": 51,
+"l": "   }\n"
+}, {
+"t": "",
+"n": 52,
+"l": " );\n"
+}, {
+"t": "+",
+"n": 53,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 54,
+"l": "+add_task(\n"
+}, {
+"t": "+",
+"n": 55,
+"l": "+  async function custom_position_callout_is_horizontally_reversed_in_rtl_layouts() {\n"
+}, {
+"t": "+",
+"n": 56,
+"l": "+    // Deep copying our test message so we can alter it without disrupting future tests\n"
+}, {
+"t": "+",
+"n": 57,
+"l": "+    const pdfTestMessage = JSON.parse(JSON.stringify(testMessage));\n"
+}, {
+"t": "+",
+"n": 58,
+"l": "+    const pdfTestMessageCalloutSelector =\n"
+}, {
+"t": "+",
+"n": 59,
+"l": "+      pdfTestMessage.message.content.screens[0].id;\n"
+}, {
+"t": "+",
+"n": 60,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 61,
+"l": "+    pdfTestMessage.message.content.screens[0].parent_selector = \"hbox#browser\";\n"
+}, {
+"t": "+",
+"n": 62,
+"l": "+    pdfTestMessage.message.content.screens[0].content.callout_position_override = {\n"
+}, {
+"t": "+",
+"n": 63,
+"l": "+      top: \"45px\",\n"
+}, {
+"t": "+",
+"n": 64,
+"l": "+      right: \"25px\",\n"
+}, {
+"t": "+",
+"n": 65,
+"l": "+    };\n"
+}, {
+"t": "+",
+"n": 66,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 67,
+"l": "+    const sandbox = sinon.createSandbox();\n"
+}, {
+"t": "+",
+"n": 68,
+"l": "+    const sendTriggerStub = sandbox.stub(ASRouter, \"sendTriggerMessage\");\n"
+}, {
+"t": "+",
+"n": 69,
+"l": "+    sendTriggerStub.withArgs(pdfMatch).resolves(pdfTestMessage);\n"
+}, {
+"t": "+",
+"n": 70,
+"l": "+    sendTriggerStub.callThrough();\n"
+}, {
+"t": "+",
+"n": 71,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 72,
+"l": "+    const win = await BrowserTestUtils.openNewBrowserWindow();\n"
+}, {
+"t": "+",
+"n": 73,
+"l": "+    win.document.dir = \"rtl\";\n"
+}, {
+"t": "+",
+"n": 74,
+"l": "+    ok(\n"
+}, {
+"t": "+",
+"n": 75,
+"l": "+      win.document.documentElement.getAttribute(\"dir\") === \"rtl\",\n"
+}, {
+"t": "+",
+"n": 76,
+"l": "+      \"browser window is in RTL\"\n"
+}, {
+"t": "+",
+"n": 77,
+"l": "+    );\n"
+}, {
+"t": "+",
+"n": 78,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 79,
+"l": "+    await openURLInWindow(win, PDF_TEST_URL);\n"
+}, {
+"t": "+",
+"n": 80,
+"l": "+    const doc = win.document;\n"
+}, {
+"t": "+",
+"n": 81,
+"l": "+    await waitForCalloutScreen(doc, pdfTestMessageCalloutSelector);\n"
+}, {
+"t": "+",
+"n": 82,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 83,
+"l": "+    const callout = doc.querySelector(`.${pdfTestMessageCalloutSelector}`);\n"
+}, {
+"t": "+",
+"n": 84,
+"l": "+    ok(callout, \"Callout is rendered when navigating to PDF file\");\n"
+}, {
+"t": "+",
+"n": 85,
+"l": "+    ok(\n"
+}, {
+"t": "+",
+"n": 86,
+"l": "+      validateCalloutRTLPosition(\n"
+}, {
+"t": "+",
+"n": 87,
+"l": "+        callout,\n"
+}, {
+"t": "+",
+"n": 88,
+"l": "+        pdfTestMessage.message.content.screens[0].content\n"
+}, {
+"t": "+",
+"n": 89,
+"l": "+          .callout_position_override\n"
+}, {
+"t": "+",
+"n": 90,
+"l": "+      ),\n"
+}, {
+"t": "+",
+"n": 91,
+"l": "+      \"Callout custom position is rendered appropriately in RTL mode\"\n"
+}, {
+"t": "+",
+"n": 92,
+"l": "+    );\n"
+}, {
+"t": "+",
+"n": 93,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 94,
+"l": "+    await BrowserTestUtils.closeWindow(win);\n"
+}, {
+"t": "+",
+"n": 95,
+"l": "+    sandbox.restore();\n"
+}, {
+"t": "+",
+"n": 96,
+"l": "+  }\n"
+}, {
+"t": "+",
+"n": 97,
+"l": "+);\n"
+}]
+}, {
+"blockno": 2,
+"lines": [{
+"t": "-",
+"n": 1,
+"l": "--- a/browser/modules/FeatureCallout.sys.mjs\n"
+}, {
+"t": "+",
+"n": 2,
+"l": "+++ b/browser/modules/FeatureCallout.sys.mjs\n"
+}, {
+"t": "@",
+"n": 3,
+"l": "@@ -325,27 +325,35 @@ export class FeatureCallout {\n"
+}, {
+"t": "",
+"n": 4,
+"l": "           if (customPosition.top) {\n"
+}, {
+"t": "",
+"n": 5,
+"l": "             container.style.top = addValueToPixelValue(\n"
+}, {
+"t": "",
+"n": 6,
+"l": "               parentEl.getBoundingClientRect().top,\n"
+}, {
+"t": "",
+"n": 7,
+"l": "               customPosition.top\n"
+}, {
+"t": "",
+"n": 8,
+"l": "             );\n"
+}, {
+"t": "",
+"n": 9,
+"l": "           }\n"
+}, {
+"t": "",
+"n": 10,
+"l": " \n"
+}, {
+"t": "",
+"n": 11,
+"l": "           if (customPosition.left) {\n"
+}, {
+"t": "-",
+"n": 12,
+"l": "-            container.style.left = addValueToPixelValue(\n"
+}, {
+"t": "+",
+"n": 13,
+"l": "+            const leftPosition = addValueToPixelValue(\n"
+}, {
+"t": "",
+"n": 14,
+"l": "               parentEl.getBoundingClientRect().left,\n"
+}, {
+"t": "",
+"n": 15,
+"l": "               customPosition.left\n"
+}, {
+"t": "",
+"n": 16,
+"l": "             );\n"
+}, {
+"t": "+",
+"n": 17,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 18,
+"l": "+            RTL\n"
+}, {
+"t": "+",
+"n": 19,
+"l": "+              ? (container.style.right = leftPosition)\n"
+}, {
+"t": "+",
+"n": 20,
+"l": "+              : (container.style.left = leftPosition);\n"
+}, {
+"t": "",
+"n": 21,
+"l": "           }\n"
+}, {
+"t": "",
+"n": 22,
+"l": " \n"
+}, {
+"t": "",
+"n": 23,
+"l": "           if (customPosition.right) {\n"
+}, {
+"t": "-",
+"n": 24,
+"l": "-            container.style.left = subtractPixelValueFromValue(\n"
+}, {
+"t": "+",
+"n": 25,
+"l": "+            const rightPosition = subtractPixelValueFromValue(\n"
+}, {
+"t": "",
+"n": 26,
+"l": "               customPosition.right,\n"
+}, {
+"t": "",
+"n": 27,
+"l": "               parentEl.getBoundingClientRect().right - container.clientWidth\n"
+}, {
+"t": "",
+"n": 28,
+"l": "             );\n"
+}, {
+"t": "+",
+"n": 29,
+"l": "+\n"
+}, {
+"t": "+",
+"n": 30,
+"l": "+            RTL\n"
+}, {
+"t": "+",
+"n": 31,
+"l": "+              ? (container.style.right = rightPosition)\n"
+}, {
+"t": "+",
+"n": 32,
+"l": "+              : (container.style.left = rightPosition);\n"
+}, {
+"t": "",
+"n": 33,
+"l": "           }\n"
+}, {
+"t": "",
+"n": 34,
+"l": " \n"
+}, {
+"t": "",
+"n": 35,
+"l": "           if (customPosition.bottom) {\n"
+}, {
+"t": "",
+"n": 36,
+"l": "             container.style.top = subtractPixelValueFromValue(\n"
+}, {
+"t": "",
+"n": 37,
+"l": "               customPosition.bottom,\n"
+}, {
+"t": "",
+"n": 38,
+"l": "               parentEl.getBoundingClientRect().bottom - container.clientHeight\n"
+}, {
+"t": "",
+"n": 39,
+"l": "             );\n"
+}, {
+"t": "",
+"n": 40,
+"l": "           }\n"
+}]
+}],
+"phase": "public",
+"pushid": 40514,
+"pushdate": [1672435899, 0],
+"pushuser": "nbeleuzu@mozilla.com",
+"landingsystem": "lando"
+}

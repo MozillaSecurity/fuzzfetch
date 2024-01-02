@@ -1,0 +1,17 @@
+{
+  "as": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -isysroot /builds/worker/fetches/MacOSX14.2.sdk -mmacosx-version-min=10.15 -std=gnu99 --target=x86_64-apple-darwin",
+  "buildid": "20240102095659",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -isysroot /builds/worker/fetches/MacOSX14.2.sdk -mmacosx-version-min=10.15 -std=gnu99 --target=x86_64-apple-darwin",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++ -isysroot /builds/worker/fetches/MacOSX14.2.sdk -mmacosx-version-min=10.15 -stdlib=libc++ --target=x86_64-apple-darwin",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "123.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "123.0a1",
+  "moz_pkg_platform": "mac-fuzzing",
+  "moz_source_repo": "https://hg.mozilla.org/mozilla-central",
+  "moz_source_stamp": "60c369c930dc96abae06a2e0ad6833a3574b803f",
+  "moz_update_channel": "default",
+  "target_alias": "x86_64-apple-darwin"
+}

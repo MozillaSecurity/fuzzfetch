@@ -1,0 +1,724 @@
+{
+  "artifacts": [
+    {
+      "storageType": "s3",
+      "name": "public/build/buildhub.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/config.status",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/buildhub.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/config.status",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/mozharness.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/profile_build_resources.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.awsy.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.checksums",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.common.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.condprof.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.cppunittest.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.crashreporter-symbols-full.tar.zst",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.crashreporter-symbols.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.fuzztest.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.generated-files.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target_info.txt",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.jittest.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.jsreftest.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.jsshell.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.mochitest.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.mozinfo.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.perftests.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.raptor.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.reftest.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.talos.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.test_packages.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.txt",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.updater-dep.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.web-platform.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.xpcshell.tests.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/target.xpt_artifacts.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/en-US/toolchains.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/geckoview-androidTest.apk",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/vnd.android.package-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/geckoview_example.aab",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/x-authorware-bin"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/geckoview_example.apk",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/vnd.android.package-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/geckoview-test_runner.aab",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/x-authorware-bin"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/geckoview-test_runner.apk",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/vnd.android.package-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.aar",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.aar.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.aar.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.aar.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.aar.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-javadoc.jar",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/java-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-javadoc.jar.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-javadoc.jar.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-javadoc.jar.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-javadoc.jar.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.module",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.module.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.module.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.module.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.module.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.pom",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.pom.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.pom.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.pom.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659.pom.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-sources.jar",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/java-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-sources.jar.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-sources.jar.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-sources.jar.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/123.0.20240102095659/geckoview-exoplayer2-nightly-123.0.20240102095659-sources.jar.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/xml"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.aar",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.aar.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.aar.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.aar.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.aar.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-javadoc.jar",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/java-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-javadoc.jar.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-javadoc.jar.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-javadoc.jar.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-javadoc.jar.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.module",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.module.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.module.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.module.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.module.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.pom",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.pom.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.pom.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.pom.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659.pom.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-sources.jar",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/java-archive"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-sources.jar.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-sources.jar.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-sources.jar.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/123.0.20240102095659/geckoview-nightly-omni-armeabi-v7a-123.0.20240102095659-sources.jar.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/maven-metadata.xml",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/xml"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/maven-metadata.xml.md5",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/maven-metadata.xml.sha1",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/maven-metadata.xml.sha256",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-armeabi-v7a/maven-metadata.xml.sha512",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mozharness.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.checksums",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.crashreporter-symbols.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.generated-files.tar.gz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/gzip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target_info.txt",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.jsshell.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.maven.tar.xz",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/x-xz"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.mozinfo.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.test_packages.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.txt",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.xpt_artifacts.zip",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/toolchains.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/chain-of-trust.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/chain-of-trust.json.sig",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "error",
+      "name": "public/cidata/sccache.log",
+      "expires": "2024-01-09T10:08:27.348Z",
+      "contentType": "application/binary"
+    },
+    {
+      "storageType": "error",
+      "name": "public/cidata/sccache-stats.json",
+      "expires": "2024-01-09T10:08:27.348Z",
+      "contentType": "application/binary"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/cidata/target.crashreporter-symbols-full.tar.zst",
+      "expires": "2024-01-09T10:08:27.348Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/certified.log",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/live_backing.log",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "storageType": "reference",
+      "name": "public/logs/live.log",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/localconfig.json",
+      "expires": "2025-01-01T10:08:27.348Z",
+      "contentType": "application/json"
+    }
+  ]
+}

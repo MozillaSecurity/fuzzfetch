@@ -7,6 +7,7 @@ import gzip
 import logging
 import os
 from pathlib import Path
+from unittest.mock import patch
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
@@ -24,7 +25,6 @@ MOCK_HOSTS = {
     "product-details": "https://product-details.mozilla.org",
     "queue": "https://queue.taskcluster.net",
 }
-
 
 assert not BUILD_CACHE or str is not bytes, "BUILD_CACHE requires Python 3"
 
@@ -106,3 +106,10 @@ def requests_mock_cache():
             requests_mock.ANY, requests_mock.ANY, content=_cache_requests
         )
         yield req_mock
+
+
+@pytest.fixture
+def fetcher_mock_resolve_targets():
+    """mock Fetcher.resolve_targets to prevent downloading builds on init"""
+    with patch("fuzzfetch.core.Fetcher.resolve_targets") as mock:
+        yield mock

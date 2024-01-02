@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-i686-linux-gnu -std=gnu99 -m32",
+  "buildid": "20240102145026",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-i686-linux-gnu -std=gnu99 -m32",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++ --sysroot /builds/worker/fetches/sysroot-i686-linux-gnu -m32",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "115.*",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "115.7.0",
+  "moz_pkg_platform": "linux-i686",
+  "moz_source_repo": "https://hg.mozilla.org/releases/mozilla-esr115",
+  "moz_source_stamp": "636a9054f04b5c65a4fbe1b79b91f1ee32629a99",
+  "moz_update_channel": "default",
+  "target_alias": "i686-pc-linux-gnu",
+  "target_cpu": "i686",
+  "target_os": "linux-gnu",
+  "target_vendor": "pc"
+}
