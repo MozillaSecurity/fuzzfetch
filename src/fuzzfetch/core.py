@@ -823,7 +823,6 @@ class Fetcher:
             assert isinstance(out, Path)
 
             try:
-                assert isinstance(extract_args["targets"], list)
                 obj.extract_build(out)
                 (out / "download").mkdir(parents=True)
                 with (out / "download" / "firefox-temp.txt").open("a") as dl_fd:
