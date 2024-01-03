@@ -1,0 +1,194 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102004535",
+      "name": "20240102004535",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102014556",
+      "name": "20240102014556",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102022121",
+      "name": "20240102022121",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102022223",
+      "name": "20240102022223",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102024042",
+      "name": "20240102024042",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102030233",
+      "name": "20240102030233",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102044726",
+      "name": "20240102044726",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102045113",
+      "name": "20240102045113",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102082639",
+      "name": "20240102082639",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102083610",
+      "name": "20240102083610",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102084025",
+      "name": "20240102084025",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102085916",
+      "name": "20240102085916",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102092121",
+      "name": "20240102092121",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102092807",
+      "name": "20240102092807",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102094155",
+      "name": "20240102094155",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102100456",
+      "name": "20240102100456",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102101040",
+      "name": "20240102101040",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102103153",
+      "name": "20240102103153",
+      "expires": "2024-02-02T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102103411",
+      "name": "20240102103411",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102104221",
+      "name": "20240102104221",
+      "expires": "2024-02-02T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102105424",
+      "name": "20240102105424",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102111449",
+      "name": "20240102111449",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102112031",
+      "name": "20240102112031",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102113138",
+      "name": "20240102113138",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102113203",
+      "name": "20240102113203",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102121144",
+      "name": "20240102121144",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102121401",
+      "name": "20240102121401",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102122640",
+      "name": "20240102122640",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102123615",
+      "name": "20240102123615",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102124543",
+      "name": "20240102124543",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102124659",
+      "name": "20240102124659",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102125559",
+      "name": "20240102125559",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102132402",
+      "name": "20240102132402",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102132553",
+      "name": "20240102132553",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102141357",
+      "name": "20240102141357",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102141753",
+      "name": "20240102141753",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.20240102142430",
+      "name": "20240102142430",
+      "expires": "2024-02-01T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.try.pushdate.2024.01.02.latest",
+      "name": "latest",
+      "expires": "2024-02-01T00:00:00.000Z"
+    }
+  ]
+}

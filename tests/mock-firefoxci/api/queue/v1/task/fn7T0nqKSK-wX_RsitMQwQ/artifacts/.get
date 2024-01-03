@@ -1,0 +1,46 @@
+{
+  "artifacts": [
+    {
+      "storageType": "s3",
+      "name": "public/build/main_raw.log",
+      "expires": "2024-04-01T16:20:28.306Z",
+      "contentType": "text/plain"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/mozconfig.autospider",
+      "expires": "2024-04-01T16:20:28.306Z",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.json",
+      "expires": "2024-04-01T16:20:28.306Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.jsshell.zip",
+      "expires": "2024-04-01T16:20:28.306Z",
+      "contentType": "application/zip"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/build/target.mozinfo.json",
+      "expires": "2024-04-01T16:20:28.306Z",
+      "contentType": "application/json"
+    },
+    {
+      "storageType": "s3",
+      "name": "public/logs/live_backing.log",
+      "expires": "2024-04-01T16:20:28.306Z",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "storageType": "reference",
+      "name": "public/logs/live.log",
+      "expires": "2024-04-01T16:20:28.306Z",
+      "contentType": "text/plain; charset=utf-8"
+    }
+  ]
+}

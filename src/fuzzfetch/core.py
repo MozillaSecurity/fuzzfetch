@@ -53,6 +53,7 @@ class Fetcher:
         branch: str,
         build: Union[str, BuildTask],
         flags: Union[Sequence[bool], BuildFlags],
+        targets: Sequence[str],
         platform: Optional[Platform] = None,
         nearest: Optional[BuildSearchOrder] = None,
     ) -> None:
@@ -73,6 +74,7 @@ class Fetcher:
         self._branch = branch
         self._flags = BuildFlags(*flags)
         self._platform = platform or Platform()
+        self._targets = targets
         self._task = None
 
         if not isinstance(build, BuildTask):
@@ -197,6 +199,7 @@ class Fetcher:
 
             try:
                 self._task = BuildTask(build, branch, self._flags, self._platform)
+                self.resolve_targets(self._targets)
             except FetcherException:
                 if not nearest:
                     raise
@@ -245,30 +248,34 @@ class Fetcher:
                     # tried it directly
                     if search_build != build:
                         LOG.debug("trying %s", search_build)
-                        try:
-                            # iterate over all builds for the day, and take the next
-                            # older/newer build available
-                            build_tasks = BuildTask.iterall(
-                                search_build, branch, self._flags, self._platform
-                            )
-                            if not asc:
-                                build_tasks = reversed(list(build_tasks))
+                        # iterate over all builds for the day, and take the next
+                        # older/newer build available
+                        build_tasks = BuildTask.iterall(
+                            search_build,
+                            branch,
+                            self._flags,
+                            self._platform,
+                        )
+                        if not asc:
+                            build_tasks = reversed(list(build_tasks))
 
-                            for task in build_tasks:
-                                task_date = timezone("EST").localize(
-                                    datetime.fromtimestamp(task.rank)
-                                )
-                                LOG.debug("got %s", task_date)
-                                if (asc and task_date >= requested) or (
-                                    not asc and task_date <= requested
-                                ):
+                        for task in build_tasks:
+                            task_date = timezone("EST").localize(
+                                datetime.fromtimestamp(task.rank)
+                            )
+                            LOG.debug("got %s", task_date)
+                            if (asc and task_date >= requested) or (
+                                not asc and task_date <= requested
+                            ):
+                                try:
+                                    self.resolve_targets(self._targets)
                                     self._task = task
                                     break
-                        except FetcherException:
-                            LOG.warning(
-                                "Unable to find build for %s",
-                                start.strftime("%Y-%m-%d"),
-                            )
+                                except FetcherException:
+                                    LOG.warning(
+                                        "Unable to find build for %s",
+                                        start.strftime("%Y-%m-%d"),
+                                    )
 
                     if self._task is not None:
                         # a task was found
@@ -481,23 +488,19 @@ class Fetcher:
             except FetcherException:
                 resolve_url(self.artifact_url(f"{target}.tests.zip"))
 
-    def extract_build(self, targets: Sequence[str], path: PathArg) -> None:
+    def extract_build(self, path: PathArg) -> None:
         """Download and extract the build and requested extra artifacts.
 
         If an executable target is requested (js/firefox), coverage data
         and/or symbols may be downloaded for the build.
 
         Arguments:
-            targets: build artifacts to download
             path: Path to extract downloaded artifacts.
         """
-        # sanity check all targets before downloading any
-        self.resolve_targets(targets)
-
         path = Path(path)
         path.mkdir(parents=True, exist_ok=True)
 
-        targets_remaining = set(targets)
+        targets_remaining = set(self._targets)
         have_exec = False
 
         # warn if we don't have a fast decompressor for bz2
@@ -768,6 +771,7 @@ class Fetcher:
             args.branch,
             args.build,
             flags,
+            args.target,
             Platform(args.os, args.cpu),
             args.nearest,
         )
@@ -782,7 +786,6 @@ class Fetcher:
         extract_options = {
             "dry_run": args.dry_run,
             "out": final_dir,
-            "targets": args.target,
         }
 
         return obj, extract_options
@@ -821,7 +824,7 @@ class Fetcher:
 
             try:
                 assert isinstance(extract_args["targets"], list)
-                obj.extract_build(extract_args["targets"], out)
+                obj.extract_build(out)
                 (out / "download").mkdir(parents=True)
                 with (out / "download" / "firefox-temp.txt").open("a") as dl_fd:
                     dl_fd.write(f"buildID={obj.id}{os.linesep}")

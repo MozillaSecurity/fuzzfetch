@@ -1,0 +1,23 @@
+{
+  "as": "/builds/worker/fetches/vs/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/ml64.exe",
+  "buildid": "20240102145026",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang-cl -fms-compatibility-version=19.29 -Xclang -std=gnu99 -Xclang -ivfsoverlay -Xclang /builds/worker/fetches/vs/overlay.yaml",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang-cl -fms-compatibility-version=19.29 -Xclang -std=c++17 -Xclang -ivfsoverlay -Xclang /builds/worker/fetches/vs/overlay.yaml",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "host_cpu": "x86_64",
+  "host_os": "linux-gnu",
+  "host_vendor": "pc",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "115.*",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "115.7.0",
+  "moz_pkg_platform": "win64",
+  "moz_source_repo": "https://hg.mozilla.org/releases/mozilla-esr115",
+  "moz_source_stamp": "636a9054f04b5c65a4fbe1b79b91f1ee32629a99",
+  "moz_update_channel": "default",
+  "target_alias": "x86_64-pc-mingw32",
+  "target_cpu": "x86_64",
+  "target_os": "mingw32",
+  "target_vendor": "pc"
+}

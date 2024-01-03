@@ -1,0 +1,17 @@
+{
+  "as": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-i686-linux-gnu -std=gnu99 -m32",
+  "buildid": "20231229181418",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-i686-linux-gnu -std=gnu99 -m32",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++ --sysroot /builds/worker/fetches/sysroot-i686-linux-gnu -m32",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "123.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "123.0a1",
+  "moz_pkg_platform": "linux-i686-fuzzing",
+  "moz_source_repo": "https://hg.mozilla.org/try",
+  "moz_source_stamp": "50f00cc1d403ff2c42e97aa0ac7bf953d370fead",
+  "moz_update_channel": "default",
+  "target_alias": "i686-pc-linux-gnu"
+}

@@ -24,6 +24,8 @@ LOG = logging.getLogger("fuzzfetch_test")
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("flake8").setLevel(logging.WARNING)
 
+DEFAULT_TARGETS = ("firefox",)
+
 
 def build_flags_factory(**kwds):
     """BuildFlags with all fields defaulted to False"""
@@ -77,7 +79,7 @@ def get_builds_to_test():
             continue
         if flags.tsan and ((cpu != "x64" or os_ != "Linux") or esr):
             continue
-        if flags.valgrind and (os_ != "Linux" or cpu != "x64" or esr):
+        if flags.valgrind:
             continue
         if cpu == "arm64" and os_ == "Linux" and not opt:
             continue
@@ -91,6 +93,8 @@ def get_builds_to_test():
         } and flags == build_flags_factory(asan=True):
             continue
         if os_ == "Android":
+            if cpu == "x86":
+                continue
             if flags.fuzzing and (cpu != "x86" or flags.asan or not flags.debug):
                 continue
             if flags.debug and not flags.fuzzing and cpu != "arm":
@@ -130,14 +134,11 @@ def get_builds_to_test():
 
 
 @pytest.mark.parametrize("branch, build_flags, os_, cpu", get_builds_to_test())
-@pytest.mark.usefixtures("requests_mock_cache")
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_metadata(branch, build_flags, os_, cpu):
     """Instantiate a Fetcher (which downloads metadata from TaskCluster) and check that
     the build is recent.
     """
-    # BuildFlags(asan, debug, fuzzing, coverage, valgrind)
-    # Fetcher(branch, build, flags, arch_32)
-    # Set freeze_time to a date ahead of the latest mock build
     platform_ = Platform(os_, cpu)
     for as_args in (True, False):  # try as API and as command line
         if as_args:
@@ -150,7 +151,13 @@ def test_metadata(branch, build_flags, os_, cpu):
         else:
             if branch.startswith("esr"):
                 branch = Fetcher.resolve_esr(branch)
-            fetcher = Fetcher(branch, "latest", build_flags, platform_)
+            fetcher = Fetcher(
+                branch,
+                "latest",
+                build_flags,
+                DEFAULT_TARGETS,
+                platform_,
+            )
 
         LOG.debug("succeeded creating Fetcher")
         LOG.debug("buildid: %s", fetcher.id)
@@ -165,7 +172,7 @@ def test_metadata(branch, build_flags, os_, cpu):
                 [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", date_str] + args
             )
         else:
-            Fetcher(branch, date_str, build_flags, platform_)
+            Fetcher(branch, date_str, build_flags, DEFAULT_TARGETS, platform_)
 
         # hg rev is also accepted as a build input
         rev = fetcher.changeset
@@ -174,7 +181,7 @@ def test_metadata(branch, build_flags, os_, cpu):
                 [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", rev] + args
             )
         else:
-            Fetcher(branch, rev, build_flags, platform_)
+            Fetcher(branch, rev, build_flags, DEFAULT_TARGETS, platform_)
         # namespace = fetcher.build
 
         # TaskCluster namespace is also accepted as a build input
@@ -189,23 +196,23 @@ def test_metadata(branch, build_flags, os_, cpu):
 @pytest.mark.parametrize(
     "requested, expected, direction",
     (
-        ("2020-06-06", "2020-06-09", BuildSearchOrder.ASC),
-        ("2021-06-09", "2021-06-08", BuildSearchOrder.DESC),
+        ("2022-12-31", "2023-01-03", BuildSearchOrder.ASC),
+        ("2024-01-03", "2024-01-02", BuildSearchOrder.DESC),
         (
-            "32fba417ebd01dfb2c2a392cdb1fad7ef66e96e8",
-            "7f7b983390650cbc7d736e92fd3e1f629a30ac02",
+            "5096e8be57730ef6902aaa8954b79aa0a21b32d6",
+            "2288a4992fac2e0ecb886f1f9bfcdbe39cc18393",
             BuildSearchOrder.ASC,
         ),
     ),
 )
 @pytest.mark.parametrize("is_namespace", [True, False])
-@pytest.mark.usefixtures("requests_mock_cache")
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_nearest_retrieval(requested, expected, direction, is_namespace):
     """
     Attempt to retrieve a build near the supplied build_id
     """
     # Set freeze_time to a date ahead of the latest mock build
-    with freeze_time("2021-06-08"):
+    with freeze_time("2024-01-02"):
         LOG.debug("looking for nearest to %s", requested)
         if is_namespace:
             if BuildTask.RE_DATE.match(requested):
@@ -220,7 +227,13 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
         else:
             build_id = requested
 
-        build = Fetcher("central", build_id, build_flags_factory(), nearest=direction)
+        build = Fetcher(
+            "central",
+            build_id,
+            build_flags_factory(),
+            DEFAULT_TARGETS,
+            nearest=direction,
+        )
         if BuildTask.RE_DATE.match(expected):
             build_date = datetime.strftime(build.datetime, "%Y-%m-%d")
             assert build_date == expected
@@ -229,27 +242,42 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
             assert build.changeset == expected
 
 
-@pytest.mark.usefixtures("requests_mock_cache")
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_hash_resolution():
     """
     Test shortened hashes are resolved
     """
-    rev = "24938c537a55f9db3913072d33b178b210e7d6b5"
-    build = Fetcher("central", rev[:12], build_flags_factory())
+    rev = "10aa7423789835a7dbd24b0b44ad1ae2ad77b59b"
+    build = Fetcher(
+        "central",
+        rev[:12],
+        build_flags_factory(),
+        DEFAULT_TARGETS,
+    )
     assert build.changeset == rev
 
 
-@pytest.mark.usefixtures("requests_mock_cache")
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_fuzzilli_builds():
     """
     One-off test for retrieving fuzzilli enabled builds
     """
-    Fetcher("central", "latest", build_flags_factory(debug=True, fuzzilli=True))
+    Fetcher(
+        "central",
+        "latest",
+        build_flags_factory(debug=True, fuzzilli=True),
+        DEFAULT_TARGETS,
+    )
 
 
-@pytest.mark.usefixtures("requests_mock_cache")
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_nyx_builds():
     """
     Test for retrieving Nyx snapshot enabled builds
     """
-    Fetcher("central", "latest", build_flags_factory(asan=True, fuzzing=True, nyx=True))
+    Fetcher(
+        "central",
+        "latest",
+        build_flags_factory(asan=True, fuzzing=True, nyx=True),
+        DEFAULT_TARGETS,
+    )

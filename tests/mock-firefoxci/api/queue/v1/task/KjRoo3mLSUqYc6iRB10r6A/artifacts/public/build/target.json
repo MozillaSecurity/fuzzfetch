@@ -1,0 +1,17 @@
+{
+  "as": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -std=gnu99 --target=arm-linux-androideabi21",
+  "buildid": "20231229173843",
+  "cc": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang -std=gnu99 --target=arm-linux-androideabi21",
+  "cxx": "/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++ --target=arm-linux-androideabi21",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "moz_app_id": "{aa3c5121-dab2-40e2-81ca-7ea25febc110}",
+  "moz_app_maxversion": "123.0a1",
+  "moz_app_name": "fennec",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "123.0a1",
+  "moz_pkg_platform": "android-arm",
+  "moz_source_repo": "https://hg.mozilla.org/try",
+  "moz_source_stamp": "d23d91d8574d53445c95e0156ee3658f9b88007e",
+  "moz_update_channel": "default",
+  "target_alias": "arm-unknown-linux-androideabi"
+}

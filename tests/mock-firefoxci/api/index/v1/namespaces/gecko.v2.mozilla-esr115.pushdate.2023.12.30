@@ -1,0 +1,14 @@
+{
+  "namespaces": [
+    {
+      "namespace": "gecko.v2.mozilla-esr115.pushdate.2023.12.30.20231230171938",
+      "name": "20231230171938",
+      "expires": "2025-01-03T00:00:00.000Z"
+    },
+    {
+      "namespace": "gecko.v2.mozilla-esr115.pushdate.2023.12.30.latest",
+      "name": "latest",
+      "expires": "2025-01-03T00:00:00.000Z"
+    }
+  ]
+}
