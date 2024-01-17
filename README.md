@@ -27,8 +27,8 @@ usage: fuzzfetch [-h] [--target [TARGET ...]]
                  [--build DATE|REV|NS]
                  [--central | --release | --beta | --esr-stable | --esr-next | --try | --autoland]
                  [-d] [-a] [-t] [--fuzzing] [--fuzzilli] [--coverage]
-                 [--valgrind] [--no-opt] [--nyx] [-n NAME] [-o OUT]
-                 [--dry-run] [--nearest-newer | --nearest-older] [-V]
+                 [--valgrind] [--no-opt] [--nyx] [--searchfox] [-n NAME]
+                 [-o OUT] [--dry-run] [--nearest-newer | --nearest-older] [-V]
 
 options:
   -h, --help            show this help message and exit
@@ -37,7 +37,8 @@ options:
 Target:
   --target [TARGET ...]
                         Specify the build artifacts to download. Valid
-                        options: firefox js common gtest (default: firefox)
+                        options: firefox js common gtest mozharness searchfox
+                        (default: firefox)
   --os {Android,Darwin,Linux,Windows}
                         Specify the target system. (default: Linux)
   --cpu {AMD64,ARM64,aarch64,arm,arm64,i686,x64,x86,x86_64}
@@ -68,6 +69,7 @@ Build Arguments:
   --valgrind            Download Valgrind builds.
   --no-opt              Download non-optimized builds.
   --nyx                 Download Nyx snapshot builds.
+  --searchfox           Download searchfox data.
 
 Misc. Arguments:
   -n NAME, --name NAME  Specify a name (default=auto)
