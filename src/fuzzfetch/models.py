@@ -35,6 +35,7 @@ class BuildFlags(
             "no_opt",
             "fuzzilli",
             "nyx",
+            "searchfox",
         ),
     )
 ):
@@ -55,6 +56,7 @@ class BuildFlags(
             + ("-nyx" if self.nyx else "")
             + ("-valgrind" if self.valgrind else "")
             + ("-noopt" if self.no_opt else "")
+            + ("-searchfox" if self.searchfox else "")
             + ("-debug" if self.debug else "")
             + ("-opt" if not self.no_opt and not self.debug else "")
         )

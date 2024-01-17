@@ -114,6 +114,7 @@ class Fetcher:
                     no_opt,
                     fuzzilli,
                     nyx,
+                    searchfox,
                 ) = self._flags
                 if not debug:
                     debug = "-debug" in build or "-dbg" in build
@@ -133,6 +134,8 @@ class Fetcher:
                     fuzzilli = "-fuzzilli" in build
                 if not nyx:
                     nyx = "-nyx" in build
+                if not searchfox:
+                    searchfox = "-searchfox" in build
 
                 self._flags = BuildFlags(
                     asan,
@@ -144,6 +147,7 @@ class Fetcher:
                     no_opt,
                     fuzzilli,
                     nyx,
+                    searchfox,
                 )
 
                 # Validate flags
@@ -190,6 +194,11 @@ class Fetcher:
                 if self._flags.nyx and "-nyx" not in build:
                     raise FetcherException(
                         "'build' is not a Nyx build, but nyx=True given "
+                        f"(build={build})"
+                    )
+                if self._flags.searchfox and "-searchfox" not in build:
+                    raise FetcherException(
+                        "'build' is not a searchfox build, but searchfox=True given "
                         f"(build={build})"
                     )
 
@@ -482,6 +491,12 @@ class Fetcher:
                     if not (self._flags.fuzzing or self._flags.fuzzilli):
                         raise
 
+        if "searchfox" in targets_remaining:
+            targets_remaining.remove("searchfox")
+            resolve_url(self.artifact_url("mozsearch-index.zip"))
+            resolve_url(self.artifact_url("generated-files.tar.gz"))
+            resolve_url(self.artifact_url("mozsearch-distinclude.map"))
+
         for target in targets_remaining:
             try:
                 resolve_url(self.artifact_url(f"{target}.tests.tar.gz"))
@@ -582,6 +597,15 @@ class Fetcher:
                     # (bug 1649062)
                     # we want to maintain support for older builds for now
                     pass
+
+        if "searchfox" in targets_remaining:
+            targets_remaining.remove("searchfox")
+            self.extract_zip(self.artifact_url("mozsearch-index.zip"), path=path)
+            self.extract_tar(self.artifact_url("generated-files.tar.gz"), path=path)
+            download_url(
+                self.artifact_url("mozsearch-distinclude.map"),
+                outfile=path / "mozsearch-distinclude.map",
+            )
 
         # any still remaining targets are assumed to be test artifacts
         for target in targets_remaining:
@@ -766,6 +790,7 @@ class Fetcher:
             args.no_opt,
             args.fuzzilli,
             args.nyx,
+            args.searchfox,
         )
         obj = cls(
             args.branch,

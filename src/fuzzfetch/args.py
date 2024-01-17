@@ -27,17 +27,13 @@ class FetcherArgs:
         if not hasattr(self, "parser"):
             self.parser = ArgumentParser(conflict_handler="resolve", prog="fuzzfetch")
 
-        self.parser.set_defaults(
-            target="firefox", build="latest", tests=None
-        )  # branch default is set after parsing
-
         target_group = self.parser.add_argument_group("Target")
         target_group.add_argument(
             "--target",
             nargs="*",
-            default=FetcherArgs.DEFAULT_TARGETS,
+            default=[],
             help="Specify the build artifacts to download. "
-            "Valid options: firefox js common gtest mozharness"
+            "Valid options: firefox js common gtest mozharness searchfox "
             f"(default: {' '.join(FetcherArgs.DEFAULT_TARGETS)})",
         )
         target_group.add_argument(
@@ -62,6 +58,7 @@ class FetcherArgs:
         type_group = self.parser.add_argument_group("Build")
         type_group.add_argument(
             "--build",
+            default="latest",
             metavar="DATE|REV|NS",
             help="Specify the build to download, (default: %(default)s)"
             " Accepts values in format YYYY-MM-DD (2017-01-01)"
@@ -157,6 +154,9 @@ class FetcherArgs:
         build_group.add_argument(
             "--nyx", action="store_true", help="Download Nyx snapshot builds."
         )
+        build_group.add_argument(
+            "--searchfox", action="store_true", help="Download searchfox data."
+        )
 
         self.parser.add_argument(
             "--gtest",
@@ -251,13 +251,8 @@ class FetcherArgs:
                 self.parser.error("Cannot specify --build namespace and --fuzzilli")
             if args.nyx:
                 self.parser.error("Cannot specify --build namespace and --nyx")
-
-        if args.gtest:
-            LOG.warning(
-                "--gtest is deprecated, add 'gtest' to --target instead "
-                "(e.g. --target firefox gtest)"
-            )
-            args.target.append("gtest")
+            if args.searchfox:
+                self.parser.error("Cannot specify --build namespace and --searchfox")
 
         if "firefox" in args.target and args.fuzzilli:
             self.parser.error("Cannot specify --target firefox and --fuzzilli")
@@ -269,5 +264,22 @@ class FetcherArgs:
             argv: a list of arguments
         """
         args = self.parser.parse_args(argv)
+
+        if not args.target and (
+            args.searchfox
+            or (self.is_build_ns(args.build) and "-searchfox" in args.build)
+        ):
+            args.target.append("searchfox")
+
+        if not args.target:
+            args.target.extend(self.DEFAULT_TARGETS)
+
+        if args.gtest:
+            LOG.warning(
+                "--gtest is deprecated, add 'gtest' to --target instead "
+                "(e.g. --target firefox gtest)"
+            )
+            args.target.append("gtest")
+
         self.sanity_check(args)
         return args
