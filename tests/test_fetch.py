@@ -281,3 +281,16 @@ def test_nyx_builds():
         build_flags_factory(asan=True, fuzzing=True, nyx=True),
         DEFAULT_TARGETS,
     )
+
+
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
+def test_searchfox_data():
+    """
+    Test for retrieving SearchFox source data
+    """
+    Fetcher(
+        "central",
+        "latest",
+        build_flags_factory(searchfox=True, debug=True),
+        ["searchfox"],
+    )

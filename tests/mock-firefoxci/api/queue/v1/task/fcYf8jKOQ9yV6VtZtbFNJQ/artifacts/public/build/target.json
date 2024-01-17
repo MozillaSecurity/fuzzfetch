@@ -1,0 +1,17 @@
+{
+  "as": "/builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu -std=gnu99",
+  "buildid": "20240117092715",
+  "cc": "/builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu -std=gnu99",
+  "cxx": "/builds/worker/fetches/clang/bin/clang++ --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu",
+  "host_alias": "x86_64-pc-linux-gnu",
+  "moz_app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+  "moz_app_maxversion": "123.0a1",
+  "moz_app_name": "firefox",
+  "moz_app_vendor": "Mozilla",
+  "moz_app_version": "123.0a1",
+  "moz_pkg_platform": "linux-x86_64",
+  "moz_source_repo": "https://hg.mozilla.org/mozilla-central",
+  "moz_source_stamp": "71000174812fc0992b6793e53ac5f11f1b87bdc0",
+  "moz_update_channel": "default",
+  "target_alias": "x86_64-pc-linux-gnu"
+}
