@@ -281,6 +281,12 @@ def test_nyx_builds():
         build_flags_factory(asan=True, fuzzing=True, nyx=True),
         DEFAULT_TARGETS,
     )
+    Fetcher(
+        "central",
+        "latest",
+        build_flags_factory(asan=True, fuzzing=True, nyx=True, coverage=True),
+        DEFAULT_TARGETS,
+    )
 
 
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
