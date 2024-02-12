@@ -477,7 +477,7 @@ class Fetcher:
             resolve_url(url)
 
         if have_exec:
-            if self._flags.coverage:
+            if self._flags.coverage and not self._flags.nyx:
                 resolve_url(self.artifact_url("code-coverage-gcno.zip"))
 
             if (
@@ -578,7 +578,7 @@ class Fetcher:
             self.extract_zip(url, path)
 
         if have_exec:
-            if self._flags.coverage:
+            if self._flags.coverage and not self._flags.nyx:
                 self.extract_zip(self.artifact_url("code-coverage-gcno.zip"), path)
 
             if (
