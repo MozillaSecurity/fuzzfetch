@@ -17,7 +17,7 @@ tasks:
       script:
         - bash
         - '-xec'
-        - tox; tox -e codecov
+        - tox; tox -e poetry -- codecov
       jobs:
         include:
           - name: tests python 3.8
@@ -38,27 +38,20 @@ tasks:
               TOXENV: py311
           - name: lint python 3.11
             version: "3.11"
-            env:
-              TOXENV: lint
-            script:
-              - tox
+            script: [pre-commit, run, -a]
+          - name: build python 3.11
+            version: "3.11"
+            script: [tox, -e, build]
           - name: PyPI upload
             version: "3.11"
-            env:
-              TOXENV: pypi
-            script:
-              - tox
+            script: [tox, -e, pypi]
             when:
               release: true
               all_passed: true
             secrets:
               - type: env
                 secret: project/fuzzing/pypi-fuzzfetch
-                name: TWINE_USERNAME
-                key: username
-              - type: env
-                secret: project/fuzzing/pypi-fuzzfetch
-                name: TWINE_PASSWORD
+                name: POETRY_PYPI_TOKEN_PYPI
                 key: password
 
     # Filter github event to only necessary fields.
