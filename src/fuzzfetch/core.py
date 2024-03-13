@@ -586,11 +586,15 @@ class Fetcher:
                 and not self._flags.tsan
                 and not self._flags.valgrind
             ):
-                (path / "symbols").mkdir()
+                if self._platform.system == "Darwin":
+                    sym_path = next(path.glob("*.app/Contents/MacOS")) / "symbols"
+                else:
+                    sym_path = path / "symbols"
+                sym_path.mkdir()
                 try:
                     self.extract_zip(
                         self.artifact_url("crashreporter-symbols.zip"),
-                        path=path / "symbols",
+                        path=sym_path,
                     )
                 except FetcherException:
                     # fuzzing debug builds no longer have crashreporter-symbols.zip
