@@ -300,3 +300,16 @@ def test_searchfox_data():
         build_flags_factory(searchfox=True, debug=True),
         ["searchfox"],
     )
+
+
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
+def test_afl_builds():
+    """
+    Test for retrieving AFL++ enabled builds
+    """
+    Fetcher(
+        "central",
+        "latest",
+        build_flags_factory(asan=True, fuzzing=True, afl=True),
+        DEFAULT_TARGETS,
+    )

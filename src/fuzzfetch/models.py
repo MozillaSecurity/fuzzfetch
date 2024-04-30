@@ -36,6 +36,7 @@ class BuildFlags(
             "fuzzilli",
             "nyx",
             "searchfox",
+            "afl",
         ),
     )
 ):
@@ -53,6 +54,7 @@ class BuildFlags(
             + ("-fuzzing" if self.fuzzing else "")
             + ("-asan" if self.asan else "")
             + ("-tsan" if self.tsan else "")
+            + ("-afl" if self.afl else "")
             + ("-nyx" if self.nyx else "")
             + ("-valgrind" if self.valgrind else "")
             + ("-noopt" if self.no_opt else "")
