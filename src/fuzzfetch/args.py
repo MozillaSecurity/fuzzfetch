@@ -132,6 +132,9 @@ class FetcherArgs:
             help="Download AddressSanitizer builds.",
         )
         build_group.add_argument(
+            "--afl", action="store_true", help="Download AFL++ builds."
+        )
+        build_group.add_argument(
             "-t", "--tsan", action="store_true", help="Download ThreadSanitizer builds."
         )
         build_group.add_argument(

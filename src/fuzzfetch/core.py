@@ -64,7 +64,7 @@ class Fetcher:
             build: build identifier. acceptable identifiers are: TaskCluster
                    namespace, hg changeset, date, 'latest'
             flags: ('asan', 'debug', 'fuzzing', 'coverage', 'valgrind', 'tsan',
-                    'no_opt', 'fuzzilli', 'nyx'),
+                    'no_opt', 'fuzzilli', 'nyx', 'searchfox', 'afl'),
                    each a bool, not all combinations exist in TaskCluster
             platform: force platform if different than current system
             nearest: Search for nearest build, not exact
@@ -115,11 +115,14 @@ class Fetcher:
                     fuzzilli,
                     nyx,
                     searchfox,
+                    afl,
                 ) = self._flags
                 if not debug:
                     debug = "-debug" in build or "-dbg" in build
                 if not asan:
                     asan = "-asan" in build
+                if not afl:
+                    afl = "-afl" in build
                 if not tsan:
                     tsan = "-tsan" in build
                 if not fuzzing:
@@ -136,6 +139,8 @@ class Fetcher:
                     nyx = "-nyx" in build
                 if not searchfox:
                     searchfox = "-searchfox" in build
+                if not afl:
+                    afl = "-afl" in build
 
                 self._flags = BuildFlags(
                     asan,
@@ -148,6 +153,7 @@ class Fetcher:
                     fuzzilli,
                     nyx,
                     searchfox,
+                    afl,
                 )
 
                 # Validate flags
@@ -199,6 +205,11 @@ class Fetcher:
                 if self._flags.searchfox and "-searchfox" not in build:
                     raise FetcherException(
                         "'build' is not a searchfox build, but searchfox=True given "
+                        f"(build={build})"
+                    )
+                if self._flags.afl and "-afl" not in build:
+                    raise FetcherException(
+                        "'build' is not an AFL++ build, but afl=True given "
                         f"(build={build})"
                     )
 
@@ -795,6 +806,7 @@ class Fetcher:
             args.fuzzilli,
             args.nyx,
             args.searchfox,
+            args.afl,
         )
         obj = cls(
             args.branch,
