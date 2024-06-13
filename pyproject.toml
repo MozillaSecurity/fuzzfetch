@@ -1,20 +1,20 @@
 [build-system]
-requires = ["setuptools >= 43", "wheel", "setuptools_scm[toml] >= 3.4"]
-build-backend = "setuptools.build_meta"
-
-[tool.coverage.run]
-omit = [
-    "*/setup.py",
-    "*/tests/*",
-    "*/build/*",
-    "*/dist/*",
-    "*/.tox/*",
-    "*/.egg/*",
-]
+build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 
 [tool.coverage.report]
 exclude_lines = [
-    "pragma: no cover",
+  "pragma: no cover"
+]
+
+[tool.coverage.run]
+omit = [
+  "*/.egg/*",
+  "*/.tox/*",
+  "*/build/*",
+  "*/dist/*",
+  "*/setup.py",
+  "*/tests/*"
 ]
 
 [tool.isort]
@@ -22,28 +22,75 @@ known_first_party = "fuzzfetch"
 profile = "black"
 
 [tool.mypy]
-strict = true
 ignore_missing_imports = true
 show_error_codes = true
+strict = true
+
+[tool.poetry]
+authors = ["Mozilla Fuzzing Team <fuzzing@mozilla.com>"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+  "Topic :: Software Development :: Testing"
+]
+description = "Downloader for firefox/jsshell builds."
+homepage = "https://github.com/MozillaSecurity/fuzzfetch"
+keywords = ["fuzz", "fuzzing", "security", "test", "testing"]
+license = "MPL 2.0"
+name = "fuzzfetch"
+packages = [{from = "src", include = "fuzzfetch"}]
+version = "0.0.0"
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+pytz = "^2023.3.post1"
+requests = "^2.31.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+codespell = "^2.2.6"
+coverage = {extras = ["toml"], version = "^7.3.2"}
+flake8 = "^6.0.0"
+freezegun = "^1.3.1"
+isort = "^5.12.0"
+mypy = "^1.7.1"
+pylint = "^3.0.2"
+pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
+pyupgrade = "^v3.8.0"
+requests-mock = "^1.11.0"
+toml-sort = "^0.23.1"
+yesqa = "^v1.5.0"
+
+[tool.poetry.scripts]
+fuzzfetch = "fuzzfetch:Fetcher.main"
+
+[tool.poetry-dynamic-versioning]
+enable = true
 
 [tool.pylint.format]
 max-line-length = 88
 
 [tool.pylint.messages_control]
 disable = [
-    "fixme",
-    "too-few-public-methods",
-    "too-many-arguments",
-    "too-many-branches",
-    "too-many-instance-attributes",
-    "too-many-lines",
-    "too-many-locals",
-    "too-many-nested-blocks",
-    "too-many-statements",
-    "unspecified-encoding",
+  "fixme",
+  "too-few-public-methods",
+  "too-many-arguments",
+  "too-many-branches",
+  "too-many-instance-attributes",
+  "too-many-lines",
+  "too-many-locals",
+  "too-many-nested-blocks",
+  "too-many-statements",
+  "unspecified-encoding"
 ]
 
 [tool.pytest.ini_options]
 log_level = "DEBUG"
 
-[tool.setuptools_scm]
+[tool.tomlsort]
+all = true
+in_place = true
