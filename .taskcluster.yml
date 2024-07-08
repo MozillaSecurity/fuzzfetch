@@ -3,9 +3,23 @@ policy:
   pullRequests: collaborators
 tasks:
   $let:
+    user: ${event.sender.login}
 
     project_name:
       Fuzzfetch
+
+    fetch_rev:
+      $if: 'tasks_for == "github-pull-request"'
+      then: ${event.pull_request.head.sha}
+      else:
+        $if: 'tasks_for == "github-push"'
+        then: ${event.after}
+        else: ${event.release.tag_name}
+
+    http_repo:
+      $if: 'tasks_for == "github-pull-request"'
+      then: ${event.pull_request.base.repo.clone_url}
+      else: ${event.repository.clone_url}
 
     matrix:
       language: python
@@ -23,25 +37,23 @@ tasks:
           - name: tests python 3.8
             version: "3.8"
             env:
-              TOXENV: py38
+              TOXENV: py38,lint
           - name: tests python 3.9
             version: "3.9"
             env:
-              TOXENV: py39
+              TOXENV: py39,lint
           - name: tests python 3.10
             version: "3.10"
             env:
-              TOXENV: py310
+              TOXENV: py310,lint
           - name: tests python 3.11
             version: "3.11"
             env:
-              TOXENV: py311
-          - name: lint python 3.11
-            version: "3.11"
+              TOXENV: py311,lint
+          - name: tests python 3.12
+            version: "3.12"
             env:
-              TOXENV: lint
-            script:
-              - tox
+              TOXENV: py312,lint
           - name: PyPI upload
             version: "3.11"
             env:
@@ -87,7 +99,7 @@ tasks:
       - created: {$fromNow: ''}
         deadline: {$fromNow: '1 hour'}
         provisionerId: proj-fuzzing
-        workerType: ci
+        workerType: decision
         payload:
           features:
             taskclusterProxy: true
@@ -114,6 +126,6 @@ tasks:
         metadata:
           name: ${project_name} CI decision
           description: Schedule CI tasks for ${project_name}
-          owner: truber@mozilla.com
-          source: https://github.com/MozillaSecurity/orion
+          owner: '${user}@users.noreply.github.com'
+          source: ${http_repo}/raw/${fetch_rev}/.taskcluster.yml
     else: []
