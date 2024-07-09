@@ -161,4 +161,4 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
         finally:
             check_call([HDIUTIL_PATH, "detach", "-quiet", out_tmp])
     finally:
-        shutil.rmtree(out_tmp, onerror=onerror)
+        shutil.rmtree(out_tmp, onerror=onerror)  # pylint: disable=deprecated-argument
