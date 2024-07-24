@@ -4,7 +4,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from itertools import repeat
 from unittest.mock import patch
 
 import pytest  # pylint: disable=import-error
@@ -16,9 +15,7 @@ from fuzzfetch.models import BuildFlags, BuildTask, Platform
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_extract_build_linux(tmp_path):
     """test linux build layout"""
-    flags = BuildFlags._make(repeat(False, len(BuildFlags._fields)))._replace(
-        debug=True, fuzzing=True
-    )
+    flags = BuildFlags(debug=True, fuzzing=True)
     platform = Platform("Linux", "x86_64")
 
     def fake_extract_tar(_self, _url, path):
@@ -44,9 +41,7 @@ def test_extract_build_linux(tmp_path):
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_extract_build_macos(tmp_path):
     """test macos build layout"""
-    flags = BuildFlags._make(repeat(False, len(BuildFlags._fields)))._replace(
-        debug=True, fuzzing=True
-    )
+    flags = BuildFlags(debug=True, fuzzing=True)
     platform = Platform("Darwin", "x86_64")
 
     def fake_extract_dmg(_self, path):
