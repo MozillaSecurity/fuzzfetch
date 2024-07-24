@@ -6,8 +6,9 @@
 
 import logging
 import time
+from dataclasses import fields
 from datetime import datetime
-from itertools import product, repeat
+from itertools import product
 
 import pytest  # pylint: disable=import-error
 from freezegun import freeze_time  # pylint: disable=import-error
@@ -28,34 +29,29 @@ logging.getLogger("flake8").setLevel(logging.WARNING)
 DEFAULT_TARGETS = ("firefox",)
 
 
-def build_flags_factory(**kwds):
-    """BuildFlags with all fields defaulted to False"""
-    return BuildFlags._make(repeat(False, len(BuildFlags._fields)))._replace(**kwds)
-
-
 def get_builds_to_test():
     """Get permutations for testing build branches and flags"""
     possible_flags = (
         # opt
-        build_flags_factory(),
+        BuildFlags(),
         # debug
-        build_flags_factory(debug=True),
+        BuildFlags(debug=True),
         # ccov
-        build_flags_factory(coverage=True),
+        BuildFlags(coverage=True),
         # asan-opt
-        build_flags_factory(asan=True),
+        BuildFlags(asan=True),
         # asan-opt-fuzzing
-        build_flags_factory(asan=True, fuzzing=True),
+        BuildFlags(asan=True, fuzzing=True),
         # tsan-opt
-        build_flags_factory(tsan=True),
+        BuildFlags(tsan=True),
         # tsan-opt-fuzzing
-        build_flags_factory(tsan=True, fuzzing=True),
+        BuildFlags(tsan=True, fuzzing=True),
         # debug-fuzzing
-        build_flags_factory(debug=True, fuzzing=True),
+        BuildFlags(debug=True, fuzzing=True),
         # ccov-fuzzing
-        build_flags_factory(fuzzing=True, coverage=True),
+        BuildFlags(fuzzing=True, coverage=True),
         # valgrind-opt
-        build_flags_factory(valgrind=True),
+        BuildFlags(valgrind=True),
     )
     possible_branches = ("central", "try", "esr-stable")
     possible_os = ("Android", "Darwin", "Linux", "Windows")
@@ -91,7 +87,7 @@ def get_builds_to_test():
         if (os_, cpu) in {
             ("Darwin", "x64"),
             ("Linux", "x86"),
-        } and flags == build_flags_factory(asan=True):
+        } and flags == BuildFlags(asan=True):
             continue
         if os_ == "Android":
             if cpu == "x86":
@@ -143,9 +139,10 @@ def test_metadata(branch, build_flags, os_, cpu):
     platform_ = Platform(os_, cpu)
     for as_args in (True, False):  # try as API and as command line
         if as_args:
-            args = [
-                f"--{name}" for arg, name in zip(build_flags, BuildFlags._fields) if arg
-            ]
+            args = []
+            for field in fields(BuildFlags):
+                if getattr(build_flags, field.name):
+                    args.append(f"--{field.name}")
             fetcher = Fetcher.from_args(
                 [f"--{branch}", "--cpu", cpu, "--os", os_] + args
             )[0]
@@ -231,7 +228,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
         build = Fetcher(
             "central",
             build_id,
-            build_flags_factory(),
+            BuildFlags(),
             DEFAULT_TARGETS,
             nearest=direction,
         )
@@ -252,7 +249,7 @@ def test_hash_resolution():
     build = Fetcher(
         "central",
         rev[:12],
-        build_flags_factory(),
+        BuildFlags(),
         DEFAULT_TARGETS,
     )
     assert build.changeset == rev
@@ -266,7 +263,7 @@ def test_fuzzilli_builds():
     Fetcher(
         "central",
         "latest",
-        build_flags_factory(debug=True, fuzzilli=True),
+        BuildFlags(debug=True, fuzzilli=True),
         DEFAULT_TARGETS,
     )
 
@@ -279,13 +276,13 @@ def test_nyx_builds():
     Fetcher(
         "central",
         "latest",
-        build_flags_factory(asan=True, fuzzing=True, nyx=True),
+        BuildFlags(asan=True, fuzzing=True, nyx=True),
         DEFAULT_TARGETS,
     )
     Fetcher(
         "central",
         "latest",
-        build_flags_factory(asan=True, fuzzing=True, nyx=True, coverage=True),
+        BuildFlags(asan=True, fuzzing=True, nyx=True, coverage=True),
         DEFAULT_TARGETS,
     )
 
@@ -298,7 +295,7 @@ def test_searchfox_data():
     Fetcher(
         "central",
         "latest",
-        build_flags_factory(searchfox=True, debug=True),
+        BuildFlags(searchfox=True, debug=True),
         ["searchfox"],
     )
 
@@ -311,6 +308,6 @@ def test_afl_builds():
     Fetcher(
         "central",
         "latest",
-        build_flags_factory(asan=True, fuzzing=True, afl=True),
+        BuildFlags(asan=True, fuzzing=True, afl=True),
         DEFAULT_TARGETS,
     )

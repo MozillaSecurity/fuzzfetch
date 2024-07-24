@@ -7,7 +7,7 @@
 import itertools
 import platform as std_platform
 import re
-from collections import namedtuple
+from dataclasses import dataclass, fields
 from datetime import datetime
 from enum import Enum
 from itertools import chain
@@ -23,25 +23,26 @@ from .errors import FetcherException
 LOG = getLogger("fuzzfetch")
 
 
-class BuildFlags(
-    namedtuple(
-        "BuildFlagsBase",
-        (
-            "asan",
-            "tsan",
-            "debug",
-            "fuzzing",
-            "coverage",
-            "valgrind",
-            "no_opt",
-            "fuzzilli",
-            "nyx",
-            "searchfox",
-            "afl",
-        ),
-    )
-):
-    """Class for storing TaskCluster build flags"""
+@dataclass
+class BuildFlags:
+    """Class for representing possible build flags"""
+
+    asan: bool = False
+    tsan: bool = False
+    debug: bool = False
+    fuzzing: bool = False
+    coverage: bool = False
+    valgrind: bool = False
+    no_opt: bool = False
+    fuzzilli: bool = False
+    nyx: bool = False
+    searchfox: bool = False
+    afl: bool = False
+
+    def __iter__(self) -> Iterator[bool]:
+        """Yield field values"""
+        for field in fields(self):
+            yield getattr(self, field.name)
 
     def build_string(self) -> str:
         """
