@@ -7,12 +7,13 @@
 import itertools
 import platform as std_platform
 import re
+from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, fields
 from datetime import datetime
 from enum import Enum
 from itertools import chain
 from logging import getLogger
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import Any, Optional
 
 from pytz import timezone
 from requests import RequestException
@@ -96,7 +97,7 @@ class BuildTask:
         if _blank:
             self.url: Optional[str] = None
             self.queue_server: Optional[str] = None
-            self._data: Dict[str, Any] = {}
+            self._data: dict[str, Any] = {}
             return
         assert build is not None
         assert branch is not None
@@ -136,7 +137,7 @@ class BuildTask:
         is_namespace = False
         if cls.RE_DATE.match(build):
             flag_str = flags.build_string()
-            task_template_paths: Iterable[Tuple[str, str]] = tuple(
+            task_template_paths: Iterable[tuple[str, str]] = tuple(
                 (template, path + flag_str)
                 for (template, path) in cls._pushdate_template_paths(
                     build.replace("-", "."), branch, target_platform
@@ -218,7 +219,7 @@ class BuildTask:
     @classmethod
     def _pushdate_template_paths(
         cls, pushdate: str, branch: str, target_platform: str
-    ) -> Iterator[Tuple[str, str]]:
+    ) -> Iterator[tuple[str, str]]:
         """Multiple entries exist per push date. Iterate over all until a working entry
         is found
         """
@@ -357,7 +358,7 @@ class Platform:
     @classmethod
     def from_platform_guess(cls, build_string: str) -> "Platform":
         """Create a platform object from a namespace build string"""
-        match: List[str] = []
+        match: list[str] = []
         for system, platform in cls.SUPPORTED.items():
             for machine, platform_guess in platform.items():
                 if platform_guess in build_string and (
