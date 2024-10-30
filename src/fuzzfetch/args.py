@@ -7,7 +7,7 @@
 import itertools
 import platform as std_platform
 import re
-from argparse import SUPPRESS, ArgumentParser, Namespace
+from argparse import ArgumentParser, Namespace
 from collections.abc import Sequence
 from logging import getLogger
 from pathlib import Path
@@ -113,12 +113,6 @@ class FetcherArgs:
                 *options, action="store_true", help=f"Download {desc}"
             )
 
-        self.parser.add_argument(
-            "--gtest",
-            action="store_true",
-            help=SUPPRESS,
-        )
-
         misc_group = self.parser.add_argument_group("Misc. Arguments")
         misc_group.add_argument("-n", "--name", help="Specify a name (default=auto)")
         misc_group.add_argument(
@@ -213,13 +207,6 @@ class FetcherArgs:
 
         if not args.target:
             args.target.extend(self.DEFAULT_TARGETS)
-
-        if args.gtest:
-            LOG.warning(
-                "--gtest is deprecated, add 'gtest' to --target instead "
-                "(e.g. --target firefox gtest)"
-            )
-            args.target.append("gtest")
 
         self.sanity_check(args)
         return args
