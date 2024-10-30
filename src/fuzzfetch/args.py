@@ -23,6 +23,23 @@ class FetcherArgs:
 
     DEFAULT_TARGETS = ["firefox"]
 
+    BUILD_OPTIONS = (
+        # Build flags
+        (["--asan", "-a"], "AddressSanitizer builds"),
+        (["--debug", "-d"], "debug builds"),
+        (["--tsan", "-t"], "ThreadSanitizer builds"),
+        (["--fuzzing"], "fuzzing builds"),
+        (["--coverage"], "coverage builds"),
+        (["--no-opt"], "non-optimized builds"),
+        (["--valgrind"], "Valgrind builds"),
+        # Fuzzer specific builds
+        (["--afl"], "AFL++ builds"),
+        (["--fuzzilli"], "JS Fuzzilli builds"),
+        (["--nyx"], "Nyx builds"),
+        # Searchfox data
+        (["--searchfox"], "Searchfox data"),
+    )
+
     def __init__(self) -> None:
         """Instantiate a new FetcherArgs instance"""
         super().__init__()  # call super for multiple-inheritance support
@@ -89,48 +106,12 @@ class FetcherArgs:
             help="Specify the branch to download from (default: mozilla-central)",
         )
 
+        # Build Options
         build_group = self.parser.add_argument_group("Build Arguments")
-        build_group.add_argument(
-            "-d",
-            "--debug",
-            action="store_true",
-            help="Get debug builds w/ symbols (default=optimized).",
-        )
-        build_group.add_argument(
-            "-a",
-            "--asan",
-            action="store_true",
-            help="Download AddressSanitizer builds.",
-        )
-        build_group.add_argument(
-            "--afl", action="store_true", help="Download AFL++ builds."
-        )
-        build_group.add_argument(
-            "-t", "--tsan", action="store_true", help="Download ThreadSanitizer builds."
-        )
-        build_group.add_argument(
-            "--fuzzing", action="store_true", help="Download --enable-fuzzing builds."
-        )
-        build_group.add_argument(
-            "--fuzzilli",
-            action="store_true",
-            help="Download --enable-js-fuzzilli builds.",
-        )
-        build_group.add_argument(
-            "--coverage", action="store_true", help="Download --coverage builds."
-        )
-        build_group.add_argument(
-            "--valgrind", action="store_true", help="Download Valgrind builds."
-        )
-        build_group.add_argument(
-            "--no-opt", action="store_true", help="Download non-optimized builds."
-        )
-        build_group.add_argument(
-            "--nyx", action="store_true", help="Download Nyx snapshot builds."
-        )
-        build_group.add_argument(
-            "--searchfox", action="store_true", help="Download searchfox data."
-        )
+        for options, desc in self.BUILD_OPTIONS:
+            build_group.add_argument(
+                *options, action="store_true", help=f"Download {desc}"
+            )
 
         self.parser.add_argument(
             "--gtest",
@@ -200,33 +181,15 @@ class FetcherArgs:
             super().sanity_check(args)  # type: ignore
 
         if self.is_build_ns(args.build):
-            # this is a custom build
-            # ensure conflicting options are not set
-            if args.branch is not None:
-                self.parser.error(
-                    "Cannot specify --build namespace and branch argument: "
-                    f"{args.branch}"
-                )
-            if args.debug:
-                self.parser.error("Cannot specify --build namespace and --debug")
-            if args.asan:
-                self.parser.error("Cannot specify --build namespace and --asan")
-            if args.tsan:
-                self.parser.error("Cannot specify --build namespace and --tsan")
-            if args.fuzzing:
-                self.parser.error("Cannot specify --build namespace and --fuzzing")
-            if args.coverage:
-                self.parser.error("Cannot specify --build namespace and --coverage")
-            if args.valgrind:
-                self.parser.error("Cannot specify --build namespace and --valgrind")
-            if args.no_opt:
-                self.parser.error("Cannot specify --build namespace and --no-opt")
-            if args.fuzzilli:
-                self.parser.error("Cannot specify --build namespace and --fuzzilli")
-            if args.nyx:
-                self.parser.error("Cannot specify --build namespace and --nyx")
-            if args.searchfox:
-                self.parser.error("Cannot specify --build namespace and --searchfox")
+            # Branch and all build flags cannot be used with namespace
+            conflicting_args = ["branch"]
+            for opts, _ in self.BUILD_OPTIONS:
+                assert len(opts) >= 1 and opts[0].startswith("--")
+                conflicting_args.append(opts[0].lstrip("-").replace("-", "_"))
+
+            for arg in conflicting_args:
+                if getattr(args, arg):
+                    self.parser.error(f"Cannot specify --build namespace and --{arg}")
 
         if "firefox" in args.target and args.fuzzilli:
             self.parser.error("Cannot specify --target firefox and --fuzzilli")
