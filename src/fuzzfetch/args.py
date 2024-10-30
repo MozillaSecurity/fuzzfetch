@@ -74,55 +74,19 @@ class FetcherArgs:
         )
 
         branch_group = self.parser.add_argument_group("Branch")
-        branch_args = branch_group.add_mutually_exclusive_group()
-        branch_args.add_argument(
-            "--central",
-            action="store_const",
-            const="central",
-            dest="branch",
-            help="Download from mozilla-central (default)",
-        )
-        branch_args.add_argument(
-            "--release",
-            action="store_const",
-            const="release",
-            dest="branch",
-            help="Download from mozilla-release",
-        )
-        branch_args.add_argument(
-            "--beta",
-            action="store_const",
-            const="beta",
-            dest="branch",
-            help="Download from mozilla-beta",
-        )
-        branch_args.add_argument(
-            "--esr-stable",
-            action="store_const",
-            const="esr-stable",
-            dest="branch",
-            help="Download from esr-stable",
-        )
-        branch_args.add_argument(
-            "--esr-next",
-            action="store_const",
-            const="esr-next",
-            dest="branch",
-            help="Download from esr-next",
-        )
-        branch_args.add_argument(
-            "--try",
-            action="store_const",
-            const="try",
-            dest="branch",
-            help="Download from try",
-        )
-        branch_args.add_argument(
-            "--autoland",
-            action="store_const",
-            const="autoland",
-            dest="branch",
-            help="Download from autoland",
+        branch_group.add_argument(
+            "--branch",
+            choices=[
+                "central",
+                "release",
+                "beta",
+                "esr-stable",
+                "esr-next",
+                "try",
+                "autoland",
+            ],
+            default="central",
+            help="Specify the branch to download from (default: mozilla-central)",
         )
 
         build_group = self.parser.add_argument_group("Build Arguments")
