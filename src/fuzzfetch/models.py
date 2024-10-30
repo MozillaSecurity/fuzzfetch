@@ -11,7 +11,6 @@ from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, fields
 from datetime import datetime
 from enum import Enum
-from itertools import chain
 from logging import getLogger
 from typing import Any, Optional
 
@@ -87,6 +86,7 @@ class BuildTask:
         branch: Optional[str],
         flags: Optional[BuildFlags],
         platform: Optional["Platform"] = None,
+        simulated: Optional[str] = None,
         _blank: bool = False,
     ) -> None:
         """Retrieve the task JSON object
@@ -102,7 +102,13 @@ class BuildTask:
         assert build is not None
         assert branch is not None
         assert flags is not None
-        for obj in self.iterall(build, branch, flags, platform=platform):
+        for obj in self.iterall(
+            build,
+            branch,
+            flags,
+            platform=platform,
+            simulated=simulated,
+        ):
             self.url = obj.url
             self.queue_server = obj.queue_server
             self._data = obj._data  # pylint: disable=protected-access
@@ -127,6 +133,7 @@ class BuildTask:
         branch: str,
         flags: BuildFlags,
         platform: Optional["Platform"] = None,
+        simulated: Optional[str] = None,
     ) -> Iterator["BuildTask"]:
         """Generator for all possible BuildTasks with these parameters"""
         # Prepare build type
@@ -159,23 +166,28 @@ class BuildTask:
             if branch not in {"autoland", "try"}:
                 branch = f"mozilla-{branch}"
 
-            namespaces = []
+            namespaces = [f"gecko.v2.{branch}.latest"]
             if not any(flags):
                 # Opt builds are now indexed under 'shippable'
                 namespaces.append(f"gecko.v2.{branch}.shippable.latest")
-            namespaces.append(f"gecko.v2.{branch}.latest")
 
             prod = "mobile" if "android" in target_platform else "firefox"
             suffix = f"{target_platform}{flags.build_string()}"
-            task_paths = tuple(
-                chain.from_iterable(
-                    (
-                        f"/task/{namespace}.{prod}.{suffix}",
-                        f"/task/{namespace}.{prod}.sm-{suffix}",
-                    )
-                    for namespace in namespaces
-                )
-            )
+
+            def generate_task_paths(
+                namespaces_: list[str],
+                prod_: str,
+                suffix_: str,
+                simulated_: Optional[str],
+            ) -> Iterator[str]:
+                for namespace in namespaces_:
+                    if simulated_ is not None:
+                        yield f"/task/{namespace}.{prod_}.sm-{simulated_}-sim-{suffix_}"
+                    else:
+                        yield f"/task/{namespace}.{prod_}.{suffix_}"
+                        yield f"/task/{namespace}.{prod_}.sm-{suffix_}"
+
+            task_paths = tuple(generate_task_paths(namespaces, prod, suffix, simulated))
             task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_paths)
 
         else:
