@@ -15,6 +15,8 @@ from urllib.request import Request, urlopen
 import pytest  # pylint: disable=import-error
 import requests_mock  # pylint: disable=import-error
 
+from fuzzfetch import FetcherArgs
+
 BUILD_CACHE = os.getenv("BUILD_CACHE") == "1"  # set BUILD_CACHE=1 to populate cache
 CACHE_PATH = Path(__file__).resolve().parent  # store cache alongside this file
 LOG = logging.getLogger("fuzzfetch_tests")
@@ -114,3 +116,9 @@ def fetcher_mock_resolve_targets():
     """mock Fetcher.resolve_targets to prevent downloading builds on init"""
     with patch("fuzzfetch.core.Fetcher.resolve_targets") as mock:
         yield mock
+
+
+@pytest.fixture
+def fetcher_args():
+    """Fixture providing a FetcherArgs instance for tests."""
+    return FetcherArgs()
