@@ -56,6 +56,11 @@ class FetcherArgs:
             choices=cpu_choices,
             help=f"Specify the target CPU. (default: {std_platform.machine()})",
         )
+        target_group.add_argument(
+            "--sim",
+            choices=["arm", "arm64"],
+            help="Specify the simulated architecture",
+        )
 
         type_group = self.parser.add_argument_group("Build")
         type_group.add_argument(
@@ -261,6 +266,9 @@ class FetcherArgs:
 
         if "firefox" in args.target and args.fuzzilli:
             self.parser.error("Cannot specify --target firefox and --fuzzilli")
+
+        if "js" not in args.target and args.sim:
+            self.parser.error("Simulator builds are only available for JS targets")
 
     def parse_args(self, argv: Optional[Sequence[str]] = None) -> Namespace:
         """Parse and validate args

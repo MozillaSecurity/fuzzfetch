@@ -57,6 +57,7 @@ class Fetcher:
         flags: Union[Sequence[bool], BuildFlags],
         targets: Sequence[str],
         platform: Optional[Platform] = None,
+        simulated: Optional[str] = None,
         nearest: Optional[BuildSearchOrder] = None,
     ) -> None:
         """
@@ -76,6 +77,7 @@ class Fetcher:
         self._branch = branch
         self._flags = BuildFlags(*flags)
         self._platform = platform or Platform()
+        self._simulated = simulated
         self._targets = targets
         self._task = None
 
@@ -220,7 +222,13 @@ class Fetcher:
             now = datetime.now(timezone("UTC"))
 
             try:
-                self._task = BuildTask(build, branch, self._flags, self._platform)
+                self._task = BuildTask(
+                    build,
+                    branch,
+                    self._flags,
+                    self._platform,
+                    self._simulated,
+                )
                 self.resolve_targets(self._targets)
             except FetcherException:
                 if not nearest:
@@ -277,6 +285,7 @@ class Fetcher:
                             branch,
                             self._flags,
                             self._platform,
+                            self._simulated,
                         )
                         if not asc:
                             build_tasks = reversed(list(build_tasks))
@@ -501,7 +510,9 @@ class Fetcher:
                 try:
                     resolve_url(self.artifact_url("crashreporter-symbols.zip"))
                 except FetcherException:
-                    if not (self._flags.fuzzing or self._flags.fuzzilli):
+                    if not (
+                        self._flags.fuzzing or self._flags.fuzzilli or self._simulated
+                    ):
                         raise
 
         if "searchfox" in targets_remaining:
@@ -815,8 +826,9 @@ class Fetcher:
             args.build,
             flags,
             args.target,
-            Platform(args.os, args.cpu),
-            args.nearest,
+            platform=Platform(args.os, args.cpu),
+            simulated=args.sim,
+            nearest=args.nearest,
         )
 
         if args.name is None:
