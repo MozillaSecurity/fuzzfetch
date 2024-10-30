@@ -11,10 +11,11 @@ import platform as std_platform
 import re
 import shutil
 import tempfile
+from collections.abc import Sequence
 from datetime import datetime, timedelta
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from typing import Any, Dict, Optional, Sequence, Tuple, Union
+from typing import Any, Optional, Union
 
 from pytz import timezone
 
@@ -70,7 +71,7 @@ class Fetcher:
             platform: force platform if different than current system
             nearest: Search for nearest build, not exact
         """
-        self._memo: Dict[str, Any] = {}
+        self._memo: dict[str, Any] = {}
         "memorized values for @properties"
         self._branch = branch
         self._flags = BuildFlags(*flags)
@@ -342,7 +343,7 @@ class Fetcher:
         return f"esr{match.group(0)}"
 
     @property
-    def _artifacts(self) -> Sequence[Dict[str, str]]:
+    def _artifacts(self) -> Sequence[dict[str, str]]:
         """Retrieve the artifacts json object"""
         if "_artifacts" not in self._memo:
             json = get_url(self._artifacts_url).json()
@@ -385,7 +386,7 @@ class Fetcher:
         return _create_utc_datetime(self.id)
 
     @property
-    def build_info(self) -> Dict[str, str]:
+    def build_info(self) -> dict[str, str]:
         """Return the build's info"""
         if "build_info" not in self._memo:
             self._memo["build_info"] = get_url(self.artifact_url("json")).json()
@@ -398,7 +399,7 @@ class Fetcher:
         return self.build_info["moz_source_stamp"]
 
     @property
-    def moz_info(self) -> Dict[str, Union[str, bool, int]]:
+    def moz_info(self) -> dict[str, Union[str, bool, int]]:
         """Return the build's mozinfo"""
         if "moz_info" not in self._memo:
             try:
@@ -766,7 +767,7 @@ class Fetcher:
     @classmethod
     def from_args(
         cls, argv: Optional[Sequence[str]] = None, skip_dir_check: bool = False
-    ) -> Tuple["Fetcher", Dict[str, Union[bool, Path, Sequence[str]]]]:
+    ) -> tuple["Fetcher", dict[str, Union[bool, Path, Sequence[str]]]]:
         """Construct a Fetcher from given command line arguments.
 
         Arguments:

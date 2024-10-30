@@ -8,9 +8,10 @@ import itertools
 import platform as std_platform
 import re
 from argparse import SUPPRESS, ArgumentParser, Namespace
+from collections.abc import Sequence
 from logging import getLogger
 from pathlib import Path
-from typing import Optional, Sequence
+from typing import Optional
 
 from .models import BuildSearchOrder, Platform
 
