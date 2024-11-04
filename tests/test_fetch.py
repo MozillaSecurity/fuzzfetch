@@ -144,7 +144,7 @@ def test_metadata(branch, build_flags, os_, cpu):
                 if getattr(build_flags, field.name):
                     args.append(f"--{field.name}")
             fetcher = Fetcher.from_args(
-                [f"--{branch}", "--cpu", cpu, "--os", os_] + args
+                ["--branch", branch, "--cpu", cpu, "--os", os_] + args
             )[0]
         else:
             if branch.startswith("esr"):
@@ -167,7 +167,8 @@ def test_metadata(branch, build_flags, os_, cpu):
         date_str = f"{time_obj.tm_year:d}-{time_obj.tm_mon:02d}-{time_obj.tm_mday:02d}"
         if as_args:
             Fetcher.from_args(
-                [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", date_str] + args
+                ["--branch", branch, "--cpu", cpu, "--os", os_, "--build", date_str]
+                + args
             )
         else:
             Fetcher(branch, date_str, build_flags, DEFAULT_TARGETS, platform_)
@@ -176,7 +177,7 @@ def test_metadata(branch, build_flags, os_, cpu):
         rev = fetcher.changeset
         if as_args:
             Fetcher.from_args(
-                [f"--{branch}", "--cpu", cpu, "--os", os_, "--build", rev] + args
+                ["--branch", branch, "--cpu", cpu, "--os", os_, "--build", rev] + args
             )
         else:
             Fetcher(branch, rev, build_flags, DEFAULT_TARGETS, platform_)
