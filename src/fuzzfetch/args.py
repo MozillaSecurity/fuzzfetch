@@ -175,8 +175,12 @@ class FetcherArgs:
             super().sanity_check(args)  # type: ignore
 
         if self.is_build_ns(args.build):
-            # Branch and all build flags cannot be used with namespace
-            conflicting_args = ["branch"]
+            # Explicitly specifying a branch has no effect when namespace is used
+            if args.branch != "central":
+                self.parser.error("Cannot specify --branch and --build namespace")
+
+            # All build flags cannot be used with namespace
+            conflicting_args = []
             for opts, _ in self.BUILD_OPTIONS:
                 assert len(opts) >= 1 and opts[0].startswith("--")
                 conflicting_args.append(opts[0].lstrip("-").replace("-", "_"))
