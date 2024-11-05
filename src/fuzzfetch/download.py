@@ -78,6 +78,7 @@ def download_url(url: str, outfile: PathArg, timeout: Optional[float] = 30.0) ->
     Arguments:
         url: URL to download.
         outfile: Path to output file.
+        timeout: Number of seconds to wait for a response.
     """
     downloaded = 0
     start_time = report_time = time.time()
