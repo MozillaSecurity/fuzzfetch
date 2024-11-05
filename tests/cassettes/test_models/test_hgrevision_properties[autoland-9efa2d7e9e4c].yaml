@@ -1,0 +1,7189 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://hg.mozilla.org/integration/autoland/json-rev/9efa2d7e9e4c
+  response:
+    body:
+      string: '{
+
+        "node": "9efa2d7e9e4c562953e77462912b1c9d6ca6fded",
+
+        "date": [1730826005.0, 0],
+
+        "desc": "Bug 1915092 - Menu CFR orientation position change r=android-reviewers,skhan\n\nDifferential
+        Revision: https://phabricator.services.mozilla.com/D226049",
+
+        "backedoutby": "",
+
+        "branch": "default",
+
+        "bookmarks": [],
+
+        "tags": ["tip"],
+
+        "user": "Tim C \u003ctimchoh@gmail.com\u003e",
+
+        "parents": ["31db5f5f270daf976d0c0862980c2cf73101206e"],
+
+        "children": [],
+
+        "files": [{
+
+        "file": "mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/MenuDialogFragment.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/compose/MainMenu.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/compose/MenuDialogBottomSheet.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/middleware/MenuDialogMiddleware.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/middleware/MenuTelemetryMiddleware.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/store/MenuAction.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/store/MenuStore.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/test/java/org/mozilla/fenix/components/menu/MenuDialogMiddlewareTest.kt",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "mobile/android/fenix/app/src/test/java/org/mozilla/fenix/components/menu/MenuTelemetryMiddlewareTest.kt",
+
+        "status": "modified"
+
+        }],
+
+        "diff": [{
+
+        "blockno": 1,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/MenuDialogFragment.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/MenuDialogFragment.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -37,30 +37,30 @@ import com.google.android.material.botto\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " import com.google.android.material.bottomsheet.BottomSheetDialogFragment\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " import kotlinx.coroutines.Dispatchers\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " import kotlinx.coroutines.withContext\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " import mozilla.components.browser.state.selector.findCustomTab\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " import mozilla.components.browser.state.selector.selectedTab\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " import mozilla.components.concept.engine.translate.TranslationSupport\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " import mozilla.components.concept.engine.translate.findLanguage\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " import mozilla.components.lib.state.ext.observeAsState\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 12,
+
+        "l": "+import mozilla.components.service.fxa.manager.AccountState.NotAuthenticated\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": " import mozilla.components.support.base.feature.ViewBoundFeatureWrapper\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": " import mozilla.components.support.ktx.android.util.dpToPx\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": " import mozilla.components.support.ktx.android.view.setNavigationBarColorCompat\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": " import mozilla.components.support.utils.ext.isLandscape\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": " import mozilla.telemetry.glean.private.NoExtras\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " import org.mozilla.fenix.BrowserDirection\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.Events\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": " import org.mozilla.fenix.HomeActivity\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": " import org.mozilla.fenix.R\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": " import org.mozilla.fenix.components.components\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": " import org.mozilla.fenix.components.menu.compose.CustomTabMenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": " import org.mozilla.fenix.components.menu.compose.ExtensionsSubmenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": " import org.mozilla.fenix.components.menu.compose.MainMenu\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 26,
+
+        "l": "-import org.mozilla.fenix.components.menu.compose.MainMenuWithCFR\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": " import org.mozilla.fenix.components.menu.compose.MenuDialogBottomSheet\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": " import org.mozilla.fenix.components.menu.compose.SaveSubmenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": " import org.mozilla.fenix.components.menu.compose.ToolsSubmenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": " import org.mozilla.fenix.components.menu.middleware.MenuDialogMiddleware\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 31,
+
+        "l": " import org.mozilla.fenix.components.menu.middleware.MenuNavigationMiddleware\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 32,
+
+        "l": " import org.mozilla.fenix.components.menu.middleware.MenuTelemetryMiddleware\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 33,
+
+        "l": " import org.mozilla.fenix.components.menu.store.BrowserMenuState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 34,
+
+        "l": " import org.mozilla.fenix.components.menu.store.MenuAction\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 35,
+
+        "l": "@@ -156,16 +156,18 @@ class MenuDialogFragment : BottomSheetDi\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": "                         } else {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": "                             context.getString(R.string.browser_main_menu_handlebar_content_description)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": "                         },\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": "                     )\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": "                 }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 42,
+
+        "l": "                 MenuDialogBottomSheet(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 43,
+
+        "l": "                     handlebarContentDescription = handlebarContentDescription,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 44,
+
+        "l": "+                    appStore = components.appStore,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 45,
+
+        "l": "+                    context = context,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 46,
+
+        "l": "                     onRequestDismiss = { dismiss() },\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 47,
+
+        "l": "                 ) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 48,
+
+        "l": "                     val appStore = components.appStore\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 49,
+
+        "l": "                     val browserStore = components.core.store\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 50,
+
+        "l": "                     val syncStore = components.backgroundServices.syncStore\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 51,
+
+        "l": "                     val addonManager = components.addonManager\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 52,
+
+        "l": "                     val bookmarksStorage = components.core.bookmarksStorage\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 53,
+
+        "l": "                     val pinnedSiteStorage = components.core.pinnedSiteStorage\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 54,
+
+        "l": "@@ -392,79 +394,98 @@ class MenuDialogFragment : BottomSheetDi\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 55,
+
+        "l": "                         },\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 56,
+
+        "l": "                         label = \"MenuDialogAnimation\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 57,
+
+        "l": "                     ) { route -\u003e\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 58,
+
+        "l": "                         when (route) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 59,
+
+        "l": "                             Route.MainMenu -\u003e {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 60,
+
+        "l": "                                 handlebarContentDescription =\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 61,
+
+        "l": "                                     context.getString(R.string.browser_main_menu_handlebar_content_description)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 62,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 63,
+
+        "l": "-                                if (settings.shouldShowMenuCFR) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 64,
+
+        "l": "-                                    MainMenuWithCFR(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 65,
+
+        "l": "-                                        accessPoint = args.accesspoint,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 66,
+
+        "l": "-                                        store = store,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 67,
+
+        "l": "-                                        syncStore = syncStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 68,
+
+        "l": "-                                        installedAddons = installedAddons,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 69,
+
+        "l": "-                                        showQuitMenu = settings.shouldDeleteBrowsingDataOnQuit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 70,
+
+        "l": "-                                        isPrivate = browsingModeManager.mode.isPrivate,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 71,
+
+        "l": "-                                        isDesktopMode = isDesktopMode,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 72,
+
+        "l": "-                                        isPdf = isPdf,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 73,
+
+        "l": "-                                        isTranslationSupported = isTranslationSupported,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 74,
+
+        "l": "-                                        isExtensionsProcessDisabled
+        = isExtensionsProcessDisabled,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 75,
+
+        "l": "-                                        onExtensionsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 76,
+
+        "l": "-                                            if (!isExtensionsProcessDisabled)
+        {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 77,
+
+        "l": "-                                                contentState = Route.ExtensionsMenu\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 78,
+
+        "l": "-                                                Events.browserMenuAction.record(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 79,
+
+        "l": "-                                                    Events.BrowserMenuActionExtra(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 80,
+
+        "l": "-                                                        item = \"extensions_submenu\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 81,
+
+        "l": "-                                                    ),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 82,
+
+        "l": "-                                                )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 83,
+
+        "l": "-                                            } else {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 84,
+
+        "l": "-                                                store.dispatch(MenuAction.Navigate.ManageExtensions)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 85,
+
+        "l": "-                                            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 86,
+
+        "l": "-                                        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 87,
+
+        "l": "-                                        onSaveMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 88,
+
+        "l": "-                                            contentState = Route.SaveMenu\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 89,
+
+        "l": "-                                        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 90,
+
+        "l": "-                                        onToolsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 91,
+
+        "l": "-                                            contentState = Route.ToolsMenu\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 92,
+
+        "l": "-                                        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 93,
+
+        "l": "-                                    )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 94,
+
+        "l": "-                                } else {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 95,
+
+        "l": "-                                    MainMenu(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 96,
+
+        "l": "-                                        accessPoint = args.accesspoint,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 97,
+
+        "l": "-                                        store = store,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 98,
+
+        "l": "-                                        syncStore = syncStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 99,
+
+        "l": "-                                        installedAddons = installedAddons,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 100,
+
+        "l": "-                                        showQuitMenu = settings.shouldDeleteBrowsingDataOnQuit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 101,
+
+        "l": "-                                        isPrivate = browsingModeManager.mode.isPrivate,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 102,
+
+        "l": "-                                        isDesktopMode = isDesktopMode,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 103,
+
+        "l": "-                                        isPdf = isPdf,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 104,
+
+        "l": "-                                        isTranslationSupported = isTranslationSupported,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 105,
+
+        "l": "-                                        isExtensionsProcessDisabled
+        = isExtensionsProcessDisabled,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 106,
+
+        "l": "-                                        onExtensionsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 107,
+
+        "l": "-                                            if (!isExtensionsProcessDisabled)
+        {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 108,
+
+        "l": "-                                                contentState = Route.ExtensionsMenu\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 109,
+
+        "l": "-                                                Events.browserMenuAction.record(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 110,
+
+        "l": "-                                                    Events.BrowserMenuActionExtra(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 111,
+
+        "l": "-                                                        item = \"extensions_submenu\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 112,
+
+        "l": "-                                                    ),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 113,
+
+        "l": "-                                                )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 114,
+
+        "l": "-                                            } else {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 115,
+
+        "l": "-                                                store.dispatch(MenuAction.Navigate.ManageExtensions)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 116,
+
+        "l": "-                                            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 117,
+
+        "l": "-                                        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 118,
+
+        "l": "-                                        onSaveMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 119,
+
+        "l": "-                                            contentState = Route.SaveMenu\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 120,
+
+        "l": "-                                        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 121,
+
+        "l": "-                                        onToolsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 122,
+
+        "l": "-                                            contentState = Route.ToolsMenu\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 123,
+
+        "l": "-                                        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 124,
+
+        "l": "-                                    )\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 125,
+
+        "l": "+                                val account by syncStore.observeAsState(initialValue
+        = null) { state -\u003e state.account }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 126,
+
+        "l": "+                                val accountState by syncStore.observeAsState(initialValue
+        = NotAuthenticated) { state -\u003e\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 127,
+
+        "l": "+                                    state.accountState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 128,
+
+        "l": "                                 }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 129,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 130,
+
+        "l": "+                                MainMenu(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 131,
+
+        "l": "+                                    accessPoint = args.accesspoint,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 132,
+
+        "l": "+                                    account = account,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 133,
+
+        "l": "+                                    accountState = accountState,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 134,
+
+        "l": "+                                    installedAddons = installedAddons,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 135,
+
+        "l": "+                                    isPrivate = browsingModeManager.mode.isPrivate,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 136,
+
+        "l": "+                                    isDesktopMode = isDesktopMode,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 137,
+
+        "l": "+                                    showQuitMenu = settings.shouldDeleteBrowsingDataOnQuit,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 138,
+
+        "l": "+                                    isPdf = isPdf,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 139,
+
+        "l": "+                                    isTranslationSupported = isTranslationSupported,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 140,
+
+        "l": "+                                    isExtensionsProcessDisabled = isExtensionsProcessDisabled,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 141,
+
+        "l": "+                                    onMozillaAccountButtonClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 142,
+
+        "l": "+                                        store.dispatch(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 143,
+
+        "l": "+                                            MenuAction.Navigate.MozillaAccount(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 144,
+
+        "l": "+                                                accountState = accountState,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 145,
+
+        "l": "+                                                accesspoint = args.accesspoint,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 146,
+
+        "l": "+                                            ),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 147,
+
+        "l": "+                                        )\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 148,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 149,
+
+        "l": "+                                    onHelpButtonClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 150,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.Help)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 151,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 152,
+
+        "l": "+                                    onSettingsButtonClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 153,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.Settings)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 154,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 155,
+
+        "l": "+                                    onNewTabMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 156,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.NewTab)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 157,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 158,
+
+        "l": "+                                    onNewPrivateTabMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 159,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.NewPrivateTab)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 160,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 161,
+
+        "l": "+                                    onSwitchToDesktopSiteMenuClick
+        = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 162,
+
+        "l": "+                                        if (isDesktopMode) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 163,
+
+        "l": "+                                            store.dispatch(MenuAction.RequestMobileSite)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 164,
+
+        "l": "+                                        } else {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 165,
+
+        "l": "+                                            store.dispatch(MenuAction.RequestDesktopSite)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 166,
+
+        "l": "+                                        }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 167,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 168,
+
+        "l": "+                                    onFindInPageMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 169,
+
+        "l": "+                                        store.dispatch(MenuAction.FindInPage)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 170,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 171,
+
+        "l": "+                                    onToolsMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 172,
+
+        "l": "+                                        contentState = Route.ToolsMenu\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 173,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 174,
+
+        "l": "+                                    onSaveMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 175,
+
+        "l": "+                                        contentState = Route.SaveMenu\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 176,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 177,
+
+        "l": "+                                    onExtensionsMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 178,
+
+        "l": "+                                        contentState = Route.ExtensionsMenu\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 179,
+
+        "l": "+                                        Events.browserMenuAction.record(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 180,
+
+        "l": "+                                            Events.BrowserMenuActionExtra(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 181,
+
+        "l": "+                                                item = \"extensions_submenu\",\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 182,
+
+        "l": "+                                            ),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 183,
+
+        "l": "+                                        )\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 184,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 185,
+
+        "l": "+                                    onBookmarksMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 186,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.Bookmarks)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 187,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 188,
+
+        "l": "+                                    onHistoryMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 189,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.History)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 190,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 191,
+
+        "l": "+                                    onDownloadsMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 192,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.Downloads)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 193,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 194,
+
+        "l": "+                                    onPasswordsMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 195,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.Passwords)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 196,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 197,
+
+        "l": "+                                    onCustomizeHomepageMenuClick =
+        {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 198,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.CustomizeHomepage)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 199,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 200,
+
+        "l": "+                                    onNewInFirefoxMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 201,
+
+        "l": "+                                        store.dispatch(MenuAction.Navigate.ReleaseNotes)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 202,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 203,
+
+        "l": "+                                    onQuitMenuClick = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 204,
+
+        "l": "+                                        store.dispatch(MenuAction.DeleteBrowsingDataAndQuit)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 205,
+
+        "l": "+                                    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 206,
+
+        "l": "+                                )\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 207,
+
+        "l": "                             }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 208,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 209,
+
+        "l": "                             Route.CustomTabMenu -\u003e {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 210,
+
+        "l": "                                 handlebarContentDescription =\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 211,
+
+        "l": "                                     context.getString(R.string.browser_custom_tab_menu_handlebar_content_description)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 212,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 213,
+
+        "l": "                                 CustomTabMenu(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 214,
+
+        "l": "                                     isDesktopMode = isDesktopMode,\n"
+
+        }]
+
+        }, {
+
+        "blockno": 2,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/compose/MainMenu.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/compose/MainMenu.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -1,262 +1,35 @@\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " /* This Source Code Form is subject to the terms of the Mozilla Public\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "  * License, v. 2.0. If a copy of the MPL was not distributed with this\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " package org.mozilla.fenix.components.menu.compose\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " import androidx.compose.foundation.background\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " import androidx.compose.foundation.layout.Column\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-import androidx.compose.material.Text\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": " import androidx.compose.runtime.Composable\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-import androidx.compose.runtime.getValue\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": " import androidx.compose.ui.Modifier\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-import androidx.compose.ui.graphics.toArgb\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-import androidx.compose.ui.platform.LocalConfiguration\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " import androidx.compose.ui.platform.LocalContext\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " import androidx.compose.ui.res.painterResource\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": " import androidx.compose.ui.res.stringResource\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": " import androidx.compose.ui.tooling.preview.Preview\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 22,
+
+        "l": "-import androidx.compose.ui.unit.dp\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 23,
+
+        "l": "-import mozilla.components.compose.cfr.CFRPopup\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 24,
+
+        "l": "-import mozilla.components.compose.cfr.CFRPopupLayout\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 25,
+
+        "l": "-import mozilla.components.compose.cfr.CFRPopupProperties\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": " import mozilla.components.feature.addons.Addon\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": " import mozilla.components.feature.addons.ui.displayName\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 28,
+
+        "l": "-import mozilla.components.lib.state.ext.observeAsState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": " import mozilla.components.service.fxa.manager.AccountState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": " import mozilla.components.service.fxa.manager.AccountState.NotAuthenticated\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 31,
+
+        "l": " import mozilla.components.service.fxa.store.Account\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 32,
+
+        "l": "-import mozilla.components.service.fxa.store.SyncStore\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 33,
+
+        "l": " import org.mozilla.fenix.R\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 34,
+
+        "l": " import org.mozilla.fenix.components.menu.MenuAccessPoint\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": " import org.mozilla.fenix.components.menu.compose.header.MenuHeader\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 36,
+
+        "l": "-import org.mozilla.fenix.components.menu.store.MenuAction\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 37,
+
+        "l": "-import org.mozilla.fenix.components.menu.store.MenuStore\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": " import org.mozilla.fenix.compose.Divider\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": " import org.mozilla.fenix.compose.annotation.LightDarkPreview\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": " import org.mozilla.fenix.theme.FirefoxTheme\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": " import org.mozilla.fenix.theme.Theme\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 42,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 43,
+
+        "l": "-private const val ARROW_VERTICAL_OFFSET = 10\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 44,
+
+        "l": "-private const val INDICATOR_START_OFFSET = 46\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 45,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 46,
+
+        "l": "-/**\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 47,
+
+        "l": "- * Wrapper composable to display a Contextual Feature Recommendation
+        popup on [MainMenu]\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 48,
+
+        "l": "- *\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 49,
+
+        "l": "- * @param accessPoint The [MenuAccessPoint] that was used to navigate
+        to the menu dialog.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 50,
+
+        "l": "- * @param store The [MenuStore] that is used for the current state.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 51,
+
+        "l": "- * @param syncStore The [SyncStore] used to determine account information.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 52,
+
+        "l": "- * @param installedAddons A list of installed [Addon]s to be shown.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 53,
+
+        "l": "- * @param showQuitMenu Whether or not to show the [QuitMenuGroup].\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 54,
+
+        "l": "- * @param isPrivate Whether or not the browsing mode is in private
+        mode.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 55,
+
+        "l": "- * @param isDesktopMode Whether or not the current site is in desktop
+        mode.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 56,
+
+        "l": "- * @param isPdf Whether or not the current tab is a PDF.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 57,
+
+        "l": "- * @param isTranslationSupported Whether or not Translations are supported.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 58,
+
+        "l": "- * @param isExtensionsProcessDisabled Whether or not the extensions
+        process is disabled due to extension errors.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 59,
+
+        "l": "- * @param onExtensionsMenuClick Invoked when the user clicks on extensions
+        menu button.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 60,
+
+        "l": "- * @param onToolsMenuClick Invoked when the user clicks on tools menu
+        button.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 61,
+
+        "l": "- * @param onSaveMenuClick Invoked when the user clicks on save menu
+        button.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 62,
+
+        "l": "- */\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 63,
+
+        "l": "-@Suppress(\"LongParameterList\")\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 64,
+
+        "l": "-@Composable\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 65,
+
+        "l": "-internal fun MainMenuWithCFR(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 66,
+
+        "l": "-    accessPoint: MenuAccessPoint,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 67,
+
+        "l": "-    store: MenuStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 68,
+
+        "l": "-    syncStore: SyncStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 69,
+
+        "l": "-    installedAddons: List\u003cAddon\u003e,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 70,
+
+        "l": "-    showQuitMenu: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 71,
+
+        "l": "-    isPrivate: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 72,
+
+        "l": "-    isDesktopMode: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 73,
+
+        "l": "-    isPdf: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 74,
+
+        "l": "-    isTranslationSupported: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 75,
+
+        "l": "-    isExtensionsProcessDisabled: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 76,
+
+        "l": "-    onExtensionsMenuClick: () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 77,
+
+        "l": "-    onToolsMenuClick: () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 78,
+
+        "l": "-    onSaveMenuClick: () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 79,
+
+        "l": "-) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 80,
+
+        "l": "-    val configuration = LocalConfiguration.current\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 81,
+
+        "l": "-    val screenWidth = configuration.screenWidthDp\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 82,
+
+        "l": "-    val indicatorArrowStartOffset = (screenWidth / 2) - INDICATOR_START_OFFSET\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 83,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 84,
+
+        "l": "-    CFRPopupLayout(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 85,
+
+        "l": "-        showCFR = true,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 86,
+
+        "l": "-        properties = CFRPopupProperties(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 87,
+
+        "l": "-            popupBodyColors = listOf(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 88,
+
+        "l": "-                FirefoxTheme.colors.layerGradientEnd.toArgb(),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 89,
+
+        "l": "-                FirefoxTheme.colors.layerGradientStart.toArgb(),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 90,
+
+        "l": "-            ),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 91,
+
+        "l": "-            dismissButtonColor = FirefoxTheme.colors.iconOnColor.toArgb(),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 92,
+
+        "l": "-            indicatorDirection = CFRPopup.IndicatorDirection.DOWN,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 93,
+
+        "l": "-            popupVerticalOffset = ARROW_VERTICAL_OFFSET.dp,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 94,
+
+        "l": "-            indicatorArrowStartOffset = indicatorArrowStartOffset.dp,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 95,
+
+        "l": "-        ),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 96,
+
+        "l": "-        onCFRShown = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 97,
+
+        "l": "-            store.dispatch(MenuAction.ShowCFR)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 98,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 99,
+
+        "l": "-        onDismiss = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 100,
+
+        "l": "-            store.dispatch(MenuAction.DismissCFR)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 101,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 102,
+
+        "l": "-        title = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 103,
+
+        "l": "-            FirefoxTheme {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 104,
+
+        "l": "-                Text(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 105,
+
+        "l": "-                    text = stringResource(R.string.menu_cfr_title),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 106,
+
+        "l": "-                    color = FirefoxTheme.colors.textOnColorPrimary,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 107,
+
+        "l": "-                    style = FirefoxTheme.typography.subtitle2,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 108,
+
+        "l": "-                )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 109,
+
+        "l": "-            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 110,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 111,
+
+        "l": "-        text = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 112,
+
+        "l": "-            FirefoxTheme {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 113,
+
+        "l": "-                Text(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 114,
+
+        "l": "-                    text = stringResource(R.string.menu_cfr_body),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 115,
+
+        "l": "-                    color = FirefoxTheme.colors.textOnColorPrimary,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 116,
+
+        "l": "-                    style = FirefoxTheme.typography.body2,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 117,
+
+        "l": "-                )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 118,
+
+        "l": "-            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 119,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 120,
+
+        "l": "-    ) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 121,
+
+        "l": "-        MainMenu(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 122,
+
+        "l": "-            accessPoint = accessPoint,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 123,
+
+        "l": "-            store = store,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 124,
+
+        "l": "-            syncStore = syncStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 125,
+
+        "l": "-            installedAddons = installedAddons,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 126,
+
+        "l": "-            showQuitMenu = showQuitMenu,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 127,
+
+        "l": "-            isPrivate = isPrivate,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 128,
+
+        "l": "-            isDesktopMode = isDesktopMode,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 129,
+
+        "l": "-            isPdf = isPdf,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 130,
+
+        "l": "-            isTranslationSupported = isTranslationSupported,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 131,
+
+        "l": "-            isExtensionsProcessDisabled = isExtensionsProcessDisabled,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 132,
+
+        "l": "-            onExtensionsMenuClick = { onExtensionsMenuClick() },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 133,
+
+        "l": "-            onToolsMenuClick = { onToolsMenuClick() },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 134,
+
+        "l": "-            onSaveMenuClick = { onSaveMenuClick() },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 135,
+
+        "l": "-        )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 136,
+
+        "l": "-    }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 137,
+
+        "l": "-}\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 138,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 139,
+
+        "l": "-/**\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 140,
+
+        "l": "- * Wrapper of [MainMenu]\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 141,
+
+        "l": "- *\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 142,
+
+        "l": "- * @param accessPoint The [MenuAccessPoint] that was used to navigate
+        to the menu dialog.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 143,
+
+        "l": "- * @param store The [MenuStore] that is used for the current state.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 144,
+
+        "l": "- * @param syncStore The [SyncStore] used to determine account information.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 145,
+
+        "l": "- * @param installedAddons A list of installed [Addon]s to be shown.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 146,
+
+        "l": "- * @param showQuitMenu Whether or not to show the [QuitMenuGroup].\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 147,
+
+        "l": "- * @param isPrivate Whether or not the browsing mode is in private
+        mode.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 148,
+
+        "l": "- * @param isDesktopMode Whether or not the current site is in desktop
+        mode.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 149,
+
+        "l": "- * @param isPdf Whether or not the current tab is a PDF.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 150,
+
+        "l": "- * @param isTranslationSupported Whether or not Translations are supported.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 151,
+
+        "l": "- * @param isExtensionsProcessDisabled Whether or not the extensions
+        process is disabled due to extension errors.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 152,
+
+        "l": "- * @param onExtensionsMenuClick Invoked when the user clicks on extensions
+        menu button.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 153,
+
+        "l": "- * @param onToolsMenuClick Invoked when the user clicks on tools menu
+        button.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 154,
+
+        "l": "- * @param onSaveMenuClick Invoked when the user clicks on save menu
+        button.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 155,
+
+        "l": "- */\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 156,
+
+        "l": "-@Suppress(\"LongMethod\", \"LongParameterList\")\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 157,
+
+        "l": "-@Composable\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 158,
+
+        "l": "-internal fun MainMenu(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 159,
+
+        "l": "-    accessPoint: MenuAccessPoint,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 160,
+
+        "l": "-    store: MenuStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 161,
+
+        "l": "-    syncStore: SyncStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 162,
+
+        "l": "-    installedAddons: List\u003cAddon\u003e,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 163,
+
+        "l": "-    showQuitMenu: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 164,
+
+        "l": "-    isPrivate: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 165,
+
+        "l": "-    isDesktopMode: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 166,
+
+        "l": "-    isPdf: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 167,
+
+        "l": "-    isTranslationSupported: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 168,
+
+        "l": "-    isExtensionsProcessDisabled: Boolean,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 169,
+
+        "l": "-    onExtensionsMenuClick: () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 170,
+
+        "l": "-    onToolsMenuClick: () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 171,
+
+        "l": "-    onSaveMenuClick: () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 172,
+
+        "l": "-) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 173,
+
+        "l": "-    val account by syncStore.observeAsState(initialValue = null) {
+        state -\u003e state.account }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 174,
+
+        "l": "-    val accountState by syncStore.observeAsState(initialValue = NotAuthenticated)
+        { state -\u003e\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 175,
+
+        "l": "-        state.accountState\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 176,
+
+        "l": "-    }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 177,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 178,
+
+        "l": "-    MainMenu(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 179,
+
+        "l": "-        accessPoint = accessPoint,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 180,
+
+        "l": "-        account = account,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 181,
+
+        "l": "-        accountState = accountState,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 182,
+
+        "l": "-        installedAddons = installedAddons,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 183,
+
+        "l": "-        isPrivate = isPrivate,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 184,
+
+        "l": "-        isDesktopMode = isDesktopMode,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 185,
+
+        "l": "-        isPdf = isPdf,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 186,
+
+        "l": "-        isTranslationSupported = isTranslationSupported,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 187,
+
+        "l": "-        showQuitMenu = showQuitMenu,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 188,
+
+        "l": "-        isExtensionsProcessDisabled = isExtensionsProcessDisabled,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 189,
+
+        "l": "-        onMozillaAccountButtonClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 190,
+
+        "l": "-            store.dispatch(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 191,
+
+        "l": "-                MenuAction.Navigate.MozillaAccount(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 192,
+
+        "l": "-                    accountState = accountState,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 193,
+
+        "l": "-                    accesspoint = accessPoint,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 194,
+
+        "l": "-                ),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 195,
+
+        "l": "-            )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 196,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 197,
+
+        "l": "-        onHelpButtonClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 198,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.Help)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 199,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 200,
+
+        "l": "-        onSettingsButtonClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 201,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.Settings)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 202,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 203,
+
+        "l": "-        onNewTabMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 204,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.NewTab)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 205,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 206,
+
+        "l": "-        onNewPrivateTabMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 207,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.NewPrivateTab)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 208,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 209,
+
+        "l": "-        onSwitchToDesktopSiteMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 210,
+
+        "l": "-            if (isDesktopMode) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 211,
+
+        "l": "-                store.dispatch(MenuAction.RequestMobileSite)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 212,
+
+        "l": "-            } else {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 213,
+
+        "l": "-                store.dispatch(MenuAction.RequestDesktopSite)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 214,
+
+        "l": "-            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 215,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 216,
+
+        "l": "-        onFindInPageMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 217,
+
+        "l": "-            store.dispatch(MenuAction.FindInPage)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 218,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 219,
+
+        "l": "-        onToolsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 220,
+
+        "l": "-            store.dispatch(MenuAction.ToolsMenuClicked)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 221,
+
+        "l": "-            onToolsMenuClick()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 222,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 223,
+
+        "l": "-        onSaveMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 224,
+
+        "l": "-            store.dispatch(MenuAction.SaveMenuClicked)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 225,
+
+        "l": "-            onSaveMenuClick()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 226,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 227,
+
+        "l": "-        onExtensionsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 228,
+
+        "l": "-            if (accessPoint == MenuAccessPoint.Home) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 229,
+
+        "l": "-                store.dispatch(MenuAction.Navigate.ManageExtensions)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 230,
+
+        "l": "-            } else {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 231,
+
+        "l": "-                onExtensionsMenuClick()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 232,
+
+        "l": "-            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 233,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 234,
+
+        "l": "-        onBookmarksMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 235,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.Bookmarks)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 236,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 237,
+
+        "l": "-        onHistoryMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 238,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.History)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 239,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 240,
+
+        "l": "-        onDownloadsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 241,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.Downloads)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 242,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 243,
+
+        "l": "-        onPasswordsMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 244,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.Passwords)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 245,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 246,
+
+        "l": "-        onCustomizeHomepageMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 247,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.CustomizeHomepage)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 248,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 249,
+
+        "l": "-        onNewInFirefoxMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 250,
+
+        "l": "-            store.dispatch(MenuAction.Navigate.ReleaseNotes)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 251,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 252,
+
+        "l": "-        onQuitMenuClick = {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 253,
+
+        "l": "-            store.dispatch(MenuAction.DeleteBrowsingDataAndQuit)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 254,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 255,
+
+        "l": "-    )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 256,
+
+        "l": "-}\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 257,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 258,
+
+        "l": " /**\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 259,
+
+        "l": "  * Wrapper column containing the main menu items.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 260,
+
+        "l": "  *\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 261,
+
+        "l": "  * @param accessPoint The [MenuAccessPoint] that was used to navigate
+        to the menu dialog.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 262,
+
+        "l": "  * @param account [Account] information available for a synced account.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 263,
+
+        "l": "  * @param accountState The [AccountState] of a Mozilla account.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 264,
+
+        "l": "  * @param installedAddons A list of installed [Addon]s to be shown.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 265,
+
+        "l": "  * @param isPrivate Whether or not the browsing mode is in private
+        mode.\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 266,
+
+        "l": "@@ -283,17 +56,17 @@ internal fun MainMenu(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 267,
+
+        "l": "  * @param onPasswordsMenuClick Invoked when the user clicks on the
+        passwords menu item.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 268,
+
+        "l": "  * @param onCustomizeHomepageMenuClick Invoked when the user clicks
+        on the customize\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 269,
+
+        "l": "  * homepage menu item.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 270,
+
+        "l": "  * @param onNewInFirefoxMenuClick Invoked when the user clicks on the
+        release note menu item.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 271,
+
+        "l": "  * @param onQuitMenuClick Invoked when the user clicks on the quit
+        menu item.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 272,
+
+        "l": "  */\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 273,
+
+        "l": " @Suppress(\"LongParameterList\")\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 274,
+
+        "l": " @Composable\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 275,
+
+        "l": "-internal fun MainMenu(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 276,
+
+        "l": "+fun MainMenu(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 277,
+
+        "l": "     accessPoint: MenuAccessPoint,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 278,
+
+        "l": "     account: Account?,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 279,
+
+        "l": "     accountState: AccountState,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 280,
+
+        "l": "     installedAddons: List\u003cAddon\u003e,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 281,
+
+        "l": "     isPrivate: Boolean,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 282,
+
+        "l": "     isDesktopMode: Boolean,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 283,
+
+        "l": "     isPdf: Boolean,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 284,
+
+        "l": "     isTranslationSupported: Boolean,\n"
+
+        }]
+
+        }, {
+
+        "blockno": 3,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/compose/MenuDialogBottomSheet.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/compose/MenuDialogBottomSheet.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -1,60 +1,128 @@\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " /* This Source Code Form is subject to the terms of the Mozilla Public\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "  * License, v. 2.0. If a copy of the MPL was not distributed with this\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " package org.mozilla.fenix.components.menu.compose\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 10,
+
+        "l": "+import android.content.Context\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " import androidx.compose.foundation.background\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 12,
+
+        "l": "+import androidx.compose.foundation.layout.Box\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": " import androidx.compose.foundation.layout.Column\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": " import androidx.compose.foundation.layout.fillMaxWidth\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": " import androidx.compose.foundation.layout.padding\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 16,
+
+        "l": "+import androidx.compose.foundation.layout.wrapContentSize\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": " import androidx.compose.foundation.rememberScrollState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " import androidx.compose.foundation.shape.RoundedCornerShape\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " import androidx.compose.foundation.verticalScroll\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 20,
+
+        "l": "+import androidx.compose.material.Text\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": " import androidx.compose.runtime.Composable\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": " import androidx.compose.ui.Alignment\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": " import androidx.compose.ui.Modifier\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 24,
+
+        "l": "+import androidx.compose.ui.graphics.toArgb\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": " import androidx.compose.ui.input.nestedscroll.nestedScroll\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": " import androidx.compose.ui.platform.rememberNestedScrollInteropConnection\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 27,
+
+        "l": "+import androidx.compose.ui.res.stringResource\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": " import androidx.compose.ui.unit.dp\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 29,
+
+        "l": "+import mozilla.components.compose.cfr.CFRPopup\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 30,
+
+        "l": "+import mozilla.components.compose.cfr.CFRPopupLayout\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 31,
+
+        "l": "+import mozilla.components.compose.cfr.CFRPopupProperties\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 32,
+
+        "l": "+import org.mozilla.fenix.R\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 33,
+
+        "l": "+import org.mozilla.fenix.components.AppStore\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 34,
+
+        "l": "+import org.mozilla.fenix.components.appstate.OrientationMode\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": " import org.mozilla.fenix.compose.BottomSheetHandle\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 36,
+
+        "l": "+import org.mozilla.fenix.ext.settings\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": " import org.mozilla.fenix.theme.FirefoxTheme\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": " private const val BOTTOM_SHEET_HANDLE_WIDTH_PERCENT = 0.1f\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 40,
+
+        "l": "+private const val CFR_HORIZONTAL_OFFSET = 160\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 41,
+
+        "l": "+private const val CFR_VERTICAL_OFFSET_LANDSCAPE = 0\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 42,
+
+        "l": "+private const val CFR_VERTICAL_OFFSET_PORTRAIT = -6\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 43,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 44,
+
+        "l": " /**\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 45,
+
+        "l": "  * The menu dialog bottom sheet.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 46,
+
+        "l": "  *\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 47,
+
+        "l": "  * @param handlebarContentDescription Bottom sheet handlebar content
+        description.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 48,
+
+        "l": "  * @param onRequestDismiss Invoked when when accessibility services
+        or UI automation requests\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 49,
+
+        "l": "  * dismissal of the bottom sheet.\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 50,
+
+        "l": "+ * @param appStore The [AppStore] needed to determine device orientation.\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 51,
+
+        "l": "+ * @param context The context needed for settings.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 52,
+
+        "l": "  * @param content The children composable to be laid out.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 53,
+
+        "l": "  */\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 54,
+
+        "l": " @Composable\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 55,
+
+        "l": " fun MenuDialogBottomSheet(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 56,
+
+        "l": "     handlebarContentDescription: String,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 57,
+
+        "l": "     onRequestDismiss: () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 58,
+
+        "l": "+    appStore: AppStore,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 59,
+
+        "l": "+    context: Context,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 60,
+
+        "l": "     content: @Composable () -\u003e Unit,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 61,
+
+        "l": " ) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 62,
+
+        "l": "     Column(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 63,
+
+        "l": "         modifier = Modifier\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 64,
+
+        "l": "             .background(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 65,
+
+        "l": "                 color = FirefoxTheme.colors.layer3,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 66,
+
+        "l": "                 shape = RoundedCornerShape(topStart = 16.dp, topEnd
+        = 16.dp),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 67,
+
+        "l": "             )\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 68,
+
+        "l": "             .nestedScroll(rememberNestedScrollInteropConnection()),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 69,
+
+        "l": "     ) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 70,
+
+        "l": "-        BottomSheetHandle(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 71,
+
+        "l": "-            onRequestDismiss = onRequestDismiss,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 72,
+
+        "l": "-            contentDescription = handlebarContentDescription,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 73,
+
+        "l": "-            modifier = Modifier\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 74,
+
+        "l": "-                .padding(top = 8.dp, bottom = 5.dp)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 75,
+
+        "l": "-                .fillMaxWidth(BOTTOM_SHEET_HANDLE_WIDTH_PERCENT)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 76,
+
+        "l": "-                .align(Alignment.CenterHorizontally)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 77,
+
+        "l": "-                .verticalScroll(rememberScrollState()),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 78,
+
+        "l": "-            color = FirefoxTheme.colors.borderInverted,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 79,
+
+        "l": "-        )\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 80,
+
+        "l": "+        val (indicatorDirection, verticalOffset) = when (appStore.state.orientation)
+        {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 81,
+
+        "l": "+            OrientationMode.Landscape -\u003e CFRPopup.IndicatorDirection.UP
+        to CFR_VERTICAL_OFFSET_LANDSCAPE\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 82,
+
+        "l": "+            else -\u003e CFRPopup.IndicatorDirection.DOWN to CFR_VERTICAL_OFFSET_PORTRAIT\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 83,
+
+        "l": "+        }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 84,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 85,
+
+        "l": "+        CFRPopupLayout(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 86,
+
+        "l": "+            showCFR = context.settings().shouldShowMenuCFR,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 87,
+
+        "l": "+            properties = CFRPopupProperties(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 88,
+
+        "l": "+                popupAlignment = CFRPopup.PopupAlignment.INDICATOR_CENTERED_IN_ANCHOR,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 89,
+
+        "l": "+                popupBodyColors = listOf(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 90,
+
+        "l": "+                    FirefoxTheme.colors.layerGradientEnd.toArgb(),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 91,
+
+        "l": "+                    FirefoxTheme.colors.layerGradientStart.toArgb(),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 92,
+
+        "l": "+                ),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 93,
+
+        "l": "+                dismissButtonColor = FirefoxTheme.colors.iconOnColor.toArgb(),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 94,
+
+        "l": "+                indicatorDirection = indicatorDirection,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 95,
+
+        "l": "+                popupVerticalOffset = verticalOffset.dp,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 96,
+
+        "l": "+                indicatorArrowStartOffset = CFR_HORIZONTAL_OFFSET.dp,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 97,
+
+        "l": "+            ),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 98,
+
+        "l": "+            onCFRShown = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 99,
+
+        "l": "+                context.settings().shouldShowMenuCFR = false\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 100,
+
+        "l": "+                context.settings().lastCfrShownTimeInMillis = System.currentTimeMillis()\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 101,
+
+        "l": "+            },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 102,
+
+        "l": "+            onDismiss = {},\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 103,
+
+        "l": "+            title = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 104,
+
+        "l": "+                FirefoxTheme {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 105,
+
+        "l": "+                    Text(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 106,
+
+        "l": "+                        text = stringResource(R.string.menu_cfr_title),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 107,
+
+        "l": "+                        color = FirefoxTheme.colors.textOnColorPrimary,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 108,
+
+        "l": "+                        style = FirefoxTheme.typography.subtitle2,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 109,
+
+        "l": "+                    )\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 110,
+
+        "l": "+                }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 111,
+
+        "l": "+            },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 112,
+
+        "l": "+            text = {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 113,
+
+        "l": "+                FirefoxTheme {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 114,
+
+        "l": "+                    Text(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 115,
+
+        "l": "+                        text = stringResource(R.string.menu_cfr_body),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 116,
+
+        "l": "+                        color = FirefoxTheme.colors.textOnColorPrimary,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 117,
+
+        "l": "+                        style = FirefoxTheme.typography.body2,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 118,
+
+        "l": "+                    )\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 119,
+
+        "l": "+                }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 120,
+
+        "l": "+            },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 121,
+
+        "l": "+        ) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 122,
+
+        "l": "+            Box(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 123,
+
+        "l": "+                modifier = Modifier\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 124,
+
+        "l": "+                    .fillMaxWidth()\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 125,
+
+        "l": "+                    .wrapContentSize(Alignment.Center),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 126,
+
+        "l": "+            ) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 127,
+
+        "l": "+                BottomSheetHandle(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 128,
+
+        "l": "+                    onRequestDismiss = onRequestDismiss,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 129,
+
+        "l": "+                    contentDescription = handlebarContentDescription,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 130,
+
+        "l": "+                    modifier = Modifier\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 131,
+
+        "l": "+                        .padding(top = 8.dp, bottom = 5.dp)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 132,
+
+        "l": "+                        .fillMaxWidth(BOTTOM_SHEET_HANDLE_WIDTH_PERCENT)\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 133,
+
+        "l": "+                        .verticalScroll(rememberScrollState()),\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 134,
+
+        "l": "+                    color = FirefoxTheme.colors.borderInverted,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 135,
+
+        "l": "+                )\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 136,
+
+        "l": "+            }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 137,
+
+        "l": "+        }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 138,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 139,
+
+        "l": "         content()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 140,
+
+        "l": "     }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 141,
+
+        "l": " }\n"
+
+        }]
+
+        }, {
+
+        "blockno": 4,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/middleware/MenuDialogMiddleware.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/middleware/MenuDialogMiddleware.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -106,17 +106,16 @@ class MenuDialogMiddleware(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "             is MenuAction.DeleteBrowsingDataAndQuit -\u003e deleteBrowsingDataAndQuit()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "             is MenuAction.FindInPage -\u003e launchFindInPage()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "             is MenuAction.OpenInApp -\u003e openInApp(context.store)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "             is MenuAction.OpenInFirefox -\u003e openInFirefox()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "             is MenuAction.InstallAddon -\u003e installAddon(context.store,
+        action.addon)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "             is MenuAction.CustomMenuItemAction -\u003e customMenuItemAction(action.intent,
+        action.url)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "             is MenuAction.ToggleReaderView -\u003e toggleReaderView(state
+        = currentState)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "             is MenuAction.CustomizeReaderView -\u003e customizeReaderView()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-            is MenuAction.DismissCFR -\u003e dismissMenuCFR()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": "             is MenuAction.RequestDesktopSite,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "             is MenuAction.RequestMobileSite,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "             -\u003e requestSiteMode(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": "                 tabId = currentState.customTabSessionId ?: currentState.browserMenuState?.selectedTab?.id,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": "                 shouldRequestDesktopMode = !currentState.isDesktopMode,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": "             )\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 21,
+
+        "l": "@@ -298,21 +297,16 @@ class MenuDialogMiddleware(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "         onDismiss()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": "     }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": "     private fun deleteBrowsingDataAndQuit() = scope.launch {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": "         onDeleteAndQuit()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": "         onDismiss()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": "     }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 30,
+
+        "l": "-    private fun dismissMenuCFR() = scope.launch {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 31,
+
+        "l": "-        settings.shouldShowMenuCFR = false\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 32,
+
+        "l": "-        settings.lastCfrShownTimeInMillis = System.currentTimeMillis()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 33,
+
+        "l": "-    }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 34,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": "     private fun openInApp(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": "         store: Store\u003cMenuState, MenuAction\u003e,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": "     ) = scope.launch {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": "         val url = store.state.browserMenuState?.selectedTab?.content?.url
+        ?: return@launch\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": "         val redirect = appLinksUseCases.appLinkRedirect.invoke(url)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": "         if (!redirect.hasExternalApp()) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 42,
+
+        "l": "             return@launch\n"
+
+        }]
+
+        }, {
+
+        "blockno": 5,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/middleware/MenuTelemetryMiddleware.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/middleware/MenuTelemetryMiddleware.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -6,17 +6,16 @@ package org.mozilla.fenix.components.men\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " import mozilla.components.lib.state.Middleware\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " import mozilla.components.lib.state.MiddlewareContext\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " import mozilla.telemetry.glean.private.NoExtras\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.AppMenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.Events\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.HomeMenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.HomeScreen\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-import org.mozilla.fenix.GleanMetrics.Menu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.ReaderMode\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.Translations\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": " import org.mozilla.fenix.components.menu.MenuAccessPoint\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": " import org.mozilla.fenix.components.menu.store.MenuAction\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": " import org.mozilla.fenix.components.menu.store.MenuState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " import org.mozilla.fenix.components.menu.store.MenuStore\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": " /**\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 21,
+
+        "l": "@@ -187,20 +186,16 @@ class MenuTelemetryMiddleware(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "             )\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": "             MenuAction.FindInPage -\u003e Events.browserMenuAction.record(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": "                 Events.BrowserMenuActionExtra(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": "                     item = \"find_in_page\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": "                 ),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": "             )\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 30,
+
+        "l": "-            MenuAction.ShowCFR -\u003e Menu.showCfr.record(NoExtras())\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 31,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 32,
+
+        "l": "-            MenuAction.DismissCFR -\u003e Menu.dismissCfr.record(NoExtras())\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 33,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 34,
+
+        "l": "             MenuAction.CustomizeReaderView -\u003e ReaderMode.appearance.record(NoExtras())\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": "             MenuAction.ToggleReaderView -\u003e {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": "                 val readerState = currentState.browserMenuState?.selectedTab?.readerState
+        ?: return\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": "                 if (readerState.active) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": "                     ReaderMode.closed.record(NoExtras())\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": "                 } else {\n"
+
+        }]
+
+        }, {
+
+        "blockno": 6,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/store/MenuAction.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/store/MenuAction.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -78,26 +78,16 @@ sealed class MenuAction : Action {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "     data object OpenInFirefox : MenuAction()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "     /**\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "      * [MenuAction] dispatched to launch find in page feature for the
+        current site.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "      */\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "     data object FindInPage : MenuAction()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "     /**\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-     * [MenuAction] dispatched to show the menu CFR.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-     */\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-    data object ShowCFR : MenuAction()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-    /**\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-     * [MenuAction] dispatched when the menu CFR is dismissed.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-     */\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 19,
+
+        "l": "-    data object DismissCFR : MenuAction()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 20,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 21,
+
+        "l": "-    /**\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "      * [MenuAction] dispatched when the extension state is updated.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": "      *\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": "      * @property recommendedAddons The recommended [Addon]s to suggest.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": "      */\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": "     data class UpdateExtensionState(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": "         val recommendedAddons: List\u003cAddon\u003e,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": "     ) : MenuAction()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": " \n"
+
+        }]
+
+        }, {
+
+        "blockno": 7,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/store/MenuStore.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/java/org/mozilla/fenix/components/menu/store/MenuStore.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -34,18 +34,16 @@ private fun reducer(state: MenuState, ac\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "         is MenuAction.FindInPage,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "         is MenuAction.OpenInApp,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "         is MenuAction.OpenInFirefox,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "         is MenuAction.InstallAddon,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "         is MenuAction.CustomMenuItemAction,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "         is MenuAction.ToggleReaderView,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "         is MenuAction.CustomizeReaderView,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "         is MenuAction.Navigate,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-        is MenuAction.ShowCFR,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-        is MenuAction.DismissCFR,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": "         is MenuAction.SaveMenuClicked,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "         is MenuAction.ToolsMenuClicked,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "         -\u003e state\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": "         is MenuAction.RequestDesktopSite -\u003e state.copy(isDesktopMode
+        = true)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "         is MenuAction.RequestMobileSite -\u003e state.copy(isDesktopMode
+        = false)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": " \n"
+
+        }]
+
+        }, {
+
+        "blockno": 8,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/test/java/org/mozilla/fenix/components/menu/MenuDialogMiddlewareTest.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/test/java/org/mozilla/fenix/components/menu/MenuDialogMiddlewareTest.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -955,36 +955,16 @@ class MenuDialogMiddlewareTest {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "         store.dispatch(MenuAction.FindInPage)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "         store.waitUntilIdle()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "         verify(appStore).dispatch(FindInPageAction.FindInPageStarted)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "         assertTrue(dismissWasCalled)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "     }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "     @Test\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-    fun `WHEN CFR is dismissed THEN dismiss CFR action is dispatched`()
+        = runTestOnMain {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-        var dismissWasCalled = false\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-        val appStore = spy(AppStore())\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-        val store = createStore(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-            appStore = appStore,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-            menuState = MenuState(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 19,
+
+        "l": "-                browserMenuState = null,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 20,
+
+        "l": "-            ),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 21,
+
+        "l": "-            onDismiss = { dismissWasCalled = true },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 22,
+
+        "l": "-        )\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 23,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 24,
+
+        "l": "-        store.dispatch(MenuAction.DismissCFR)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 25,
+
+        "l": "-        store.waitUntilIdle()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 26,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 27,
+
+        "l": "-        assertFalse(settings.shouldShowMenuCFR)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 28,
+
+        "l": "-        assertFalse(dismissWasCalled)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 29,
+
+        "l": "-    }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 30,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 31,
+
+        "l": "-    @Test\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 32,
+
+        "l": "     fun `WHEN custom menu item action is dispatched THEN pending intent
+        is sent with url`() = runTestOnMain {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 33,
+
+        "l": "         val url = \"https://www.mozilla.org\"\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 34,
+
+        "l": "         val mockIntent: PendingIntent = mock()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": "         var dismissWasCalled = false\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": "         var sentIntent: PendingIntent? = null\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": "         var sentUrl: String? = null\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": "         val store = spy(\n"
+
+        }]
+
+        }, {
+
+        "blockno": 9,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/test/java/org/mozilla/fenix/components/menu/MenuTelemetryMiddlewareTest.kt\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/test/java/org/mozilla/fenix/components/menu/MenuTelemetryMiddlewareTest.kt\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -19,17 +19,16 @@ import org.junit.Assert.assertNotNull\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " import org.junit.Assert.assertNull\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " import org.junit.Rule\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " import org.junit.Test\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " import org.junit.runner.RunWith\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.AppMenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.Events\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.HomeMenu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.HomeScreen\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-import org.mozilla.fenix.GleanMetrics.Menu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.ReaderMode\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": " import org.mozilla.fenix.GleanMetrics.Translations\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": " import org.mozilla.fenix.components.menu.middleware.MenuTelemetryMiddleware\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": " import org.mozilla.fenix.components.menu.store.BrowserMenuState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": " import org.mozilla.fenix.components.menu.store.MenuAction\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " import org.mozilla.fenix.components.menu.store.MenuState\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " import org.mozilla.fenix.components.menu.store.MenuStore\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": " import org.robolectric.RobolectricTestRunner\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 21,
+
+        "l": "@@ -311,36 +310,16 @@ class MenuTelemetryMiddlewareTest {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "         assertNull(Events.browserMenuAction.testGetValue())\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": "         store.dispatch(MenuAction.FindInPage).joinBlocking()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": "         assertTelemetryRecorded(Events.browserMenuAction, item = \"find_in_page\")\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": "     }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": "     @Test\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 30,
+
+        "l": "-    fun `WHEN CFR is shown THEN record the CFR is shown menu telemetry`()
+        {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 31,
+
+        "l": "-        val store = createStore()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 32,
+
+        "l": "-        assertNull(Menu.showCfr.testGetValue())\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 33,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 34,
+
+        "l": "-        store.dispatch(MenuAction.ShowCFR).joinBlocking()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 35,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 36,
+
+        "l": "-        assertTelemetryRecorded(Menu.showCfr)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 37,
+
+        "l": "-    }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 38,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 39,
+
+        "l": "-    @Test\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 40,
+
+        "l": "-    fun `WHEN CFR is dismissed THEN record the CFR is dismissed menu
+        telemetry`() {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 41,
+
+        "l": "-        val store = createStore()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 42,
+
+        "l": "-        assertNull(Menu.dismissCfr.testGetValue())\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 43,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 44,
+
+        "l": "-        store.dispatch(MenuAction.DismissCFR).joinBlocking()\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 45,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 46,
+
+        "l": "-        assertTelemetryRecorded(Menu.dismissCfr)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 47,
+
+        "l": "-    }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 48,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 49,
+
+        "l": "-    @Test\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 50,
+
+        "l": "     fun `WHEN customize reader view action is dispatched THEN record
+        the reader mode appearance telemetry`() {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 51,
+
+        "l": "         val store = createStore()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 52,
+
+        "l": "         assertNull(ReaderMode.appearance.testGetValue())\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 53,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 54,
+
+        "l": "         store.dispatch(MenuAction.CustomizeReaderView).joinBlocking()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 55,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 56,
+
+        "l": "         assertTelemetryRecorded(ReaderMode.appearance)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 57,
+
+        "l": "     }\n"
+
+        }]
+
+        }],
+
+        "phase": "public",
+
+        "pushid": 217438,
+
+        "pushdate": [1730826162, 0],
+
+        "pushuser": "tchoh@mozilla.com",
+
+        "landingsystem": "lando"
+
+        }'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - Keep-Alive
+      Content-Security-Policy:
+      - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-4R_aV-JsTMC6KprAdhkGqQ'';
+        style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
+        https:'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 05 Nov 2024 17:34:59 GMT
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Cache-Info:
+      - 'not cacheable; response specified "Cache-Control: no-cache"'
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '71574'
+    status:
+      code: 200
+      message: Script output follows
+version: 1

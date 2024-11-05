@@ -1,0 +1,871 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://hg.mozilla.org/releases/mozilla-release/json-rev/16fc978cb4f0
+  response:
+    body:
+      string: '{
+
+        "node": "16fc978cb4f0cfcab147c3f5e586884dd2c7c3bc",
+
+        "date": [1730738915.0, 18000],
+
+        "desc": "Bug 1928994 - Revert changeset 52b664a7c155 (bug 1926401) because
+        the experiment isn''t ready to launch. a=RyanVM",
+
+        "backedoutby": "",
+
+        "branch": "default",
+
+        "bookmarks": [],
+
+        "tags": ["tip"],
+
+        "user": "Ryan VanderMeulen \u003cryanvm@gmail.com\u003e",
+
+        "parents": ["f8084c09c3353bd884b41e52897697b2e3d86af9"],
+
+        "children": [],
+
+        "files": [{
+
+        "file": "mobile/android/fenix/app/src/main/res/raw/initial_experiments.json",
+
+        "status": "modified"
+
+        }],
+
+        "diff": [{
+
+        "blockno": 1,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/mobile/android/fenix/app/src/main/res/raw/initial_experiments.json\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/mobile/android/fenix/app/src/main/res/raw/initial_experiments.json\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -136,93 +136,16 @@\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "       \"referenceBranch\": \"control\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "       \"featureValidationOptOut\": false,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "       \"localizations\": null,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "       \"locales\": null,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "       \"publishedDate\": \"2024-10-14T20:58:56.540557Z\"\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "     },\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "     {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "       \"schemaVersion\": \"1.12.0\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-      \"slug\": \"change-app-color-icon-android\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-      \"id\": \"change-app-color-icon-android\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-      \"arguments\": {},\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-      \"application\": \"org.mozilla.firefox\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-      \"appName\": \"fenix\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-      \"appId\": \"org.mozilla.firefox\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-      \"channel\": \"release\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 19,
+
+        "l": "-      \"userFacingName\": \"Change App Color Icon - Android for New
+        Users\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 20,
+
+        "l": "-      \"userFacingDescription\": \"Testing a white app background to
+        make Firefox easier to spot on your home screen.\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 21,
+
+        "l": "-      \"isEnrollmentPaused\": false,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 22,
+
+        "l": "-      \"isRollout\": false,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 23,
+
+        "l": "-      \"bucketConfig\": {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 24,
+
+        "l": "-        \"randomizationUnit\": \"nimbus_id\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 25,
+
+        "l": "-        \"namespace\": \"fenix-alternative-app-launcher-icon-release-2\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 26,
+
+        "l": "-        \"start\": 0,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 27,
+
+        "l": "-        \"count\": 10000,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 28,
+
+        "l": "-        \"total\": 10000\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 29,
+
+        "l": "-      },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 30,
+
+        "l": "-      \"featureIds\": [\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 31,
+
+        "l": "-        \"alternative-app-launcher-icon\"\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 32,
+
+        "l": "-      ],\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 33,
+
+        "l": "-      \"probeSets\": [],\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 34,
+
+        "l": "-      \"outcomes\": [],\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 35,
+
+        "l": "-      \"branches\": [\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 36,
+
+        "l": "-        {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 37,
+
+        "l": "-          \"slug\": \"control\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 38,
+
+        "l": "-          \"ratio\": 1,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 39,
+
+        "l": "-          \"feature\": {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 40,
+
+        "l": "-            \"featureId\": \"this-is-included-for-mobile-pre-96-support\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 41,
+
+        "l": "-            \"enabled\": false,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 42,
+
+        "l": "-            \"value\": {}\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 43,
+
+        "l": "-          },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 44,
+
+        "l": "-          \"features\": [\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 45,
+
+        "l": "-            {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 46,
+
+        "l": "-              \"featureId\": \"alternative-app-launcher-icon\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 47,
+
+        "l": "-              \"enabled\": true,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 48,
+
+        "l": "-              \"value\": {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 49,
+
+        "l": "-                \"enabled\": false,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 50,
+
+        "l": "-                \"reset-to-default\": false\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 51,
+
+        "l": "-              }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 52,
+
+        "l": "-            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 53,
+
+        "l": "-          ]\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 54,
+
+        "l": "-        },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 55,
+
+        "l": "-        {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 56,
+
+        "l": "-          \"slug\": \"treatment-a\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 57,
+
+        "l": "-          \"ratio\": 1,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 58,
+
+        "l": "-          \"feature\": {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 59,
+
+        "l": "-            \"featureId\": \"this-is-included-for-mobile-pre-96-support\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 60,
+
+        "l": "-            \"enabled\": false,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 61,
+
+        "l": "-            \"value\": {}\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 62,
+
+        "l": "-          },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 63,
+
+        "l": "-          \"features\": [\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 64,
+
+        "l": "-            {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 65,
+
+        "l": "-              \"featureId\": \"alternative-app-launcher-icon\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 66,
+
+        "l": "-              \"enabled\": true,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 67,
+
+        "l": "-              \"value\": {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 68,
+
+        "l": "-                \"enabled\": true,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 69,
+
+        "l": "-                \"reset-to-default\": false\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 70,
+
+        "l": "-              }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 71,
+
+        "l": "-            }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 72,
+
+        "l": "-          ]\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 73,
+
+        "l": "-        }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 74,
+
+        "l": "-      ],\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 75,
+
+        "l": "-      \"targeting\": \"((is_already_enrolled) || ((isFirstRun == ''true'')
+        && (app_version|versionCompare(''132.!'') \u003e= 0)))\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 76,
+
+        "l": "-      \"startDate\": \"2024-10-22\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 77,
+
+        "l": "-      \"enrollmentEndDate\": null,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 78,
+
+        "l": "-      \"endDate\": null,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 79,
+
+        "l": "-      \"proposedDuration\": 49,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 80,
+
+        "l": "-      \"proposedEnrollment\": 14,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 81,
+
+        "l": "-      \"referenceBranch\": \"control\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 82,
+
+        "l": "-      \"featureValidationOptOut\": false,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 83,
+
+        "l": "-      \"localizations\": null,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 84,
+
+        "l": "-      \"locales\": null,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 85,
+
+        "l": "-      \"publishedDate\": \"2024-10-22T18:43:28.679357Z\"\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 86,
+
+        "l": "-    },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 87,
+
+        "l": "-    {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 88,
+
+        "l": "-      \"schemaVersion\": \"1.12.0\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 89,
+
+        "l": "       \"slug\": \"long-term-holdback-2024-h2-velocity-android\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 90,
+
+        "l": "       \"id\": \"long-term-holdback-2024-h2-velocity-android\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 91,
+
+        "l": "       \"arguments\": {},\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 92,
+
+        "l": "       \"application\": \"org.mozilla.firefox\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 93,
+
+        "l": "       \"appName\": \"fenix\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 94,
+
+        "l": "       \"appId\": \"org.mozilla.firefox\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 95,
+
+        "l": "       \"channel\": \"release\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 96,
+
+        "l": "       \"userFacingName\": \"Long term holdback 2024 H2 Velocity Android\",\n"
+
+        }]
+
+        }],
+
+        "phase": "public",
+
+        "pushid": 3607,
+
+        "pushdate": [1730738937, 0],
+
+        "pushuser": "ryanvm@gmail.com",
+
+        "landingsystem": null
+
+        }'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - Keep-Alive
+      Content-Security-Policy:
+      - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-ZVitwbWaTCahffbpZw5VMw'';
+        style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
+        https:'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 05 Nov 2024 17:35:12 GMT
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Cache-Info:
+      - 'not cacheable; response specified "Cache-Control: no-cache"'
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '7248'
+    status:
+      code: 200
+      message: Script output follows
+version: 1

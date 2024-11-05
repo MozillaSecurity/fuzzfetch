@@ -121,3 +121,11 @@ def fetcher_mock_resolve_targets():
 def fetcher_args():
     """Fixture providing a FetcherArgs instance for tests."""
     return FetcherArgs()
+
+
+@pytest.fixture(scope="module")
+def vcr_config():
+    """Configuration settings for pytest-recording."""
+    return {
+        "decode_compressed_response": True,
+    }
