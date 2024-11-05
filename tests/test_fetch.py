@@ -29,7 +29,7 @@ DEFAULT_TARGETS = ("firefox",)
 
 
 def get_builds_to_test():
-    """Get permutations for testing build branches and flags"""
+    """Get permutations for testing build branches and flags."""
     possible_flags = (
         # opt
         BuildFlags(),
@@ -206,9 +206,7 @@ def test_metadata(branch, build_flags, os_, cpu):
 @pytest.mark.parametrize("is_namespace", [True, False])
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_nearest_retrieval(requested, expected, direction, is_namespace):
-    """
-    Attempt to retrieve a build near the supplied build_id
-    """
+    """Attempt to retrieve a build near the supplied build_id."""
     # Set freeze_time to a date ahead of the latest mock build
     with freeze_time("2024-01-02"):
         LOG.debug("looking for nearest to %s", requested)
@@ -242,9 +240,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
 
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_hash_resolution():
-    """
-    Test shortened hashes are resolved
-    """
+    """Test shortened hashes are resolved."""
     rev = "10aa7423789835a7dbd24b0b44ad1ae2ad77b59b"
     build = Fetcher(
         "central",
@@ -270,9 +266,7 @@ def test_fuzzilli_builds():
 
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_nyx_builds():
-    """
-    Test for retrieving Nyx snapshot enabled builds
-    """
+    """Test for retrieving Nyx snapshot enabled builds."""
     Fetcher(
         "central",
         "latest",
@@ -289,9 +283,7 @@ def test_nyx_builds():
 
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_searchfox_data():
-    """
-    Test for retrieving SearchFox source data
-    """
+    """Test for retrieving SearchFox source data."""
     Fetcher(
         "central",
         "latest",
@@ -302,9 +294,7 @@ def test_searchfox_data():
 
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
 def test_afl_builds():
-    """
-    Test for retrieving AFL++ enabled builds
-    """
+    """Test for retrieving AFL++ enabled builds."""
     Fetcher(
         "central",
         "latest",
