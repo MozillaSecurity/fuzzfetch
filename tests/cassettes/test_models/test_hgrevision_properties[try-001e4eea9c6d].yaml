@@ -1,0 +1,204 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://hg.mozilla.org/try/json-rev/001e4eea9c6d
+  response:
+    body:
+      string: '{
+
+        "node": "001e4eea9c6dfbf4362dcaa0626a8d283e0b52b9",
+
+        "date": [1730826916.0, 0],
+
+        "desc": "try_task_config for https://phabricator.services.mozilla.com/D227724\nDifferential
+        Diff: PHID-DIFF-enfzu3e53a5ako5d4zqi",
+
+        "backedoutby": "",
+
+        "branch": "default",
+
+        "bookmarks": [],
+
+        "tags": [],
+
+        "user": "libmozevent \u003crelease-mgmt-analysis@mozilla.com\u003e",
+
+        "parents": ["607e384ada6afda139879c369bdb47549f6f681d"],
+
+        "children": [],
+
+        "files": [{
+
+        "file": "try_task_config.json",
+
+        "status": "added"
+
+        }],
+
+        "diff": [{
+
+        "blockno": 1,
+
+        "lines": [{
+
+        "t": "",
+
+        "n": 1,
+
+        "l": "new file mode 100644\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 2,
+
+        "l": "--- /dev/null\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 3,
+
+        "l": "+++ b/try_task_config.json\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 4,
+
+        "l": "@@ -0,0 +1,8 @@\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 5,
+
+        "l": "+{\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 6,
+
+        "l": "+    \"parameters\": {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 7,
+
+        "l": "+        \"optimize_target_tasks\": true,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 8,
+
+        "l": "+        \"phabricator_diff\": \"PHID-HMBT-tzcw7jp4taskttmbe2oq\",\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 9,
+
+        "l": "+        \"target_tasks_method\": \"codereview\"\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 10,
+
+        "l": "+    },\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 11,
+
+        "l": "+    \"version\": 2\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 12,
+
+        "l": "+}\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": "\\ No newline at end of file\n"
+
+        }]
+
+        }],
+
+        "phase": "draft",
+
+        "pushid": 1159685,
+
+        "pushdate": [1730826935, 0],
+
+        "pushuser": "reviewbot",
+
+        "landingsystem": null
+
+        }'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - Keep-Alive
+      Content-Security-Policy:
+      - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-jIB-PHOhQ8udFGVU0z87Yw'';
+        style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
+        https:'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 05 Nov 2024 17:35:26 GMT
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Cache-Info:
+      - 'not cacheable; response specified "Cache-Control: no-cache"'
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '1382'
+    status:
+      code: 200
+      message: Script output follows
+version: 1

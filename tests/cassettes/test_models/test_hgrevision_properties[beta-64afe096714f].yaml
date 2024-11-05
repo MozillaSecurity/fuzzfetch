@@ -1,0 +1,364 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://hg.mozilla.org/releases/mozilla-beta/json-rev/64afe096714f
+  response:
+    body:
+      string: '{
+
+        "node": "64afe096714f8e1198f8e4abf1510aade6fc94b0",
+
+        "date": [1730136898.0, 0],
+
+        "desc": "Bug 1927125 - Avoid triggering gray unmarking when unlinking module
+        scripts r=sfink, a=dmeehan\n\nDifferential Revision: https://phabricator.services.mozilla.com/D226902",
+
+        "backedoutby": "",
+
+        "branch": "default",
+
+        "bookmarks": [],
+
+        "tags": ["tip"],
+
+        "user": "Jon Coppeard \u003cjcoppeard@mozilla.com\u003e",
+
+        "parents": ["3c6025cec16a9d513529a3d9c67863e6efd70250"],
+
+        "children": [],
+
+        "files": [{
+
+        "file": "js/loader/LoadedScript.cpp",
+
+        "status": "modified"
+
+        }],
+
+        "diff": [{
+
+        "blockno": 1,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/js/loader/LoadedScript.cpp\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/js/loader/LoadedScript.cpp\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -277,23 +277,23 @@ void ModuleScript::Shutdown() {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "   UnlinkModuleRecord();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " void ModuleScript::UnlinkModuleRecord() {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "   // Remove the module record''s pointer to this object if present
+        and decrement\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "   // our reference count. The reference is added by SetModuleRecord()
+        below.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "   //\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-  // This takes care not to trigger gray unmarking because this takes
+        a lot of\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-  // time when we''re tearing down the entire page. This is safe because
+        we are\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-  // only writing undefined into the module private, so it won''t create
+        any\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-  // black-gray edges.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "   if (mModuleRecord) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-    if (JS::IsCyclicModule(mModuleRecord)) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-      JSObject* module = mModuleRecord.unbarrieredGet();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 19,
+
+        "l": "+    // Take care not to trigger gray unmarking because this takes a
+        lot of time\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 20,
+
+        "l": "+    // when we''re tearing down the entire page. This is safe because
+        we are only\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 21,
+
+        "l": "+    // writing undefined into the module private, so it won''t create
+        any\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 22,
+
+        "l": "+    // black-gray edges.\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 23,
+
+        "l": "+    JSObject* module = mModuleRecord.unbarrieredGet();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 24,
+
+        "l": "+    if (JS::IsCyclicModule(module)) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": "       MOZ_ASSERT(JS::GetModulePrivate(module).toPrivate() == this);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": "       JS::ClearModulePrivate(module);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": "     }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": "     mModuleRecord = nullptr;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 31,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 32,
+
+        "l": " ModuleScript::~ModuleScript() {\n"
+
+        }]
+
+        }],
+
+        "phase": "public",
+
+        "pushid": 20518,
+
+        "pushdate": [1730814894, 0],
+
+        "pushuser": "dmeehan@mozilla.com",
+
+        "landingsystem": null
+
+        }'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - Keep-Alive
+      Content-Security-Policy:
+      - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-Dbqf4IrFTOypVmZLmb8CYA'';
+        style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
+        https:'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 05 Nov 2024 17:35:17 GMT
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Cache-Info:
+      - 'not cacheable; response specified "Cache-Control: no-cache"'
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '3029'
+    status:
+      code: 200
+      message: Script output follows
+version: 1

@@ -1,0 +1,3487 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://hg.mozilla.org/mozilla-central/json-rev/2cb6128d7dca
+  response:
+    body:
+      string: '{
+
+        "node": "2cb6128d7dca8c9a9266b3505d64d55ac1bcc8a8",
+
+        "date": [1730818440.0, -7200],
+
+        "desc": "Backed out changeset 70210dd7915c (bug 1926722) for causing LeakSanitizer
+        failures @ nsThread . CLOSED TREE",
+
+        "backedoutby": "",
+
+        "branch": "default",
+
+        "bookmarks": [],
+
+        "tags": ["tip"],
+
+        "user": "Alexandru Marc \u003camarc@mozilla.com\u003e",
+
+        "parents": ["565fd80298f9ff9d405ab90130b307a62a556c6f"],
+
+        "children": [],
+
+        "files": [{
+
+        "file": "dom/file/ipc/RemoteLazyInputStream.cpp",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "dom/file/ipc/RemoteLazyInputStreamChild.cpp",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "dom/file/ipc/RemoteLazyInputStreamThread.cpp",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "dom/file/ipc/RemoteLazyInputStreamThread.h",
+
+        "status": "modified"
+
+        }],
+
+        "diff": [{
+
+        "blockno": 1,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/dom/file/ipc/RemoteLazyInputStream.cpp\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/dom/file/ipc/RemoteLazyInputStream.cpp\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -152,18 +152,17 @@ RemoteLazyInputStream::RemoteLazyInputSt\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " RemoteLazyInputStream::RemoteLazyInputStream(nsIInputStream* aStream)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "     : mStart(0), mLength(UINT64_MAX), mState(eRunning), mInnerStream(aStream)
+        {}\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " static already_AddRefed\u003cRemoteLazyInputStreamChild\u003e BindChildActor(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "     nsID aId, mozilla::ipc::Endpoint\u003cPRemoteLazyInputStreamChild\u003e
+        aEndpoint) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-  RefPtr\u003cRemoteLazyInputStreamThread\u003e thread =\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-      RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 14,
+
+        "l": "+  auto* thread = RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "   if (NS_WARN_IF(!thread)) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "     return nullptr;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": "   auto actor = MakeRefPtr\u003cRemoteLazyInputStreamChild\u003e(aId);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": "   thread-\u003eDispatch(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "       NS_NewRunnableFunction(\"RemoteLazyInputStream::BindChildActor\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": "                              [actor, childEp = std::move(aEndpoint)]()
+        mutable {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "                                bool ok = childEp.Bind(actor);\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 23,
+
+        "l": "@@ -799,18 +798,17 @@ RemoteLazyInputStream::AsyncWait(nsIInpu\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": "   return NS_OK;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": " void RemoteLazyInputStream::StreamNeeded() {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": "   MOZ_LOG(gRemoteLazyStreamLog, LogLevel::Debug,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": "           (\"StreamNeeded %s\", Describe().get()));\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 31,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 32,
+
+        "l": "-  RefPtr\u003cRemoteLazyInputStreamThread\u003e thread =\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 33,
+
+        "l": "-      RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 34,
+
+        "l": "+  auto* thread = RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": "   if (NS_WARN_IF(!thread)) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": "     return;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": "   thread-\u003eDispatch(NS_NewRunnableFunction(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": "       \"RemoteLazyInputStream::StreamNeeded\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": "       [self = RefPtr{this}, actor = mActor, start = mStart, length
+        = mLength] {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": "         MOZ_LOG(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 42,
+
+        "l": "             gRemoteLazyStreamLog, LogLevel::Debug,\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 43,
+
+        "l": "@@ -1213,18 +1211,17 @@ RemoteLazyInputStream::AsyncLengthWait(n\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 44,
+
+        "l": "     MutexAutoLock lock(mMutex);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 45,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 46,
+
+        "l": "     MOZ_LOG(gRemoteLazyStreamLog, LogLevel::Verbose,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 47,
+
+        "l": "             (\"AsyncLengthWait(%p, %p) %s\", aCallback, aEventTarget,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 48,
+
+        "l": "              Describe().get()));\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 49,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 50,
+
+        "l": "     if (mActor) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 51,
+
+        "l": "       if (aCallback) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 52,
+
+        "l": "-        RefPtr\u003cRemoteLazyInputStreamThread\u003e thread =\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 53,
+
+        "l": "-            RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 54,
+
+        "l": "+        auto* thread = RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 55,
+
+        "l": "         if (NS_WARN_IF(!thread)) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 56,
+
+        "l": "           return NS_ERROR_ILLEGAL_DURING_SHUTDOWN;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 57,
+
+        "l": "         }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 58,
+
+        "l": "         thread-\u003eDispatch(NS_NewRunnableFunction(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 59,
+
+        "l": "             \"RemoteLazyInputStream::AsyncLengthWait\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 60,
+
+        "l": "             [self = RefPtr{this}, actor = mActor,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 61,
+
+        "l": "              callback = nsCOMPtr{aCallback},\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 62,
+
+        "l": "              eventTarget = nsCOMPtr{aEventTarget}] {\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 63,
+
+        "l": "@@ -1322,18 +1319,17 @@ void RemoteLazyInputStream::IPCWrite(IPC\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 64,
+
+        "l": "         (\"Serializing as actor: %s\", nsIDToCString(actor-\u003eStreamID()).get()));\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 65,
+
+        "l": "     // Create a clone of the actor, and then tell it that this stream
+        is no\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 66,
+
+        "l": "     // longer referencing it.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 67,
+
+        "l": "     mozilla::ipc::Endpoint\u003cPRemoteLazyInputStreamParent\u003e
+        parentEp;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 68,
+
+        "l": "     mozilla::ipc::Endpoint\u003cPRemoteLazyInputStreamChild\u003e childEp;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 69,
+
+        "l": "     MOZ_ALWAYS_SUCCEEDS(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 70,
+
+        "l": "         PRemoteLazyInputStream::CreateEndpoints(&parentEp, &childEp));\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 71,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 72,
+
+        "l": "-    RefPtr\u003cRemoteLazyInputStreamThread\u003e thread =\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 73,
+
+        "l": "-        RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 74,
+
+        "l": "+    auto* thread = RemoteLazyInputStreamThread::GetOrCreate();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 75,
+
+        "l": "     if (thread) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 76,
+
+        "l": "       thread-\u003eDispatch(NS_NewRunnableFunction(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 77,
+
+        "l": "           \"RemoteLazyInputStreamChild::SendClone\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 78,
+
+        "l": "           [actor, parentEp = std::move(parentEp)]() mutable {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 79,
+
+        "l": "             bool ok = actor-\u003eSendClone(std::move(parentEp));\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 80,
+
+        "l": "             MOZ_LOG(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 81,
+
+        "l": "                 gRemoteLazyStreamLog, LogLevel::Verbose,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 82,
+
+        "l": "                 (\"SendClone for %s: %s\", nsIDToCString(actor-\u003eStreamID()).get(),\n"
+
+        }]
+
+        }, {
+
+        "blockno": 2,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/dom/file/ipc/RemoteLazyInputStreamChild.cpp\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/dom/file/ipc/RemoteLazyInputStreamChild.cpp\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -24,17 +24,17 @@ void RemoteLazyInputStreamChild::StreamC\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " void RemoteLazyInputStreamChild::StreamConsumed() {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "   size_t count = --mStreamCount;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "   MOZ_LOG(gRemoteLazyStreamLog, LogLevel::Verbose,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "           (\"Child::StreamConsumed %s = %zu\", nsIDToCString(mID).get(),
+        count));\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "   // When the count reaches zero, close the underlying actor.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "   if (count == 0) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-    RefPtr\u003cRemoteLazyInputStreamThread\u003e t = RemoteLazyInputStreamThread::Get();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 13,
+
+        "l": "+    auto* t = RemoteLazyInputStreamThread::Get();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": "     if (t) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "       t-\u003eDispatch(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "           NS_NewRunnableFunction(\"RemoteLazyInputStreamChild::StreamConsumed\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": "                                  [self = RefPtr{this}]() {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": "                                    if (self-\u003eCanSend()) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": "                                      self-\u003eSendGoodbye();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "                                    }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": "                                  }));\n"
+
+        }]
+
+        }, {
+
+        "blockno": 3,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/dom/file/ipc/RemoteLazyInputStreamThread.cpp\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/dom/file/ipc/RemoteLazyInputStreamThread.cpp\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -17,75 +17,124 @@\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " using namespace mozilla::ipc;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " namespace mozilla {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " namespace {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " StaticMutex gRemoteLazyThreadMutex;\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-StaticRefPtr\u003cRemoteLazyInputStreamThread\u003e gRemoteLazyThread\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-    MOZ_GUARDED_BY(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 14,
+
+        "l": "+StaticRefPtr\u003cRemoteLazyInputStreamThread\u003e gRemoteLazyThread;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 15,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 16,
+
+        "l": "+class ThreadInitializeRunnable final : public Runnable {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 17,
+
+        "l": "+ public:\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 18,
+
+        "l": "+  ThreadInitializeRunnable() : Runnable(\"dom::ThreadInitializeRunnable\")
+        {}\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 19,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 20,
+
+        "l": "+  NS_IMETHOD\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 21,
+
+        "l": "+  Run() override {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 22,
+
+        "l": "+    StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 23,
+
+        "l": "+    MOZ_ASSERT(gRemoteLazyThread);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 24,
+
+        "l": "+    if (NS_WARN_IF(!gRemoteLazyThread-\u003eInitializeOnMainThread()))
+        {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 25,
+
+        "l": "+      // RemoteLazyInputStreamThread::GetOrCreate might have handed
+        out a\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 26,
+
+        "l": "+      // pointer to our thread already at this point such that we cannot\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 27,
+
+        "l": "+      // just do gRemoteLazyThread = nullptr; here.\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 28,
+
+        "l": "+      MOZ_DIAGNOSTIC_ASSERT(\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 29,
+
+        "l": "+          false, \"Async gRemoteLazyThread-\u003eInitializeOnMainThread()
+        failed.\");\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 30,
+
+        "l": "+      return NS_ERROR_FAILURE;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 31,
+
+        "l": "+    }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 32,
+
+        "l": "+    return NS_OK;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 33,
+
+        "l": "+  }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 34,
+
+        "l": "+};\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": " }  // namespace\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 38,
+
+        "l": "-NS_IMPL_ISUPPORTS(RemoteLazyInputStreamThread, nsIEventTarget,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 39,
+
+        "l": "+NS_IMPL_ISUPPORTS(RemoteLazyInputStreamThread, nsIObserver, nsIEventTarget,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": "                   nsISerialEventTarget, nsIDirectTaskDispatcher)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 42,
+
+        "l": "-/* static */\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 43,
+
+        "l": "-already_AddRefed\u003cRemoteLazyInputStreamThread\u003e\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 44,
+
+        "l": "-RemoteLazyInputStreamThread::Get() {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 45,
+
+        "l": "-  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 46,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 47,
+
+        "l": "-  return do_AddRef(gRemoteLazyThread);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 48,
+
+        "l": "+bool RLISThreadIsInOrBeyondShutdown() {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 49,
+
+        "l": "+  // ShutdownPhase::XPCOMShutdownThreads matches\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 50,
+
+        "l": "+  // obs-\u003eAddObserver(this, NS_XPCOM_SHUTDOWN_THREADS_OBSERVER_ID,
+        false);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 51,
+
+        "l": "+  return AppShutdown::IsInOrBeyond(ShutdownPhase::XPCOMShutdownThreads);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 52,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 53,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 54,
+
+        "l": " /* static */\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 55,
+
+        "l": "-already_AddRefed\u003cRemoteLazyInputStreamThread\u003e\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 56,
+
+        "l": "-RemoteLazyInputStreamThread::GetOrCreate() {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 57,
+
+        "l": "+RemoteLazyInputStreamThread* RemoteLazyInputStreamThread::Get() {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 58,
+
+        "l": "+  if (RLISThreadIsInOrBeyondShutdown()) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 59,
+
+        "l": "+    return nullptr;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 60,
+
+        "l": "+  }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 61,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 62,
+
+        "l": "   StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 63,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 64,
+
+        "l": "-  if (AppShutdown::IsInOrBeyond(ShutdownPhase::XPCOMShutdownThreads))
+        {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 65,
+
+        "l": "+  return gRemoteLazyThread;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 66,
+
+        "l": "+}\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 67,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 68,
+
+        "l": "+/* static */\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 69,
+
+        "l": "+RemoteLazyInputStreamThread* RemoteLazyInputStreamThread::GetOrCreate()
+        {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 70,
+
+        "l": "+  if (RLISThreadIsInOrBeyondShutdown()) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 71,
+
+        "l": "     return nullptr;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 72,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 73,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 74,
+
+        "l": "+  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 75,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 76,
+
+        "l": "   if (!gRemoteLazyThread) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 77,
+
+        "l": "-    nsCOMPtr\u003cnsIThread\u003e thread;\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 78,
+
+        "l": "-    nsresult rv = NS_NewNamedThread(\"RemoteLzyStream\", getter_AddRefs(thread));\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 79,
+
+        "l": "-    if (NS_WARN_IF(NS_FAILED(rv))) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 80,
+
+        "l": "-      return nullptr;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 81,
+
+        "l": "+    gRemoteLazyThread = new RemoteLazyInputStreamThread();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 82,
+
+        "l": "+    if (!gRemoteLazyThread-\u003eInitialize()) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 83,
+
+        "l": "+      gRemoteLazyThread = nullptr;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 84,
+
+        "l": "     }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 85,
+
+        "l": "+  }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 86,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 87,
+
+        "l": "-    gRemoteLazyThread =\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 88,
+
+        "l": "-        new RemoteLazyInputStreamThread(WrapMovingNotNull(thread));\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 89,
+
+        "l": "+  return gRemoteLazyThread;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 90,
+
+        "l": "+}\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 91,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 92,
+
+        "l": "-    // Dispatch to the main thread, which will set up a listener\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 93,
+
+        "l": "-    // to shut down the thread during XPCOMShutdownThreads.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 94,
+
+        "l": "-    //\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 95,
+
+        "l": "-    // We do this even if we''re already on the main thread, as\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 96,
+
+        "l": "-    // if we''re too late in shutdown, this will trigger the thread\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 97,
+
+        "l": "-    // to shut down synchronously.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 98,
+
+        "l": "-    NS_DispatchToMainThread(NS_NewRunnableFunction(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 99,
+
+        "l": "-        \"RemoteLazyInputStreamThread::MainThreadInit\", [] {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 100,
+
+        "l": "-          RunOnShutdown(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 101,
+
+        "l": "-              [] {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 102,
+
+        "l": "-                RefPtr\u003cRemoteLazyInputStreamThread\u003e rlis
+        =\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 103,
+
+        "l": "-                    RemoteLazyInputStreamThread::Get();\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 104,
+
+        "l": "-                // This is the only place supposed to ever null our
+        reference.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 105,
+
+        "l": "-                MOZ_ASSERT(rlis);\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 106,
+
+        "l": "-                rlis-\u003emThread-\u003eShutdown();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 107,
+
+        "l": "+bool RemoteLazyInputStreamThread::Initialize() {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 108,
+
+        "l": "+  nsCOMPtr\u003cnsIThread\u003e thread;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 109,
+
+        "l": "+  nsresult rv = NS_NewNamedThread(\"RemoteLzyStream\", getter_AddRefs(thread));\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 110,
+
+        "l": "+  if (NS_WARN_IF(NS_FAILED(rv))) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 111,
+
+        "l": "+    return false;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 112,
+
+        "l": "+  }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 113,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 114,
+
+        "l": "-                StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 115,
+
+        "l": "-                gRemoteLazyThread = nullptr;\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 116,
+
+        "l": "-              },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 117,
+
+        "l": "-              ShutdownPhase::XPCOMShutdownThreads);\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 118,
+
+        "l": "-        }));\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 119,
+
+        "l": "+  mThread = thread;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 120,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 121,
+
+        "l": "+  if (!NS_IsMainThread()) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 122,
+
+        "l": "+    RefPtr\u003cRunnable\u003e runnable = new ThreadInitializeRunnable();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 123,
+
+        "l": "+    nsresult rv = SchedulerGroup::Dispatch(runnable.forget());\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 124,
+
+        "l": "+    return !NS_WARN_IF(NS_FAILED(rv));\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 125,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 126,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 127,
+
+        "l": "-  return do_AddRef(gRemoteLazyThread);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 128,
+
+        "l": "+  return InitializeOnMainThread();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 129,
+
+        "l": "+}\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 130,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 131,
+
+        "l": "+bool RemoteLazyInputStreamThread::InitializeOnMainThread() {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 132,
+
+        "l": "+  MOZ_ASSERT(NS_IsMainThread());\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 133,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 134,
+
+        "l": "+  nsCOMPtr\u003cnsIObserverService\u003e obs = services::GetObserverService();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 135,
+
+        "l": "+  if (NS_WARN_IF(!obs)) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 136,
+
+        "l": "+    return false;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 137,
+
+        "l": "+  }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 138,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 139,
+
+        "l": "+  nsresult rv =\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 140,
+
+        "l": "+      obs-\u003eAddObserver(this, NS_XPCOM_SHUTDOWN_THREADS_OBSERVER_ID,
+        false);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 141,
+
+        "l": "+  return !NS_WARN_IF(NS_FAILED(rv));\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 142,
+
+        "l": "+}\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 143,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 144,
+
+        "l": "+NS_IMETHODIMP\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 145,
+
+        "l": "+RemoteLazyInputStreamThread::Observe(nsISupports* aSubject, const char*
+        aTopic,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 146,
+
+        "l": "+                                     const char16_t* aData) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 147,
+
+        "l": "+  MOZ_ASSERT(!strcmp(aTopic, NS_XPCOM_SHUTDOWN_THREADS_OBSERVER_ID));\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 148,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 149,
+
+        "l": "+  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 150,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 151,
+
+        "l": "+  if (mThread) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 152,
+
+        "l": "+    mThread-\u003eShutdown();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 153,
+
+        "l": "+    mThread = nullptr;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 154,
+
+        "l": "+  }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 155,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 156,
+
+        "l": "+  gRemoteLazyThread = nullptr;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 157,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 158,
+
+        "l": "+  return NS_OK;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 159,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 160,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 161,
+
+        "l": " // nsIEventTarget\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 162,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 163,
+
+        "l": " NS_IMETHODIMP_(bool)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 164,
+
+        "l": " RemoteLazyInputStreamThread::IsOnCurrentThreadInfallible() {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 165,
+
+        "l": "   return mThread-\u003eIsOnCurrentThread();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 166,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 167,
+
+        "l": "@@ -93,23 +142,35 @@ RemoteLazyInputStreamThread::IsOnCurrent\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 168,
+
+        "l": " NS_IMETHODIMP\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 169,
+
+        "l": " RemoteLazyInputStreamThread::IsOnCurrentThread(bool* aRetval) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 170,
+
+        "l": "   return mThread-\u003eIsOnCurrentThread(aRetval);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 171,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 172,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 173,
+
+        "l": " NS_IMETHODIMP\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 174,
+
+        "l": " RemoteLazyInputStreamThread::Dispatch(already_AddRefed\u003cnsIRunnable\u003e
+        aRunnable,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 175,
+
+        "l": "                                       uint32_t aFlags) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 176,
+
+        "l": "-  return mThread-\u003eDispatch(std::move(aRunnable), aFlags);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 177,
+
+        "l": "+  nsCOMPtr\u003cnsIRunnable\u003e runnable(aRunnable);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 178,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 179,
+
+        "l": "+  if (RLISThreadIsInOrBeyondShutdown()) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 180,
+
+        "l": "+    // nsIEventTarget::Dispatch must leak the runnable if the dispatch
+        fails.\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 181,
+
+        "l": "+    Unused \u003c\u003c runnable.forget();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 182,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 183,
+
+        "l": "+    return NS_ERROR_ILLEGAL_DURING_SHUTDOWN;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 184,
+
+        "l": "+  }\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 185,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 186,
+
+        "l": "+  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 187,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 188,
+
+        "l": "+  return mThread-\u003eDispatch(runnable.forget(), aFlags);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 189,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 190,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 191,
+
+        "l": " NS_IMETHODIMP\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 192,
+
+        "l": " RemoteLazyInputStreamThread::DispatchFromScript(nsIRunnable* aRunnable,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 193,
+
+        "l": "                                                 uint32_t aFlags) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 194,
+
+        "l": "-  return mThread-\u003eDispatch(do_AddRef(aRunnable), aFlags);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 195,
+
+        "l": "+  nsCOMPtr\u003cnsIRunnable\u003e runnable(aRunnable);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 196,
+
+        "l": "+  return Dispatch(runnable.forget(), aFlags);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 197,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 198,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 199,
+
+        "l": " NS_IMETHODIMP\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 200,
+
+        "l": " RemoteLazyInputStreamThread::DelayedDispatch(already_AddRefed\u003cnsIRunnable\u003e,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 201,
+
+        "l": "                                              uint32_t) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 202,
+
+        "l": "   return NS_ERROR_NOT_IMPLEMENTED;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 203,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 204,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 205,
+
+        "l": "@@ -123,45 +184,55 @@ RemoteLazyInputStreamThread::UnregisterS\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 206,
+
+        "l": "   return NS_ERROR_NOT_IMPLEMENTED;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 207,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 208,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 209,
+
+        "l": " NS_IMETHODIMP\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 210,
+
+        "l": " RemoteLazyInputStreamThread::DispatchDirectTask(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 211,
+
+        "l": "     already_AddRefed\u003cnsIRunnable\u003e aRunnable) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 212,
+
+        "l": "   nsCOMPtr\u003cnsIRunnable\u003e runnable(aRunnable);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 213,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 214,
+
+        "l": "+  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 215,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 216,
+
+        "l": "   nsCOMPtr\u003cnsIDirectTaskDispatcher\u003e dispatcher = do_QueryInterface(mThread);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 217,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 218,
+
+        "l": "   if (dispatcher) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 219,
+
+        "l": "     return dispatcher-\u003eDispatchDirectTask(runnable.forget());\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 220,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 221,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 222,
+
+        "l": "   return NS_ERROR_FAILURE;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 223,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 224,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 225,
+
+        "l": " NS_IMETHODIMP RemoteLazyInputStreamThread::DrainDirectTasks() {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 226,
+
+        "l": "+  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 227,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 228,
+
+        "l": "   nsCOMPtr\u003cnsIDirectTaskDispatcher\u003e dispatcher = do_QueryInterface(mThread);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 229,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 230,
+
+        "l": "   if (dispatcher) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 231,
+
+        "l": "     return dispatcher-\u003eDrainDirectTasks();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 232,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 233,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 234,
+
+        "l": "   return NS_ERROR_FAILURE;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 235,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 236,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 237,
+
+        "l": " NS_IMETHODIMP RemoteLazyInputStreamThread::HaveDirectTasks(bool* aValue)
+        {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 238,
+
+        "l": "+  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 239,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 240,
+
+        "l": "   nsCOMPtr\u003cnsIDirectTaskDispatcher\u003e dispatcher = do_QueryInterface(mThread);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 241,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 242,
+
+        "l": "   if (dispatcher) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 243,
+
+        "l": "     return dispatcher-\u003eHaveDirectTasks(aValue);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 244,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 245,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 246,
+
+        "l": "   return NS_ERROR_FAILURE;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 247,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 248,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 249,
+
+        "l": " bool IsOnDOMFileThread() {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 250,
+
+        "l": "-  RefPtr\u003cRemoteLazyInputStreamThread\u003e rlis = RemoteLazyInputStreamThread::Get();\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 251,
+
+        "l": "-  return rlis && rlis-\u003eIsOnCurrentThread();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 252,
+
+        "l": "+  MOZ_ASSERT(!RLISThreadIsInOrBeyondShutdown());\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 253,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 254,
+
+        "l": "+  StaticMutexAutoLock lock(gRemoteLazyThreadMutex);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 255,
+
+        "l": "+  MOZ_ASSERT(gRemoteLazyThread);\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 256,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 257,
+
+        "l": "+  return gRemoteLazyThread-\u003eIsOnCurrentThreadInfallible();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 258,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 259,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 260,
+
+        "l": " void AssertIsOnDOMFileThread() { MOZ_ASSERT(IsOnDOMFileThread()); }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 261,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 262,
+
+        "l": " }  // namespace mozilla\n"
+
+        }]
+
+        }, {
+
+        "blockno": 4,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/dom/file/ipc/RemoteLazyInputStreamThread.h\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/dom/file/ipc/RemoteLazyInputStreamThread.h\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -14,38 +14,38 @@\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " class nsIThread;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " namespace mozilla {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": " class RemoteLazyInputStreamChild;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " // XXX Rename this class since it''s used by LSNG too.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-class RemoteLazyInputStreamThread final : public nsISerialEventTarget,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 13,
+
+        "l": "+class RemoteLazyInputStreamThread final : public nsIObserver,\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 14,
+
+        "l": "+                                          public nsISerialEventTarget,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "                                           public nsIDirectTaskDispatcher
+        {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "  public:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": "   NS_DECL_THREADSAFE_ISUPPORTS\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-  NS_DECL_NSIEVENTTARGET_FULL\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 19,
+
+        "l": "+  NS_DECL_NSIOBSERVER\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 20,
+
+        "l": "+  NS_DECL_NSIEVENTTARGET\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": "   NS_DECL_NSISERIALEVENTTARGET\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "   NS_DECL_NSIDIRECTTASKDISPATCHER\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 24,
+
+        "l": "-  explicit RemoteLazyInputStreamThread(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 25,
+
+        "l": "-      MovingNotNull\u003cnsCOMPtr\u003cnsIThread\u003e\u003e aThread)\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 26,
+
+        "l": "-      : mThread(std::move(aThread)) {}\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 27,
+
+        "l": "+  static RemoteLazyInputStreamThread* Get();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 28,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 29,
+
+        "l": "+  static RemoteLazyInputStreamThread* GetOrCreate();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 31,
+
+        "l": "-  static already_AddRefed\u003cRemoteLazyInputStreamThread\u003e Get();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 32,
+
+        "l": "+  bool Initialize();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 33,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 34,
+
+        "l": "-  static already_AddRefed\u003cRemoteLazyInputStreamThread\u003e GetOrCreate();\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 35,
+
+        "l": "+  bool InitializeOnMainThread();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": "  private:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": "   ~RemoteLazyInputStreamThread() = default;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 40,
+
+        "l": "-  // As long as we can access gRemoteLazyThread, mThread remains a
+        valid\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 41,
+
+        "l": "-  // object. We rely on it failing on late dispatch after its shutdown.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 42,
+
+        "l": "-  const NotNull\u003cnsCOMPtr\u003cnsIThread\u003e\u003e mThread;\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 43,
+
+        "l": "+  nsCOMPtr\u003cnsIThread\u003e mThread;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 44,
+
+        "l": " };\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 45,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 46,
+
+        "l": " bool IsOnDOMFileThread();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 47,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 48,
+
+        "l": " void AssertIsOnDOMFileThread();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 49,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 50,
+
+        "l": " }  // namespace mozilla\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 51,
+
+        "l": " \n"
+
+        }]
+
+        }],
+
+        "phase": "public",
+
+        "pushid": 42291,
+
+        "pushdate": [1730823281, 0],
+
+        "pushuser": "amarc@mozilla.com",
+
+        "landingsystem": null
+
+        }'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - Keep-Alive
+      Content-Security-Policy:
+      - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-yLsJMwGmTBmhFk0eD_q34A'';
+        style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
+        https:'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 05 Nov 2024 17:35:05 GMT
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Cache-Info:
+      - 'not cacheable; response specified "Cache-Control: no-cache"'
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '29434'
+    status:
+      code: 200
+      message: Script output follows
+version: 1
