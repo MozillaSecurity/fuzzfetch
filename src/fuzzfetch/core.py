@@ -776,7 +776,9 @@ class Fetcher:
 
     @classmethod
     def from_args(
-        cls, argv: Optional[Sequence[str]] = None, skip_dir_check: bool = False
+        cls,
+        argv: Optional[Sequence[str]] = None,
+        skip_dir_check: bool = False,
     ) -> tuple["Fetcher", dict[str, Union[bool, Path, Sequence[str]]]]:
         """Construct a Fetcher from given command line arguments.
 
