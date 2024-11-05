@@ -381,9 +381,7 @@ class Platform:
         raise FetcherException(f"Could not extract platform from {build_string}")
 
     def auto_name_prefix(self) -> str:
-        """
-        Generate platform prefix for cross-platform downloads.
-        """
+        """Generate platform prefix for cross-platform downloads."""
         # if the platform is not native, auto_name would clobber native downloads.
         # make a prefix to avoid this
         native_system = std_platform.system()
