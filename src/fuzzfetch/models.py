@@ -64,6 +64,33 @@ class BuildFlags:
             + ("-opt" if not self.no_opt and not self.debug else "")
         )
 
+    def update_from_string(self, build_string: str) -> None:
+        """Update flags based on substrings found in the build information string."""
+        flag_suffixes = {
+            "debug": ["-debug", "-dbg"],
+            "asan": ["-asan"],
+            "afl": ["-afl"],
+            "tsan": ["-tsan"],
+            "fuzzing": ["-fuzzing"],
+            "coverage": ["-ccov"],
+            "valgrind": ["-valgrind"],
+            "no_opt": ["-noopt"],
+            "fuzzilli": ["-fuzzilli"],
+            "nyx": ["-nyx"],
+            "searchfox": ["-searchfox"],
+        }
+
+        # Update flags based on the presence of substrings in the build string
+        for flag, substrs in flag_suffixes.items():
+            value = any(substr in build_string for substr in substrs)
+            if value is False and getattr(self, flag):
+                raise FetcherException(
+                    f"Build flag '{flag}' is true but suffix is missing from build "
+                    f"string (build={build_string})"
+                )
+
+            setattr(self, flag, value)
+
 
 class BuildSearchOrder(Enum):
     """Search direction when searching for "nearest" builds"""
