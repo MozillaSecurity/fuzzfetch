@@ -35,15 +35,15 @@ def test_branch_default(fetcher_args):
     assert args.branch == "central"
 
 
-def test_invalid_namespace_conflict(fetcher_args):
+@pytest.mark.parametrize("conflicts", [["--branch", "release"], ["--asan"]])
+def test_invalid_namespace_conflict(fetcher_args, conflicts):
     """Test error raised if both --build and --branch provided."""
     with pytest.raises(SystemExit):
         args = fetcher_args.parse_args(
             [
                 "--build",
                 "gecko.v2.mozilla-central.latest.firefox.linux64-asan-opt",
-                "--branch",
-                "release",
+                *conflicts,
             ]
         )
         fetcher_args.sanity_check(args)
