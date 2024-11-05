@@ -28,7 +28,7 @@ def iec(number: Union[float, int]) -> str:
         Input number, formatted to the largest whole SI prefix.
     """
     prefixes = ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi", "Yi"]
-    while number > 1024:
+    while number >= 1024:
         number /= 1024.0
         prefixes.pop(0)
     return f"{number:0.2f}{prefixes[0]}"
@@ -44,7 +44,7 @@ def si(number: Union[float, int]) -> str:  # pylint: disable=invalid-name
         Input number, formatted to the largest whole SI prefix.
     """
     prefixes = ["", "k", "M", "G", "T", "P", "E", "Z", "Y"]
-    while number > 1000:
+    while number >= 1000:
         number /= 1000.0
         prefixes.pop(0)
     return f"{number:0.2f}{prefixes[0]}"
