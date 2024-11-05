@@ -2,14 +2,85 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch internal model tests"""
-
+from dataclasses import fields
 from datetime import datetime
 from unittest.mock import patch
 
 import pytest  # pylint: disable=import-error
 
 from fuzzfetch import FetcherException
-from fuzzfetch.models import HgRevision, Platform
+from fuzzfetch.models import BuildFlags, HgRevision, Platform
+
+
+def test_build_flags_custom_initialization():
+    """Test initializing BuildFlags with some flags set to True."""
+    flags = BuildFlags(asan=True, debug=True, fuzzing=True)
+    for flag in flags:
+        print(flag)
+    assert flags.asan is True
+    assert flags.debug is True
+    assert flags.fuzzing is True
+    assert flags.coverage is False  # Ensure other flags remain False
+
+
+@pytest.mark.parametrize(
+    "flags_kwargs, expected",
+    [
+        ({"asan": True, "debug": True, "coverage": True}, "-ccov-asan-debug"),
+        ({"no_opt": True}, "-noopt"),
+        ({"asan": True, "fuzzing": True}, "-fuzzing-asan-opt"),
+    ],
+)
+def test_build_flags_build_string(flags_kwargs, expected):
+    """Test that the correct build string is generated for various flag sets."""
+    # Initialize BuildFlags with the specified flags
+    flags = BuildFlags(**flags_kwargs)
+
+    # Generate the build string and check against the expected result
+    build_str = flags.build_string()
+    assert build_str == expected
+
+
+@pytest.mark.parametrize(
+    "build_string, expected_flags",
+    [
+        ("-asan-debug-ccov", {"asan": True, "debug": True, "coverage": True}),
+        ("-fuzzing-tsan", {"tsan": True, "fuzzing": True}),
+        ("-afl", {"afl": True}),
+    ],
+)
+def test_build_flags_update_from_string_updates_flags(build_string, expected_flags):
+    """Test update_from_string correctly updates flags based on build_string."""
+    flags = BuildFlags()
+    flags.update_from_string(build_string)
+
+    for flag, value in expected_flags.items():
+        assert getattr(flags, flag) == value, f"Expected {flag} to be {value}"
+
+    # Ensure flags not in expected_flags remain False
+    for flag in fields(flags):
+        if flag.name not in expected_flags:
+            assert getattr(flags, flag.name) is False, f"Expected {flag} to be False"
+
+
+@pytest.mark.parametrize(
+    "initial, build_string, missing",
+    [
+        ({"asan": True}, "-debug-ccov", "asan"),
+        ({"debug": True}, "-asan-ccov", "debug"),
+        ({"afl": True}, "-asan-debug", "afl"),
+        ({"fuzzing": True}, "-asan-debug", "fuzzing"),
+        ({"nyx": True}, "-afl-tsan-debug", "nyx"),
+    ],
+)
+def test_build_flags_update_raises_on_mismatch(initial, build_string, missing):
+    """Test update_from_string raises FetcherException for mismatched flags."""
+    flags = BuildFlags(**initial)
+
+    expected_message = f"Build flag '{missing}' is true but suffix is missing"
+
+    with pytest.raises(FetcherException, match=expected_message):
+        flags.update_from_string(build_string)
 
 
 @pytest.mark.vcr
