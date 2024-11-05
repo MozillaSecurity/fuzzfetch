@@ -229,7 +229,10 @@ class BuildTask:
 
     @classmethod
     def _pushdate_template_paths(
-        cls, pushdate: str, branch: str, target_platform: str
+        cls,
+        pushdate: str,
+        branch: str,
+        target_platform: str,
     ) -> Iterator[tuple[str, str]]:
         """Multiple entries exist per push date. Iterate over all until a working entry
         is found
@@ -262,7 +265,10 @@ class BuildTask:
 
     @classmethod
     def _revision_paths(
-        cls, rev: str, branch: str, target_platform: str
+        cls,
+        rev: str,
+        branch: str,
+        target_platform: str,
     ) -> Iterator[str]:
         """Retrieve the API path for revision based builds"""
         if branch not in {"autoland", "try"}:
@@ -351,7 +357,9 @@ class Platform:
     }
 
     def __init__(
-        self, system: Optional[str] = None, machine: Optional[str] = None
+        self,
+        system: Optional[str] = None,
+        machine: Optional[str] = None,
     ) -> None:
         if system is None:
             system = std_platform.system()
