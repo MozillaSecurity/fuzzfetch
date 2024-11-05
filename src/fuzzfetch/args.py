@@ -172,7 +172,7 @@ class FetcherArgs:
         # multiple-inheritance support
         if hasattr(super(), "sanity_check"):
             # pylint: disable=no-member
-            super().sanity_check(args)  # type: ignore
+            super().sanity_check(args)  # type: ignore  # pragma: no cover
 
         if self.is_build_ns(args.build):
             # Explicitly specifying a branch has no effect when namespace is used
