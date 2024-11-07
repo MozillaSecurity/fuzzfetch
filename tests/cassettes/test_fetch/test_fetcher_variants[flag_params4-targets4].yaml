@@ -15,8 +15,8 @@ interactions:
   response:
     body:
       string: "{\n  \"namespace\": \"gecko.v2.mozilla-central.latest.firefox.linux64-searchfox-debug\",\n
-        \ \"taskId\": \"bbZ86THuT_S8foK9O8VUTw\",\n  \"rank\": 1,\n  \"data\": {},\n
-        \ \"expires\": \"2025-11-07T09:52:15.184Z\"\n}"
+        \ \"taskId\": \"NtzbtlFCQF-529Mv3e_Xjw\",\n  \"rank\": 1,\n  \"data\": {},\n
+        \ \"expires\": \"2025-11-07T16:49:52.660Z\"\n}"
     headers:
       Access-Control-Allow-Headers:
       - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
@@ -39,9 +39,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 14:38:21 GMT
+      - Thu, 07 Nov 2024 19:54:17 GMT
       ETag:
-      - W/"be-vXPVB7ROAYCvG/psCL0qTNHrqes"
+      - W/"be-d4JwVmP5iMQTU7XSpgrTNCdNm+A"
       Server:
       - openresty
       Strict-Transport-Security:
@@ -51,9 +51,9 @@ interactions:
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - da29991b-3bb2-494c-b803-62a8b829c378
+      - f982942d-5cb5-4f79-988d-076461dd2e04
       x-for-trace-id:
-      - be73851a109570e37c4780376c1b5605
+      - 03e365cce5f0468b7f396474a2c9be2b
     status:
       code: 200
       message: OK
@@ -69,61 +69,61 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/bbZ86THuT_S8foK9O8VUTw/artifacts
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/NtzbtlFCQF-529Mv3e_Xjw/artifacts
   response:
     body:
       string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
-        \"public/build/buildhub.json\",\n      \"expires\": \"2025-11-07T09:52:15.184Z\",\n
+        \"public/build/buildhub.json\",\n      \"expires\": \"2025-11-07T16:49:52.660Z\",\n
         \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
         \"s3\",\n      \"name\": \"public/build/chrome-map.json\",\n      \"expires\":
-        \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/json\"\n
+        \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/config.status\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mar\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mbsdiff\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/zip\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/zip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.generated-files.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.langpack.xpi\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/x-xpinstall\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/x-xpinstall\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozsearch-distinclude.map\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozsearch-index.zip\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/zip\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/zip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozsearch-scip-index.zip\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/zip\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/zip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.tar.bz2\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/x-bzip2\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/x-bzip2\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/zip\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/zip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
-        \     \"expires\": \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"text/plain;
+        \     \"expires\": \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"text/plain;
         charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
-        \"public/logs/live.log\",\n      \"expires\": \"2025-11-07T09:52:15.184Z\",\n
+        \"public/logs/live.log\",\n      \"expires\": \"2025-11-07T16:49:52.660Z\",\n
         \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
         \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
-        \"2025-11-07T09:52:15.184Z\",\n      \"contentType\": \"application/json\"\n
+        \"2025-11-07T16:49:52.660Z\",\n      \"contentType\": \"application/json\"\n
         \   }\n  ]\n}"
     headers:
       Access-Control-Allow-Headers:
@@ -140,30 +140,32 @@ interactions:
       - clear
       Cache-Control:
       - no-store no-cache must-revalidate
-      Content-Encoding:
-      - gzip
       Content-Security-Policy:
       - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 14:38:21 GMT
+      - Thu, 07 Nov 2024 19:54:17 GMT
       ETag:
-      - W/"1136-M4EvLWM8NNc7XOYQ8SuT4UQWVJ0"
+      - W/"1136-tmv2DrnIMKbs6wJ1xKsHJyNnTd8"
       Server:
       - openresty
       Strict-Transport-Security:
       - max-age=31536000
+      Transfer-Encoding:
+      - chunked
       Vary:
       - Accept-Encoding
       Via:
       - 1.1 google
+      content-length:
+      - '4406'
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - bad8953d-abf2-471a-8457-dfea658a26ae
+      - 522ce3b0-6002-4d38-aad8-64365ce7c201
       x-for-trace-id:
-      - abb804137495b598de21023d693747e9
+      - 823e47ffeb2365b3b31f872986ad03c9
     status:
       code: 200
       message: OK
@@ -179,10 +181,10 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/bbZ86THuT_S8foK9O8VUTw/artifacts/public/build/target.json
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/NtzbtlFCQF-529Mv3e_Xjw/artifacts/public/build/target.json
   response:
     body:
-      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/bbZ86THuT_S8foK9O8VUTw/0/public/build/target.json\"\n}"
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/NtzbtlFCQF-529Mv3e_Xjw/0/public/build/target.json\"\n}"
     headers:
       Access-Control-Allow-Headers:
       - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
@@ -205,9 +207,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 14:38:21 GMT
+      - Thu, 07 Nov 2024 19:54:17 GMT
       ETag:
-      - W/"83-GWfhKmtWGmr3F5l3eVwuhJqRIl4"
+      - W/"83-6m5qDuDok9YIwZAT7/oPLtue7m4"
       Server:
       - openresty
       Strict-Transport-Security:
@@ -215,13 +217,13 @@ interactions:
       Via:
       - 1.1 google
       location:
-      - https://firefoxci.taskcluster-artifacts.net/bbZ86THuT_S8foK9O8VUTw/0/public/build/target.json
+      - https://firefoxci.taskcluster-artifacts.net/NtzbtlFCQF-529Mv3e_Xjw/0/public/build/target.json
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - 6eed6347-d1c0-4348-88b8-316e944aa3c8
+      - 3903d163-f019-461b-a2f1-e0bfc0cabb35
       x-for-trace-id:
-      - f29c9dafed245825c23a611c088a920f
+      - 5b2672c06cd577e3457b69c8b7f1ac3a
       x-taskcluster-artifact-storage-type:
       - s3
     status:
@@ -239,18 +241,18 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefoxci.taskcluster-artifacts.net/bbZ86THuT_S8foK9O8VUTw/0/public/build/target.json
+    uri: https://firefoxci.taskcluster-artifacts.net/NtzbtlFCQF-529Mv3e_Xjw/0/public/build/target.json
   response:
     body:
       string: "{\n  \"as\": \"/builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu
-        -std=gnu99\",\n  \"buildid\": \"20241107094552\",\n  \"cc\": \"/builds/worker/fetches/clang/bin/clang
+        -std=gnu99\",\n  \"buildid\": \"20241107164615\",\n  \"cc\": \"/builds/worker/fetches/clang/bin/clang
         --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu -std=gnu99\",\n
         \ \"cxx\": \"/builds/worker/fetches/clang/bin/clang++ --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu\",\n
         \ \"host\": \"x86_64-pc-linux-gnu\",\n  \"moz_app_id\": \"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\",\n
         \ \"moz_app_maxversion\": \"134.0a1\",\n  \"moz_app_name\": \"firefox\",\n
         \ \"moz_app_vendor\": \"Mozilla\",\n  \"moz_app_version\": \"134.0a1\",\n
         \ \"moz_pkg_platform\": \"linux-x86_64\",\n  \"moz_source_repo\": \"https://hg.mozilla.org/mozilla-central\",\n
-        \ \"moz_source_stamp\": \"7ac8585e3c02763662a597f94e0676111667aa60\",\n  \"moz_update_channel\":
+        \ \"moz_source_stamp\": \"b1059d322d9fb03740953ffab81dae731d94e138\",\n  \"moz_update_channel\":
         \"default\",\n  \"target\": \"x86_64-pc-linux-gnu\"\n}\n"
     headers:
       Accept-Ranges:
@@ -263,31 +265,29 @@ interactions:
       - clear
       Cache-Control:
       - public,max-age=604800
-      Content-Encoding:
-      - gzip
-      Content-Length:
-      - '352'
       Content-Type:
       - application/json
       Date:
-      - Thu, 07 Nov 2024 14:38:22 GMT
+      - Thu, 07 Nov 2024 19:54:17 GMT
       ETag:
-      - '"a4983f0614d03fe730b94f82d11605fe"'
+      - '"349c6da451162a4cbdf09a414c8080c9"'
       Last-Modified:
-      - Thu, 07 Nov 2024 11:44:10 GMT
+      - Thu, 07 Nov 2024 18:45:56 GMT
       Server:
       - UploadServer
       Vary:
       - Accept-Encoding
       X-GUploader-UploadID:
-      - AHmUCY1vdmPKM3lfdpT4yQ0Mn3DEqFG6ASPf5RFtE-WB8LZOPPI2dlIMy82g-fEXt7nDYjxiGV5zegDTdg
+      - AHmUCY3XFyHxkyrefnsNiISdNNQVufxvbyrTQqho5F4vUbvpdDBxc_4weqmpWKhaljcmDyZK9VrKloD6ug
+      content-length:
+      - '838'
       x-cache-status:
       - miss
       x-goog-generation:
-      - '1730979850233046'
+      - '1731005156256267'
       x-goog-hash:
-      - crc32c=mZlQKw==
-      - md5=pJg/BhTQP+cwuU+C0RYF/g==
+      - crc32c=PUPScw==
+      - md5=NJxtpFEWKky98JpBTICAyQ==
       x-goog-metageneration:
       - '1'
       x-goog-storage-class:
@@ -295,7 +295,7 @@ interactions:
       x-goog-stored-content-encoding:
       - gzip
       x-goog-stored-content-length:
-      - '352'
+      - '354'
     status:
       code: 200
       message: OK

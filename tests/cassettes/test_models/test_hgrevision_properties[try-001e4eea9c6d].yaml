@@ -175,17 +175,15 @@ interactions:
       - no-cache
       Connection:
       - Keep-Alive
-      Content-Encoding:
-      - gzip
       Content-Security-Policy:
       - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
-        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-Lx1px_7-To-m8a9jRk5ijA'';
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-ahPmxJFCSoKo-XE5A-G6Ww'';
         style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
         https:'
       Content-Type:
       - application/json
       Date:
-      - Wed, 06 Nov 2024 20:54:04 GMT
+      - Thu, 07 Nov 2024 19:54:47 GMT
       Server:
       - Apache
       Strict-Transport-Security:
@@ -198,6 +196,8 @@ interactions:
       - 'not cacheable; response specified "Cache-Control: no-cache"'
       X-Content-Type-Options:
       - nosniff
+      content-length:
+      - '1382'
     status:
       code: 200
       message: Script output follows

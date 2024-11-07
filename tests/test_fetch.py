@@ -4,7 +4,6 @@
 """Fuzzfetch tests"""
 
 import logging
-import time
 from dataclasses import fields
 from datetime import datetime
 from itertools import product
@@ -131,61 +130,35 @@ def get_builds_to_test():
 
 @pytest.mark.vcr()
 @pytest.mark.parametrize("branch, build_flags, os_, cpu", get_builds_to_test())
+@pytest.mark.parametrize("as_args", (True, False))
 @pytest.mark.usefixtures("fetcher_mock_resolve_targets")
-def test_metadata(branch, build_flags, os_, cpu):
+def test_metadata(branch, build_flags, os_, cpu, as_args):
     """Instantiate a Fetcher (which downloads metadata from TaskCluster) and check that
     the build is recent.
     """
     platform_ = Platform(os_, cpu)
-    for as_args in (True, False):  # try as API and as command line
-        if as_args:
-            args = []
-            for field in fields(BuildFlags):
-                if getattr(build_flags, field.name):
-                    args.append(f"--{field.name}")
-            fetcher = Fetcher.from_args(
-                ["--branch", branch, "--cpu", cpu, "--os", os_] + args
-            )[0]
-        else:
-            if branch.startswith("esr"):
-                branch = Fetcher.resolve_esr(branch)
-            fetcher = Fetcher(
-                branch,
-                "latest",
-                build_flags,
-                DEFAULT_TARGETS,
-                platform_,
-            )
+    if as_args:
+        args = []
+        for field in fields(BuildFlags):
+            if getattr(build_flags, field.name):
+                args.append(f"--{field.name}")
+        fetcher = Fetcher.from_args(
+            ["--branch", branch, "--cpu", cpu, "--os", os_] + args
+        )[0]
+    else:
+        if branch.startswith("esr"):
+            branch = Fetcher.resolve_esr(branch)
+        fetcher = Fetcher(
+            branch,
+            "latest",
+            build_flags,
+            DEFAULT_TARGETS,
+            platform_,
+        )
 
-        LOG.debug("succeeded creating Fetcher")
-        LOG.debug("buildid: %s", fetcher.id)
-        LOG.debug("hgrev: %s", fetcher.changeset)
-
-        time_obj = time.strptime(fetcher.id, "%Y%m%d%H%M%S")
-
-        # yyyy-mm-dd is also accepted as a build input
-        date_str = f"{time_obj.tm_year:d}-{time_obj.tm_mon:02d}-{time_obj.tm_mday:02d}"
-        if as_args:
-            Fetcher.from_args(
-                ["--branch", branch, "--cpu", cpu, "--os", os_, "--build", date_str]
-                + args
-            )
-        else:
-            Fetcher(branch, date_str, build_flags, DEFAULT_TARGETS, platform_)
-
-        # hg rev is also accepted as a build input
-        rev = fetcher.changeset
-        if as_args:
-            Fetcher.from_args(
-                ["--branch", branch, "--cpu", cpu, "--os", os_, "--build", rev] + args
-            )
-        else:
-            Fetcher(branch, rev, build_flags, DEFAULT_TARGETS, platform_)
-        # namespace = fetcher.build
-
-        # TaskCluster namespace is also accepted as a build input
-        # namespace = ?
-        # Fetcher(branch, namespace, (asan, debug, fuzzing, coverage))
+    LOG.debug("succeeded creating Fetcher")
+    LOG.debug("buildid: %s", fetcher.id)
+    LOG.debug("hgrev: %s", fetcher.changeset)
 
 
 # When updating the cassettes:
