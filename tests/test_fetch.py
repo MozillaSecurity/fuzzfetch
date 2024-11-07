@@ -129,8 +129,9 @@ def get_builds_to_test():
         )
 
 
+@pytest.mark.vcr()
 @pytest.mark.parametrize("branch, build_flags, os_, cpu", get_builds_to_test())
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets")
 def test_metadata(branch, build_flags, os_, cpu):
     """Instantiate a Fetcher (which downloads metadata from TaskCluster) and check that
     the build is recent.
@@ -187,117 +188,85 @@ def test_metadata(branch, build_flags, os_, cpu):
         # Fetcher(branch, namespace, (asan, debug, fuzzing, coverage))
 
 
-# whenever BUILD_CACHE is set:
-# - requested should be set to the near future, or the hg hash of a changeset prior to
-#   the first build yesterday
-# - expected should be updated to the value that asserts
+# When updating the cassettes:
+# - update freeze time to current date
+# - builds with an ascending search order should be older than 365 days
+# - builds with a descending order should be in the future
+@freeze_time("2024-11-06")
+@pytest.mark.vcr()
 @pytest.mark.parametrize(
     "requested, expected, direction",
     (
-        ("2022-12-31", "2023-01-03", BuildSearchOrder.ASC),
-        ("2024-01-03", "2024-01-02", BuildSearchOrder.DESC),
+        # Requested data is older than available (-365 days)
+        ("2023-11-06", "2023-11-07", BuildSearchOrder.ASC),
+        # Requested build is in the future (+1 days)
+        ("2024-11-07", "2024-11-06", BuildSearchOrder.DESC),
+        # Requested rev is older than available (-365)
         (
-            "5096e8be57730ef6902aaa8954b79aa0a21b32d6",
-            "2288a4992fac2e0ecb886f1f9bfcdbe39cc18393",
+            "a53a2b4b87d3cffa7582c252478f44077faa7775",
+            "5d6699b34edce04ffd8886be86de9d604d88a89a",
             BuildSearchOrder.ASC,
         ),
     ),
 )
-@pytest.mark.parametrize("is_namespace", [True, False])
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
+@pytest.mark.parametrize("is_namespace", (True, False))
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets")
 def test_nearest_retrieval(requested, expected, direction, is_namespace):
     """Attempt to retrieve a build near the supplied build_id."""
-    # Set freeze_time to a date ahead of the latest mock build
-    with freeze_time("2024-01-02"):
-        LOG.debug("looking for nearest to %s", requested)
-        if is_namespace:
-            if BuildTask.RE_DATE.match(requested):
-                date = requested.replace("-", ".")
-                build_id = (
-                    f"gecko.v2.mozilla-central.pushdate.{date}.firefox.linux64-opt"
-                )
-            else:
-                build_id = (
-                    f"gecko.v2.mozilla-central.revision.{requested}.firefox.linux64-opt"
-                )
+    build_str = requested
+    if is_namespace:
+        if BuildTask.RE_DATE.match(requested):
+            date = requested.replace("-", ".")
+            build_str = f"gecko.v2.mozilla-central.pushdate.{date}.firefox.linux64-opt"
         else:
-            build_id = requested
+            build_str = (
+                f"gecko.v2.mozilla-central.revision.{requested}.firefox.linux64-opt"
+            )
 
-        build = Fetcher(
-            "central",
-            build_id,
-            BuildFlags(),
-            DEFAULT_TARGETS,
-            nearest=direction,
-        )
-        if BuildTask.RE_DATE.match(expected):
-            build_date = datetime.strftime(build.datetime, "%Y-%m-%d")
-            assert build_date == expected
-        else:
-            assert BuildTask.RE_REV.match(expected)
-            assert build.changeset == expected
+    flags = BuildFlags()
+    platform = Platform("Linux", "x86_64")
 
-
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
-def test_hash_resolution():
-    """Test shortened hashes are resolved."""
-    rev = "10aa7423789835a7dbd24b0b44ad1ae2ad77b59b"
     build = Fetcher(
         "central",
-        rev[:12],
-        BuildFlags(),
+        build_str,
+        flags,
         DEFAULT_TARGETS,
+        platform=platform,
+        nearest=direction,
     )
-    assert build.changeset == rev
+
+    if BuildTask.RE_DATE.match(expected):
+        build_date = datetime.strftime(build.datetime, "%Y-%m-%d")
+        assert build_date == expected
+    else:
+        assert BuildTask.RE_REV.match(expected)
+        assert build.changeset == expected
 
 
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
-def test_fuzzilli_builds():
-    """
-    One-off test for retrieving fuzzilli enabled builds
-    """
+@pytest.mark.vcr(allow_playback_repeats=True)
+@pytest.mark.usefixtures("fetcher_mock_resolve_targets")
+@pytest.mark.parametrize(
+    "flag_params, targets",
+    [
+        ({"debug": True, "fuzzilli": True}, ["js"]),
+        ({"asan": True, "fuzzing": True, "nyx": True, "coverage": False}, ["firefox"]),
+        ({"asan": True, "fuzzing": True, "nyx": True, "coverage": True}, ["firefox"]),
+        ({"asan": True, "fuzzing": True, "afl": True}, ["firefox"]),
+        ({"searchfox": True, "debug": True}, ["searchfox"]),
+    ],
+)
+def test_fetcher_variants(flag_params, targets):
+    """Test Fetcher with different configurations."""
+    flags = BuildFlags(**flag_params)
     Fetcher(
         "central",
         "latest",
-        BuildFlags(debug=True, fuzzilli=True),
-        DEFAULT_TARGETS,
-    )
-
-
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
-def test_nyx_builds():
-    """Test for retrieving Nyx snapshot enabled builds."""
-    Fetcher(
-        "central",
-        "latest",
-        BuildFlags(asan=True, fuzzing=True, nyx=True),
-        DEFAULT_TARGETS,
+        flags,
+        targets,
     )
     Fetcher(
         "central",
         "latest",
-        BuildFlags(asan=True, fuzzing=True, nyx=True, coverage=True),
-        DEFAULT_TARGETS,
-    )
-
-
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
-def test_searchfox_data():
-    """Test for retrieving SearchFox source data."""
-    Fetcher(
-        "central",
-        "latest",
-        BuildFlags(searchfox=True, debug=True),
-        ["searchfox"],
-    )
-
-
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets", "requests_mock_cache")
-def test_afl_builds():
-    """Test for retrieving AFL++ enabled builds."""
-    Fetcher(
-        "central",
-        "latest",
-        BuildFlags(asan=True, fuzzing=True, afl=True),
-        DEFAULT_TARGETS,
+        flags,
+        targets,
     )

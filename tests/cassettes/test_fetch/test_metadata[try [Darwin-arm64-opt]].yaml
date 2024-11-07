@@ -1,0 +1,1402 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.latest.firefox.macosx64-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:07.033Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.latest.firefox.macosx64-aarch64-opt\"\n    },\n    \"payload\":
+        {},\n    \"time\": \"2024-11-06T20:17:07.033Z\"\n  }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '396'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:07 GMT
+      ETag:
+      - W/"18c-bGJegpwP91szWuIuC/lHv21kAxE"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 326d100b-d75b-4915-a6bf-2383820aae1e
+      x-for-trace-id:
+      - 7f1f45aafb80be0b4d2128180a21e003
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.latest.firefox.macosx64-aarch64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:07.172Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.latest.firefox.macosx64-aarch64\"\n    },\n    \"payload\":
+        {},\n    \"time\": \"2024-11-06T20:17:07.172Z\"\n  }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '392'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:07 GMT
+      ETag:
+      - W/"188-YgIfHStM6fX/DQjhV9r0mNPtQDU"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - dbef1e4a-ebf9-4a40-9274-430e4b800bbe
+      x-for-trace-id:
+      - 44e3da85b4a47604977c289e9c23033b
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.latest.firefox.sm-macosx64-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:07.318Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.latest.firefox.sm-macosx64-aarch64-opt\"\n    },\n    \"payload\":
+        {},\n    \"time\": \"2024-11-06T20:17:07.318Z\"\n  }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '399'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:07 GMT
+      ETag:
+      - W/"18f-6OtBoFIPpTk2E6RA9U9tMiPlv/g"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 0eeccb6c-951a-49fe-988e-294ac31fca56
+      x-for-trace-id:
+      - 69980ea2b31d094afa001de5fb16bff9
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.latest.firefox.sm-macosx64-aarch64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:07.465Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.latest.firefox.sm-macosx64-aarch64\"\n    },\n    \"payload\":
+        {},\n    \"time\": \"2024-11-06T20:17:07.465Z\"\n  }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '395'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:07 GMT
+      ETag:
+      - W/"18b-Ks9DNccizlJC7oYY//9ULH0C1Y8"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 78deac5b-c08c-43ff-977f-db78cb0abb62
+      x-for-trace-id:
+      - ab03a88a668307cdd43ef6e5204f8385
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.shippable.latest.firefox.macosx64-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.try.shippable.latest.firefox.macosx64-aarch64-opt\",\n
+        \ \"taskId\": \"R-VcrJ-YQdm_mVOrXKLZmA\",\n  \"rank\": 1730916696,\n  \"data\":
+        {},\n  \"expires\": \"2024-12-04T18:17:03.335Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '194'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:07 GMT
+      ETag:
+      - W/"c2-WxSBZbMmEtNSFQtVAoeLZ+5dWxI"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 2aed63da-2dfe-451d-a1db-51b67ba18c48
+      x-for-trace-id:
+      - 50e545eaee00f13847bdcf22be6f966a
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/R-VcrJ-YQdm_mVOrXKLZmA/artifacts
+  response:
+    body:
+      string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/buildhub.json\",\n      \"expires\": \"2024-12-04T18:17:03.335Z\",\n
+        \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/config.status\",\n      \"expires\":
+        \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mar\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mbsdiff\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.awsy.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.common.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.condprof.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.cppunittest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.dmg\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.fuzztest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.generated-files.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.gtest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jittest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsreftest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.langpack.xpi\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/x-xpinstall\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mochitest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.perftests.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.raptor.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.reftest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.talos.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.update_framework_artifacts.zip\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.updater-dep.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.web-platform.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpcshell.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/sccache.log\",\n
+        \     \"expires\": \"2024-11-13T18:17:03.335Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/sccache-stats.json\",\n
+        \     \"expires\": \"2024-11-13T18:17:03.335Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/target.crashreporter-symbols-full.tar.zst\",\n
+        \     \"expires\": \"2024-11-13T18:17:03.335Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
+        \     \"expires\": \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
+        \"public/logs/live.log\",\n      \"expires\": \"2024-12-04T18:17:03.335Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
+        \"2024-12-04T18:17:03.335Z\",\n      \"contentType\": \"application/json\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:07 GMT
+      ETag:
+      - W/"1eea-nd2aKdm0J6zh9nxqd6NKH/uf5S8"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - bbd97e2b-32f7-41aa-afbb-ee80b86252fe
+      x-for-trace-id:
+      - 36de41ffc995f57a21aea19febbcb01c
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/R-VcrJ-YQdm_mVOrXKLZmA/artifacts/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/R-VcrJ-YQdm_mVOrXKLZmA/1/public/build/target.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '131'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:07 GMT
+      ETag:
+      - W/"83-a7OGfYjKrcWoGsh4kWhmb972VLQ"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/R-VcrJ-YQdm_mVOrXKLZmA/1/public/build/target.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - def5ec27-6ce5-483b-82e6-6dac9ab1de83
+      x-for-trace-id:
+      - 4ed97f28d36013ffa96b62c53bce7a7e
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/R-VcrJ-YQdm_mVOrXKLZmA/1/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"as\": \"/builds/worker/fetches/clang/bin/clang -isysroot /builds/worker/fetches/MacOSX14.4.sdk
+        -mmacosx-version-min=11.0 -std=gnu99 --target=aarch64-apple-darwin\",\n  \"buildid\":
+        \"20241106181136\",\n  \"cc\": \"/builds/worker/fetches/clang/bin/clang -isysroot
+        /builds/worker/fetches/MacOSX14.4.sdk -mmacosx-version-min=11.0 -std=gnu99
+        --target=aarch64-apple-darwin\",\n  \"cxx\": \"/builds/worker/fetches/clang/bin/clang++
+        -isysroot /builds/worker/fetches/MacOSX14.4.sdk -mmacosx-version-min=11.0
+        -stdlib=libc++ --target=aarch64-apple-darwin\",\n  \"host\": \"x86_64-pc-linux-gnu\",\n
+        \ \"moz_app_id\": \"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\",\n  \"moz_app_maxversion\":
+        \"134.0a1\",\n  \"moz_app_name\": \"firefox\",\n  \"moz_app_vendor\": \"Mozilla\",\n
+        \ \"moz_app_version\": \"134.0a1\",\n  \"moz_pkg_platform\": \"mac\",\n  \"moz_source_repo\":
+        \"https://hg.mozilla.org/try\",\n  \"moz_source_stamp\": \"bce654727f7fb95cc31d702a87bb54f07a287194\",\n
+        \ \"moz_update_channel\": \"nightly-try\",\n  \"target\": \"aarch64-apple-darwin\"\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '407'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 06 Nov 2024 20:17:08 GMT
+      ETag:
+      - '"e17fe18e7315b1cc2560ca094eb08cca"'
+      Last-Modified:
+      - Wed, 06 Nov 2024 20:05:08 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - AHmUCY0Ja7Az78sHxJppA26UMBgrzAms7l-xm_4209IbwoxvTMOvxkPDGmqpcAU_M_Lso5sIpcM
+      x-cache-status:
+      - miss
+      x-goog-generation:
+      - '1730923508265091'
+      x-goog-hash:
+      - crc32c=JfgW0w==
+      - md5=4X/hjnMVscwlYMoJTrCMyg==
+      x-goog-metageneration:
+      - '1'
+      x-goog-storage-class:
+      - STANDARD
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '407'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.try.shippable.2024.11.06
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.try.shippable.2024.11.06.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.shippable.2024.11.06.revision\",\n
+        \     \"name\": \"revision\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '316'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:08 GMT
+      ETag:
+      - W/"13c-UbnTphow5eVYHroHcRDndQeWtQk"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 4c4e01d1-bc60-4e51-a92f-16a1eb56afae
+      x-for-trace-id:
+      - 507c69fcd53189a9a00cf9482145f5eb
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.try.pushdate.2024.11.06
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106003015\",\n
+        \     \"name\": \"20241106003015\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106004822\",\n
+        \     \"name\": \"20241106004822\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106004956\",\n
+        \     \"name\": \"20241106004956\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106011559\",\n
+        \     \"name\": \"20241106011559\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106011846\",\n
+        \     \"name\": \"20241106011846\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106013259\",\n
+        \     \"name\": \"20241106013259\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106014710\",\n
+        \     \"name\": \"20241106014710\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106023212\",\n
+        \     \"name\": \"20241106023212\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106033327\",\n
+        \     \"name\": \"20241106033327\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106033418\",\n
+        \     \"name\": \"20241106033418\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106044610\",\n
+        \     \"name\": \"20241106044610\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106045022\",\n
+        \     \"name\": \"20241106045022\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106053446\",\n
+        \     \"name\": \"20241106053446\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106053914\",\n
+        \     \"name\": \"20241106053914\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106054145\",\n
+        \     \"name\": \"20241106054145\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106060944\",\n
+        \     \"name\": \"20241106060944\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106062352\",\n
+        \     \"name\": \"20241106062352\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106062624\",\n
+        \     \"name\": \"20241106062624\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106064754\",\n
+        \     \"name\": \"20241106064754\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106070020\",\n
+        \     \"name\": \"20241106070020\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106072941\",\n
+        \     \"name\": \"20241106072941\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106073432\",\n
+        \     \"name\": \"20241106073432\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106080307\",\n
+        \     \"name\": \"20241106080307\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106085809\",\n
+        \     \"name\": \"20241106085809\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106085828\",\n
+        \     \"name\": \"20241106085828\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106090415\",\n
+        \     \"name\": \"20241106090415\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106090609\",\n
+        \     \"name\": \"20241106090609\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106090859\",\n
+        \     \"name\": \"20241106090859\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106091035\",\n
+        \     \"name\": \"20241106091035\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106091615\",\n
+        \     \"name\": \"20241106091615\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106091905\",\n
+        \     \"name\": \"20241106091905\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106092559\",\n
+        \     \"name\": \"20241106092559\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106093211\",\n
+        \     \"name\": \"20241106093211\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106094113\",\n
+        \     \"name\": \"20241106094113\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106094307\",\n
+        \     \"name\": \"20241106094307\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106094937\",\n
+        \     \"name\": \"20241106094937\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106095658\",\n
+        \     \"name\": \"20241106095658\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106100219\",\n
+        \     \"name\": \"20241106100219\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106100723\",\n
+        \     \"name\": \"20241106100723\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106100801\",\n
+        \     \"name\": \"20241106100801\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106101613\",\n
+        \     \"name\": \"20241106101613\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106101928\",\n
+        \     \"name\": \"20241106101928\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106102812\",\n
+        \     \"name\": \"20241106102812\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106103636\",\n
+        \     \"name\": \"20241106103636\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106103945\",\n
+        \     \"name\": \"20241106103945\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106105603\",\n
+        \     \"name\": \"20241106105603\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106110101\",\n
+        \     \"name\": \"20241106110101\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106110643\",\n
+        \     \"name\": \"20241106110643\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106111449\",\n
+        \     \"name\": \"20241106111449\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106112023\",\n
+        \     \"name\": \"20241106112023\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106112456\",\n
+        \     \"name\": \"20241106112456\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106114439\",\n
+        \     \"name\": \"20241106114439\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106114939\",\n
+        \     \"name\": \"20241106114939\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106115508\",\n
+        \     \"name\": \"20241106115508\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106115656\",\n
+        \     \"name\": \"20241106115656\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106121231\",\n
+        \     \"name\": \"20241106121231\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106121248\",\n
+        \     \"name\": \"20241106121248\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106122405\",\n
+        \     \"name\": \"20241106122405\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106122433\",\n
+        \     \"name\": \"20241106122433\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106122620\",\n
+        \     \"name\": \"20241106122620\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106123122\",\n
+        \     \"name\": \"20241106123122\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106123246\",\n
+        \     \"name\": \"20241106123246\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106124000\",\n
+        \     \"name\": \"20241106124000\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106130146\",\n
+        \     \"name\": \"20241106130146\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106130628\",\n
+        \     \"name\": \"20241106130628\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106130821\",\n
+        \     \"name\": \"20241106130821\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106132538\",\n
+        \     \"name\": \"20241106132538\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106133136\",\n
+        \     \"name\": \"20241106133136\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106133517\",\n
+        \     \"name\": \"20241106133517\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106134841\",\n
+        \     \"name\": \"20241106134841\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135504\",\n
+        \     \"name\": \"20241106135504\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135601\",\n
+        \     \"name\": \"20241106135601\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135821\",\n
+        \     \"name\": \"20241106135821\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135907\",\n
+        \     \"name\": \"20241106135907\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106140207\",\n
+        \     \"name\": \"20241106140207\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106140528\",\n
+        \     \"name\": \"20241106140528\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142016\",\n
+        \     \"name\": \"20241106142016\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142035\",\n
+        \     \"name\": \"20241106142035\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142359\",\n
+        \     \"name\": \"20241106142359\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142847\",\n
+        \     \"name\": \"20241106142847\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106143342\",\n
+        \     \"name\": \"20241106143342\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106143615\",\n
+        \     \"name\": \"20241106143615\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144147\",\n
+        \     \"name\": \"20241106144147\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144728\",\n
+        \     \"name\": \"20241106144728\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144829\",\n
+        \     \"name\": \"20241106144829\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144914\",\n
+        \     \"name\": \"20241106144914\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145047\",\n
+        \     \"name\": \"20241106145047\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145137\",\n
+        \     \"name\": \"20241106145137\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145159\",\n
+        \     \"name\": \"20241106145159\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145258\",\n
+        \     \"name\": \"20241106145258\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145337\",\n
+        \     \"name\": \"20241106145337\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145406\",\n
+        \     \"name\": \"20241106145406\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145505\",\n
+        \     \"name\": \"20241106145505\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145604\",\n
+        \     \"name\": \"20241106145604\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145634\",\n
+        \     \"name\": \"20241106145634\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145831\",\n
+        \     \"name\": \"20241106145831\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106150444\",\n
+        \     \"name\": \"20241106150444\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106151109\",\n
+        \     \"name\": \"20241106151109\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106152323\",\n
+        \     \"name\": \"20241106152323\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106152341\",\n
+        \     \"name\": \"20241106152341\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106153828\",\n
+        \     \"name\": \"20241106153828\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106154554\",\n
+        \     \"name\": \"20241106154554\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106154659\",\n
+        \     \"name\": \"20241106154659\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106154811\",\n
+        \     \"name\": \"20241106154811\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155236\",\n
+        \     \"name\": \"20241106155236\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155311\",\n
+        \     \"name\": \"20241106155311\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155604\",\n
+        \     \"name\": \"20241106155604\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155719\",\n
+        \     \"name\": \"20241106155719\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155857\",\n
+        \     \"name\": \"20241106155857\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106160121\",\n
+        \     \"name\": \"20241106160121\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106160411\",\n
+        \     \"name\": \"20241106160411\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106162301\",\n
+        \     \"name\": \"20241106162301\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106162318\",\n
+        \     \"name\": \"20241106162318\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106162542\",\n
+        \     \"name\": \"20241106162542\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106163305\",\n
+        \     \"name\": \"20241106163305\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106163317\",\n
+        \     \"name\": \"20241106163317\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106163558\",\n
+        \     \"name\": \"20241106163558\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164114\",\n
+        \     \"name\": \"20241106164114\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164308\",\n
+        \     \"name\": \"20241106164308\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164501\",\n
+        \     \"name\": \"20241106164501\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164633\",\n
+        \     \"name\": \"20241106164633\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164802\",\n
+        \     \"name\": \"20241106164802\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106165011\",\n
+        \     \"name\": \"20241106165011\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106165807\",\n
+        \     \"name\": \"20241106165807\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106170704\",\n
+        \     \"name\": \"20241106170704\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106171829\",\n
+        \     \"name\": \"20241106171829\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106172107\",\n
+        \     \"name\": \"20241106172107\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106172330\",\n
+        \     \"name\": \"20241106172330\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106172501\",\n
+        \     \"name\": \"20241106172501\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106173413\",\n
+        \     \"name\": \"20241106173413\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106173552\",\n
+        \     \"name\": \"20241106173552\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106173833\",\n
+        \     \"name\": \"20241106173833\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106174913\",\n
+        \     \"name\": \"20241106174913\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106175449\",\n
+        \     \"name\": \"20241106175449\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106175504\",\n
+        \     \"name\": \"20241106175504\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106175755\",\n
+        \     \"name\": \"20241106175755\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106180249\",\n
+        \     \"name\": \"20241106180249\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106180405\",\n
+        \     \"name\": \"20241106180405\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181136\",\n
+        \     \"name\": \"20241106181136\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181526\",\n
+        \     \"name\": \"20241106181526\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181743\",\n
+        \     \"name\": \"20241106181743\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181806\",\n
+        \     \"name\": \"20241106181806\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181907\",\n
+        \     \"name\": \"20241106181907\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106182524\",\n
+        \     \"name\": \"20241106182524\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106182915\",\n
+        \     \"name\": \"20241106182915\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106183128\",\n
+        \     \"name\": \"20241106183128\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106183922\",\n
+        \     \"name\": \"20241106183922\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106184644\",\n
+        \     \"name\": \"20241106184644\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106185027\",\n
+        \     \"name\": \"20241106185027\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106185409\",\n
+        \     \"name\": \"20241106185409\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106185908\",\n
+        \     \"name\": \"20241106185908\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106190442\",\n
+        \     \"name\": \"20241106190442\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106191535\",\n
+        \     \"name\": \"20241106191535\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106191659\",\n
+        \     \"name\": \"20241106191659\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106191841\",\n
+        \     \"name\": \"20241106191841\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192133\",\n
+        \     \"name\": \"20241106192133\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192147\",\n
+        \     \"name\": \"20241106192147\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192255\",\n
+        \     \"name\": \"20241106192255\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192309\",\n
+        \     \"name\": \"20241106192309\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192414\",\n
+        \     \"name\": \"20241106192414\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106195928\",\n
+        \     \"name\": \"20241106195928\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106200259\",\n
+        \     \"name\": \"20241106200259\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:08 GMT
+      ETag:
+      - W/"6545-vEON7ya/FX3ZGxAwy7nHGLxeJeE"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 862d59be-fe36-40db-8bb1-7a47e23e5aae
+      x-for-trace-id:
+      - f27c808b42ef7532585773886b3dfd28
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.shippable.2024.11.06.latest.firefox.macosx64-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.try.shippable.2024.11.06.latest.firefox.macosx64-aarch64-opt\",\n
+        \ \"taskId\": \"R-VcrJ-YQdm_mVOrXKLZmA\",\n  \"rank\": 1730916696,\n  \"data\":
+        {},\n  \"expires\": \"2024-12-04T18:17:03.335Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '205'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:08 GMT
+      ETag:
+      - W/"cd-YUHcPQCt3cKOA+ThqvaWlAl2+HA"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 72b69421-3696-4b23-87f2-8f982301b0ce
+      x-for-trace-id:
+      - 02e79f1fbf7e104d580a68e473ec0acd
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.macosx64-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:08.973Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.macosx64-aarch64-opt\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2024-11-06T20:17:08.973Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '439'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:08 GMT
+      ETag:
+      - W/"1b7-a4Ua8BRsvR5t+IhboDTHO84yEtc"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 2d0ccc6d-dd0d-4162-909e-3179d4060b3c
+      x-for-trace-id:
+      - 0f0d58d86424355a24153dd8f1b1ab45
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.macosx64-aarch64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:09.110Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.macosx64-aarch64\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2024-11-06T20:17:09.110Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '435'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:09 GMT
+      ETag:
+      - W/"1b3-ms1YUs8VgwE3UifsPrFF/l+3vuM"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 6abc636f-3b94-4ce6-a35b-4edd1f289661
+      x-for-trace-id:
+      - ec28022b7dc77985a6c9895dc9790cdc
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.sm-macosx64-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:09.247Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.sm-macosx64-aarch64-opt\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2024-11-06T20:17:09.247Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '442'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:09 GMT
+      ETag:
+      - W/"1ba-GIJr+tcI69OBJfjDvTHILk/tcgQ"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 3bb31996-6f57-435e-9aa1-95e80a5a84a5
+      x-for-trace-id:
+      - 67bbf10f2de0c0571492f93c9062ffcb
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.sm-macosx64-aarch64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2024-11-06T20:17:09.383Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.try.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.sm-macosx64-aarch64\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2024-11-06T20:17:09.383Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '438'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:09 GMT
+      ETag:
+      - W/"1b6-1IWbHL6ONDprhdFtLzsY/v8fZ6c"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - d48fad4c-0043-4ea9-bb00-1595c03a9abc
+      x-for-trace-id:
+      - bb45a5f797eadd3a3303fd33aef1ffcb
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.shippable.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.macosx64-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.try.shippable.revision.bce654727f7fb95cc31d702a87bb54f07a287194.firefox.macosx64-aarch64-opt\",\n
+        \ \"taskId\": \"R-VcrJ-YQdm_mVOrXKLZmA\",\n  \"rank\": 1730916696,\n  \"data\":
+        {},\n  \"expires\": \"2024-12-04T18:17:03.335Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '237'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:09 GMT
+      ETag:
+      - W/"ed-lwN+ZeC5HLH1OY664ArcsEv2GCo"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - b4d5d52e-e406-4e57-b3fd-39ca1f9e042a
+      x-for-trace-id:
+      - b1cadfd82d8e6b3f633fff7f0f3ccf24
+    status:
+      code: 200
+      message: OK
+version: 1

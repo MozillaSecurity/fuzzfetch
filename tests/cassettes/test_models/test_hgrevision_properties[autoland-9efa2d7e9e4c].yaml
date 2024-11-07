@@ -29,13 +29,13 @@ interactions:
 
         "bookmarks": [],
 
-        "tags": ["tip"],
+        "tags": [],
 
         "user": "Tim C \u003ctimchoh@gmail.com\u003e",
 
         "parents": ["31db5f5f270daf976d0c0862980c2cf73101206e"],
 
-        "children": [],
+        "children": ["ac365bf8333870fd577c28b6e47e243f622a3bc7"],
 
         "files": [{
 
@@ -7160,15 +7160,17 @@ interactions:
       - no-cache
       Connection:
       - Keep-Alive
+      Content-Encoding:
+      - gzip
       Content-Security-Policy:
       - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
-        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-4R_aV-JsTMC6KprAdhkGqQ'';
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-ypowgE_2Shq1jlVIujf5Zw'';
         style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
         https:'
       Content-Type:
       - application/json
       Date:
-      - Tue, 05 Nov 2024 17:34:59 GMT
+      - Wed, 06 Nov 2024 20:53:33 GMT
       Server:
       - Apache
       Strict-Transport-Security:
@@ -7181,8 +7183,6 @@ interactions:
       - 'not cacheable; response specified "Cache-Control: no-cache"'
       X-Content-Type-Options:
       - nosniff
-      content-length:
-      - '71574'
     status:
       code: 200
       message: Script output follows

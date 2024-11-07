@@ -1,0 +1,1143 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.latest.mobile.android-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.mozilla-central.latest.mobile.android-aarch64-opt\",\n
+        \ \"taskId\": \"DDBp8NNqQYKdfIuzawvOrw\",\n  \"rank\": 1730911891,\n  \"data\":
+        {},\n  \"expires\": \"2025-11-06T16:55:11.532Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '194'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:14:59 GMT
+      ETag:
+      - W/"c2-wMVGrGPQZQGvMG2oDZJl3gn9K54"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - f09f6c63-aa14-4eb3-99e2-04d1e330f39e
+      x-for-trace-id:
+      - 84b8ffffad91937350b964c7c28c1fb3
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DDBp8NNqQYKdfIuzawvOrw/artifacts
+  response:
+    body:
+      string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/buildhub.json\",\n      \"expires\": \"2025-11-06T16:55:11.532Z\",\n
+        \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/config.status\",\n      \"expires\":
+        \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview-androidTest.apk\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/vnd.android.package-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview_example.aab\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/x-authorware-bin\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview_example.apk\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/vnd.android.package-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview-test_runner.aab\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/x-authorware-bin\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview-test_runner.apk\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/vnd.android.package-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.aar\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.aar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.aar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.aar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.aar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-javadoc.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.module\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.module.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.module.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.module.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.module.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.pom\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.pom.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.pom.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.pom.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131.pom.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-sources.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-sources.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-sources.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-sources.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/134.0.20241106165131/geckoview-default-omni-arm64-v8a-134.0.20241106165131-sources.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/maven-metadata.xml\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/xml\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/maven-metadata.xml.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/maven-metadata.xml.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/maven-metadata.xml.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-default-omni-arm64-v8a/maven-metadata.xml.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.aar\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.aar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.aar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.aar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.aar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-javadoc.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-javadoc.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-javadoc.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-javadoc.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-javadoc.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.module\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.module.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.module.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.module.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.module.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.pom\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.pom.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.pom.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.pom.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131.pom.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-sources.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-sources.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-sources.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-sources.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/134.0.20241106165131/geckoview-exoplayer2-default-134.0.20241106165131-sources.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/maven-metadata.xml\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/xml\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/maven-metadata.xml.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/maven-metadata.xml.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/maven-metadata.xml.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-default/maven-metadata.xml.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.awsy.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.common.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.condprof.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.cppunittest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.fuzztest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.generated-files.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jittest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsreftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.maven.tar.xz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/x-xz\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mochitest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.perftests.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.raptor.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.reftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.talos.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.updater-dep.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.web-platform.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpcshell.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/toolchains.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/sccache.log\",\n
+        \     \"expires\": \"2024-11-13T16:55:11.532Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/sccache-stats.json\",\n
+        \     \"expires\": \"2024-11-13T16:55:11.532Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/target.crashreporter-symbols-full.tar.zst\",\n
+        \     \"expires\": \"2024-11-13T16:55:11.532Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
+        \     \"expires\": \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
+        \"public/logs/live.log\",\n      \"expires\": \"2025-11-06T16:55:11.532Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
+        \"2025-11-06T16:55:11.532Z\",\n      \"contentType\": \"application/json\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:14:59 GMT
+      ETag:
+      - W/"6565-YWM2tlgA/AeswbZOHGdIm2wl/h0"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 12dd12bb-2a8d-4eb5-83ef-31ac6a327501
+      x-for-trace-id:
+      - 51d544887f8e7bf974cdc8382ef662f5
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DDBp8NNqQYKdfIuzawvOrw/artifacts/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/DDBp8NNqQYKdfIuzawvOrw/0/public/build/target.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '131'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:14:59 GMT
+      ETag:
+      - W/"83-fK7CfE97T/Nd+tTuf31yP7NF11A"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/DDBp8NNqQYKdfIuzawvOrw/0/public/build/target.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 3ffbfe81-6a6b-44d0-bbc6-5e5ca95c0846
+      x-for-trace-id:
+      - b08eaf1fd2e1524abb394af1fe0a168e
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/DDBp8NNqQYKdfIuzawvOrw/0/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"as\": \"/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang
+        -std=gnu99 --target=aarch64-linux-android21\",\n  \"buildid\": \"20241106165131\",\n
+        \ \"cc\": \"/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang
+        -std=gnu99 --target=aarch64-linux-android21\",\n  \"cxx\": \"/builds/worker/fetches/sccache/sccache
+        /builds/worker/fetches/clang/bin/clang++ --target=aarch64-linux-android21\",\n
+        \ \"host\": \"x86_64-pc-linux-gnu\",\n  \"moz_app_id\": \"{aa3c5121-dab2-40e2-81ca-7ea25febc110}\",\n
+        \ \"moz_app_maxversion\": \"134.0a1\",\n  \"moz_app_name\": \"fennec\",\n
+        \ \"moz_app_vendor\": \"Mozilla\",\n  \"moz_app_version\": \"134.0a1\",\n
+        \ \"moz_pkg_platform\": \"android-aarch64\",\n  \"moz_source_repo\": \"https://hg.mozilla.org/mozilla-central\",\n
+        \ \"moz_source_stamp\": \"8954b5fe5fb5ba67d77f21755d099d103987d632\",\n  \"moz_update_channel\":
+        \"default\",\n  \"target\": \"aarch64-unknown-linux-android\"\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '377'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 06 Nov 2024 20:14:59 GMT
+      ETag:
+      - '"de090b0b4e79d280060b1ebea8b97bdb"'
+      Last-Modified:
+      - Wed, 06 Nov 2024 17:25:16 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - AHmUCY1WLsRa1-7V_4gHqbLNy1tOyuYgef6F4HZJvei8GfZTj56r5CtGFS0qmB1EiUIi_Sdb47g
+      x-cache-status:
+      - miss
+      x-goog-generation:
+      - '1730913916638932'
+      x-goog-hash:
+      - crc32c=tdgK+Q==
+      - md5=3gkLC0550oAGCx6+qLl72w==
+      x-goog-metageneration:
+      - '1'
+      x-goog-storage-class:
+      - STANDARD
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '377'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.mozilla-central.shippable.2024.11.06
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.shippable.2024.11.06.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2025-11-08T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.shippable.2024.11.06.revision\",\n
+        \     \"name\": \"revision\",\n      \"expires\": \"2025-11-09T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '340'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:15:00 GMT
+      ETag:
+      - W/"154-PLn9VSqIYUUVGwPEHEiBgHUslOc"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 823d32fe-b914-4a0a-b725-db49b8fd34c1
+      x-for-trace-id:
+      - 862d8da450fce81a0ba0f8ae4f466f00
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.mozilla-central.pushdate.2024.11.06
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.11.06.20241106050531\",\n
+        \     \"name\": \"20241106050531\",\n      \"expires\": \"2025-11-09T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.11.06.20241106094902\",\n
+        \     \"name\": \"20241106094902\",\n      \"expires\": \"2025-11-09T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.11.06.20241106165131\",\n
+        \     \"name\": \"20241106165131\",\n      \"expires\": \"2025-11-09T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.11.06.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2025-11-08T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '692'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:15:00 GMT
+      ETag:
+      - W/"2b4-rD22QITnTHl00WIs09PHeTAXjAc"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 75a4b457-bef8-46ba-ab50-366796f8def4
+      x-for-trace-id:
+      - ac6080de38bbfd7343306838eb577686
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.2024.11.06.latest.mobile.android-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.mozilla-central.shippable.2024.11.06.latest.mobile.android-aarch64-opt\",\n
+        \ \"taskId\": \"IkDpKvkdRwqqDGy1EAKhUg\",\n  \"rank\": 1730911891,\n  \"data\":
+        {},\n  \"expires\": \"2025-11-06T16:55:19.684Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '215'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:15:00 GMT
+      ETag:
+      - W/"d7-ww0VZVD1h/0wsasAZ/mr75t8yqQ"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 1c0260e1-aa1f-4cc3-a9f6-4ba3a79e622d
+      x-for-trace-id:
+      - 41f2a0bfa3fe16d55d51c7495e803798
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/IkDpKvkdRwqqDGy1EAKhUg/artifacts
+  response:
+    body:
+      string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/buildhub.json\",\n      \"expires\": \"2025-11-06T16:55:19.684Z\",\n
+        \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/config.status\",\n      \"expires\":
+        \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/buildhub.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/config.status\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/mozharness.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/profile_build_resources.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.awsy.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.checksums\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.common.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.condprof.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.cppunittest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.crashreporter-symbols-full.tar.zst\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.fuzztest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.generated-files.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target_info.txt\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.jittest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.jsreftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.jsshell.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.mochitest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.mozinfo.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.perftests.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.raptor.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.reftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.talos.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.test_packages.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.txt\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.updater-dep.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.web-platform.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.xpcshell.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/en-US/toolchains.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview-androidTest.apk\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/vnd.android.package-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview_example.aab\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/x-authorware-bin\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview_example.apk\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/vnd.android.package-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview-test_runner.aab\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/x-authorware-bin\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/geckoview-test_runner.apk\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/vnd.android.package-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.aar\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.aar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.aar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.aar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.aar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-javadoc.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-javadoc.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-javadoc.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-javadoc.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-javadoc.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.module\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.module.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.module.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.module.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.module.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.pom\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.pom.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.pom.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.pom.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131.pom.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-sources.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-sources.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-sources.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-sources.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/134.0.20241106165131/geckoview-exoplayer2-nightly-134.0.20241106165131-sources.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/xml\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-exoplayer2-nightly/maven-metadata.xml.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.aar\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.aar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.aar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.aar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.aar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-javadoc.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-javadoc.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.module\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.module.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.module.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.module.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.module.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.pom\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.pom.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.pom.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.pom.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131.pom.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-sources.jar\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/java-archive\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-sources.jar.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-sources.jar.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-sources.jar.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/134.0.20241106165131/geckoview-nightly-omni-arm64-v8a-134.0.20241106165131-sources.jar.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/maven-metadata.xml\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/xml\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/maven-metadata.xml.md5\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/maven-metadata.xml.sha1\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/maven-metadata.xml.sha256\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/maven/org/mozilla/geckoview/geckoview-nightly-omni-arm64-v8a/maven-metadata.xml.sha512\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.generated-files.tar.gz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.maven.tar.xz\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/x-xz\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/toolchains.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/sccache.log\",\n
+        \     \"expires\": \"2024-11-13T16:55:19.684Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/sccache-stats.json\",\n
+        \     \"expires\": \"2024-11-13T16:55:19.684Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/target.crashreporter-symbols-full.tar.zst\",\n
+        \     \"expires\": \"2024-11-13T16:55:19.684Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
+        \     \"expires\": \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
+        \"public/logs/live.log\",\n      \"expires\": \"2025-11-06T16:55:19.684Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
+        \"2025-11-06T16:55:19.684Z\",\n      \"contentType\": \"application/json\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:15:00 GMT
+      ETag:
+      - W/"7082-miHM/BJEmEW6YpdAoh14nUMMPzg"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 818685e4-e37d-409c-bcef-dcb4db6effe9
+      x-for-trace-id:
+      - 1244bac54d8242c88af8a66fabc3c4d2
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/IkDpKvkdRwqqDGy1EAKhUg/artifacts/public/build/en-US/target.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/IkDpKvkdRwqqDGy1EAKhUg/0/public/build/en-US/target.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '137'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:15:00 GMT
+      ETag:
+      - W/"89-c/5pAWXkE5hPVYaXwC7DSK74lQA"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/IkDpKvkdRwqqDGy1EAKhUg/0/public/build/en-US/target.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 9b6e3d3a-6c42-4eb3-940f-f1d1f15ff872
+      x-for-trace-id:
+      - b4d9ad8b8caba79d921fcb3c6fb19692
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/IkDpKvkdRwqqDGy1EAKhUg/0/public/build/en-US/target.json
+  response:
+    body:
+      string: "{\n  \"as\": \"/builds/worker/fetches/clang/bin/clang -std=gnu99 --target=aarch64-linux-android21\",\n
+        \ \"buildid\": \"20241106165131\",\n  \"cc\": \"/builds/worker/fetches/clang/bin/clang
+        -std=gnu99 --target=aarch64-linux-android21\",\n  \"cxx\": \"/builds/worker/fetches/clang/bin/clang++
+        --target=aarch64-linux-android21\",\n  \"host\": \"x86_64-pc-linux-gnu\",\n
+        \ \"moz_app_id\": \"{aa3c5121-dab2-40e2-81ca-7ea25febc110}\",\n  \"moz_app_maxversion\":
+        \"134.0a1\",\n  \"moz_app_name\": \"fennec\",\n  \"moz_app_vendor\": \"Mozilla\",\n
+        \ \"moz_app_version\": \"134.0a1\",\n  \"moz_pkg_platform\": \"android-aarch64\",\n
+        \ \"moz_source_repo\": \"https://hg.mozilla.org/mozilla-central\",\n  \"moz_source_stamp\":
+        \"8954b5fe5fb5ba67d77f21755d099d103987d632\",\n  \"moz_update_channel\": \"nightly\",\n
+        \ \"target\": \"aarch64-unknown-linux-android\"\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '365'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 06 Nov 2024 20:15:00 GMT
+      ETag:
+      - '"743f7e6eeaef99c5ec455279ed9b76d7"'
+      Last-Modified:
+      - Wed, 06 Nov 2024 18:28:16 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - AHmUCY0vkOzazotUhoP-qJqBnEIm6nv-F-h-95AxmFH8CQHDRpZGp78mbcm_H_riydAku9JlNiU
+      x-cache-status:
+      - miss
+      x-goog-generation:
+      - '1730917696846125'
+      x-goog-hash:
+      - crc32c=uNgbvg==
+      - md5=dD9+burvmcXsRVJ57Zt21w==
+      x-goog-metageneration:
+      - '1'
+      x-goog-storage-class:
+      - STANDARD
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '365'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.revision.8954b5fe5fb5ba67d77f21755d099d103987d632.mobile.android-aarch64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.mozilla-central.revision.8954b5fe5fb5ba67d77f21755d099d103987d632.mobile.android-aarch64-opt\",\n
+        \ \"taskId\": \"DDBp8NNqQYKdfIuzawvOrw\",\n  \"rank\": 1730911891,\n  \"data\":
+        {},\n  \"expires\": \"2025-11-06T16:55:11.532Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '237'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:15:01 GMT
+      ETag:
+      - W/"ed-Xw71B/QWQML30yaQufUd2+d/IGE"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 99a5f88c-6778-4593-b757-ace2bab9c713
+      x-for-trace-id:
+      - 9988a1f58a36acb93768116d3650940a
+    status:
+      code: 200
+      message: OK
+version: 1
