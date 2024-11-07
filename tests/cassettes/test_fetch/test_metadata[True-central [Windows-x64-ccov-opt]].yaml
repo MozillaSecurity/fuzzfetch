@@ -1,0 +1,347 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.latest.firefox.win64-ccov-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.mozilla-central.latest.firefox.win64-ccov-opt\",\n
+        \ \"taskId\": \"O5CyNE26RlWFEKURVCb6QA\",\n  \"rank\": 1,\n  \"data\": {},\n
+        \ \"expires\": \"2025-11-07T16:49:52.881Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '181'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 07 Nov 2024 19:52:00 GMT
+      ETag:
+      - W/"b5-hMHYZqq8SnTAhSOTYGfJDvRPMpA"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 507d2584-4744-4cae-88e7-34c18c637681
+      x-for-trace-id:
+      - 6f3f07dd3f9e2c025df56d8a955fe106
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/O5CyNE26RlWFEKURVCb6QA/artifacts
+  response:
+    body:
+      string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/buildhub.json\",\n      \"expires\": \"2025-11-07T16:49:52.881Z\",\n
+        \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/chrome-map.json\",\n      \"expires\":
+        \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/config.status\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mar.exe\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-msdownload\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mbsdiff.exe\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-msdownload\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/install/sea/target.installer.exe\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-msdownload\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-zip-compressed\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/setup.exe\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-msdownload\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.awsy.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.code-coverage-gcno.zip\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-zip-compressed\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.common.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.condprof.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.cppunittest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-zip-compressed\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.fuzztest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.generated-files.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.gtest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/target.jittest.tests.tar.gz\",\n      \"expires\": \"2025-11-07T16:49:52.881Z\",\n
+        \     \"contentType\": \"application/x-gzip\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/target.json\",\n      \"expires\":
+        \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsreftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-zip-compressed\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.langpack.xpi\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mochitest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.perftests.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.raptor.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.reftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.talos.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/target.updater-dep.tests.tar.gz\",\n      \"expires\": \"2025-11-07T16:49:52.881Z\",\n
+        \     \"contentType\": \"application/x-gzip\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/target.web-platform.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpcshell.tests.tar.gz\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-zip-compressed\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.zip\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-zip-compressed\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/chain-of-trust.json.sig\",\n      \"expires\": \"2025-11-07T16:49:52.881Z\",\n
+        \     \"contentType\": \"application/octet-stream\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/code-coverage-grcov.zip\",\n      \"expires\":
+        \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/x-zip-compressed\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
+        \     \"expires\": \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/logs/live_backing.log\",\n      \"expires\": \"2025-11-07T16:49:52.881Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"link\",\n      \"name\": \"public/logs/live.log\",\n      \"expires\": \"2025-11-07T16:49:52.881Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
+        \"2025-11-07T16:49:52.881Z\",\n      \"contentType\": \"application/json\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 07 Nov 2024 19:52:00 GMT
+      ETag:
+      - W/"202f-FZLwV4jSsN4b3zzn7KbuCQ8ErzM"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      content-length:
+      - '8239'
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 4189640b-ea2e-470b-a745-094ca5898f60
+      x-for-trace-id:
+      - d19840c7a1e0b2bb75be07ba4018169f
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/O5CyNE26RlWFEKURVCb6QA/artifacts/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/O5CyNE26RlWFEKURVCb6QA/0/public/build/target.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '131'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 07 Nov 2024 19:52:00 GMT
+      ETag:
+      - W/"83-S0F3fmBFQVu6VVWolBdYp5oeTYk"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/O5CyNE26RlWFEKURVCb6QA/0/public/build/target.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 8c02d5d3-269d-4b0c-a34d-a512a4cc599a
+      x-for-trace-id:
+      - 53e381f2657b2e67dfce08dc00abfa7d
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/O5CyNE26RlWFEKURVCb6QA/0/public/build/target.json
+  response:
+    body:
+      string: "{\r\n  \"as\": \"D:/task_173099868462787/fetches/vs/VC/Tools/MSVC/14.39.33519/bin/Hostx64/x64/ml64.exe\",\r\n
+        \ \"buildid\": \"20241107164615\",\r\n  \"cc\": \"D:/task_173099868462787/fetches/clang/bin/clang-cl.exe
+        -fms-compatibility-version=19.39 -Xclang -std=gnu99\",\r\n  \"cxx\": \"D:/task_173099868462787/fetches/clang/bin/clang-cl.exe
+        -fms-compatibility-version=19.39 -std:c++17\",\r\n  \"host\": \"x86_64-pc-mingw32\",\r\n
+        \ \"moz_app_id\": \"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\",\r\n  \"moz_app_maxversion\":
+        \"134.0a1\",\r\n  \"moz_app_name\": \"firefox\",\r\n  \"moz_app_vendor\":
+        \"Mozilla\",\r\n  \"moz_app_version\": \"134.0a1\",\r\n  \"moz_pkg_platform\":
+        \"win64\",\r\n  \"moz_source_repo\": \"https://hg.mozilla.org/mozilla-central\",\r\n
+        \ \"moz_source_stamp\": \"b1059d322d9fb03740953ffab81dae731d94e138\",\r\n
+        \ \"moz_update_channel\": \"default\",\r\n  \"target\": \"x86_64-pc-mingw32\"\r\n}\r\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Age:
+      - '3816'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 07 Nov 2024 18:48:24 GMT
+      ETag:
+      - '"7aae686eaccaa9ec8bfbafa16c9fe2f9"'
+      Last-Modified:
+      - Thu, 07 Nov 2024 18:08:19 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - AHmUCY3b1UmzXw24RwD1xVa9m-9yUBdPj1P-EWjrwIx-B4Mwu1UxAFzZyMsOoE1tQ1k08hkqmw
+      content-length:
+      - '821'
+      x-cache-status:
+      - hit
+      x-goog-generation:
+      - '1731002899818335'
+      x-goog-hash:
+      - crc32c=HBe4KA==
+      - md5=eq5obqzKqeyL+6+hbJ/i+Q==
+      x-goog-metageneration:
+      - '1'
+      x-goog-storage-class:
+      - STANDARD
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '444'
+    status:
+      code: 200
+      message: OK
+version: 1

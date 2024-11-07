@@ -29,13 +29,13 @@ interactions:
 
         "bookmarks": [],
 
-        "tags": ["tip"],
+        "tags": [],
 
         "user": "Ryan VanderMeulen \u003cryanvm@gmail.com\u003e",
 
         "parents": ["f8084c09c3353bd884b41e52897697b2e3d86af9"],
 
-        "children": [],
+        "children": ["f309aff4a1ba26cee8d4bc2e1e4920d70a04e862"],
 
         "files": [{
 
@@ -842,17 +842,15 @@ interactions:
       - no-cache
       Connection:
       - Keep-Alive
-      Content-Encoding:
-      - gzip
       Content-Security-Policy:
       - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
-        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-L0vrWOorRh6Vnt6lWWKqfw'';
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-dVKjeGK5Se-fp5RnpnEDjw'';
         style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
         https:'
       Content-Type:
       - application/json
       Date:
-      - Wed, 06 Nov 2024 20:53:49 GMT
+      - Thu, 07 Nov 2024 19:54:32 GMT
       Server:
       - Apache
       Strict-Transport-Security:
@@ -865,6 +863,8 @@ interactions:
       - 'not cacheable; response specified "Cache-Control: no-cache"'
       X-Content-Type-Options:
       - nosniff
+      content-length:
+      - '7285'
     status:
       code: 200
       message: Script output follows
