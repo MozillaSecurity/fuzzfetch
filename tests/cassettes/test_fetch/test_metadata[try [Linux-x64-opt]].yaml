@@ -1,0 +1,1158 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.latest.firefox.linux64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.try.latest.firefox.linux64-opt\",\n
+        \ \"taskId\": \"cxSDgVAYSHm3IVyO2h65_A\",\n  \"rank\": 1730923379,\n  \"data\":
+        {},\n  \"expires\": \"2024-12-04T20:08:29.560Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '175'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:13 GMT
+      ETag:
+      - W/"af-/1EStFLmU9nOeoP75Ra7OAHYUM4"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 29ff119c-ccd6-4726-9f1e-1fccc7c0baac
+      x-for-trace-id:
+      - 4a5b97d39c7c330fdb106632dfb1a899
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/cxSDgVAYSHm3IVyO2h65_A/artifacts
+  response:
+    body:
+      string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/buildhub.json\",\n      \"expires\": \"2024-12-04T20:08:29.560Z\",\n
+        \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/config.status\",\n      \"expires\":
+        \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.awsy.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.common.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.condprof.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.cppunittest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.fuzztest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jittest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsreftest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mochitest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.perftests.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.raptor.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.reftest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.talos.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.tar.bz2\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/x-bzip2\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.updater-dep.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.web-platform.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpcshell.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/sccache.log\",\n
+        \     \"expires\": \"2024-11-13T20:08:29.560Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/sccache-stats.json\",\n
+        \     \"expires\": \"2024-11-13T20:08:29.560Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/target.crashreporter-symbols-full.tar.zst\",\n
+        \     \"expires\": \"2024-11-13T20:08:29.560Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
+        \"public/logs/live.log\",\n      \"expires\": \"2024-12-04T20:08:29.560Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
+        \"2024-12-04T20:08:29.560Z\",\n      \"contentType\": \"application/json\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:13 GMT
+      ETag:
+      - W/"1a93-hFTaTlx76eCz24R7h47Orv/TANU"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - c1ac612a-5025-4f6b-bab3-22a3efacaeca
+      x-for-trace-id:
+      - f6540a44f08f3c231c001967b744407e
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/cxSDgVAYSHm3IVyO2h65_A/artifacts/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/cxSDgVAYSHm3IVyO2h65_A/0/public/build/target.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '131'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:13 GMT
+      ETag:
+      - W/"83-8JDfqWwpPfSLVOm7lrFXKRHCRnw"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/cxSDgVAYSHm3IVyO2h65_A/0/public/build/target.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - cbf0f61c-c078-4f62-8369-b2bdbf160266
+      x-for-trace-id:
+      - 3b7951a173295cb5c0b41e086e53466b
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/cxSDgVAYSHm3IVyO2h65_A/0/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"as\": \"\",\n  \"buildid\": \"20241106200259\",\n  \"cc\": \"\",\n
+        \ \"cxx\": \"\",\n  \"host\": \"x86_64-pc-linux-gnu\",\n  \"moz_app_id\":
+        \"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\",\n  \"moz_app_maxversion\": \"134.0a1\",\n
+        \ \"moz_app_name\": \"firefox\",\n  \"moz_app_vendor\": \"Mozilla\",\n  \"moz_app_version\":
+        \"134.0a1\",\n  \"moz_pkg_platform\": \"linux-x86_64\",\n  \"moz_source_repo\":
+        \"https://hg.mozilla.org/try\",\n  \"moz_source_stamp\": \"2855593bdf5b654f7f2f784e1da6ba03daac21f5\",\n
+        \ \"moz_update_channel\": \"default\",\n  \"target\": \"x86_64-pc-linux-gnu\"\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '290'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 06 Nov 2024 20:17:14 GMT
+      ETag:
+      - '"3f7cf89610897d7051e75280fe2d8ffc"'
+      Last-Modified:
+      - Wed, 06 Nov 2024 20:15:14 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - AHmUCY2vew8ZneK8eq1arsh7WZjNVEnh3VQpZnSoHXBGI1TIF_Orwx2ksQUAuhgFjuF_4CEKxu4Iefc8dw
+      x-cache-status:
+      - miss
+      x-goog-generation:
+      - '1730924114011722'
+      x-goog-hash:
+      - crc32c=qlJGIg==
+      - md5=P3z4lhCJfXBR51KA/i2P/A==
+      x-goog-metageneration:
+      - '1'
+      x-goog-storage-class:
+      - STANDARD
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '290'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.try.shippable.2024.11.06
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.try.shippable.2024.11.06.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.shippable.2024.11.06.revision\",\n
+        \     \"name\": \"revision\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '316'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:14 GMT
+      ETag:
+      - W/"13c-UbnTphow5eVYHroHcRDndQeWtQk"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 8b781be4-452c-43eb-8661-6df16d2c267c
+      x-for-trace-id:
+      - 5ea08b33a8198eff9132d923677d3fae
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.try.pushdate.2024.11.06
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106003015\",\n
+        \     \"name\": \"20241106003015\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106004822\",\n
+        \     \"name\": \"20241106004822\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106004956\",\n
+        \     \"name\": \"20241106004956\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106011559\",\n
+        \     \"name\": \"20241106011559\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106011846\",\n
+        \     \"name\": \"20241106011846\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106013259\",\n
+        \     \"name\": \"20241106013259\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106014710\",\n
+        \     \"name\": \"20241106014710\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106023212\",\n
+        \     \"name\": \"20241106023212\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106033327\",\n
+        \     \"name\": \"20241106033327\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106033418\",\n
+        \     \"name\": \"20241106033418\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106044610\",\n
+        \     \"name\": \"20241106044610\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106045022\",\n
+        \     \"name\": \"20241106045022\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106053446\",\n
+        \     \"name\": \"20241106053446\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106053914\",\n
+        \     \"name\": \"20241106053914\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106054145\",\n
+        \     \"name\": \"20241106054145\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106060944\",\n
+        \     \"name\": \"20241106060944\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106062352\",\n
+        \     \"name\": \"20241106062352\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106062624\",\n
+        \     \"name\": \"20241106062624\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106064754\",\n
+        \     \"name\": \"20241106064754\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106070020\",\n
+        \     \"name\": \"20241106070020\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106072941\",\n
+        \     \"name\": \"20241106072941\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106073432\",\n
+        \     \"name\": \"20241106073432\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106080307\",\n
+        \     \"name\": \"20241106080307\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106085809\",\n
+        \     \"name\": \"20241106085809\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106085828\",\n
+        \     \"name\": \"20241106085828\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106090415\",\n
+        \     \"name\": \"20241106090415\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106090609\",\n
+        \     \"name\": \"20241106090609\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106090859\",\n
+        \     \"name\": \"20241106090859\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106091035\",\n
+        \     \"name\": \"20241106091035\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106091615\",\n
+        \     \"name\": \"20241106091615\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106091905\",\n
+        \     \"name\": \"20241106091905\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106092559\",\n
+        \     \"name\": \"20241106092559\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106093211\",\n
+        \     \"name\": \"20241106093211\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106094113\",\n
+        \     \"name\": \"20241106094113\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106094307\",\n
+        \     \"name\": \"20241106094307\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106094937\",\n
+        \     \"name\": \"20241106094937\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106095658\",\n
+        \     \"name\": \"20241106095658\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106100219\",\n
+        \     \"name\": \"20241106100219\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106100723\",\n
+        \     \"name\": \"20241106100723\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106100801\",\n
+        \     \"name\": \"20241106100801\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106101613\",\n
+        \     \"name\": \"20241106101613\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106101928\",\n
+        \     \"name\": \"20241106101928\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106102812\",\n
+        \     \"name\": \"20241106102812\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106103636\",\n
+        \     \"name\": \"20241106103636\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106103945\",\n
+        \     \"name\": \"20241106103945\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106105603\",\n
+        \     \"name\": \"20241106105603\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106110101\",\n
+        \     \"name\": \"20241106110101\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106110643\",\n
+        \     \"name\": \"20241106110643\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106111449\",\n
+        \     \"name\": \"20241106111449\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106112023\",\n
+        \     \"name\": \"20241106112023\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106112456\",\n
+        \     \"name\": \"20241106112456\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106114439\",\n
+        \     \"name\": \"20241106114439\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106114939\",\n
+        \     \"name\": \"20241106114939\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106115508\",\n
+        \     \"name\": \"20241106115508\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106115656\",\n
+        \     \"name\": \"20241106115656\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106121231\",\n
+        \     \"name\": \"20241106121231\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106121248\",\n
+        \     \"name\": \"20241106121248\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106122405\",\n
+        \     \"name\": \"20241106122405\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106122433\",\n
+        \     \"name\": \"20241106122433\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106122620\",\n
+        \     \"name\": \"20241106122620\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106123122\",\n
+        \     \"name\": \"20241106123122\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106123246\",\n
+        \     \"name\": \"20241106123246\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106124000\",\n
+        \     \"name\": \"20241106124000\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106130146\",\n
+        \     \"name\": \"20241106130146\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106130628\",\n
+        \     \"name\": \"20241106130628\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106130821\",\n
+        \     \"name\": \"20241106130821\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106132538\",\n
+        \     \"name\": \"20241106132538\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106133136\",\n
+        \     \"name\": \"20241106133136\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106133517\",\n
+        \     \"name\": \"20241106133517\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106134841\",\n
+        \     \"name\": \"20241106134841\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135504\",\n
+        \     \"name\": \"20241106135504\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135601\",\n
+        \     \"name\": \"20241106135601\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135821\",\n
+        \     \"name\": \"20241106135821\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106135907\",\n
+        \     \"name\": \"20241106135907\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106140207\",\n
+        \     \"name\": \"20241106140207\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106140528\",\n
+        \     \"name\": \"20241106140528\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142016\",\n
+        \     \"name\": \"20241106142016\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142035\",\n
+        \     \"name\": \"20241106142035\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142359\",\n
+        \     \"name\": \"20241106142359\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106142847\",\n
+        \     \"name\": \"20241106142847\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106143342\",\n
+        \     \"name\": \"20241106143342\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106143615\",\n
+        \     \"name\": \"20241106143615\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144147\",\n
+        \     \"name\": \"20241106144147\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144728\",\n
+        \     \"name\": \"20241106144728\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144829\",\n
+        \     \"name\": \"20241106144829\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106144914\",\n
+        \     \"name\": \"20241106144914\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145047\",\n
+        \     \"name\": \"20241106145047\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145137\",\n
+        \     \"name\": \"20241106145137\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145159\",\n
+        \     \"name\": \"20241106145159\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145258\",\n
+        \     \"name\": \"20241106145258\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145337\",\n
+        \     \"name\": \"20241106145337\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145406\",\n
+        \     \"name\": \"20241106145406\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145505\",\n
+        \     \"name\": \"20241106145505\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145604\",\n
+        \     \"name\": \"20241106145604\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145634\",\n
+        \     \"name\": \"20241106145634\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106145831\",\n
+        \     \"name\": \"20241106145831\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106150444\",\n
+        \     \"name\": \"20241106150444\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106151109\",\n
+        \     \"name\": \"20241106151109\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106152323\",\n
+        \     \"name\": \"20241106152323\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106152341\",\n
+        \     \"name\": \"20241106152341\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106153828\",\n
+        \     \"name\": \"20241106153828\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106154554\",\n
+        \     \"name\": \"20241106154554\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106154659\",\n
+        \     \"name\": \"20241106154659\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106154811\",\n
+        \     \"name\": \"20241106154811\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155236\",\n
+        \     \"name\": \"20241106155236\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155311\",\n
+        \     \"name\": \"20241106155311\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155604\",\n
+        \     \"name\": \"20241106155604\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155719\",\n
+        \     \"name\": \"20241106155719\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106155857\",\n
+        \     \"name\": \"20241106155857\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106160121\",\n
+        \     \"name\": \"20241106160121\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106160411\",\n
+        \     \"name\": \"20241106160411\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106162301\",\n
+        \     \"name\": \"20241106162301\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106162318\",\n
+        \     \"name\": \"20241106162318\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106162542\",\n
+        \     \"name\": \"20241106162542\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106163305\",\n
+        \     \"name\": \"20241106163305\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106163317\",\n
+        \     \"name\": \"20241106163317\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106163558\",\n
+        \     \"name\": \"20241106163558\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164114\",\n
+        \     \"name\": \"20241106164114\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164308\",\n
+        \     \"name\": \"20241106164308\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164501\",\n
+        \     \"name\": \"20241106164501\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164633\",\n
+        \     \"name\": \"20241106164633\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106164802\",\n
+        \     \"name\": \"20241106164802\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106165011\",\n
+        \     \"name\": \"20241106165011\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106165807\",\n
+        \     \"name\": \"20241106165807\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106170704\",\n
+        \     \"name\": \"20241106170704\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106171829\",\n
+        \     \"name\": \"20241106171829\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106172107\",\n
+        \     \"name\": \"20241106172107\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106172330\",\n
+        \     \"name\": \"20241106172330\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106172501\",\n
+        \     \"name\": \"20241106172501\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106173413\",\n
+        \     \"name\": \"20241106173413\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106173552\",\n
+        \     \"name\": \"20241106173552\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106173833\",\n
+        \     \"name\": \"20241106173833\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106174913\",\n
+        \     \"name\": \"20241106174913\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106175449\",\n
+        \     \"name\": \"20241106175449\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106175504\",\n
+        \     \"name\": \"20241106175504\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106175755\",\n
+        \     \"name\": \"20241106175755\",\n      \"expires\": \"2024-12-07T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106180249\",\n
+        \     \"name\": \"20241106180249\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106180405\",\n
+        \     \"name\": \"20241106180405\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181136\",\n
+        \     \"name\": \"20241106181136\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181526\",\n
+        \     \"name\": \"20241106181526\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181743\",\n
+        \     \"name\": \"20241106181743\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181806\",\n
+        \     \"name\": \"20241106181806\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106181907\",\n
+        \     \"name\": \"20241106181907\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106182524\",\n
+        \     \"name\": \"20241106182524\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106182915\",\n
+        \     \"name\": \"20241106182915\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106183128\",\n
+        \     \"name\": \"20241106183128\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106183922\",\n
+        \     \"name\": \"20241106183922\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106184644\",\n
+        \     \"name\": \"20241106184644\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106185027\",\n
+        \     \"name\": \"20241106185027\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106185409\",\n
+        \     \"name\": \"20241106185409\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106185908\",\n
+        \     \"name\": \"20241106185908\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106190442\",\n
+        \     \"name\": \"20241106190442\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106191535\",\n
+        \     \"name\": \"20241106191535\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106191659\",\n
+        \     \"name\": \"20241106191659\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106191841\",\n
+        \     \"name\": \"20241106191841\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192133\",\n
+        \     \"name\": \"20241106192133\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192147\",\n
+        \     \"name\": \"20241106192147\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192255\",\n
+        \     \"name\": \"20241106192255\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192309\",\n
+        \     \"name\": \"20241106192309\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106192414\",\n
+        \     \"name\": \"20241106192414\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106195928\",\n
+        \     \"name\": \"20241106195928\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.20241106200259\",\n
+        \     \"name\": \"20241106200259\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.try.pushdate.2024.11.06.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2024-12-06T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:14 GMT
+      ETag:
+      - W/"6545-vEON7ya/FX3ZGxAwy7nHGLxeJeE"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 83d734cc-2517-4ee7-964d-022332894497
+      x-for-trace-id:
+      - 46603224bdd37fe7be8aca3af820e894
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.shippable.2024.11.06.latest.firefox.linux64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.try.shippable.2024.11.06.latest.firefox.linux64-opt\",\n
+        \ \"taskId\": \"RJC5QkvXTk6DGu_QEsMB8w\",\n  \"rank\": 1730923379,\n  \"data\":
+        {},\n  \"expires\": \"2024-12-04T20:08:29.578Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '196'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:14 GMT
+      ETag:
+      - W/"c4-1ZT0TxcR5RUGMgl6GhZSRoHPFpI"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 9093829d-ed79-43ad-ab6d-71fec2870cb6
+      x-for-trace-id:
+      - 26e4230f0eb842de6bc8e49cff0a62ad
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/RJC5QkvXTk6DGu_QEsMB8w/artifacts
+  response:
+    body:
+      string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/buildhub.json\",\n      \"expires\": \"2024-12-04T20:08:29.578Z\",\n
+        \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/config.status\",\n      \"expires\":
+        \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.awsy.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.common.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.condprof.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.cppunittest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.fuzztest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jittest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsreftest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mochitest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.perftests.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.raptor.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.reftest.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.talos.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.tar.bz2\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/x-bzip2\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.updater-dep.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.web-platform.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpcshell.tests.tar.gz\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/sccache.log\",\n
+        \     \"expires\": \"2024-11-13T20:08:29.578Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/sccache-stats.json\",\n
+        \     \"expires\": \"2024-11-13T20:08:29.578Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/target.crashreporter-symbols-full.tar.zst\",\n
+        \     \"expires\": \"2024-11-13T20:08:29.578Z\",\n      \"contentType\": \"application/binary\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
+        \     \"expires\": \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
+        \"public/logs/live.log\",\n      \"expires\": \"2024-12-04T20:08:29.578Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
+        \"2024-12-04T20:08:29.578Z\",\n      \"contentType\": \"application/json\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:14 GMT
+      ETag:
+      - W/"1a9e-ZuPhQyfb1b6m/xoBxPTMfWfQYB8"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - acb3254c-4ea9-458b-bb7d-c37a89226105
+      x-for-trace-id:
+      - e1f5e678359f36758549c3b5b6f9b0a2
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/RJC5QkvXTk6DGu_QEsMB8w/artifacts/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/RJC5QkvXTk6DGu_QEsMB8w/0/public/build/target.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '131'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:14 GMT
+      ETag:
+      - W/"83-QZrT8LlWoNtdI5SzpYTB/57HA6Q"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/RJC5QkvXTk6DGu_QEsMB8w/0/public/build/target.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 3d0e70ea-3d07-4841-8302-c98e57c538d7
+      x-for-trace-id:
+      - 6068c39c9d4db80bc300a37359ccd22a
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/RJC5QkvXTk6DGu_QEsMB8w/0/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"as\": \"\",\n  \"buildid\": \"20241106200259\",\n  \"cc\": \"\",\n
+        \ \"cxx\": \"\",\n  \"host\": \"x86_64-pc-linux-gnu\",\n  \"moz_app_id\":
+        \"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\",\n  \"moz_app_maxversion\": \"134.0a1\",\n
+        \ \"moz_app_name\": \"firefox\",\n  \"moz_app_vendor\": \"Mozilla\",\n  \"moz_app_version\":
+        \"134.0a1\",\n  \"moz_pkg_platform\": \"linux-x86_64\",\n  \"moz_source_repo\":
+        \"https://hg.mozilla.org/try\",\n  \"moz_source_stamp\": \"2855593bdf5b654f7f2f784e1da6ba03daac21f5\",\n
+        \ \"moz_update_channel\": \"nightly-try\",\n  \"target\": \"x86_64-pc-linux-gnu\"\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '292'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 06 Nov 2024 20:17:15 GMT
+      ETag:
+      - '"d3cccf9ca2d98476b9180bcdceb1ec6d"'
+      Last-Modified:
+      - Wed, 06 Nov 2024 20:13:59 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - AHmUCY1syO_BK0h8h5ETWM6w4iZbd51fcPFhQryNRsi6gcH3YWl5DIg2HfFX5z3sjb5f0K4yLIqxmJAsNw
+      x-cache-status:
+      - miss
+      x-goog-generation:
+      - '1730924039601327'
+      x-goog-hash:
+      - crc32c=k4korw==
+      - md5=08zPnKLZhHa5GAvNzrHsbQ==
+      x-goog-metageneration:
+      - '1'
+      x-goog-storage-class:
+      - STANDARD
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '292'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.try.revision.2855593bdf5b654f7f2f784e1da6ba03daac21f5.firefox.linux64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.try.revision.2855593bdf5b654f7f2f784e1da6ba03daac21f5.firefox.linux64-opt\",\n
+        \ \"taskId\": \"cxSDgVAYSHm3IVyO2h65_A\",\n  \"rank\": 1730923379,\n  \"data\":
+        {},\n  \"expires\": \"2024-12-04T20:08:29.560Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '218'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 06 Nov 2024 20:17:15 GMT
+      ETag:
+      - W/"da-jT07pxWm51qdrCMaIbxQ8cQUiZU"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - b76f8ffe-0a6b-4c11-aa0d-36f269fa116a
+      x-for-trace-id:
+      - 401cff7d2189a8ff30ac1c112a68ae8c
+    status:
+      code: 200
+      message: OK
+version: 1

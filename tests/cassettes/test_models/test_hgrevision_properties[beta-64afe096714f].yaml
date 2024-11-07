@@ -29,13 +29,13 @@ interactions:
 
         "bookmarks": [],
 
-        "tags": ["tip"],
+        "tags": [],
 
         "user": "Jon Coppeard \u003cjcoppeard@mozilla.com\u003e",
 
         "parents": ["3c6025cec16a9d513529a3d9c67863e6efd70250"],
 
-        "children": [],
+        "children": ["327e15fdb8f4cdaf67b7ce9a19672dfde3d1de46"],
 
         "files": [{
 
@@ -335,15 +335,17 @@ interactions:
       - no-cache
       Connection:
       - Keep-Alive
+      Content-Encoding:
+      - gzip
       Content-Security-Policy:
       - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
-        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-Dbqf4IrFTOypVmZLmb8CYA'';
+        img-src ''self''; script-src https://hg.mozilla.org/static/ ''nonce-k-axzkMgQIuvCkSRAS3f_Q'';
         style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests; frame-ancestors
         https:'
       Content-Type:
       - application/json
       Date:
-      - Tue, 05 Nov 2024 17:35:17 GMT
+      - Wed, 06 Nov 2024 20:53:54 GMT
       Server:
       - Apache
       Strict-Transport-Security:
@@ -356,8 +358,6 @@ interactions:
       - 'not cacheable; response specified "Cache-Control: no-cache"'
       X-Content-Type-Options:
       - nosniff
-      content-length:
-      - '3029'
     status:
       code: 200
       message: Script output follows
