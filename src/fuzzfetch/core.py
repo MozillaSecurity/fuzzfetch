@@ -151,10 +151,10 @@ class Fetcher:
                 # If start date is outside the range of the newest/oldest available
                 # build, adjust it
                 if asc:
-                    start = min(max(requested, now - timedelta(days=364)), now)
+                    start = min(max(requested, now - timedelta(days=365)), now)
                     end = now
                 else:
-                    end = now - timedelta(days=364)
+                    end = now - timedelta(days=365)
                     start = max(min(requested, now), end)
                 LOG.debug(
                     "searching for nearest build to %s from %s -> %s",
