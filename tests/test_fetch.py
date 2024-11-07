@@ -236,8 +236,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
     )
 
     if BuildTask.RE_DATE.match(expected):
-        build_date = datetime.strftime(build.datetime, "%Y-%m-%d")
-        assert build_date == expected
+        assert datetime.strftime(build.datetime, "%Y-%m-%d") == expected
     else:
         assert BuildTask.RE_REV.match(expected)
         assert build.changeset == expected
