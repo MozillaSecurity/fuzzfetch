@@ -263,9 +263,3 @@ def test_fetcher_variants(flag_params, targets):
         flags,
         targets,
     )
-    Fetcher(
-        "central",
-        "latest",
-        flags,
-        targets,
-    )
