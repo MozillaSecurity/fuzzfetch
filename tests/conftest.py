@@ -27,7 +27,6 @@ def fetcher_args():
 def vcr_config():
     """Configuration settings for pytest-recording."""
     return {
-        "decode_compressed_response": False,
-        "record_mode": "once",
+        "decode_compressed_response": True,
         "allow_playback_repeats": True,
     }
