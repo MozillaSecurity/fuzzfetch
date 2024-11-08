@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Optional
 
 from .models import BuildSearchOrder, Platform
-from .utils import is_namespace
+from .utils import extract_branch_from_ns, is_namespace
 
 LOG = getLogger("fuzzfetch")
 
@@ -101,8 +101,8 @@ class FetcherArgs:
                 "try",
                 "autoland",
             ],
-            default="central",
-            help="Specify the branch to download from (default: mozilla-central)",
+            help="Specify the branch to download from "
+            "(default: mozilla-central unless namespace build is supplied)",
         )
 
         # Build Options
@@ -160,9 +160,13 @@ class FetcherArgs:
             super().sanity_check(args)  # type: ignore  # pragma: no cover
 
         if is_namespace(args.build):
-            # Explicitly specifying a branch has no effect when namespace is used
-            if args.branch != "central":
-                self.parser.error("Cannot specify --branch and --build namespace")
+            branch = extract_branch_from_ns(args.build)
+            if args.branch is None:
+                args.branch = branch
+            elif args.branch != branch:
+                self.parser.error(
+                    f"Branch ({args.branch}) doesn't match namespace ({args.build})"
+                )
 
             # All build flags cannot be used with namespace
             conflicting_args = []
@@ -173,6 +177,9 @@ class FetcherArgs:
             for arg in conflicting_args:
                 if getattr(args, arg):
                     self.parser.error(f"Cannot specify --build namespace and --{arg}")
+
+        if args.branch is None:
+            args.branch = "central"
 
         if "firefox" in args.target and args.fuzzilli:
             self.parser.error("Cannot specify --target firefox and --fuzzilli")
