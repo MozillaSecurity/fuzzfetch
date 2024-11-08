@@ -52,6 +52,10 @@ def is_namespace(build: str) -> bool:
 
 
 def _create_utc_datetime(datetime_string: str) -> datetime:
-    """Convert build_string to time-zone aware datetime object"""
+    """Convert build_string to time-zone aware datetime object
+
+    Args:
+        datetime_string: Datetime string.
+    """
     dt_obj = datetime.strptime(datetime_string, "%Y%m%d%H%M%S")
     return timezone("UTC").localize(dt_obj)
