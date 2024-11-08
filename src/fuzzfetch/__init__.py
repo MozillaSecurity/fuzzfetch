@@ -10,5 +10,6 @@ from .core import Fetcher, __version__  # noqa
 from .download import download_url, get_url, iec, si  # noqa
 from .errors import FetcherException  # noqa
 from .models import BuildFlags, BuildSearchOrder, BuildTask, Platform  # noqa
+from .utils import is_date, is_namespace, is_rev  # noqa
 
 __author__ = "Jesse Schwartzentruber, Jason Kratzer"
