@@ -139,11 +139,11 @@ class BuildTask:
             break
         else:
             raise FetcherException(
-                f"Unable to find usable archive for {self._debug_str(build)}"
+                f"Unable to find usable archive for {BuildTask._debug_str(build)}"
             )
 
-    @classmethod
-    def _debug_str(cls, build: str) -> str:
+    @staticmethod
+    def _debug_str(build: str) -> str:
         if is_date(build):
             return f"pushdate {build}"
         if is_rev(build):
