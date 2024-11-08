@@ -25,6 +25,7 @@ from .extract import LBZIP2_PATH, extract_dmg, extract_tar, extract_zip
 from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platform
 from .path import PathArg
 from .path import rmtree as junction_rmtree
+from .utils import _create_utc_datetime, is_date, is_namespace, is_rev
 
 try:
     __version__ = version("fuzzfetch")
@@ -34,12 +35,6 @@ except PackageNotFoundError:
 
 LOG = logging.getLogger("fuzzfetch")
 BUG_URL = "https://github.com/MozillaSecurity/fuzzfetch/issues/"
-
-
-def _create_utc_datetime(datetime_string: str) -> datetime:
-    """Convert build_string to time-zone aware datetime object"""
-    dt_obj = datetime.strptime(datetime_string, "%Y%m%d%H%M%S")
-    return timezone("UTC").localize(dt_obj)
 
 
 class Fetcher:
@@ -81,12 +76,7 @@ class Fetcher:
         self._task = None
 
         if not isinstance(build, BuildTask):
-            # If build doesn't match the following, assume it's a namespace
-            if (
-                not BuildTask.RE_DATE.match(build)
-                and not BuildTask.RE_REV.match(build)
-                and build != "latest"
-            ):
+            if is_namespace(build):
                 # platform in namespace may not match the current platform
                 self._platform = Platform.from_platform_guess(build)
 
@@ -130,10 +120,10 @@ class Fetcher:
                 asc = nearest == BuildSearchOrder.ASC
                 if "latest" in build:
                     requested = now
-                elif BuildTask.RE_DATE.match(build) is not None:
+                elif is_date(build):
                     date = datetime.strptime(build, "%Y-%m-%d")
                     requested = timezone("UTC").localize(date)
-                elif BuildTask.RE_REV.match(build) is not None:
+                elif is_rev(build):
                     requested = HgRevision(build, branch).pushdate
                 else:
                     # If no match, assume it's a TaskCluster namespace
@@ -696,7 +686,7 @@ class Fetcher:
 
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
-        if not parser.is_build_ns(args.build):
+        if not is_namespace(args.build):
             if args.branch is None:
                 args.branch = "central"
             elif args.branch.startswith("esr"):

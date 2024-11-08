@@ -14,10 +14,11 @@ from freezegun import freeze_time  # pylint: disable=import-error
 from fuzzfetch import (
     BuildFlags,
     BuildSearchOrder,
-    BuildTask,
     Fetcher,
     FetcherException,
     Platform,
+    is_date,
+    is_rev,
 )
 
 LOG = logging.getLogger("fuzzfetch_test")
@@ -188,7 +189,7 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
     """Attempt to retrieve a build near the supplied build_id."""
     build_str = requested
     if is_namespace:
-        if BuildTask.RE_DATE.match(requested):
+        if is_date(requested):
             date = requested.replace("-", ".")
             build_str = f"gecko.v2.mozilla-central.pushdate.{date}.firefox.linux64-opt"
         else:
@@ -208,10 +209,10 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
         nearest=direction,
     )
 
-    if BuildTask.RE_DATE.match(expected):
+    if is_date(expected):
         assert datetime.strftime(build.datetime, "%Y-%m-%d") == expected
     else:
-        assert BuildTask.RE_REV.match(expected)
+        assert is_rev(expected)
         assert build.changeset == expected
 
 

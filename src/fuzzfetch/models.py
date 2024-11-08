@@ -5,7 +5,6 @@
 
 import itertools
 import platform as std_platform
-import re
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, fields
 from datetime import datetime
@@ -18,6 +17,7 @@ from requests import RequestException
 
 from .download import HTTP_SESSION, get_url
 from .errors import FetcherException
+from .utils import is_date, is_namespace, is_rev
 
 LOG = getLogger("fuzzfetch")
 
@@ -103,8 +103,6 @@ class BuildTask:
     """Class for storing TaskCluster build information"""
 
     TASKCLUSTER_API = "https://firefox-ci-tc.services.mozilla.com/api/%s/v1"
-    RE_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-    RE_REV = re.compile(r"^([0-9A-F]{12}|[0-9A-F]{40})$", re.IGNORECASE)
 
     def __init__(
         self,
@@ -146,9 +144,9 @@ class BuildTask:
 
     @classmethod
     def _debug_str(cls, build: str) -> str:
-        if cls.RE_DATE.match(build):
+        if is_date(build):
             return f"pushdate {build}"
-        if cls.RE_REV.match(build):
+        if is_rev(build):
             return f"revision {build}"
         return build
 
@@ -167,8 +165,7 @@ class BuildTask:
             platform = Platform()
         target_platform = platform.gecko_platform
 
-        is_namespace = False
-        if cls.RE_DATE.match(build):
+        if is_date(build):
             flag_str = flags.build_string()
             task_template_paths: Iterable[tuple[str, str]] = tuple(
                 (template, path + flag_str)
@@ -177,7 +174,7 @@ class BuildTask:
                 )
             )
 
-        elif cls.RE_REV.match(build):
+        elif is_rev(build):
             # If a short hash was supplied, resolve it to a long one.
             if len(build) == 12:
                 build = HgRevision(build, branch).hash
@@ -219,7 +216,6 @@ class BuildTask:
         else:
             # try to use build argument directly as a namespace
             task_path = f"/task/{build}"
-            is_namespace = True
             task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
         for template_path, try_wo_opt in itertools.product(
@@ -228,7 +224,7 @@ class BuildTask:
             template, path = template_path
 
             if try_wo_opt:
-                if "-opt" not in path or is_namespace:
+                if "-opt" not in path or is_namespace(build):
                     continue
                 path = path.replace("-opt", "")
 

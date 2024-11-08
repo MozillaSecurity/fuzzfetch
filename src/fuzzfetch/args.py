@@ -5,7 +5,6 @@
 
 import itertools
 import platform as std_platform
-import re
 from argparse import ArgumentParser, Namespace
 from collections.abc import Sequence
 from logging import getLogger
@@ -13,6 +12,7 @@ from pathlib import Path
 from typing import Optional
 
 from .models import BuildSearchOrder, Platform
+from .utils import is_namespace
 
 LOG = getLogger("fuzzfetch")
 
@@ -148,20 +148,6 @@ class FetcherArgs:
             help="Search from the specified build in descending order",
         )
 
-    @staticmethod
-    def is_build_ns(build_id: str) -> bool:
-        """Check if supplied build_id is a namespace
-
-        Arguments:
-            build_id: Build identifier to check
-        """
-        return (
-            re.match(
-                r"(\d{4}-\d{2}-\d{2}|[0-9A-Fa-f]{12}|[0-9A-Fa-f]{40}|latest)$", build_id
-            )
-            is None
-        )
-
     def sanity_check(self, args: Namespace) -> None:
         """Perform parser checks
 
@@ -173,7 +159,7 @@ class FetcherArgs:
             # pylint: disable=no-member
             super().sanity_check(args)  # type: ignore  # pragma: no cover
 
-        if self.is_build_ns(args.build):
+        if is_namespace(args.build):
             # Explicitly specifying a branch has no effect when namespace is used
             if args.branch != "central":
                 self.parser.error("Cannot specify --branch and --build namespace")
@@ -202,14 +188,13 @@ class FetcherArgs:
         """
         args = self.parser.parse_args(argv)
 
-        if not args.target and (
-            args.searchfox
-            or (self.is_build_ns(args.build) and "-searchfox" in args.build)
-        ):
-            args.target.append("searchfox")
-
         if not args.target:
-            args.target.extend(self.DEFAULT_TARGETS)
+            if args.searchfox or (
+                is_namespace(args.build) and "-searchfox" in args.build
+            ):
+                args.target.append("searchfox")
+            else:
+                args.target.extend(self.DEFAULT_TARGETS)
 
         self.sanity_check(args)
         return args
