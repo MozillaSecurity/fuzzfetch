@@ -7,6 +7,22 @@ from datetime import datetime
 
 from pytz import timezone
 
+from .errors import FetcherException
+
+
+def extract_branch_from_ns(build: str) -> str:
+    """Identify branch from namespace build string.
+
+    Args:
+        build: Build string.
+    """
+    branch = re.search(r"\.(autoland|try|mozilla-(?P<branch>[a-z]+[0-9]*))\.", build)
+
+    if branch:
+        return branch.group("branch")
+
+    raise FetcherException("Unable to identify branch from namespace")
+
 
 def is_date(build: str) -> bool:
     """Determine if the supplied build string is a date.

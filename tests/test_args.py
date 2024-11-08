@@ -31,13 +31,13 @@ def test_build_options(fetcher_args):
 
 def test_branch_default(fetcher_args):
     """Test default branch is 'central' if --branch not specified."""
-    args = fetcher_args.parse_args([])
+    args = fetcher_args.parse_args(["--build", "2024-01-01"])
     assert args.branch == "central"
 
 
 @pytest.mark.parametrize("conflicts", [["--branch", "release"], ["--asan"]])
 def test_invalid_namespace_conflict(fetcher_args, conflicts):
-    """Test error raised if both --build and --branch provided."""
+    """Test error raised if branch or flag specified with namespace."""
     with pytest.raises(SystemExit):
         args = fetcher_args.parse_args(
             [
