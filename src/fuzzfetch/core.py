@@ -80,22 +80,6 @@ class Fetcher:
                 # platform in namespace may not match the current platform
                 self._platform = Platform.from_platform_guess(build)
 
-                # If branch wasn't set, try and retrieve it from the build string
-                if self._branch is None:
-                    branch = re.search(
-                        r"\.(autoland|try|mozilla-(?P<branch>[a-z]+[0-9]*))\.", build
-                    )
-                    self._branch = branch.group("branch") if branch is not None else "?"
-                    if self._branch is None:
-                        self._branch = branch.group(1)
-
-                # '?' is special case used for unknown build types
-                if self._branch != "?" and self._branch not in build:
-                    raise FetcherException(
-                        "'build' and 'branch' arguments do not match. "
-                        f"(build={build}, branch={self._branch})"
-                    )
-
                 # Ensure flags match the build string
                 self._flags.update_from_string(build)
 
