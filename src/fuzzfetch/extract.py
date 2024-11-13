@@ -105,6 +105,7 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
             tar_fn = tmp_fn
 
         if TAR_PATH:
+            Path(path).mkdir(exist_ok=True)
             cmd = [TAR_PATH, r"--transform=s,^firefox/,,", "-C", str(path)]
             if mode:
                 cmd.append(
