@@ -344,7 +344,15 @@ class Fetcher:
             have_exec = True
             targets_remaining.remove("firefox")
             if self._platform.system == "Linux":
-                resolve_url(self.artifact_url("tar.bz2"))
+                for ext in ["xz", "bz2"]:
+                    url = self.artifact_url(f"tar.{ext}")
+                    try:
+                        resolve_url(url)
+                        break
+                    except FetcherException:
+                        LOG.warning("Failed to resolve %s", url)
+                else:
+                    raise FetcherException("Failed to resolve linux artifacts!")
             elif self._platform.system == "Darwin":
                 resolve_url(self.artifact_url("dmg"))
             elif self._platform.system == "Windows":
@@ -424,7 +432,14 @@ class Fetcher:
             targets_remaining.remove("firefox")
             have_exec = True
             if self._platform.system == "Linux":
-                self.extract_tar(self.artifact_url("tar.bz2"), path)
+                for ext in ["xz", "bz2"]:
+                    url = self.artifact_url(f"tar.{ext}")
+                    try:
+                        resolve_url(url)
+                        break
+                    except FetcherException:
+                        pass
+                self.extract_tar(url, path)
             elif self._platform.system == "Darwin":
                 self.extract_dmg(path)
             elif self._platform.system == "Windows":
