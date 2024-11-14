@@ -344,7 +344,7 @@ class Fetcher:
             have_exec = True
             targets_remaining.remove("firefox")
             if self._platform.system == "Linux":
-                for ext in ["xz", "bz2"]:
+                for ext in ("xz", "bz2"):
                     url = self.artifact_url(f"tar.{ext}")
                     try:
                         resolve_url(url)
@@ -432,7 +432,7 @@ class Fetcher:
             targets_remaining.remove("firefox")
             have_exec = True
             if self._platform.system == "Linux":
-                for ext in ["xz", "bz2"]:
+                for ext in ("xz", "bz2"):
                     url = self.artifact_url(f"tar.{ext}")
                     try:
                         resolve_url(url)
