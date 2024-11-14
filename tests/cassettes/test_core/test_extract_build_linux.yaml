@@ -15,8 +15,8 @@ interactions:
   response:
     body:
       string: "{\n  \"namespace\": \"gecko.v2.mozilla-central.latest.firefox.linux64-fuzzing-debug\",\n
-        \ \"taskId\": \"evNvuH2wSNSP4Ph5UXtgoQ\",\n  \"rank\": 1730997975,\n  \"data\":
-        {},\n  \"expires\": \"2025-11-07T16:49:52.389Z\"\n}"
+        \ \"taskId\": \"OQj86H5_Rc6vAJtzN5FPsQ\",\n  \"rank\": 1731578240,\n  \"data\":
+        {},\n  \"expires\": \"2025-11-14T10:04:29.879Z\"\n}"
     headers:
       Access-Control-Allow-Headers:
       - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
@@ -39,9 +39,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 19:51:46 GMT
+      - Thu, 14 Nov 2024 20:22:15 GMT
       ETag:
-      - W/"c5-ESnfdwqG5b39VeyRfDrTvaHiNpo"
+      - W/"c5-+9wFJlAOJAkbw0w1sJVEAHTnKNM"
       Server:
       - openresty
       Strict-Transport-Security:
@@ -51,9 +51,9 @@ interactions:
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - 36a424fc-eca2-4214-8e0b-69161bb5db64
+      - d6ee1b5a-f936-47bf-bcbe-c32491bf9216
       x-for-trace-id:
-      - 239463518b6b49bc642a6e0437b2ce6d
+      - 6a09d472b3192d8ca940c9011d0ed756
     status:
       code: 200
       message: OK
@@ -69,95 +69,95 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/evNvuH2wSNSP4Ph5UXtgoQ/artifacts
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/OQj86H5_Rc6vAJtzN5FPsQ/artifacts
   response:
     body:
       string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
-        \"public/build/buildhub.json\",\n      \"expires\": \"2025-11-07T16:49:52.389Z\",\n
+        \"public/build/buildhub.json\",\n      \"expires\": \"2025-11-14T10:04:29.879Z\",\n
         \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
         \"s3\",\n      \"name\": \"public/build/config.status\",\n      \"expires\":
-        \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mar\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mbsdiff\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/zip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/zip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.awsy.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.common.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.condprof.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.cppunittest.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.fuzztest.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.generated-files.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.gtest.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jittest.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsreftest.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/zip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/zip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.langpack.xpi\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/x-xpinstall\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/x-xpinstall\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mochitest.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.perftests.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.raptor.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.reftest.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.talos.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.tar.bz2\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/x-bzip2\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/x-bzip2\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.updater-dep.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.web-platform.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpcshell.tests.tar.gz\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/gzip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/gzip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/zip\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/zip\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/octet-stream\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/sccache.log\",\n
-        \     \"expires\": \"2024-11-14T16:49:52.389Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2024-11-21T10:04:29.879Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/cidata/sccache-stats.json\",\n
-        \     \"expires\": \"2024-11-14T16:49:52.389Z\",\n      \"contentType\": \"application/json\"\n
+        \     \"expires\": \"2024-11-21T10:04:29.879Z\",\n      \"contentType\": \"application/json\"\n
         \   },\n    {\n      \"storageType\": \"error\",\n      \"name\": \"public/cidata/target.crashreporter-symbols-full.tar.zst\",\n
-        \     \"expires\": \"2024-11-14T16:49:52.389Z\",\n      \"contentType\": \"application/binary\"\n
+        \     \"expires\": \"2024-11-21T10:04:29.879Z\",\n      \"contentType\": \"application/binary\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"text/plain\"\n
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"text/plain\"\n
         \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
-        \     \"expires\": \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"text/plain;
+        \     \"expires\": \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"text/plain;
         charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
-        \"public/logs/live.log\",\n      \"expires\": \"2025-11-07T16:49:52.389Z\",\n
+        \"public/logs/live.log\",\n      \"expires\": \"2025-11-14T10:04:29.879Z\",\n
         \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
         \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
-        \"2025-11-07T16:49:52.389Z\",\n      \"contentType\": \"application/json\"\n
+        \"2025-11-14T10:04:29.879Z\",\n      \"contentType\": \"application/json\"\n
         \   }\n  ]\n}"
     headers:
       Access-Control-Allow-Headers:
@@ -179,9 +179,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 19:51:46 GMT
+      - Thu, 14 Nov 2024 20:22:16 GMT
       ETag:
-      - W/"1d5b-GEA/4BAnj92hiO533GhxQFRvoGI"
+      - W/"1d5b-BCZAek46nN9c7suVK+lwkVArKQ8"
       Server:
       - openresty
       Strict-Transport-Security:
@@ -197,9 +197,9 @@ interactions:
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - 040db2a4-1480-49a8-831a-cfea84b9fceb
+      - d065c7cc-32a3-4432-9909-5ce768bbc8ef
       x-for-trace-id:
-      - 37b708946260189179fa182c0a5a2e2f
+      - a0c49d527bb939ab80d8972d386ce3c1
     status:
       code: 200
       message: OK
@@ -215,10 +215,10 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/evNvuH2wSNSP4Ph5UXtgoQ/artifacts/public/build/target.json
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/OQj86H5_Rc6vAJtzN5FPsQ/artifacts/public/build/target.json
   response:
     body:
-      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/evNvuH2wSNSP4Ph5UXtgoQ/0/public/build/target.json\"\n}"
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/OQj86H5_Rc6vAJtzN5FPsQ/0/public/build/target.json\"\n}"
     headers:
       Access-Control-Allow-Headers:
       - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
@@ -241,9 +241,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 19:51:46 GMT
+      - Thu, 14 Nov 2024 20:22:16 GMT
       ETag:
-      - W/"83-jLu1pZZHmw6jNbqtQFAZ28CJz4U"
+      - W/"83-YgfzQShkDT3DRSpyPsmUlLk4WbY"
       Server:
       - openresty
       Strict-Transport-Security:
@@ -251,13 +251,13 @@ interactions:
       Via:
       - 1.1 google
       location:
-      - https://firefoxci.taskcluster-artifacts.net/evNvuH2wSNSP4Ph5UXtgoQ/0/public/build/target.json
+      - https://firefoxci.taskcluster-artifacts.net/OQj86H5_Rc6vAJtzN5FPsQ/0/public/build/target.json
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - bc756e59-a553-4ec7-9b29-1124927b0451
+      - e740114d-ba8d-462b-8cb4-cd773dc5152b
       x-for-trace-id:
-      - 101d45e3235873f1944b84e7bbeb1ef9
+      - cb23f18c24bfdc862e2211783310afc5
       x-taskcluster-artifact-storage-type:
       - s3
     status:
@@ -275,12 +275,12 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefoxci.taskcluster-artifacts.net/evNvuH2wSNSP4Ph5UXtgoQ/0/public/build/target.json
+    uri: https://firefoxci.taskcluster-artifacts.net/OQj86H5_Rc6vAJtzN5FPsQ/0/public/build/target.json
   response:
     body:
       string: "{\n  \"as\": \"/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang
         --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu -std=gnu99\",\n
-        \ \"buildid\": \"20241107164615\",\n  \"cc\": \"/builds/worker/fetches/sccache/sccache
+        \ \"buildid\": \"20241114095720\",\n  \"cc\": \"/builds/worker/fetches/sccache/sccache
         /builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu
         -std=gnu99\",\n  \"cxx\": \"/builds/worker/fetches/sccache/sccache /builds/worker/fetches/clang/bin/clang++
         --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu\",\n  \"host\":
@@ -288,7 +288,7 @@ interactions:
         \ \"moz_app_maxversion\": \"134.0a1\",\n  \"moz_app_name\": \"firefox\",\n
         \ \"moz_app_vendor\": \"Mozilla\",\n  \"moz_app_version\": \"134.0a1\",\n
         \ \"moz_pkg_platform\": \"linux-x86_64-fuzzing\",\n  \"moz_source_repo\":
-        \"https://hg.mozilla.org/mozilla-central\",\n  \"moz_source_stamp\": \"b1059d322d9fb03740953ffab81dae731d94e138\",\n
+        \"https://hg.mozilla.org/mozilla-central\",\n  \"moz_source_stamp\": \"7d29edd4cb622dad685c4047a63441e3e14b0c8b\",\n
         \ \"moz_update_channel\": \"default\",\n  \"target\": \"x86_64-pc-linux-gnu\"\n}\n"
     headers:
       Accept-Ranges:
@@ -297,8 +297,6 @@ interactions:
       - '*'
       Access-Control-Expose-Headers:
       - '*'
-      Age:
-      - '3884'
       Alt-Svc:
       - clear
       Cache-Control:
@@ -306,26 +304,26 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 07 Nov 2024 18:47:02 GMT
+      - Thu, 14 Nov 2024 20:22:17 GMT
       ETag:
-      - '"96add87201391a5f45e70693c904a3d9"'
+      - '"f881b4910c41f1a8e7219a894e981108"'
       Last-Modified:
-      - Thu, 07 Nov 2024 17:16:03 GMT
+      - Thu, 14 Nov 2024 10:31:53 GMT
       Server:
       - UploadServer
       Vary:
       - Accept-Encoding
       X-GUploader-UploadID:
-      - AHmUCY0Z4MCpd3CjLRMd9KVXuK8L8kohiT6yGSctO7UkQrRQM33T6giG5-CFzNsEuSXOe6MivwYHI_Cvqw
+      - AFiumC5U5i6d93LIeo6Sstds0nCP0omrlWOV9dfVqLHm8_AkWqzx2Zrblu0IpWONMGChg2lCQDffiazBYg
       content-length:
       - '963'
       x-cache-status:
-      - hit
+      - miss
       x-goog-generation:
-      - '1730999763658653'
+      - '1731580313929509'
       x-goog-hash:
-      - crc32c=+eHqIQ==
-      - md5=lq3YcgE5Gl9F5waTyQSj2Q==
+      - crc32c=+ddD4A==
+      - md5=+IG0kQxB8ajnIZqJTpgRCA==
       x-goog-metageneration:
       - '1'
       x-goog-storage-class:
@@ -333,7 +331,7 @@ interactions:
       x-goog-stored-content-encoding:
       - gzip
       x-goog-stored-content-length:
-      - '370'
+      - '368'
     status:
       code: 200
       message: OK
@@ -348,11 +346,127 @@ interactions:
       - keep-alive
       User-Agent:
       - python-requests/2.32.3
-    method: GET
-    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/evNvuH2wSNSP4Ph5UXtgoQ/artifacts/public/build/target.mozinfo.json
+    method: HEAD
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/OQj86H5_Rc6vAJtzN5FPsQ/artifacts/public/build/target.tar.xz
   response:
     body:
-      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/evNvuH2wSNSP4Ph5UXtgoQ/0/public/build/target.mozinfo.json\"\n}"
+      string: ''
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '466'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 14 Nov 2024 20:22:17 GMT
+      ETag:
+      - W/"1d2-i39nzvE0zk5hIOQRsQGvodieQqg"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 76f3c3ba-5f2c-43a8-a610-5aa2e06564e1
+      x-for-trace-id:
+      - 49404202292305b0d34ae55e23c5a54d
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: HEAD
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/OQj86H5_Rc6vAJtzN5FPsQ/artifacts/public/build/target.tar.bz2
+  response:
+    body:
+      string: ''
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '134'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 14 Nov 2024 20:22:17 GMT
+      ETag:
+      - W/"86-qaV8+ca2IIqpESeGHKPJoWALHx8"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/OQj86H5_Rc6vAJtzN5FPsQ/0/public/build/target.tar.bz2
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 5878b15a-7aa7-4c63-aa26-3c387ea8015d
+      x-for-trace-id:
+      - b01a69ca63cfa92c5f15e37eecf5fd00
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/OQj86H5_Rc6vAJtzN5FPsQ/artifacts/public/build/target.mozinfo.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/OQj86H5_Rc6vAJtzN5FPsQ/0/public/build/target.mozinfo.json\"\n}"
     headers:
       Access-Control-Allow-Headers:
       - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
@@ -375,9 +489,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 19:51:46 GMT
+      - Thu, 14 Nov 2024 20:22:18 GMT
       ETag:
-      - W/"8b-1hHfgyxJFXjVe7pt0eBoyfSQx2o"
+      - W/"8b-1cntwUu49j1EdLD6myREorIYB7I"
       Server:
       - openresty
       Strict-Transport-Security:
@@ -385,13 +499,13 @@ interactions:
       Via:
       - 1.1 google
       location:
-      - https://firefoxci.taskcluster-artifacts.net/evNvuH2wSNSP4Ph5UXtgoQ/0/public/build/target.mozinfo.json
+      - https://firefoxci.taskcluster-artifacts.net/OQj86H5_Rc6vAJtzN5FPsQ/0/public/build/target.mozinfo.json
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - 2273f261-f183-4997-b533-2787aff403d7
+      - b763b1db-9889-4b73-8439-a445c05891cc
       x-for-trace-id:
-      - 62419af29e34d30667f4463b68de9d7a
+      - 465bd3eb9481035006f5cdf7b3f4abf2
       x-taskcluster-artifact-storage-type:
       - s3
     status:
@@ -409,7 +523,7 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefoxci.taskcluster-artifacts.net/evNvuH2wSNSP4Ph5UXtgoQ/0/public/build/target.mozinfo.json
+    uri: https://firefoxci.taskcluster-artifacts.net/OQj86H5_Rc6vAJtzN5FPsQ/0/public/build/target.mozinfo.json
   response:
     body:
       string: "{\n    \"appname\": \"firefox\",\n    \"artifact\": false,\n    \"asan\":
@@ -434,8 +548,6 @@ interactions:
       - '*'
       Access-Control-Expose-Headers:
       - '*'
-      Age:
-      - '3884'
       Alt-Svc:
       - clear
       Cache-Control:
@@ -443,23 +555,23 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 07 Nov 2024 18:47:02 GMT
+      - Thu, 14 Nov 2024 20:22:18 GMT
       ETag:
       - '"03c7aea2cc1217ef5be63a5f286f12f1"'
       Last-Modified:
-      - Thu, 07 Nov 2024 17:16:07 GMT
+      - Thu, 14 Nov 2024 10:31:57 GMT
       Server:
       - UploadServer
       Vary:
       - Accept-Encoding
       X-GUploader-UploadID:
-      - AHmUCY3ehA7wPnPz4XRN-AG7s6U2MwhicM7Iiz7iufi4Gd--NCnRKs-rOvsE7y93QoAH9Nr64dwkdvEYag
+      - AHmUCY1SrxYebNgXizFqv8zwPbltZrvjYQ_xbej-p9NtWcdFFk45InvJpJo2dH7WJThQAMb3cko
       content-length:
       - '1060'
       x-cache-status:
-      - hit
+      - miss
       x-goog-generation:
-      - '1730999767333966'
+      - '1731580317487013'
       x-goog-hash:
       - crc32c=PM08nA==
       - md5=A8euoswSF+9b5jpfKG8S8Q==
@@ -486,16 +598,16 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/evNvuH2wSNSP4Ph5UXtgoQ/artifacts/public/build/target.crashreporter-symbols.zip
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/OQj86H5_Rc6vAJtzN5FPsQ/artifacts/public/build/target.crashreporter-symbols.zip
   response:
     body:
       string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Artifact not
         found\\n\\n---\\n\\n* method:     getLatestArtifact\\n* errorCode:  ResourceNotFound\\n*
-        statusCode: 404\\n* time:       2024-11-07T19:51:46.726Z\",\n  \"requestInfo\":
+        statusCode: 404\\n* time:       2024-11-14T20:22:19.214Z\",\n  \"requestInfo\":
         {\n    \"method\": \"getLatestArtifact\",\n    \"params\": {\n      \"0\":
-        \"public/build/target.crashreporter-symbols.zip\",\n      \"taskId\": \"evNvuH2wSNSP4Ph5UXtgoQ\",\n
+        \"public/build/target.crashreporter-symbols.zip\",\n      \"taskId\": \"OQj86H5_Rc6vAJtzN5FPsQ\",\n
         \     \"name\": \"public/build/target.crashreporter-symbols.zip\"\n    },\n
-        \   \"payload\": {},\n    \"time\": \"2024-11-07T19:51:46.726Z\"\n  }\n}"
+        \   \"payload\": {},\n    \"time\": \"2024-11-14T20:22:19.214Z\"\n  }\n}"
     headers:
       Access-Control-Allow-Headers:
       - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
@@ -518,9 +630,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Nov 2024 19:51:46 GMT
+      - Thu, 14 Nov 2024 20:22:19 GMT
       ETag:
-      - W/"1f8-JzgGwMc4aFxP5iwRW0z0wnfJvXw"
+      - W/"1f8-RCE76Vv5yTSsb7dIjs8b1chs8nc"
       Server:
       - openresty
       Strict-Transport-Security:
@@ -530,9 +642,9 @@ interactions:
       x-content-type-options:
       - nosniff
       x-for-request-id:
-      - e6c58c01-089d-4716-a3d5-f88bfdec9677
+      - bd8c3ed5-8815-44ab-9112-fcb0b78b51d7
       x-for-trace-id:
-      - 6749d174e8b779546fc27aa09e12ed56
+      - a3e8055c8a8feda4910baed12e13ce06
     status:
       code: 404
       message: Not Found
