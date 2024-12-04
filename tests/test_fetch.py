@@ -166,25 +166,24 @@ def test_metadata(branch, build_flags, os_, cpu, as_args):
 # - update freeze time to current date
 # - builds with an ascending search order should be older than 365 days
 # - builds with a descending order should be in the future
-@freeze_time("2024-11-06")
+@freeze_time("2024-12-04")
 @pytest.mark.vcr()
 @pytest.mark.parametrize(
     "requested, expected, direction",
     (
         # Requested data is older than available (-365 days)
-        ("2023-11-06", "2023-11-07", BuildSearchOrder.ASC),
+        ("2023-12-04", "2023-12-05", BuildSearchOrder.ASC),
         # Requested build is in the future (+1 days)
-        ("2024-11-07", "2024-11-06", BuildSearchOrder.DESC),
+        ("2024-12-05", "2024-12-04", BuildSearchOrder.DESC),
         # Requested rev is older than available (-365)
         (
-            "a53a2b4b87d3cffa7582c252478f44077faa7775",
-            "5d6699b34edce04ffd8886be86de9d604d88a89a",
+            "16c36964a84ba18209a6a86b59b5e5dc20e60925",
+            "233e73a17c3f7d9f9cbb3fc3dc7f8af9cad499ff",
             BuildSearchOrder.ASC,
         ),
     ),
 )
 @pytest.mark.parametrize("is_namespace", (True, False))
-@pytest.mark.usefixtures("fetcher_mock_resolve_targets")
 def test_nearest_retrieval(requested, expected, direction, is_namespace):
     """Attempt to retrieve a build near the supplied build_id."""
     build_str = requested

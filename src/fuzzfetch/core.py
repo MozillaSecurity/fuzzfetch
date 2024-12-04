@@ -165,14 +165,16 @@ class Fetcher:
                                 not asc and task_date <= requested
                             ):
                                 try:
-                                    self.resolve_targets(self._targets)
                                     self._task = task
+                                    self.resolve_targets(self._targets)
                                     break
                                 except FetcherException:
                                     LOG.warning(
                                         "Unable to find build for %s",
                                         start.strftime("%Y-%m-%d"),
                                     )
+                        else:
+                            self._task = None
 
                     if self._task is not None:
                         # a task was found
