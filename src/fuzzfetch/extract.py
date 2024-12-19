@@ -2,9 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this file,
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Code for extracting archives"""
+from __future__ import annotations
 
 import gzip
 import logging
+import lzma
 import os
 import os.path
 import shutil
@@ -14,7 +16,7 @@ import tempfile
 import zipfile
 from pathlib import Path
 from platform import system
-from subprocess import DEVNULL, call, check_call
+from subprocess import PIPE, CalledProcessError, Popen, check_call, run
 
 from .path import PathArg, onerror
 
@@ -81,59 +83,79 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
         mode: compression type
         path: where to extract tar contents
     """
-    tmp_fn = None
-    try:
-        if LBZIP2_PATH and mode == "bz2":
-            # fastest bz2 decompressor by far
-            tmp_fd, tmp_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
-            result = call([LBZIP2_PATH, "-dc", tar_fn], stdout=tmp_fd, stderr=DEVNULL)
-            os.close(tmp_fd)
-            if result == 0:
-                mode = ""
-                tar_fn = tmp_fn
-            else:
-                LOG.warning(
-                    "lbzip2 was found, but returned %d decompressing %r", result, tar_fn
-                )
-
-        elif TAR_PATH and mode == "gz":
-            # this is faster than gunzip somehow
-            tmp_fd, tmp_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
-            with gzip.open(tar_fn) as gz_fp, open(tmp_fd, "wb") as tmp_fp:
-                shutil.copyfileobj(gz_fp, tmp_fp)
-            mode = ""
-            tar_fn = tmp_fn
-
+    tar_args: list[str] = []
+    external_decomp: str | None = None
+    if mode == "bz2":
+        # lbzip2 > bzip2
         if TAR_PATH:
-            Path(path).mkdir(exist_ok=True)
-            cmd = [TAR_PATH, r"--transform=s,^firefox/,,", "-C", str(path)]
-            if mode:
-                cmd.append(
-                    {
-                        "gz": "-z",
-                        "bz2": "-j",
-                        "lzma": "--lzma",
-                        "xz": "-J",
-                    }.get(mode, "--auto-compress")
-                )
-            cmd.extend(("-xf", str(tar_fn)))
-            check_call(cmd)
+            if LBZIP2_PATH:
+                tar_args.extend(("-I", LBZIP2_PATH))
+            else:
+                tar_args.append("-j")
+            mode = ""
+        elif LBZIP2_PATH:
+            external_decomp = LBZIP2_PATH
+            mode = ""
+
+    elif mode == "xz":
+        # xz > python
+        if TAR_PATH and XZ_PATH:
+            tar_args.append("-J")
+            mode = ""
+        elif XZ_PATH:
+            external_decomp = XZ_PATH
+            mode = ""
+
+    if TAR_PATH:
+        Path(path).mkdir(exist_ok=True)
+        cmd = [TAR_PATH, r"--transform=s,^firefox/,,", "-C", str(path), *tar_args, "-x"]
+        if mode == "gz":
+            # Python gzip is somehow faster than gunzip
+            #
+            # zcat target.gtest.tests.tar.gz  7.34s user 0.24s system 99% cpu 7.592 tota
+            # tar -tv  0.02s user 0.39s system 5% cpu 7.592 total
+            #
+            # python3 -c   4.63s user 0.37s system 99% cpu 4.998 total
+            # tar -tv  0.04s user 0.22s system 5% cpu 4.995 total
+            with gzip.open(tar_fn) as gz_fp, Popen(cmd, stdin=PIPE) as tar_proc:
+                assert tar_proc.stdin is not None
+                shutil.copyfileobj(gz_fp, tar_proc.stdin)
+            if rc := tar_proc.wait():
+                raise CalledProcessError(returncode=rc, cmd=cmd)
+
+        elif mode == "xz":
+            # no external xz, use Python
+            with lzma.open(tar_fn) as xz_fp:
+                run(cmd, check=True, stdin=xz_fp)
+        else:
+            cmd.extend(("-f", str(tar_fn)))
+            run(cmd, check=True, env={"XZ_DEFAULTS": "-T0"})
+    else:
+
+        def _extract_tar(tar: tarfile.TarFile) -> None:
+            members = []
+            for member in tar.getmembers():
+                if not _is_within_directory(path, Path(path) / member.name):
+                    raise RuntimeError("Attempted Path Traversal in Tar File")
+                if member.name.startswith("firefox/"):
+                    member.name = member.name[8:]
+                    members.append(member)
+                elif member.name != "firefox":
+                    # Ignore top-level build directory
+                    members.append(member)
+            tar.extractall(members=members, path=path)
+
+        if external_decomp:
+            cmd = [external_decomp, "-dc", str(tar_fn)]
+            with Popen(
+                cmd, env={"XZ_DEFAULTS": "-T0"}, stdout=PIPE
+            ) as decomp, tarfile.open(fileobj=decomp.stdout, mode="r|") as tar:
+                _extract_tar(tar)
+            if rc := decomp.wait():
+                raise CalledProcessError(returncode=rc, cmd=cmd)
         else:
             with tarfile.open(tar_fn, mode=f"r:{mode}") as tar:
-                members = []
-                for member in tar.getmembers():
-                    if not _is_within_directory(path, Path(path) / member.name):
-                        raise RuntimeError("Attempted Path Traversal in Tar File")
-                    if member.name.startswith("firefox/"):
-                        member.name = member.name[8:]
-                        members.append(member)
-                    elif member.name != "firefox":
-                        # Ignore top-level build directory
-                        members.append(member)
-                tar.extractall(members=members, path=path)
-    finally:
-        if tmp_fn is not None:
-            os.unlink(tmp_fn)
+                _extract_tar(tar)
 
 
 def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:

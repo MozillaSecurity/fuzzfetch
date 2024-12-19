@@ -54,6 +54,7 @@ def test_zipfile_extract(tmp_path):
 )
 @patch("fuzzfetch.extract.TAR_PATH", None)
 @patch("fuzzfetch.extract.LBZIP2_PATH", None)
+@patch("fuzzfetch.extract.XZ_PATH", None)
 def test_tarfile_good(tmp_path, extension, mode):
     """Test extract_tar with different extensions and TAR_PATH set to None."""
     archive_path = create_test_archive(tmp_path, extension, mode)
