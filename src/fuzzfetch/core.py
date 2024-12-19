@@ -21,7 +21,7 @@ from pytz import timezone
 from .args import FetcherArgs
 from .download import download_url, get_url, resolve_url
 from .errors import FetcherException
-from .extract import LBZIP2_PATH, extract_dmg, extract_tar, extract_zip
+from .extract import LBZIP2_PATH, XZ_PATH, extract_dmg, extract_tar, extract_zip
 from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platform
 from .path import PathArg
 from .path import rmtree as junction_rmtree
@@ -352,7 +352,7 @@ class Fetcher:
                         resolve_url(url)
                         break
                     except FetcherException:
-                        LOG.warning("Failed to resolve %s", url)
+                        pass
                 else:
                     raise FetcherException("Failed to resolve linux artifacts!")
             elif self._platform.system == "Darwin":
@@ -418,11 +418,6 @@ class Fetcher:
         targets_remaining = set(self._targets)
         have_exec = False
 
-        # warn if we don't have a fast decompressor for bz2
-        if self._platform.system == "Linux" and "firefox" in targets_remaining:
-            if LBZIP2_PATH is None:
-                LOG.warning("WARNING: Install lbzip2 for much faster extraction.")
-
         if "js" in targets_remaining:
             targets_remaining.remove("js")
             have_exec = True
@@ -441,6 +436,11 @@ class Fetcher:
                         break
                     except FetcherException:
                         pass
+                # warn if we don't have a fast decompressor for bz2
+                if ext == "bz2" and LBZIP2_PATH is None:
+                    LOG.warning("WARNING: Install lbzip2 for much faster extraction.")
+                elif ext == "xz" and XZ_PATH is None:
+                    LOG.warning("WARNING: Install xz-utils for much faster extraction.")
                 self.extract_tar(url, path)
             elif self._platform.system == "Darwin":
                 self.extract_dmg(path)
