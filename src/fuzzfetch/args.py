@@ -3,13 +3,14 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch argument parser"""
 
+from __future__ import annotations
+
 import itertools
 import platform as std_platform
 from argparse import ArgumentParser, Namespace
 from collections.abc import Sequence
 from logging import getLogger
 from pathlib import Path
-from typing import Optional
 
 from .models import BuildSearchOrder, Platform
 from .utils import extract_branch_from_ns, is_namespace
@@ -187,7 +188,7 @@ class FetcherArgs:
         if "js" not in args.target and args.sim:
             self.parser.error("Simulator builds are only available for JS targets")
 
-    def parse_args(self, argv: Optional[Sequence[str]] = None) -> Namespace:
+    def parse_args(self, argv: Sequence[str] | None = None) -> Namespace:
         """Parse and validate args
 
         Arguments:
