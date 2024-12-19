@@ -3,9 +3,10 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch download utils"""
 
+from __future__ import annotations
+
 import time
 from logging import getLogger
-from typing import Optional, Union
 
 from requests import Response, Session
 from requests.exceptions import RequestException
@@ -17,7 +18,7 @@ HTTP_SESSION = Session()
 LOG = getLogger("fuzzfetch")
 
 
-def iec(number: Union[float, int]) -> str:
+def iec(number: float | int) -> str:
     """Format a number using IEC multi-byte prefixes.
 
     Arguments:
@@ -33,7 +34,7 @@ def iec(number: Union[float, int]) -> str:
     return f"{number:0.2f}{prefixes[0]}"
 
 
-def si(number: Union[float, int]) -> str:  # pylint: disable=invalid-name
+def si(number: float | int) -> str:  # pylint: disable=invalid-name
     """Format a number using SI prefixes.
 
     Arguments:
@@ -49,7 +50,7 @@ def si(number: Union[float, int]) -> str:  # pylint: disable=invalid-name
     return f"{number:0.2f}{prefixes[0]}"
 
 
-def get_url(url: str, timeout: Optional[float] = None) -> Response:
+def get_url(url: str, timeout: float | None = None) -> Response:
     """Retrieve requested URL"""
     try:
         data = HTTP_SESSION.get(url, stream=True, timeout=timeout)
@@ -60,7 +61,7 @@ def get_url(url: str, timeout: Optional[float] = None) -> Response:
     return data
 
 
-def resolve_url(url: str, timeout: Optional[float] = None) -> Response:
+def resolve_url(url: str, timeout: float | None = None) -> Response:
     """Resolve requested URL"""
     try:
         data = HTTP_SESSION.head(url, timeout=timeout)
@@ -71,7 +72,7 @@ def resolve_url(url: str, timeout: Optional[float] = None) -> Response:
     return data
 
 
-def download_url(url: str, outfile: PathArg, timeout: Optional[float] = 30.0) -> None:
+def download_url(url: str, outfile: PathArg, timeout: float | None = 30.0) -> None:
     """Download a URL to a local path.
 
     Arguments:
