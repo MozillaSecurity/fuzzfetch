@@ -3,6 +3,8 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Core fuzzfetch implementation"""
 
+from __future__ import annotations
+
 import configparser
 import logging
 import os
@@ -14,7 +16,7 @@ from collections.abc import Sequence
 from datetime import datetime, timedelta
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 
 from pytz import timezone
 
@@ -47,12 +49,12 @@ class Fetcher:
     def __init__(
         self,
         branch: str,
-        build: Union[str, BuildTask],
-        flags: Union[Sequence[bool], BuildFlags],
+        build: str | BuildTask,
+        flags: Sequence[bool] | BuildFlags,
         targets: Sequence[str],
-        platform: Optional[Platform] = None,
-        simulated: Optional[str] = None,
-        nearest: Optional[BuildSearchOrder] = None,
+        platform: Platform | None = None,
+        simulated: str | None = None,
+        nearest: BuildSearchOrder | None = None,
     ) -> None:
         """
         Arguments:
@@ -276,7 +278,7 @@ class Fetcher:
         return self.build_info["moz_source_stamp"]
 
     @property
-    def moz_info(self) -> dict[str, Union[str, bool, int]]:
+    def moz_info(self) -> dict[str, str | bool | int]:
         """Return the build's mozinfo"""
         if "moz_info" not in self._memo:
             try:
@@ -661,9 +663,9 @@ class Fetcher:
     @classmethod
     def from_args(
         cls,
-        argv: Optional[Sequence[str]] = None,
+        argv: Sequence[str] | None = None,
         skip_dir_check: bool = False,
-    ) -> tuple["Fetcher", dict[str, Union[bool, Path, Sequence[str]]]]:
+    ) -> tuple[Fetcher, dict[str, bool | Path | Sequence[str]]]:
         """Construct a Fetcher from given command line arguments.
 
         Arguments:
