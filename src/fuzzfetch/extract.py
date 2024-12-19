@@ -20,10 +20,10 @@ from .path import PathArg, onerror
 
 LOG = logging.getLogger("fuzzfetch")
 
-
 HDIUTIL_PATH = shutil.which("hdiutil")
 TAR_PATH = shutil.which("tar") if system() != "Darwin" else shutil.which("gtar")
 LBZIP2_PATH = shutil.which("lbzip2")
+XZ_PATH = shutil.which("xz")
 
 
 def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
