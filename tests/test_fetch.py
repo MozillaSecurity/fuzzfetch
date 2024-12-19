@@ -220,11 +220,25 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
 @pytest.mark.parametrize(
     "flag_params, targets",
     [
-        ({"debug": True, "fuzzilli": True}, ["js"]),
-        ({"asan": True, "fuzzing": True, "nyx": True, "coverage": False}, ["firefox"]),
-        ({"asan": True, "fuzzing": True, "nyx": True, "coverage": True}, ["firefox"]),
-        ({"asan": True, "fuzzing": True, "afl": True}, ["firefox"]),
-        ({"searchfox": True, "debug": True}, ["searchfox"]),
+        pytest.param({"debug": True, "fuzzilli": True}, ["js"], id="debug-fuzzilli-js"),
+        pytest.param(
+            {"asan": True, "fuzzing": True, "nyx": True, "coverage": False},
+            ["firefox"],
+            id="asan-fuzzing-nyx-firefox",
+        ),
+        pytest.param(
+            {"asan": True, "fuzzing": True, "nyx": True, "coverage": True},
+            ["firefox"],
+            id="asan-fuzzing-nyx-ccov-firefox",
+        ),
+        pytest.param(
+            {"asan": True, "fuzzing": True, "afl": True},
+            ["firefox"],
+            id="asan-fuzzing-afl-firefox",
+        ),
+        pytest.param(
+            {"searchfox": True, "debug": True}, ["searchfox"], id="debug-searchfox"
+        ),
     ],
 )
 def test_fetcher_variants(flag_params, targets):
