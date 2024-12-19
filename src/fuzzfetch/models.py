@@ -3,6 +3,8 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch internal models"""
 
+from __future__ import annotations
+
 import itertools
 import platform as std_platform
 from collections.abc import Iterable, Iterator
@@ -10,7 +12,7 @@ from dataclasses import dataclass, fields
 from datetime import datetime
 from enum import Enum
 from logging import getLogger
-from typing import Any, Optional
+from typing import Any
 
 from pytz import timezone
 from requests import RequestException
@@ -106,11 +108,11 @@ class BuildTask:
 
     def __init__(
         self,
-        build: Optional[str],
-        branch: Optional[str],
-        flags: Optional[BuildFlags],
-        platform: Optional["Platform"] = None,
-        simulated: Optional[str] = None,
+        build: str | None,
+        branch: str | None,
+        flags: BuildFlags | None,
+        platform: Platform | None = None,
+        simulated: str | None = None,
         _blank: bool = False,
     ) -> None:
         """Retrieve the task JSON object
@@ -119,8 +121,8 @@ class BuildTask:
         platform
         """
         if _blank:
-            self.url: Optional[str] = None
-            self.queue_server: Optional[str] = None
+            self.url: str | None = None
+            self.queue_server: str | None = None
             self._data: dict[str, Any] = {}
             return
         assert build is not None
@@ -156,9 +158,9 @@ class BuildTask:
         build: str,
         branch: str,
         flags: BuildFlags,
-        platform: Optional["Platform"] = None,
-        simulated: Optional[str] = None,
-    ) -> Iterator["BuildTask"]:
+        platform: Platform | None = None,
+        simulated: str | None = None,
+    ) -> Iterator[BuildTask]:
         """Generator for all possible BuildTasks with these parameters"""
         # Prepare build type
         if platform is None:
@@ -201,7 +203,7 @@ class BuildTask:
                 namespaces_: list[str],
                 prod_: str,
                 suffix_: str,
-                simulated_: Optional[str],
+                simulated_: str | None,
             ) -> Iterator[str]:
                 for namespace in namespaces_:
                     if simulated_ is not None:
@@ -381,8 +383,8 @@ class Platform:
 
     def __init__(
         self,
-        system: Optional[str] = None,
-        machine: Optional[str] = None,
+        system: str | None = None,
+        machine: str | None = None,
     ) -> None:
         if system is None:
             system = std_platform.system()
@@ -398,7 +400,7 @@ class Platform:
         self.gecko_platform = self.SUPPORTED[system][fixed_machine]
 
     @classmethod
-    def from_platform_guess(cls, build_string: str) -> "Platform":
+    def from_platform_guess(cls, build_string: str) -> Platform:
         """Create a platform object from a namespace build string"""
         match: list[str] = []
         for system, platform in cls.SUPPORTED.items():
