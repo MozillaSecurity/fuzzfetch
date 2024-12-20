@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 import pytest  # pylint: disable=import-error
 
-from fuzzfetch.extract import LBZIP2_PATH, TAR_PATH, extract_tar, extract_zip
+from fuzzfetch.extract import LBZIP2_PATH, XZ_PATH, extract_tar, extract_zip
 
 
 def create_test_archive(tmp_path, extension, mode):
@@ -52,10 +52,10 @@ def test_zipfile_extract(tmp_path):
         (".tar.xz", "xz"),
     ],
 )
-@patch("fuzzfetch.extract.TAR_PATH", None)
 @patch("fuzzfetch.extract.LBZIP2_PATH", None)
+@patch("fuzzfetch.extract.XZ_PATH", None)
 def test_tarfile_good(tmp_path, extension, mode):
-    """Test extract_tar with different extensions and TAR_PATH set to None."""
+    """Test extract_tar with different extensions."""
     archive_path = create_test_archive(tmp_path, extension, mode)
     extract_tar(archive_path, mode=mode, path=tmp_path / "out")
     assert set((tmp_path / "out").glob("**/*")) == {
@@ -67,12 +67,10 @@ def test_tarfile_good(tmp_path, extension, mode):
 @pytest.mark.parametrize(
     "extension, mode, skip_if, reason",
     [
-        (".tar", "r", TAR_PATH is None, "Could not find tar binary"),
         (".tar.bz2", "bz2", LBZIP2_PATH is None, "Could not find lbzip2 binary"),
-        (".tar.gz", "gz", TAR_PATH is None, "Could not find tar binary"),
-        (".tar.xz", "xz", TAR_PATH is None, "Could not find tar binary"),
+        (".tar.xz", "xz", XZ_PATH is None, "Could not find xz binary"),
     ],
-    ids=["tar", "tar.bz2", "tar.gz", "tar.xz"],
+    ids=["tar.bz2", "tar.xz"],
 )
 def test_extract_tar_modes(tmp_path, extension, mode, skip_if, reason):
     """Test extract_tar with different archive types and modes."""
@@ -87,19 +85,6 @@ def test_extract_tar_modes(tmp_path, extension, mode, skip_if, reason):
     }
 
 
-@patch("fuzzfetch.extract.LBZIP2_PATH", None)
-@pytest.mark.skipif(TAR_PATH is None, reason="Could not find tar binary")
-def test_extract_tar_with_bz2(tmp_path):
-    """Test extract_tar with in bz2 mode."""
-    archive_path = create_test_archive(tmp_path, "tar.bz2", "bz2")
-    extract_tar(archive_path, mode="bz2", path=tmp_path / "out")
-    assert set((tmp_path / "out").glob("**/*")) == {
-        tmp_path / "out" / "a.txt",
-        tmp_path / "out" / "b.txt",
-    }
-
-
-@patch("fuzzfetch.extract.TAR_PATH", None)
 def test_tarfile_traversal_exc(tmp_path):
     """CVE-2007-4559"""
     (tmp_path / "empty").touch()
