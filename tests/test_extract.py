@@ -19,6 +19,7 @@ def create_test_archive(tmp_path, extension, mode):
     with tarfile.open(archive_path, f"w:{mode}" if mode != "r" else "w") as tar:
         tar.add(tmp_path / "empty", arcname="firefox/a.txt")
         tar.add(tmp_path / "empty", arcname="b.txt")
+        tar.add(tmp_path / "empty", arcname="gtest/c.txt")
     return archive_path
 
 
@@ -61,6 +62,8 @@ def test_tarfile_good(tmp_path, extension, mode):
     assert set((tmp_path / "out").glob("**/*")) == {
         tmp_path / "out" / "a.txt",
         tmp_path / "out" / "b.txt",
+        tmp_path / "out" / "gtest",
+        tmp_path / "out" / "gtest" / "c.txt",
     }
 
 
@@ -82,6 +85,8 @@ def test_extract_tar_modes(tmp_path, extension, mode, skip_if, reason):
     assert set((tmp_path / "out").glob("**/*")) == {
         tmp_path / "out" / "a.txt",
         tmp_path / "out" / "b.txt",
+        tmp_path / "out" / "gtest",
+        tmp_path / "out" / "gtest" / "c.txt",
     }
 
 
