@@ -24,11 +24,12 @@ Fuzzfetch supports the following arguments:
 usage: fuzzfetch [-h] [--target [TARGET ...]]
                  [--os {Android,Darwin,Linux,Windows}]
                  [--cpu {AMD64,ARM64,aarch64,arm,arm64,i686,x64,x86,x86_64}]
-                 [--build DATE|REV|NS]
-                 [--central | --release | --beta | --esr-stable | --esr-next | --try | --autoland]
-                 [-d] [-a] [-t] [--fuzzing] [--fuzzilli] [--coverage]
-                 [--valgrind] [--no-opt] [--nyx] [--searchfox] [-n NAME]
-                 [-o OUT] [--dry-run] [--nearest-newer | --nearest-older] [-V]
+                 [--sim {arm,arm64}] [--build DATE|REV|NS]
+                 [--branch {central,release,beta,esr-stable,esr-next,try,autoland}]
+                 [--asan] [--debug] [--tsan] [--fuzzing] [--coverage]
+                 [--no-opt] [--valgrind] [--afl] [--fuzzilli] [--nyx]
+                 [--searchfox] [-n NAME] [-o OUT] [--dry-run]
+                 [--nearest-newer | --nearest-older] [-V]
 
 options:
   -h, --help            show this help message and exit
@@ -43,6 +44,7 @@ Target:
                         Specify the target system. (default: Linux)
   --cpu {AMD64,ARM64,aarch64,arm,arm64,i686,x64,x86,x86_64}
                         Specify the target CPU. (default: x86_64)
+  --sim {arm,arm64}     Specify the simulated architecture
 
 Build:
   --build DATE|REV|NS   Specify the build to download, (default: latest)
@@ -51,25 +53,22 @@ Build:
                         TaskCluster namespace (gecko.v2....)
 
 Branch:
-  --central             Download from mozilla-central (default)
-  --release             Download from mozilla-release
-  --beta                Download from mozilla-beta
-  --esr-stable          Download from esr-stable
-  --esr-next            Download from esr-next
-  --try                 Download from try
-  --autoland            Download from autoland
+  --branch {central,release,beta,esr-stable,esr-next,try,autoland}
+                        Specify the branch to download from (default: mozilla-
+                        central unless namespace build is supplied)
 
 Build Arguments:
-  -d, --debug           Get debug builds w/ symbols (default=optimized).
-  -a, --asan            Download AddressSanitizer builds.
-  -t, --tsan            Download ThreadSanitizer builds.
-  --fuzzing             Download --enable-fuzzing builds.
-  --fuzzilli            Download --enable-js-fuzzilli builds.
-  --coverage            Download --coverage builds.
-  --valgrind            Download Valgrind builds.
-  --no-opt              Download non-optimized builds.
-  --nyx                 Download Nyx snapshot builds.
-  --searchfox           Download searchfox data.
+  --asan, -a            Download AddressSanitizer builds
+  --debug, -d           Download debug builds
+  --tsan, -t            Download ThreadSanitizer builds
+  --fuzzing             Download fuzzing builds
+  --coverage            Download coverage builds
+  --no-opt              Download non-optimized builds
+  --valgrind            Download Valgrind builds
+  --afl                 Download AFL++ builds
+  --fuzzilli            Download JS Fuzzilli builds
+  --nyx                 Download Nyx builds
+  --searchfox           Download Searchfox data
 
 Misc. Arguments:
   -n NAME, --name NAME  Specify a name (default=auto)
