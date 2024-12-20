@@ -230,9 +230,11 @@ def test_nearest_retrieval(requested, expected, direction, is_namespace):
 def test_fetcher_variants(flag_params, targets):
     """Test Fetcher with different configurations."""
     flags = BuildFlags(**flag_params)
+    platform = Platform("Linux", "x86_64")
     Fetcher(
         "central",
         "latest",
         flags,
         targets,
+        platform,
     )

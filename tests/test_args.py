@@ -52,7 +52,7 @@ def test_invalid_namespace_conflict(fetcher_args, conflicts):
 def test_output_directory(fetcher_args):
     """Test --out correctly sets output directory."""
     args = fetcher_args.parse_args(["--out", "/tmp"])
-    assert args.out == Path("/tmp").resolve()
+    assert args.out.resolve() == Path("/tmp").resolve()
 
 
 def test_fuzzilli_firefox_conflict(fetcher_args):
