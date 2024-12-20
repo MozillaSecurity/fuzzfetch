@@ -66,7 +66,7 @@ def islink(path: PathArg) -> bool:
         except (OSError, AttributeError):
             return False
         # pylint: disable=no-member
-        return (
+        return bool(
             stat.S_ISLNK(st.st_mode)
             or st.st_file_attributes & stat.FILE_ATTRIBUTE_REPARSE_POINT
         )
