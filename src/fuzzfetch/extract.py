@@ -3,7 +3,6 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Code for extracting archives"""
 
-import gzip
 import logging
 import os
 import os.path
@@ -13,15 +12,13 @@ import tarfile
 import tempfile
 import zipfile
 from pathlib import Path
-from platform import system
-from subprocess import DEVNULL, call, check_call
+from subprocess import PIPE, run
 
 from .path import PathArg, onerror
 
 LOG = logging.getLogger("fuzzfetch")
 
 HDIUTIL_PATH = shutil.which("hdiutil")
-TAR_PATH = shutil.which("tar") if system() != "Darwin" else shutil.which("gtar")
 LBZIP2_PATH = shutil.which("lbzip2")
 XZ_PATH = shutil.which("xz")
 
@@ -83,54 +80,49 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
     """
     tmp_fn = None
     try:
-        if LBZIP2_PATH and mode == "bz2":
-            # fastest bz2 decompressor by far
+
+        def _external_decomp(decomp: str, name: str) -> None:
+            nonlocal mode, tar_fn, tmp_fn
             tmp_fd, tmp_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
-            result = call([LBZIP2_PATH, "-dc", tar_fn], stdout=tmp_fd, stderr=DEVNULL)
+            result = run(  # pylint: disable=subprocess-run-check
+                [decomp, "-dc", tar_fn],
+                env={"XZ_DEFAULTS": "-T0"},
+                stdout=tmp_fd,
+                stderr=PIPE,
+            )
             os.close(tmp_fd)
-            if result == 0:
+            if result.returncode == 0:
                 mode = ""
                 tar_fn = tmp_fn
             else:
                 LOG.warning(
-                    "lbzip2 was found, but returned %d decompressing %r", result, tar_fn
+                    "%s was found, but returned %d decompressing %r",
+                    name,
+                    result.returncode,
+                    tar_fn,
                 )
 
-        elif TAR_PATH and mode == "gz":
-            # this is faster than gunzip somehow
-            tmp_fd, tmp_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
-            with gzip.open(tar_fn) as gz_fp, open(tmp_fd, "wb") as tmp_fp:
-                shutil.copyfileobj(gz_fp, tmp_fp)
-            mode = ""
-            tar_fn = tmp_fn
+        if mode == "bz2" and LBZIP2_PATH:
+            # lbzip2 > bzip2
+            _external_decomp(LBZIP2_PATH, "lbzip2")
 
-        if TAR_PATH:
-            Path(path).mkdir(exist_ok=True)
-            cmd = [TAR_PATH, r"--transform=s,^firefox/,,", "-C", str(path)]
-            if mode:
-                cmd.append(
-                    {
-                        "gz": "-z",
-                        "bz2": "-j",
-                        "lzma": "--lzma",
-                        "xz": "-J",
-                    }.get(mode, "--auto-compress")
-                )
-            cmd.extend(("-xf", str(tar_fn)))
-            check_call(cmd)
-        else:
-            with tarfile.open(tar_fn, mode=f"r:{mode}") as tar:
-                members = []
-                for member in tar.getmembers():
-                    if not _is_within_directory(path, Path(path) / member.name):
-                        raise RuntimeError("Attempted Path Traversal in Tar File")
-                    if member.name.startswith("firefox/"):
-                        member.name = member.name[8:]
-                        members.append(member)
-                    elif member.name != "firefox":
-                        # Ignore top-level build directory
-                        members.append(member)
-                tar.extractall(members=members, path=path)
+        elif mode == "xz" and XZ_PATH:
+            # xz > python
+            _external_decomp(XZ_PATH, "xz")
+
+        with tarfile.open(tar_fn, mode=f"r:{mode}") as tar:
+            members = []
+            for member in tar.getmembers():
+                if not _is_within_directory(path, Path(path) / member.name):
+                    raise RuntimeError("Attempted Path Traversal in Tar File")
+                if member.name.startswith("firefox/"):
+                    member.name = member.name[8:]
+                    members.append(member)
+                elif member.name != "firefox":
+                    # Ignore top-level build directory
+                    members.append(member)
+            tar.extractall(members=members, path=path)
+
     finally:
         if tmp_fn is not None:
             os.unlink(tmp_fn)
@@ -149,7 +141,10 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
     out_tmp = Path(tempfile.mkdtemp(prefix="fuzzfetch-", suffix=".tmp"))
     dest_path = Path(path)
     try:
-        check_call([HDIUTIL_PATH, "attach", "-quiet", "-mountpoint", out_tmp, dmg_fn])
+        run(
+            [HDIUTIL_PATH, "attach", "-quiet", "-mountpoint", out_tmp, dmg_fn],
+            check=True,
+        )
         try:
             apps = [mt for mt in out_tmp.glob("*") if mt.suffix == ".app"]
             assert len(apps) == 1
@@ -159,6 +154,6 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
                 symlinks=True,
             )
         finally:
-            check_call([HDIUTIL_PATH, "detach", "-quiet", out_tmp])
+            run([HDIUTIL_PATH, "detach", "-quiet", out_tmp], check=True)
     finally:
         shutil.rmtree(out_tmp, onerror=onerror)  # pylint: disable=deprecated-argument
