@@ -17,10 +17,6 @@ exclude_lines = [
     "pragma: no cover",
 ]
 
-[tool.isort]
-known_first_party = "fuzzfetch"
-profile = "black"
-
 [tool.mypy]
 strict = true
 ignore_missing_imports = true
@@ -46,5 +42,35 @@ disable = [
 
 [tool.pytest.ini_options]
 log_level = "DEBUG"
+
+[tool.ruff]
+fix = true
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    # flake8-comprehensions
+    "C4",
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # Flynt
+    "FLY",
+    # isort
+    "I",
+    # Perflint
+    "PERF",
+    # Ruff-specific rules
+    "RUF",
+    # flake8-simplify
+    "SIM",
+    # flake8-type-checking
+    "TCH",
+    # pyupgrade
+    "UP",
+    # pycodestyle
+    "W",
+]
 
 [tool.setuptools_scm]
