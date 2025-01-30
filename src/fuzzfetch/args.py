@@ -8,12 +8,15 @@ from __future__ import annotations
 import itertools
 import platform as std_platform
 from argparse import ArgumentParser, Namespace
-from collections.abc import Sequence
 from logging import getLogger
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from .models import BuildSearchOrder, Platform
 from .utils import extract_branch_from_ns, is_namespace
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 LOG = getLogger("fuzzfetch")
 
@@ -21,7 +24,7 @@ LOG = getLogger("fuzzfetch")
 class FetcherArgs:
     """Class for parsing and recording Fetcher arguments"""
 
-    DEFAULT_TARGETS = ["firefox"]
+    DEFAULT_TARGETS = ("firefox",)
 
     BUILD_OPTIONS = (
         # Build flags

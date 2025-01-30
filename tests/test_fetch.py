@@ -115,10 +115,9 @@ def get_builds_to_test():
                 continue
         if os_ == "Linux" and cpu == "x86" and flags.fuzzing and esr:
             continue
-        if branch == "esr-stable":
-            if cpu.startswith("arm"):
-                # arm builds aren't available for esr-stable
-                continue
+        if branch == "esr-stable" and cpu.startswith("arm"):
+            # arm builds aren't available for esr-stable
+            continue
 
         yield pytest.param(
             branch,
@@ -139,12 +138,13 @@ def test_metadata(branch, build_flags, os_, cpu, as_args):
     """
     platform_ = Platform(os_, cpu)
     if as_args:
-        args = []
-        for field in fields(BuildFlags):
-            if getattr(build_flags, field.name):
-                args.append(f"--{field.name}")
+        args = [
+            f"--{field.name}"
+            for field in fields(BuildFlags)
+            if getattr(build_flags, field.name)
+        ]
         fetcher = Fetcher.from_args(
-            ["--branch", branch, "--cpu", cpu, "--os", os_] + args
+            ["--branch", branch, "--cpu", cpu, "--os", os_, *args]
         )[0]
     else:
         if branch.startswith("esr"):

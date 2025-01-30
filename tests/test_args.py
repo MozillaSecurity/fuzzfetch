@@ -13,7 +13,7 @@ from fuzzfetch import FetcherArgs
 def test_default_target(fetcher_args):
     """Test default target is set to DEFAULT_TARGETS when --target not specified."""
     args = fetcher_args.parse_args([])
-    assert args.target == FetcherArgs.DEFAULT_TARGETS
+    assert args.target == list(FetcherArgs.DEFAULT_TARGETS)
 
 
 def test_custom_target(fetcher_args):

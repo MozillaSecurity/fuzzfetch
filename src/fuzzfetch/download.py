@@ -7,12 +7,15 @@ from __future__ import annotations
 
 import time
 from logging import getLogger
+from typing import TYPE_CHECKING
 
 from requests import Response, Session
 from requests.exceptions import RequestException
 
 from .errors import FetcherException
-from .path import PathArg
+
+if TYPE_CHECKING:
+    from .path import PathArg
 
 HTTP_SESSION = Session()
 LOG = getLogger("fuzzfetch")

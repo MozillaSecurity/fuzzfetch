@@ -12,11 +12,11 @@ import platform as std_platform
 import re
 import shutil
 import tempfile
-from collections.abc import Sequence
+from contextlib import suppress
 from datetime import datetime, timedelta
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from pytz import timezone
 
@@ -28,6 +28,9 @@ from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platfor
 from .path import PathArg
 from .path import rmtree as junction_rmtree
 from .utils import _create_utc_datetime, is_date, is_namespace, is_rev
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 try:
     __version__ = version("fuzzfetch")
@@ -402,7 +405,7 @@ class Fetcher:
         for target in targets_remaining:
             try:
                 resolve_url(self.artifact_url(f"{target}.tests.tar.gz"))
-            except FetcherException:
+            except FetcherException:  # noqa: PERF203
                 resolve_url(self.artifact_url(f"{target}.tests.zip"))
 
     def extract_build(self, path: PathArg) -> None:
@@ -500,16 +503,14 @@ class Fetcher:
                 else:
                     sym_path = path / "symbols"
                 sym_path.mkdir()
-                try:
+                # fuzzing debug builds no longer have crashreporter-symbols.zip
+                # (bug 1649062)
+                # we want to maintain support for older builds for now
+                with suppress(FetcherException):
                     self.extract_zip(
                         self.artifact_url("crashreporter-symbols.zip"),
                         path=sym_path,
                     )
-                except FetcherException:
-                    # fuzzing debug builds no longer have crashreporter-symbols.zip
-                    # (bug 1649062)
-                    # we want to maintain support for older builds for now
-                    pass
 
         if "searchfox" in targets_remaining:
             targets_remaining.remove("searchfox")
@@ -524,7 +525,7 @@ class Fetcher:
         for target in targets_remaining:
             try:
                 self.extract_tar(self.artifact_url(f"{target}.tests.tar.gz"), path=path)
-            except FetcherException:
+            except FetcherException:  # noqa: PERF203
                 self.extract_zip(self.artifact_url(f"{target}.tests.zip"), path=path)
 
         # used by Pernosco to locate source ('\n' is expected)
@@ -769,7 +770,7 @@ class Fetcher:
                 (out / "download").mkdir(parents=True)
                 with (out / "download" / "firefox-temp.txt").open("a") as dl_fd:
                     dl_fd.write(f"buildID={obj.id}{os.linesep}")
-            except:  # noqa
+            except:
                 if out.is_dir():
                     junction_rmtree(out)
                 raise
