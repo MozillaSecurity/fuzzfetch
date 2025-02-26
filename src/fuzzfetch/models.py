@@ -172,11 +172,18 @@ class BuildTask:
 
         if is_date(build):
             flag_str = flags.build_string()
+            if "-" in build:
+                build_date_ns = build.replace("-", ".")
+                filt = ""
+            else:
+                build_date_ns = f"{build[:4]}.{build[4:6]}.{build[6:8]}"
+                filt = build
             task_template_paths: Iterable[tuple[str, str]] = tuple(
                 (template, path + flag_str)
                 for (template, path) in cls._pushdate_template_paths(
-                    build.replace("-", "."), branch, target_platform
+                    build_date_ns, branch, target_platform
                 )
+                if filt in path
             )
 
         elif is_rev(build):

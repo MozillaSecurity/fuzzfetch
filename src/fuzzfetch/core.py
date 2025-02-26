@@ -110,7 +110,10 @@ class Fetcher:
                 if "latest" in build:
                     requested = now
                 elif is_date(build):
-                    date = datetime.strptime(build, "%Y-%m-%d")
+                    if "-" in build:
+                        date = datetime.strptime(build, "%Y-%m-%d")
+                    else:
+                        date = datetime.strptime(build, "%Y%m%d%H%M%S")
                     requested = timezone("UTC").localize(date)
                 elif is_rev(build):
                     requested = HgRevision(build, branch).pushdate
