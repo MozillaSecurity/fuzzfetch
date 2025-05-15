@@ -58,6 +58,7 @@ class Fetcher:
         platform: Platform | None = None,
         simulated: str | None = None,
         nearest: BuildSearchOrder | None = None,
+        skip_crashreporter_symbols: bool = False
     ) -> None:
         """
         Arguments:
@@ -79,6 +80,7 @@ class Fetcher:
         self._simulated = simulated
         self._targets = targets
         self._task = None
+        self._skip_crashreporter_symbols = skip_crashreporter_symbols
 
         if not isinstance(build, BuildTask):
             if is_namespace(build):
@@ -390,6 +392,7 @@ class Fetcher:
                 not self._flags.asan
                 and not self._flags.tsan
                 and not self._flags.valgrind
+                and not self._skip_crashreporter_symbols
             ):
                 try:
                     resolve_url(self.artifact_url("crashreporter-symbols.zip"))
@@ -500,6 +503,7 @@ class Fetcher:
                 not self._flags.asan
                 and not self._flags.tsan
                 and not self._flags.valgrind
+                and not self._skip_crashreporter_symbols
             ):
                 if self._platform.system == "Darwin":
                     sym_path = next(path.glob("*.app/Contents/MacOS")) / "symbols"
@@ -720,6 +724,7 @@ class Fetcher:
             platform=Platform(args.os, args.cpu),
             simulated=args.sim,
             nearest=args.nearest,
+            skip_crashreporter_symbols=args.skip_crashreporter_symbols,
         )
 
         if args.name is None:

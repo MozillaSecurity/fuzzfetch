@@ -132,6 +132,12 @@ class FetcherArgs:
             help="Search for build and output metadata only, don't download anything.",
         )
 
+        misc_group.add_argument(
+            "--skip-crashreporter-symbols",
+            action="store_true",
+            help="Do not attempt to download crash reporter symbols.",
+        )
+
         near_group = self.parser.add_argument_group(
             "Near Arguments",
             "If the specified build isn't found, iterate over "
