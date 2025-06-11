@@ -133,9 +133,9 @@ class FetcherArgs:
         )
 
         misc_group.add_argument(
-            "--skip-crashreporter-symbols",
+            "--include-crashreporter-symbols",
             action="store_true",
-            help="Do not attempt to download crash reporter symbols.",
+            help="Include crash reporter symbols in download.",
         )
 
         near_group = self.parser.add_argument_group(
