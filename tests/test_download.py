@@ -3,6 +3,8 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch download module tests"""
 
+from itertools import count
+
 import pytest  # pylint: disable=import-error
 
 from fuzzfetch.download import (
@@ -82,11 +84,15 @@ def test_resolve_url_exception(requests_mock):
         resolve_url(url)
 
 
-def test_download_url_success(requests_mock, tmp_path):
+def test_download_url_success(mocker, requests_mock, tmp_path):
     """Test download_url to download content to a file with a known size."""
     url = "http://example.com"
     data = b"some data" * 10  # Mock data
     requests_mock.get(url, content=data, headers={"Content-Length": str(len(data))})
+    # perf_counter() increasing by 0.1s every call
+    mocker.patch(
+        "fuzzfetch.download.perf_counter", autospec=True, side_effect=count(1.0, 0.1)
+    )
 
     output_file = tmp_path / "output_file"
     download_url(url, output_file, timeout=30.0)
@@ -94,11 +100,15 @@ def test_download_url_success(requests_mock, tmp_path):
     assert output_file.read_bytes() == data
 
 
-def test_download_url_unknown_size(requests_mock, tmp_path):
+def test_download_url_unknown_size(mocker, requests_mock, tmp_path):
     """Test download_url to download content when the size is unknown."""
     url = "http://example.com"
     data = b"some data" * 5
     requests_mock.get(url, content=data)  # No Content-Length header
+    # perf_counter() increasing by 0.1s every call
+    mocker.patch(
+        "fuzzfetch.download.perf_counter", autospec=True, side_effect=count(1.0, 0.1)
+    )
 
     output_file = tmp_path / "output_file"
     download_url(url, output_file, timeout=30.0)
@@ -106,10 +116,14 @@ def test_download_url_unknown_size(requests_mock, tmp_path):
     assert output_file.read_bytes() == data
 
 
-def test_download_url_exception(requests_mock, tmp_path):
+def test_download_url_exception(mocker, requests_mock, tmp_path):
     """Test download_url raises FetcherException on a failed download."""
     url = "http://example.com"
     requests_mock.get(url, status_code=500)
+    # perf_counter() increasing by 0.1s every call
+    mocker.patch(
+        "fuzzfetch.download.perf_counter", autospec=True, side_effect=count(1.0, 0.1)
+    )
 
     output_file = tmp_path / "output_file"
     with pytest.raises(FetcherException):
