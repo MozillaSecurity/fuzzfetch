@@ -1,0 +1,4105 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.111Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64-opt\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.111Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '442'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1ba-bLe0mYlI5RFkHFauBNSsI0L20Io"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - d191d602-dbe1-4efa-827e-a9b0c8250bc8
+      x-for-trace-id:
+      - 2e279557d167ae4e7fcdeda6e7e826ea
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.202Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.202Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '438'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1b6-tuBIPapx+qVNWAVEjhkK9op55Sg"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 479a2a6e-fe29-4c8c-8633-e62dc7721adf
+      x-for-trace-id:
+      - fdd904cb9bfb5212a5524f2480b4d6e9
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.297Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64-opt\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.297Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '445'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1bd-nFpTbYEl7r+D4R99klsZk7IHXKc"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 731a3fc7-708c-48ff-acf6-fddb73904aa7
+      x-for-trace-id:
+      - b154103567c10b33f9aefd6fd51bffb6
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.387Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.387Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '441'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1b9-EBRJrHyKHt+UreORIL57c7OCwqs"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 76fb6f63-8fac-4a02-9b3b-296f86e196bd
+      x-for-trace-id:
+      - def962d151f548cfbc2b88575816a8bc
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.480Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64-opt\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.480Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '452'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1c4-PtMviIIwd2n8JKQCPqkK9QRkFZo"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - f3125172-b10a-4e35-a07b-2c6ad0d3d58d
+      x-for-trace-id:
+      - c5af1f479c828127e049a787463d13bf
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.572Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.linux64\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.572Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '448'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1c0-dXYG+7ZRQO/1XLY913IfHS4tGGk"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 8d82022b-f03c-436e-914b-00c3b92cbf8e
+      x-for-trace-id:
+      - 91a94d08d6ec7004342ff88b823b4868
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.662Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64-opt\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.662Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '455'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1c7-sAgeztYWEewiuaBWYTplAEVGB2A"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 2f4d6e99-d53f-4f45-b434-52c51f044700
+      x-for-trace-id:
+      - 3e939215414f4641c925b68757e753ce
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-06-11T20:30:33.765Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.shippable.revision.951502a5faeb2d4ede9d2cc7628091f76996d12c.firefox.sm-linux64\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-06-11T20:30:33.765Z\"\n
+        \ }\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '451'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      ETag:
+      - W/"1c3-lhQALHUD6twz+5MD2YvO4Rm2QIg"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 189ea387-53fe-4271-915e-10577a2c5ab7
+      x-for-trace-id:
+      - 92632234960e32a10fd065e6663b3ef2
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://hg.mozilla.org/mozilla-central/json-rev/951502a5faeb2d4ede9d2cc7628091f76996d12c
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Length:
+      - '0'
+      Content-Type:
+      - text/html
+      Date:
+      - Wed, 11 Jun 2025 20:30:33 GMT
+      Location:
+      - https://hg-edge.mozilla.org/mozilla-central/json-rev/951502a5faeb2d4ede9d2cc7628091f76996d12c
+      access-control-allow-origin:
+      - '*'
+      connection:
+      - close
+    status:
+      code: 302
+      message: Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://hg-edge.mozilla.org/mozilla-central/json-rev/951502a5faeb2d4ede9d2cc7628091f76996d12c
+  response:
+    body:
+      string: '{
+
+        "node": "951502a5faeb2d4ede9d2cc7628091f76996d12c",
+
+        "date": [1718073174.0, -10800],
+
+        "desc": "Backed out changeset b50c8f1824f0 (bug 1901374) for causing wpt failures
+        on field-sizing-computed.html. CLOSED TREE",
+
+        "backedoutby": "",
+
+        "branch": "default",
+
+        "bookmarks": [],
+
+        "tags": [],
+
+        "user": "Tamas Szentpeteri \u003ctszentpeteri@mozilla.com\u003e",
+
+        "parents": ["5433a7f0c9cc0a04a33874dd6bf169c237a2af58"],
+
+        "children": ["e1287caec454f439e2faf508a25643e95cbfe4fb", "a3e2df653647c046b57dcb697c593be0334f9a05"],
+
+        "files": [{
+
+        "file": "dom/base/use_counter_metrics.yaml",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "layout/style/ServoBindings.toml",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "layout/style/nsStyleConsts.h",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "layout/style/nsStyleStruct.cpp",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "layout/style/nsStyleStruct.h",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "layout/style/test/mochitest.toml",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "layout/style/test/property_database.js",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "modules/libpref/init/StaticPrefList.yaml",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "servo/components/style/properties/longhands/ui.mako.rs",
+
+        "status": "modified"
+
+        }, {
+
+        "file": "testing/web-platform/meta/css/css-ui/parsing/field-sizing-computed.html.ini",
+
+        "status": "added"
+
+        }, {
+
+        "file": "testing/web-platform/meta/css/css-ui/parsing/field-sizing-valid.html.ini",
+
+        "status": "added"
+
+        }, {
+
+        "file": "testing/web-platform/tests/css/css-ui/__dir__.ini",
+
+        "status": "removed"
+
+        }],
+
+        "diff": [{
+
+        "blockno": 1,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/dom/base/use_counter_metrics.yaml\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/dom/base/use_counter_metrics.yaml\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -16507,33 +16507,16 @@ use.counter.css.page:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "       - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "     notification_emails:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "       - dom-core@mozilla.com\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "       - emilio@mozilla.com\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "     expires: never\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "     send_in_pings:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "       - use-counters\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-  css_field_sizing:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-    type: counter\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-    description: \u003e\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-      Whether a page used the CSS property field-sizing.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-      Compare against `use.counter.top_level_content_documents_destroyed`\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-      to calculate the rate.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-    bugs:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 19,
+
+        "l": "-      - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 20,
+
+        "l": "-    data_reviews:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 21,
+
+        "l": "-      - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 22,
+
+        "l": "-    notification_emails:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 23,
+
+        "l": "-      - dom-core@mozilla.com\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 24,
+
+        "l": "-      - emilio@mozilla.com\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 25,
+
+        "l": "-    expires: never\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 26,
+
+        "l": "-    send_in_pings:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 27,
+
+        "l": "-      - use-counters\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 28,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": "   css_flex_direction:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": "     type: counter\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 31,
+
+        "l": "     description: \u003e\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 32,
+
+        "l": "       Whether a page used the CSS property flex-direction.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 33,
+
+        "l": "       Compare against `use.counter.top_level_content_documents_destroyed`\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 34,
+
+        "l": "       to calculate the rate.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": "     bugs:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": "       - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 37,
+
+        "l": "@@ -28460,33 +28443,16 @@ use.counter.css.doc:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": "       - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": "     notification_emails:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": "       - dom-core@mozilla.com\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": "       - emilio@mozilla.com\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 42,
+
+        "l": "     expires: never\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 43,
+
+        "l": "     send_in_pings:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 44,
+
+        "l": "       - use-counters\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 45,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 46,
+
+        "l": "-  css_field_sizing:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 47,
+
+        "l": "-    type: counter\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 48,
+
+        "l": "-    description: \u003e\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 49,
+
+        "l": "-      Whether a document used the CSS property field-sizing.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 50,
+
+        "l": "-      Compare against `use.counter.content_documents_destroyed`\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 51,
+
+        "l": "-      to calculate the rate.\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 52,
+
+        "l": "-    bugs:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 53,
+
+        "l": "-      - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 54,
+
+        "l": "-    data_reviews:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 55,
+
+        "l": "-      - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 56,
+
+        "l": "-    notification_emails:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 57,
+
+        "l": "-      - dom-core@mozilla.com\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 58,
+
+        "l": "-      - emilio@mozilla.com\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 59,
+
+        "l": "-    expires: never\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 60,
+
+        "l": "-    send_in_pings:\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 61,
+
+        "l": "-      - use-counters\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 62,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 63,
+
+        "l": "   css_flex_direction:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 64,
+
+        "l": "     type: counter\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 65,
+
+        "l": "     description: \u003e\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 66,
+
+        "l": "       Whether a document used the CSS property flex-direction.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 67,
+
+        "l": "       Compare against `use.counter.content_documents_destroyed`\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 68,
+
+        "l": "       to calculate the rate.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 69,
+
+        "l": "     bugs:\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 70,
+
+        "l": "       - https://bugzilla.mozilla.org/show_bug.cgi?id=1852098\n"
+
+        }]
+
+        }, {
+
+        "blockno": 2,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/layout/style/ServoBindings.toml\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/layout/style/ServoBindings.toml\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -134,17 +134,16 @@ rusty-enums = [\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "     \"mozilla::StyleRuleInclusion\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "     \"mozilla::StyleGridTrackBreadth\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "     \"mozilla::StyleOverscrollBehavior\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "     \"mozilla::StyleImeMode\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "     \"mozilla::StyleOverflowAnchor\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "     \"mozilla::StyleListStylePosition\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "     \"mozilla::StylePointerEvents\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "     \"mozilla::StyleScrollbarWidth\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-    \"mozilla::StyleFieldSizing\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": "     \"mozilla::StyleWhiteSpaceCollapse\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": "     \"mozilla::StyleTextWrapMode\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "     \"mozilla::StyleTextRendering\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "     \"mozilla::StyleFlexDirection\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": "     \"mozilla::StyleStrokeLinecap\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": "     \"mozilla::StyleStrokeLinejoin\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": "     \"mozilla::StyleFlexWrap\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "     \"mozilla::StyleMathVariant\",\n"
+
+        }]
+
+        }, {
+
+        "blockno": 3,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/layout/style/nsStyleConsts.h\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/layout/style/nsStyleConsts.h\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -125,22 +125,16 @@ enum class StyleImageOrientation : uint8\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " // scrollbar-width\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " enum class StyleScrollbarWidth : uint8_t {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "   Auto,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "   Thin,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "   None,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " };\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-// field-sizing\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-enum class StyleFieldSizing : bool {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-  Fixed,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-  Content,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-};\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " // Shape source type\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " enum class StyleShapeSourceType : uint8_t {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "   None,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": "   Image,  // shape-outside / clip-path only, and clip-path only uses
+        it for\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "           // \u003curl\u003es\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": "   Shape,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": "   Box,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": "   Path,  // SVG path function\n"
+
+        }]
+
+        }, {
+
+        "blockno": 4,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/layout/style/nsStyleStruct.cpp\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/layout/style/nsStyleStruct.cpp\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -3108,18 +3108,17 @@ nsStyleUIReset::nsStyleUIReset()\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "       mScrollTimelines(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "           nsStyleAutoArray\u003cStyleScrollTimeline\u003e::WITH_SINGLE_INITIAL_ELEMENT),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "       mScrollTimelineNameCount(1),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "       mScrollTimelineAxisCount(1),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "       mViewTimelines(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "           nsStyleAutoArray\u003cStyleViewTimeline\u003e::WITH_SINGLE_INITIAL_ELEMENT),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "       mViewTimelineNameCount(1),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "       mViewTimelineAxisCount(1),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-      mViewTimelineInsetCount(1),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-      mFieldSizing(StyleFieldSizing::Fixed) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 14,
+
+        "l": "+      mViewTimelineInsetCount(1) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "   MOZ_COUNT_CTOR(nsStyleUIReset);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " nsStyleUIReset::nsStyleUIReset(const nsStyleUIReset& aSource)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": "     : mUserSelect(aSource.mUserSelect),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "       mScrollbarWidth(aSource.mScrollbarWidth),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": "       mMozForceBrokenImageIcon(aSource.mMozForceBrokenImageIcon),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "       mMozSubtreeHiddenOnlyVisually(aSource.mMozSubtreeHiddenOnlyVisually),\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 23,
+
+        "l": "@@ -3148,34 +3147,30 @@ nsStyleUIReset::nsStyleUIReset(const nsS\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": "       mAnimationCompositionCount(aSource.mAnimationCompositionCount),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": "       mAnimationTimelineCount(aSource.mAnimationTimelineCount),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": "       mScrollTimelines(aSource.mScrollTimelines.Clone()),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": "       mScrollTimelineNameCount(aSource.mScrollTimelineNameCount),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": "       mScrollTimelineAxisCount(aSource.mScrollTimelineAxisCount),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": "       mViewTimelines(aSource.mViewTimelines.Clone()),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": "       mViewTimelineNameCount(aSource.mViewTimelineNameCount),\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 31,
+
+        "l": "       mViewTimelineAxisCount(aSource.mViewTimelineAxisCount),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 32,
+
+        "l": "-      mViewTimelineInsetCount(aSource.mViewTimelineInsetCount),\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 33,
+
+        "l": "-      mFieldSizing(aSource.mFieldSizing) {\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 34,
+
+        "l": "+      mViewTimelineInsetCount(aSource.mViewTimelineInsetCount) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 35,
+
+        "l": "   MOZ_COUNT_CTOR(nsStyleUIReset);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 36,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 37,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 38,
+
+        "l": " nsChangeHint nsStyleUIReset::CalcDifference(\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 39,
+
+        "l": "     const nsStyleUIReset& aNewData) const {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 40,
+
+        "l": "   nsChangeHint hint = nsChangeHint(0);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 41,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 42,
+
+        "l": "   if (mMozForceBrokenImageIcon != aNewData.mMozForceBrokenImageIcon)
+        {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 43,
+
+        "l": "     hint |= nsChangeHint_ReconstructFrame;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 44,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 45,
+
+        "l": "   if (mMozSubtreeHiddenOnlyVisually != aNewData.mMozSubtreeHiddenOnlyVisually)
+        {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 46,
+
+        "l": "     hint |= nsChangeHint_RepaintFrame;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 47,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 48,
+
+        "l": "-  if (mFieldSizing != aNewData.mFieldSizing) {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 49,
+
+        "l": "-    hint |= nsChangeHint_NeutralChange;\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 50,
+
+        "l": "-  }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 51,
+
+        "l": "   if (mScrollbarWidth != aNewData.mScrollbarWidth) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 52,
+
+        "l": "     // For scrollbar-width change, we need some special handling similar\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 53,
+
+        "l": "     // to overflow properties. Specifically, we may need to reconstruct\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 54,
+
+        "l": "     // the scrollbar or force reflow of the viewport scrollbar.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 55,
+
+        "l": "     hint |= nsChangeHint_ScrollbarChange;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 56,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 57,
+
+        "l": "   if (mWindowShadow != aNewData.mWindowShadow) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 58,
+
+        "l": "     // We really need just an nsChangeHint_SyncFrameView, except\n"
+
+        }]
+
+        }, {
+
+        "blockno": 5,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/layout/style/nsStyleStruct.h\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/layout/style/nsStyleStruct.h\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -1732,18 +1732,16 @@ struct MOZ_NEEDS_MEMMOVABLE_MEMBERS nsSt\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "   nsStyleAutoArray\u003cmozilla::StyleScrollTimeline\u003e mScrollTimelines;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "   uint32_t mScrollTimelineNameCount;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "   uint32_t mScrollTimelineAxisCount;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "   nsStyleAutoArray\u003cmozilla::StyleViewTimeline\u003e mViewTimelines;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "   uint32_t mViewTimelineNameCount;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "   uint32_t mViewTimelineAxisCount;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "   uint32_t mViewTimelineInsetCount;\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-  mozilla::StyleFieldSizing mFieldSizing;\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": " };\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": " struct MOZ_NEEDS_MEMMOVABLE_MEMBERS nsStyleUI {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": "   STYLE_STRUCT(nsStyleUI)\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": "   nsStyleUI();\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": "   void TriggerImageLoads(mozilla::dom::Document&, const nsStyleUI*);\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": "   mozilla::StyleInert mInert;\n"
+
+        }]
+
+        }, {
+
+        "blockno": 6,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/layout/style/test/mochitest.toml\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/layout/style/test/mochitest.toml\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -7,17 +7,16 @@ prefs = [\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "   \"layout.css.fit-content-function.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "   \"layout.css.scroll-driven-animations.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "   \"layout.css.animation-composition.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "   \"layout.css.basic-shape-rect.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "   \"layout.css.basic-shape-shape.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "   \"layout.css.basic-shape-xywh.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "   \"layout.css.transform-box-content-stroke.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": "   \"layout.css.transition-behavior.enabled=true\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-  \"layout.css.field-sizing.enabled=true\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 13,
+
+        "l": " ]\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 14,
+
+        "l": " support-files = [\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 15,
+
+        "l": "   \"animation_utils.js\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 16,
+
+        "l": "   \"bug1729861.js\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 17,
+
+        "l": "   \"ccd-quirks.html\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": "   \"ccd.sjs\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": "   \"ccd-standards.html\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "   \"chrome/bug418986-2.js\",\n"
+
+        }]
+
+        }, {
+
+        "blockno": 7,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/layout/style/test/property_database.js\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/layout/style/test/property_database.js\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -14314,29 +14314,16 @@ if (IsCSSPropertyPrefEnabled(\"layout.css\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "     \"transition-behavior\"\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "   );\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "   if (IsCSSPropertyPrefEnabled(\"layout.css.prefixes.transitions\"))
+        {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "     gCSSProperties[\"-moz-transition\"].subproperties.push(\"transition-behavior\");\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "   }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": " }\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-if (IsCSSPropertyPrefEnabled(\"layout.css.field-sizing.enabled\"))
+        {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-  Object.assign(gCSSProperties, {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-    \"field-sizing\": {\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-      domProp: \"fieldSizing\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-      inherited: false,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-      type: CSS_TYPE_LONGHAND,\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-      initial_values: [\"fixed\"],\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 19,
+
+        "l": "-      other_values: [\"content\"],\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 20,
+
+        "l": "-      invalid_values: [\"none\", \"auto\"],\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 21,
+
+        "l": "-    },\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 22,
+
+        "l": "-  });\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 23,
+
+        "l": "-}\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 24,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": " // Copy aliased properties'' fields from their alias targets. Keep
+        this logic\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 26,
+
+        "l": " // at the bottom of this file to ensure all the aliased properties
+        are\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 27,
+
+        "l": " // processed.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 28,
+
+        "l": " for (var prop in gCSSProperties) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 29,
+
+        "l": "   var entry = gCSSProperties[prop];\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 30,
+
+        "l": "   if (entry.alias_for) {\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 31,
+
+        "l": "     var aliasTargetEntry = gCSSProperties[entry.alias_for];\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 32,
+
+        "l": "     if (!aliasTargetEntry) {\n"
+
+        }]
+
+        }, {
+
+        "blockno": 8,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/modules/libpref/init/StaticPrefList.yaml\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/modules/libpref/init/StaticPrefList.yaml\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -9529,22 +9529,16 @@\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "   rust: true\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": " # Whether we want scrollbar-width: thin to behave as scrollbar-width:
+        auto.\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": " - name: layout.css.scrollbar-width-thin.disabled\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "   type: RelaxedAtomicBool\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "   value: false\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "   mirror: always\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-# field-sizing CSS property\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-- name: layout.css.field-sizing.enabled\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-  type: RelaxedAtomicBool\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-  value: false\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-  mirror: always\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 18,
+
+        "l": " # Whether supports() conditions in @import is enabled\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 19,
+
+        "l": " - name: layout.css.import-supports.enabled\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 20,
+
+        "l": "   type: RelaxedAtomicBool\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 21,
+
+        "l": "   value: true\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 22,
+
+        "l": "   mirror: always\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 23,
+
+        "l": "   rust: true\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 24,
+
+        "l": " \n"
+
+        }, {
+
+        "t": "",
+
+        "n": 25,
+
+        "l": " # Whether :-moz-broken is supported in content.\n"
+
+        }]
+
+        }, {
+
+        "blockno": 9,
+
+        "lines": [{
+
+        "t": "-",
+
+        "n": 1,
+
+        "l": "--- a/servo/components/style/properties/longhands/ui.mako.rs\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 2,
+
+        "l": "+++ b/servo/components/style/properties/longhands/ui.mako.rs\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 3,
+
+        "l": "@@ -427,19 +427,8 @@\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 4,
+
+        "l": "     need_index=True,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 5,
+
+        "l": "     engines=\"gecko\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 6,
+
+        "l": "     animation_value_type=\"none\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 7,
+
+        "l": "     gecko_pref=\"layout.css.scroll-driven-animations.enabled\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 8,
+
+        "l": "     spec=\"https://drafts.csswg.org/scroll-animations-1/#view-timeline-axis\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 9,
+
+        "l": "     rule_types_allowed=DEFAULT_RULES_EXCEPT_KEYFRAME,\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 10,
+
+        "l": "     affects=\"\",\n"
+
+        }, {
+
+        "t": "",
+
+        "n": 11,
+
+        "l": " )}\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 12,
+
+        "l": "-\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 13,
+
+        "l": "-${helpers.single_keyword(\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 14,
+
+        "l": "-    \"field-sizing\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 15,
+
+        "l": "-    \"fixed content\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 16,
+
+        "l": "-    engines=\"gecko\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 17,
+
+        "l": "-    gecko_enum_prefix=\"StyleFieldSizing\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 18,
+
+        "l": "-    animation_value_type=\"discrete\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 19,
+
+        "l": "-    gecko_pref=\"layout.css.field-sizing.enabled\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 20,
+
+        "l": "-    spec=\"https://drafts.csswg.org/css-ui/#field-sizing\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 21,
+
+        "l": "-    affects=\"layout\",\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 22,
+
+        "l": "-)}\n"
+
+        }]
+
+        }, {
+
+        "blockno": 10,
+
+        "lines": [{
+
+        "t": "",
+
+        "n": 1,
+
+        "l": "new file mode 100644\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 2,
+
+        "l": "--- /dev/null\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 3,
+
+        "l": "+++ b/testing/web-platform/meta/css/css-ui/parsing/field-sizing-computed.html.ini\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 4,
+
+        "l": "@@ -0,0 +1,6 @@\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 5,
+
+        "l": "+[field-sizing-computed.html]\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 6,
+
+        "l": "+  [Property field-sizing value ''fixed'']\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 7,
+
+        "l": "+    expected: FAIL\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 8,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 9,
+
+        "l": "+  [Property field-sizing value ''content'']\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 10,
+
+        "l": "+    expected: FAIL\n"
+
+        }]
+
+        }, {
+
+        "blockno": 11,
+
+        "lines": [{
+
+        "t": "",
+
+        "n": 1,
+
+        "l": "new file mode 100644\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 2,
+
+        "l": "--- /dev/null\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 3,
+
+        "l": "+++ b/testing/web-platform/meta/css/css-ui/parsing/field-sizing-valid.html.ini\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 4,
+
+        "l": "@@ -0,0 +1,6 @@\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 5,
+
+        "l": "+[field-sizing-valid.html]\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 6,
+
+        "l": "+  [e.style[''field-sizing''\\] = \"fixed\" should set the property
+        value]\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 7,
+
+        "l": "+    expected: FAIL\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 8,
+
+        "l": "+\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 9,
+
+        "l": "+  [e.style[''field-sizing''\\] = \"content\" should set the property
+        value]\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 10,
+
+        "l": "+    expected: FAIL\n"
+
+        }]
+
+        }, {
+
+        "blockno": 12,
+
+        "lines": [{
+
+        "t": "",
+
+        "n": 1,
+
+        "l": "deleted file mode 100644\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 2,
+
+        "l": "--- a/testing/web-platform/tests/css/css-ui/__dir__.ini\n"
+
+        }, {
+
+        "t": "+",
+
+        "n": 3,
+
+        "l": "+++ /dev/null\n"
+
+        }, {
+
+        "t": "@",
+
+        "n": 4,
+
+        "l": "@@ -1,1 +0,0 @@\n"
+
+        }, {
+
+        "t": "-",
+
+        "n": 5,
+
+        "l": "-prefs: [layout.css.field-sizing.enabled:true]\n"
+
+        }]
+
+        }],
+
+        "phase": "public",
+
+        "pushid": 41889,
+
+        "pushdate": [1718112855, 0],
+
+        "pushuser": "ctuns@mozilla.com",
+
+        "landingsystem": null,
+
+        "git_commit": null
+
+        }'
+    headers:
+      Connection:
+      - keep-alive
+      Date:
+      - Wed, 11 Jun 2025 20:30:44 GMT
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - 0, 0
+      X-Served-By:
+      - cache-yyz4579-YYZ, cache-yyz4521-YYZ
+      X-Timer:
+      - S1749673834.288141,VS0,VE10484
+      accept-ranges:
+      - bytes
+      access-control-allow-origin:
+      - '*'
+      cache-control:
+      - no-cache
+      content-length:
+      - '23187'
+      content-security-policy:
+      - 'default-src ''none''; connect-src ''self'' https://bugzilla.mozilla.org/;
+        img-src ''self''; script-src https://hg.mozilla.org/static/ https://hg-edge.mozilla.org/static/
+        ''nonce-BwMJQtzsRA6s-SkieCsigQ''; style-src ''self'' ''unsafe-inline''; upgrade-insecure-requests;
+        frame-ancestors https:'
+      content-type:
+      - application/json
+      server:
+      - Apache
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+      via:
+      - 1.1 varnish, 1.1 varnish
+      x-cache-info:
+      - 'not cacheable; response specified "Cache-Control: no-cache"'
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.mozilla-central.shippable.2024.06.11
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.shippable.2024.06.11.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2025-06-14T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.shippable.2024.06.11.revision\",\n
+        \     \"name\": \"revision\",\n      \"expires\": \"2025-06-15T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '340'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"154-3uEsLISlczJ8gQJg5Le7SZyrZhE"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 5372abcb-9fd2-4065-a9bb-f331ef02a55d
+      x-for-trace-id:
+      - a8e2715fcfa23cac956c03f0afb527ea
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/namespaces/gecko.v2.mozilla-central.pushdate.2024.06.11
+  response:
+    body:
+      string: "{\n  \"namespaces\": [\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.06.11.20240611093624\",\n
+        \     \"name\": \"20240611093624\",\n      \"expires\": \"2025-06-14T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.06.11.20240611133415\",\n
+        \     \"name\": \"20240611133415\",\n      \"expires\": \"2025-06-14T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.06.11.20240611221035\",\n
+        \     \"name\": \"20240611221035\",\n      \"expires\": \"2025-06-14T00:00:00.000Z\"\n
+        \   },\n    {\n      \"namespace\": \"gecko.v2.mozilla-central.pushdate.2024.06.11.latest\",\n
+        \     \"name\": \"latest\",\n      \"expires\": \"2025-06-14T00:00:00.000Z\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '692'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"2b4-b5x2mco8lXSGgpeZk+m/31T2C58"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 9b7911a3-1f67-488d-808f-195b1f19d9b1
+      x-for-trace-id:
+      - 9dd11fdbe0c7b73b14297e7d41d0bf91
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.2024.06.11.latest.firefox.linux64-opt
+  response:
+    body:
+      string: "{\n  \"namespace\": \"gecko.v2.mozilla-central.shippable.2024.06.11.latest.firefox.linux64-opt\",\n
+        \ \"taskId\": \"DEqweO9HRjGQjSUOstgmZw\",\n  \"rank\": 1718143835,\n  \"data\":
+        {},\n  \"expires\": \"2025-06-12T04:03:52.494Z\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '208'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"d0-bQsReiLc6B52Z2dXf2nT0WffATs"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 0375f345-4cfc-48a7-ad25-eb6191a733f2
+      x-for-trace-id:
+      - 9493b0aabaada55e9538d91a1000740c
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DEqweO9HRjGQjSUOstgmZw/artifacts
+  response:
+    body:
+      string: "{\n  \"artifacts\": [\n    {\n      \"storageType\": \"s3\",\n      \"name\":
+        \"public/build/buildhub.json\",\n      \"expires\": \"2025-06-12T04:03:52.494Z\",\n
+        \     \"contentType\": \"application/json\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/build/config.status\",\n      \"expires\":
+        \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mar\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/host/bin/mbsdiff\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/mozharness.zip\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/profile_build_resources.json\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.awsy.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.checksums\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.common.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.condprof.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.cppunittest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.crashreporter-symbols.zip\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.fuzztest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.generated-files.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.gtest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target_info.txt\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jittest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.json\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsreftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.jsshell.zip\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.langpack.xpi\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/x-xpinstall\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mochitest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.mozinfo.json\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.perftests.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.raptor.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.reftest.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.talos.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.tar.bz2\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/x-bzip2\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.test_packages.json\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/json\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.txt\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.updater-dep.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.web-platform.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpcshell.tests.tar.gz\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/gzip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/build/target.xpt_artifacts.zip\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/zip\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/chain-of-trust.json.sig\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/octet-stream\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/certified.log\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"text/plain\"\n
+        \   },\n    {\n      \"storageType\": \"s3\",\n      \"name\": \"public/logs/live_backing.log\",\n
+        \     \"expires\": \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"text/plain;
+        charset=utf-8\"\n    },\n    {\n      \"storageType\": \"reference\",\n      \"name\":
+        \"public/logs/live.log\",\n      \"expires\": \"2025-06-12T04:03:52.494Z\",\n
+        \     \"contentType\": \"text/plain; charset=utf-8\"\n    },\n    {\n      \"storageType\":
+        \"s3\",\n      \"name\": \"public/logs/localconfig.json\",\n      \"expires\":
+        \"2025-06-12T04:03:52.494Z\",\n      \"contentType\": \"application/json\"\n
+        \   }\n  ]\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"1bfa-2bDO4CgxTjC3VzKKMIcdfcmRCq4"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 google
+      content-length:
+      - '7162'
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - a829ed9a-3d20-4427-8b0d-db45234fe3ba
+      x-for-trace-id:
+      - b1c201bd828c204a7455cd30cca73b76
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DEqweO9HRjGQjSUOstgmZw/artifacts/public/build/target.mozinfo.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.mozinfo.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '139'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"8b-8QLLteLkQzCe1fyYhmHarbIFbTo"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.mozinfo.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 43d7679f-8097-4c25-a7f0-b7054de36ca5
+      x-for-trace-id:
+      - a1d677870efce771e28a8ac70f1df157
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.mozinfo.json
+  response:
+    body:
+      string: "{\n    \"appname\": \"firefox\",\n    \"artifact\": false,\n    \"asan\":
+        false,\n    \"automation\": true,\n    \"bin_suffix\": \"\",\n    \"bits\":
+        64,\n    \"buildapp\": \"browser\",\n    \"buildtype\": \"pgo\",\n    \"buildtype_guess\":
+        \"pgo\",\n    \"cc_type\": \"clang\",\n    \"ccov\": false,\n    \"crashreporter\":
+        true,\n    \"datareporting\": true,\n    \"debug\": false,\n    \"devedition\":
+        false,\n    \"domstreams\": true,\n    \"early_beta_or_earlier\": true,\n
+        \   \"healthreport\": true,\n    \"isolated_process\": false,\n    \"mozconfig\":
+        \"/builds/worker/checkouts/gecko/.mozconfig\",\n    \"nightly_build\": true,\n
+        \   \"normandy\": true,\n    \"official\": true,\n    \"os\": \"linux\",\n
+        \   \"pgo\": true,\n    \"platform_guess\": \"linux64\",\n    \"processor\":
+        \"x86_64\",\n    \"release_or_beta\": false,\n    \"require_signing\": false,\n
+        \   \"stylo\": true,\n    \"sync\": true,\n    \"telemetry\": false,\n    \"tests_enabled\":
+        true,\n    \"toolkit\": \"gtk\",\n    \"topobjdir\": \"/builds/worker/workspace/obj-build\",\n
+        \   \"topsrcdir\": \"/builds/worker/checkouts/gecko\",\n    \"tsan\": false,\n
+        \   \"ubsan\": false,\n    \"updater\": true\n}"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Age:
+      - '3004'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 11 Jun 2025 19:40:41 GMT
+      ETag:
+      - '"4cb49a4774ffde3186c7a143ade183a2"'
+      Last-Modified:
+      - Wed, 12 Jun 2024 05:53:33 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - ABgVH8926CPZUo2sFCnvk2ZLIRP51HzXp9bZEBoS8Y53Sy6cDMw8hfvrqrYqGVEaoR7PwsilTVvQpAg
+      content-length:
+      - '1036'
+      x-cache-status:
+      - hit
+      x-goog-generation:
+      - '1718171613805482'
+      x-goog-hash:
+      - crc32c=lCeELg==
+      - md5=TLSaR3T/3jGGx6FDreGDog==
+      x-goog-metageneration:
+      - '2'
+      x-goog-storage-class:
+      - NEARLINE
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '410'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: HEAD
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DEqweO9HRjGQjSUOstgmZw/artifacts/public/build/target.tar.xz
+  response:
+    body:
+      string: ''
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '466'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"1d2-L4BzPAkPUCyIAHA33h3xDHDaWbU"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 824192e4-8ec1-4c1d-9952-d613cdd83484
+      x-for-trace-id:
+      - 56cd8e9b23dc75528054ec25f128b9bd
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: HEAD
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DEqweO9HRjGQjSUOstgmZw/artifacts/public/build/target.tar.bz2
+  response:
+    body:
+      string: ''
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '134'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"86-9NBwV6UCGL7AhEzCiXzdq8+zwFY"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.tar.bz2
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 3bc9ca77-ba4f-4aaf-b745-139ef3820efb
+      x-for-trace-id:
+      - 507aea6e43d91fb59b72a3179a748ce1
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: HEAD
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DEqweO9HRjGQjSUOstgmZw/artifacts/public/build/target.crashreporter-symbols.zip
+  response:
+    body:
+      string: ''
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '152'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"98-CuV2ZnbGpdCTHkMmlA/Ur0waGgE"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.crashreporter-symbols.zip
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 33fc9b61-e384-4897-ba47-91a974facc40
+      x-for-trace-id:
+      - 6860e05fd078b279d7164973bcf37a8c
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/DEqweO9HRjGQjSUOstgmZw/artifacts/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"storageType\": \"s3\",\n  \"url\": \"https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.json\"\n}"
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '900'
+      Access-Control-Request-Method:
+      - '*'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - no-store no-cache must-revalidate
+      Content-Length:
+      - '131'
+      Content-Security-Policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 11 Jun 2025 20:30:45 GMT
+      ETag:
+      - W/"83-fNzga0NgB28IKDfmfG8A4N8kri0"
+      Server:
+      - openresty
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 google
+      location:
+      - https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.json
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 9f5695dc-6684-450d-90ca-e7551a76a513
+      x-for-trace-id:
+      - 0edf5e2003c68e2a86c2bf975ae13029
+      x-taskcluster-artifact-storage-type:
+      - s3
+    status:
+      code: 303
+      message: See Other
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://firefoxci.taskcluster-artifacts.net/DEqweO9HRjGQjSUOstgmZw/0/public/build/target.json
+  response:
+    body:
+      string: "{\n  \"as\": \"/builds/worker/fetches/clang/bin/clang --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu
+        -std=gnu99\",\n  \"buildid\": \"20240611221035\",\n  \"cc\": \"/builds/worker/fetches/clang/bin/clang
+        --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu -std=gnu99\",\n
+        \ \"cxx\": \"/builds/worker/fetches/clang/bin/clang++ --sysroot /builds/worker/fetches/sysroot-x86_64-linux-gnu\",\n
+        \ \"host_alias\": \"x86_64-pc-linux-gnu\",\n  \"moz_app_id\": \"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\",\n
+        \ \"moz_app_maxversion\": \"129.0a1\",\n  \"moz_app_name\": \"firefox\",\n
+        \ \"moz_app_vendor\": \"Mozilla\",\n  \"moz_app_version\": \"129.0a1\",\n
+        \ \"moz_pkg_platform\": \"linux-x86_64\",\n  \"moz_source_repo\": \"https://hg.mozilla.org/mozilla-central\",\n
+        \ \"moz_source_stamp\": \"e1287caec454f439e2faf508a25643e95cbfe4fb\",\n  \"moz_update_channel\":
+        \"nightly\",\n  \"target_alias\": \"x86_64-pc-linux-gnu\"\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - '*'
+      Age:
+      - '3004'
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - public,max-age=604800
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 11 Jun 2025 19:40:41 GMT
+      ETag:
+      - '"926e445a713eb105c6279f6b54f52fa1"'
+      Last-Modified:
+      - Wed, 12 Jun 2024 05:53:31 GMT
+      Server:
+      - UploadServer
+      Vary:
+      - Accept-Encoding
+      X-GUploader-UploadID:
+      - ABgVH8_OMHecVIG3xpPUSUhzcB3WEK50-d4RQJq4jmUu5v5FwsNHQFe4oIGIpiq4RCApg7THNPH9a8w
+      content-length:
+      - '850'
+      x-cache-status:
+      - hit
+      x-goog-generation:
+      - '1718171611361418'
+      x-goog-hash:
+      - crc32c=dx5YEA==
+      - md5=km5EWnE+sQXGJ59rVPUvoQ==
+      x-goog-metageneration:
+      - '2'
+      x-goog-storage-class:
+      - NEARLINE
+      x-goog-stored-content-encoding:
+      - gzip
+      x-goog-stored-content-length:
+      - '358'
+    status:
+      code: 200
+      message: OK
+version: 1

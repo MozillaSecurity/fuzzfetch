@@ -166,19 +166,19 @@ def test_metadata(branch, build_flags, os_, cpu, as_args):
 # - update freeze time to current date
 # - builds with an ascending search order should be older than 365 days
 # - builds with a descending order should be in the future
-@freeze_time("2024-12-04")
+@freeze_time("2025-06-11")
 @pytest.mark.vcr()
 @pytest.mark.parametrize(
     "requested, expected, direction",
     (
         # Requested data is older than available (-365 days)
-        ("2023-12-04", "2023-12-05", BuildSearchOrder.ASC),
+        ("2024-06-10", "2024-06-11", BuildSearchOrder.ASC),
         # Requested build is in the future (+1 days)
-        ("2024-12-05", "2024-12-04", BuildSearchOrder.DESC),
+        ("2025-06-12", "2025-06-11", BuildSearchOrder.DESC),
         # Requested rev is older than available (-365)
         (
-            "16c36964a84ba18209a6a86b59b5e5dc20e60925",
-            "233e73a17c3f7d9f9cbb3fc3dc7f8af9cad499ff",
+            "951502a5faeb2d4ede9d2cc7628091f76996d12c",
+            "e1287caec454f439e2faf508a25643e95cbfe4fb",
             BuildSearchOrder.ASC,
         ),
     ),
