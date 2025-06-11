@@ -28,7 +28,6 @@ def test_extract_build_linux(tmp_path, mocker):
         tmp_path / "taskcluster-build-task",
         tmp_path / "firefox",
         tmp_path / "firefox.fuzzmanagerconf",
-        tmp_path / "symbols",
     }
 
 
