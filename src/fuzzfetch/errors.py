@@ -3,8 +3,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch exception types"""
 
-# pylint: disable=wrong-import-position
-
 
 class FetcherException(Exception):
     """Exception raised for any Fetcher errors"""
