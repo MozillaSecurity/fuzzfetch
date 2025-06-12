@@ -78,7 +78,7 @@ class Fetcher:
         self._platform = platform or Platform()
         self._simulated = simulated
         self._targets = targets
-        self._task = None
+        self._task: BuildTask | None = None
 
         if not isinstance(build, BuildTask):
             if is_namespace(build):
@@ -256,7 +256,7 @@ class Fetcher:
     @property
     def _artifacts_url(self) -> str:
         """Build the artifacts url"""
-        assert isinstance(self._task, BuildTask)
+        assert self._task is not None
         return f"{self._task.queue_server}/task/{self.task_id}/artifacts"
 
     @property
@@ -301,21 +301,21 @@ class Fetcher:
     @property
     def rank(self) -> int:
         """Return the build's rank"""
-        assert isinstance(self._task, BuildTask)
+        assert self._task is not None
         assert isinstance(self._task.rank, int)
         return self._task.rank
 
     @property
     def task_id(self) -> str:
         """Return the build's TaskCluster ID"""
-        assert isinstance(self._task, BuildTask)
+        assert self._task is not None
         assert isinstance(self._task.taskId, str)
         return self._task.taskId
 
     @property
     def task_url(self) -> str:
         """Return the TaskCluster base url"""
-        assert isinstance(self._task, BuildTask)
+        assert self._task is not None
         assert isinstance(self._task.url, str)
         return self._task.url
 
