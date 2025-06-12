@@ -5,12 +5,13 @@
 
 from __future__ import annotations
 
-import itertools
-import platform as std_platform
 from dataclasses import dataclass, fields
 from datetime import datetime
 from enum import Enum
+from itertools import product
 from logging import getLogger
+from platform import machine as plat_machine
+from platform import system as plat_system
 from types import MappingProxyType
 from typing import TYPE_CHECKING, Any
 
@@ -195,7 +196,7 @@ class BuildTask:
                 path + flag_str
                 for path in cls._revision_paths(build.lower(), branch, target_platform)
             )
-            task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_paths)
+            task_template_paths = product((cls.TASKCLUSTER_API,), task_paths)
 
         elif build == "latest":
             if branch not in {"autoland", "try"}:
@@ -223,16 +224,14 @@ class BuildTask:
                         yield f"/task/{namespace}.{prod_}.sm-{suffix_}"
 
             task_paths = tuple(generate_task_paths(namespaces, prod, suffix, simulated))
-            task_template_paths = itertools.product((cls.TASKCLUSTER_API,), task_paths)
+            task_template_paths = product((cls.TASKCLUSTER_API,), task_paths)
 
         else:
             # try to use build argument directly as a namespace
             task_path = f"/task/{build}"
             task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
-        for template_path, try_wo_opt in itertools.product(
-            task_template_paths, (False, True)
-        ):
+        for template_path, try_wo_opt in product(task_template_paths, (False, True)):
             template, path = template_path
 
             if try_wo_opt:
@@ -289,14 +288,14 @@ class BuildTask:
             except RequestException:
                 continue
 
-            product = "mobile" if "android" in target_platform else "firefox"
+            prod = "mobile" if "android" in target_platform else "firefox"
             json = base.json()
             for namespace in sorted(json["namespaces"], key=lambda x: str(x["name"])):
                 task_paths = (
-                    f"/task/{namespace['namespace']}.{product}.{target_platform}",
-                    f"/task/{namespace['namespace']}.{product}.sm-{target_platform}",
+                    f"/task/{namespace['namespace']}.{prod}.{target_platform}",
+                    f"/task/{namespace['namespace']}.{prod}.sm-{target_platform}",
                 )
-                yield from itertools.product((cls.TASKCLUSTER_API,), task_paths)
+                yield from product((cls.TASKCLUSTER_API,), task_paths)
 
     @classmethod
     def _revision_paths(
@@ -315,9 +314,9 @@ class BuildTask:
         )
 
         for namespace in namespaces:
-            product = "mobile" if "android" in target_platform else "firefox"
-            yield f"/task/{namespace}.{product}.{target_platform}"
-            yield f"/task/{namespace}.{product}.sm-{target_platform}"
+            prod = "mobile" if "android" in target_platform else "firefox"
+            yield f"/task/{namespace}.{prod}.{target_platform}"
+            yield f"/task/{namespace}.{prod}.sm-{target_platform}"
 
 
 class HgRevision:
@@ -409,9 +408,9 @@ class Platform:
         machine: str | None = None,
     ) -> None:
         if system is None:
-            system = std_platform.system()
+            system = plat_system()
         if machine is None:
-            machine = std_platform.machine()
+            machine = plat_machine()
         if system not in self.SUPPORTED:
             raise FetcherException(f"Unknown system: {system}")
         fixed_machine = self.CPU_ALIASES.get(machine, machine)
@@ -439,10 +438,8 @@ class Platform:
         """Generate platform prefix for cross-platform downloads."""
         # if the platform is not native, auto_name would clobber native downloads.
         # make a prefix to avoid this
-        native_system = std_platform.system()
-        native_machine = self.CPU_ALIASES.get(
-            std_platform.machine(), std_platform.machine()
-        )
+        native_system = plat_system()
+        native_machine = self.CPU_ALIASES.get(plat_machine(), plat_machine())
         if native_system == self.system and native_machine == self.machine:
             return ""
         platform = {

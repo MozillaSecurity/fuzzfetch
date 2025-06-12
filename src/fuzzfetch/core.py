@@ -5,17 +5,17 @@
 
 from __future__ import annotations
 
-import configparser
-import logging
 import os
-import platform as std_platform
 import re
-import shutil
-import tempfile
+from configparser import RawConfigParser
 from contextlib import suppress
 from datetime import datetime, timedelta
 from importlib.metadata import PackageNotFoundError, version
+from logging import DEBUG, INFO, WARNING, basicConfig, getLogger
 from pathlib import Path
+from platform import system
+from shutil import copy
+from tempfile import mkstemp
 from typing import TYPE_CHECKING, Any
 
 from pytz import timezone
@@ -38,7 +38,7 @@ except PackageNotFoundError:
     # package is not installed
     __version__ = "unknown"
 
-LOG = logging.getLogger("fuzzfetch")
+LOG = getLogger("fuzzfetch")
 BUG_URL = "https://github.com/MozillaSecurity/fuzzfetch/issues/"
 
 
@@ -477,7 +477,7 @@ class Fetcher:
             (path / "gtest" / "gtest_bin" / "gtest" / libxul).rename(
                 path / "gtest" / libxul
             )
-            shutil.copy(
+            copy(
                 path / "gtest" / "dependentlibs.list.gtest",
                 path / "dependentlibs.list.gtest",
             )
@@ -532,7 +532,7 @@ class Fetcher:
             target: firefox/js
             path: fuzzmanager config path
         """
-        output = configparser.RawConfigParser()
+        output = RawConfigParser()
         output.add_section("Main")
         processor = self._platform.machine
         assert isinstance(processor, str)
@@ -583,7 +583,7 @@ class Fetcher:
             url: artifact to download
             path: path to extract zip to
         """
-        zip_fd, zip_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".zip")
+        zip_fd, zip_fn = mkstemp(prefix="fuzzfetch-", suffix=".zip")
         os.close(zip_fd)
         try:
             download_url(url, zip_fn)
@@ -602,7 +602,7 @@ class Fetcher:
             path: path to extract tar to
         """
         mode = url.split(".")[-1]
-        tar_fd, tar_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=f".tar.{mode}")
+        tar_fd, tar_fn = mkstemp(prefix="fuzzfetch-", suffix=f".tar.{mode}")
         os.close(tar_fd)
         try:
             download_url(url, tar_fn)
@@ -618,7 +618,7 @@ class Fetcher:
         Arguments:
             path
         """
-        apk_fd, apk_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".apk")
+        apk_fd, apk_fn = mkstemp(prefix="fuzzfetch-", suffix=".apk")
         os.close(apk_fd)
         try:
             # _artifact_base is like 'path/to/target' .. but geckoview doesn't
@@ -626,7 +626,7 @@ class Fetcher:
             artifact_path = "/".join(self._artifact_base.split("/")[:-1])
             url = f"{self._artifacts_url}/{artifact_path}/geckoview_example.apk"
             download_url(url, apk_fn)
-            shutil.copy(apk_fn, Path(path) / "target.apk")
+            copy(apk_fn, Path(path) / "target.apk")
         finally:
             os.unlink(apk_fn)
 
@@ -639,16 +639,16 @@ class Fetcher:
         Arguments:
             path: path to extract dmg contents to
         """
-        dmg_fd, dmg_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".dmg")
+        dmg_fd, dmg_fn = mkstemp(prefix="fuzzfetch-", suffix=".dmg")
         os.close(dmg_fd)
         try:
             download_url(self.artifact_url("dmg"), dmg_fn)
-            if std_platform.system() == "Darwin":
+            if system() == "Darwin":
                 LOG.info(".. extracting")
                 extract_dmg(dmg_fn, path)
             else:
-                LOG.warning(".. can't extract target.dmg on %s", std_platform.system())
-                shutil.copy(dmg_fn, Path(path) / "target.dmg")
+                LOG.warning(".. can't extract target.dmg on %s", system())
+                copy(dmg_fn, Path(path) / "target.dmg")
         finally:
             os.unlink(dmg_fn)
 
@@ -731,15 +731,13 @@ class Fetcher:
 
         Run with --help for usage
         """
-        log_level = logging.INFO
+        log_level = INFO
         log_fmt = "%(message)s"
         if bool(os.getenv("DEBUG")):
-            log_level = logging.DEBUG
+            log_level = DEBUG
             log_fmt = "%(levelname).1s %(name)s [%(asctime)s] %(message)s"
-        logging.basicConfig(
-            format=log_fmt, datefmt="%Y-%m-%d %H:%M:%S", level=log_level
-        )
-        logging.getLogger("requests").setLevel(logging.WARNING)
+        basicConfig(format=log_fmt, datefmt="%Y-%m-%d %H:%M:%S", level=log_level)
+        getLogger("requests").setLevel(WARNING)
 
         try:
             obj, extract_args = cls.from_args()

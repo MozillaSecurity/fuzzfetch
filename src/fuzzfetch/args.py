@@ -5,11 +5,11 @@
 
 from __future__ import annotations
 
-import itertools
-import platform as std_platform
 from argparse import ArgumentParser, Namespace
+from itertools import chain
 from logging import getLogger
 from pathlib import Path
+from platform import machine, system
 from typing import TYPE_CHECKING
 
 from .models import BuildSearchOrder, Platform
@@ -61,12 +61,12 @@ class FetcherArgs:
         target_group.add_argument(
             "--os",
             choices=sorted(Platform.SUPPORTED),
-            help=f"Specify the target system. (default: {std_platform.system()})",
+            help=f"Specify the target system. (default: {system()})",
         )
         cpu_choices = sorted(
             set(
-                itertools.chain(
-                    itertools.chain.from_iterable(Platform.SUPPORTED.values()),
+                chain(
+                    chain.from_iterable(Platform.SUPPORTED.values()),
                     Platform.CPU_ALIASES,
                 )
             )
@@ -74,7 +74,7 @@ class FetcherArgs:
         target_group.add_argument(
             "--cpu",
             choices=cpu_choices,
-            help=f"Specify the target CPU. (default: {std_platform.machine()})",
+            help=f"Specify the target CPU. (default: {machine()})",
         )
         target_group.add_argument(
             "--sim",
