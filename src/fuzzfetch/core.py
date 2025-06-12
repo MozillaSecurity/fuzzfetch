@@ -12,6 +12,7 @@ import platform as std_platform
 import re
 import shutil
 import tempfile
+from contextlib import suppress
 from datetime import datetime, timedelta
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
@@ -360,11 +361,9 @@ class Fetcher:
             if self._platform.system == "Linux":
                 for ext in ("xz", "bz2"):
                     url = self.artifact_url(f"tar.{ext}")
-                    try:
+                    with suppress(FetcherException):
                         resolve_url(url)
                         break
-                    except FetcherException:
-                        pass
                 else:
                     raise FetcherException("Failed to resolve linux artifacts!")
             elif self._platform.system == "Darwin":
@@ -438,11 +437,9 @@ class Fetcher:
             if self._platform.system == "Linux":
                 for ext in ("xz", "bz2"):
                     url = self.artifact_url(f"tar.{ext}")
-                    try:
+                    with suppress(FetcherException):
                         resolve_url(url)
                         break
-                    except FetcherException:
-                        pass
                 # warn if we don't have a fast decompressor for bz2
                 if ext == "bz2" and LBZIP2_PATH is None:
                     LOG.warning("WARNING: Install lbzip2 for much faster extraction.")
