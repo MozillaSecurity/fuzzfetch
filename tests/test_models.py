@@ -169,8 +169,8 @@ def test_from_platform_guess_invalid():
         ("Windows", "x86", "Windows", "x86_64", "win32-"),
     ],
 )
-@patch("platform.system")
-@patch("platform.machine")
+@patch("fuzzfetch.models.plat_system")
+@patch("fuzzfetch.models.plat_machine")
 def test_auto_name_prefix(
     mock_machine,
     mock_system,

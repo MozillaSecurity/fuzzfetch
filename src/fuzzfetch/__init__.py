@@ -3,8 +3,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch module"""
 
-# pylint: disable=wrong-import-position
-
 from .args import FetcherArgs  # noqa
 from .core import Fetcher, __version__  # noqa
 from .download import download_url, get_url, iec, si  # noqa

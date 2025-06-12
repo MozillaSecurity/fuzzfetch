@@ -3,24 +3,24 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Code for extracting archives"""
 
-import logging
 import os
-import os.path
-import shutil
-import stat
-import tarfile
-import tempfile
-import zipfile
+from logging import getLogger
+from os.path import abspath, commonpath
 from pathlib import Path
+from shutil import copyfileobj, copytree, rmtree, which
+from stat import S_IREAD
 from subprocess import PIPE, run
+from tarfile import open as tar_open
+from tempfile import mkdtemp, mkstemp
+from zipfile import ZipFile, ZipInfo
 
 from .path import PathArg, onerror
 
-LOG = logging.getLogger("fuzzfetch")
+LOG = getLogger("fuzzfetch")
 
-HDIUTIL_PATH = shutil.which("hdiutil")
-LBZIP2_PATH = shutil.which("lbzip2")
-XZ_PATH = shutil.which("xz")
+HDIUTIL_PATH = which("hdiutil")
+LBZIP2_PATH = which("lbzip2")
+XZ_PATH = which("xz")
 
 
 def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
@@ -32,7 +32,7 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
     """
     dest_path = Path(path)
 
-    def _extract_entry(zip_fp: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
+    def _extract_entry(zip_fp: ZipFile, info: ZipInfo) -> None:
         """Extract entries while explicitly setting the proper permissions"""
         rel_path = Path(info.filename)
 
@@ -49,22 +49,22 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
         else:
             out_path.parent.mkdir(parents=True, exist_ok=True)
             with zip_fp.open(info) as zip_member_fp, out_path.open("wb") as out_fp:
-                shutil.copyfileobj(zip_member_fp, out_fp)
+                copyfileobj(zip_member_fp, out_fp)
 
         perm = info.external_attr >> 16
-        perm |= stat.S_IREAD  # make sure we're not accidentally setting this to 0
+        perm |= S_IREAD  # make sure we're not accidentally setting this to 0
         out_path.chmod(perm)
 
-    with zipfile.ZipFile(zip_fn) as zip_fp:
+    with ZipFile(zip_fn) as zip_fp:
         for info in zip_fp.infolist():
             _extract_entry(zip_fp, info)
 
 
 def _is_within_directory(directory: PathArg, target: PathArg) -> bool:
-    abs_directory = os.path.abspath(directory)
-    abs_target = os.path.abspath(target)
+    abs_directory = abspath(directory)
+    abs_target = abspath(target)
 
-    prefix = os.path.commonpath([abs_directory, abs_target])
+    prefix = commonpath([abs_directory, abs_target])
 
     return prefix == abs_directory
 
@@ -83,7 +83,7 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
 
         def _external_decomp(decomp: str, name: str) -> None:
             nonlocal mode, tar_fn, tmp_fn
-            tmp_fd, tmp_fn = tempfile.mkstemp(prefix="fuzzfetch-", suffix=".tar")
+            tmp_fd, tmp_fn = mkstemp(prefix="fuzzfetch-", suffix=".tar")
             result = run(  # pylint: disable=subprocess-run-check
                 [decomp, "-dc", tar_fn],
                 env={"XZ_DEFAULTS": "-T0"},
@@ -110,7 +110,7 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
             # xz > python
             _external_decomp(XZ_PATH, "xz")
 
-        with tarfile.open(tar_fn, mode=f"r:{mode}") as tar:
+        with tar_open(tar_fn, mode=f"r:{mode}") as tar:
             members = []
             for member in tar.getmembers():
                 if not _is_within_directory(path, Path(path) / member.name):
@@ -138,7 +138,7 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
         path: where to extract dmg contents
     """
     assert HDIUTIL_PATH, "Extracting .dmg requires hdiutil"
-    out_tmp = Path(tempfile.mkdtemp(prefix="fuzzfetch-", suffix=".tmp"))
+    out_tmp = Path(mkdtemp(prefix="fuzzfetch-", suffix=".tmp"))
     dest_path = Path(path)
     try:
         run(
@@ -148,7 +148,7 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
         try:
             apps = [mt for mt in out_tmp.glob("*") if mt.suffix == ".app"]
             assert len(apps) == 1
-            shutil.copytree(
+            copytree(
                 out_tmp / apps[0].name,
                 dest_path / apps[0].name,
                 symlinks=True,
@@ -156,4 +156,4 @@ def extract_dmg(dmg_fn: PathArg, path: PathArg = ".") -> None:
         finally:
             run([HDIUTIL_PATH, "detach", "-quiet", out_tmp], check=True)
     finally:
-        shutil.rmtree(out_tmp, onerror=onerror)  # pylint: disable=deprecated-argument
+        rmtree(out_tmp, onerror=onerror)  # pylint: disable=deprecated-argument
