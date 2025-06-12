@@ -56,18 +56,18 @@ class BuildFlags:
         The latter is generated. If it fails, the caller should try the former.
         """
         return (
-            ("-ccov" if self.coverage else "")
-            + ("-fuzzilli" if self.fuzzilli else "")
-            + ("-fuzzing" if self.fuzzing else "")
-            + ("-asan" if self.asan else "")
-            + ("-tsan" if self.tsan else "")
-            + ("-afl" if self.afl else "")
-            + ("-nyx" if self.nyx else "")
-            + ("-valgrind" if self.valgrind else "")
-            + ("-noopt" if self.no_opt else "")
-            + ("-searchfox" if self.searchfox else "")
-            + ("-debug" if self.debug else "")
-            + ("-opt" if not self.no_opt and not self.debug else "")
+            f"{'-ccov' if self.coverage else ''}"
+            f"{'-fuzzilli' if self.fuzzilli else ''}"
+            f"{'-fuzzing' if self.fuzzing else ''}"
+            f"{'-asan' if self.asan else ''}"
+            f"{'-tsan' if self.tsan else ''}"
+            f"{'-afl' if self.afl else ''}"
+            f"{'-nyx' if self.nyx else ''}"
+            f"{'-valgrind' if self.valgrind else ''}"
+            f"{'-noopt' if self.no_opt else ''}"
+            f"{'-searchfox' if self.searchfox else ''}"
+            f"{'-debug' if self.debug else ''}"
+            f"{'-opt' if not self.no_opt and not self.debug else ''}"
         )
 
     def update_from_string(self, build_string: str) -> None:
@@ -180,7 +180,7 @@ class BuildTask:
                 build_date_ns = f"{build[:4]}.{build[4:6]}.{build[6:8]}"
                 filt = build
             task_template_paths: Iterable[tuple[str, str]] = tuple(
-                (template, path + flag_str)
+                (template, f"{path}{flag_str}")
                 for (template, path) in cls._pushdate_template_paths(
                     build_date_ns, branch, target_platform
                 )
@@ -193,7 +193,7 @@ class BuildTask:
                 build = HgRevision(build, branch).hash
             flag_str = flags.build_string()
             task_paths = tuple(
-                path + flag_str
+                f"{path}{flag_str}"
                 for path in cls._revision_paths(build.lower(), branch, target_platform)
             )
             task_template_paths = product((cls.TASKCLUSTER_API,), task_paths)
@@ -281,7 +281,7 @@ class BuildTask:
 
         for path in paths:
             index_base = cls.TASKCLUSTER_API % ("index",)
-            url = index_base + path
+            url = f"{index_base}{path}"
             try:
                 base = HTTP_SESSION.post(url, json={})
                 base.raise_for_status()
