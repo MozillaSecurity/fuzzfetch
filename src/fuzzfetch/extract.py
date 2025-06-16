@@ -110,7 +110,7 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
             # xz > python
             _external_decomp(XZ_PATH, "xz")
 
-        with tar_open(tar_fn, mode=f"r:{mode}") as tar:
+        with tar_open(tar_fn, mode=f"r:{mode}") as tar:  # type: ignore
             members = []
             for member in tar.getmembers():
                 if not _is_within_directory(path, Path(path) / member.name):
