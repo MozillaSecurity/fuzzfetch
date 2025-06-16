@@ -27,14 +27,6 @@ repos:
       - id: codespell
         exclude_types: [json]
         exclude: ^tests/cassettes/
-  - repo: https://github.com/marco-c/taskcluster_yml_validator
-    rev: v0.0.12
-    hooks:
-      - id: taskcluster_yml
-  - repo: https://github.com/MozillaSecurity/orion-ci
-    rev: v0.0.11
-    hooks:
-      - id: orion_ci
   - repo: meta
     hooks:
       - id: check-useless-excludes
