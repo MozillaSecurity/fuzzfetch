@@ -202,10 +202,11 @@ class BuildTask:
             if branch not in {"autoland", "try"}:
                 branch = f"mozilla-{branch}"
 
-            namespaces = [f"gecko.v2.{branch}.latest"]
+            namespaces = []
             if not any(flags):
                 # Opt builds are now indexed under 'shippable'
                 namespaces.append(f"gecko.v2.{branch}.shippable.latest")
+            namespaces.append(f"gecko.v2.{branch}.latest")
 
             prod = "mobile" if "android" in target_platform else "firefox"
             suffix = f"{target_platform}{flags.build_string()}"
@@ -309,8 +310,8 @@ class BuildTask:
             branch = f"mozilla-{branch}"
 
         namespaces = (
-            f"gecko.v2.{branch}.revision.{rev}",
             f"gecko.v2.{branch}.shippable.revision.{rev}",
+            f"gecko.v2.{branch}.revision.{rev}",
         )
 
         for namespace in namespaces:
