@@ -10,14 +10,25 @@ from time import perf_counter
 from typing import TYPE_CHECKING
 
 from requests import Response, Session
+from requests.adapters import HTTPAdapter
 from requests.exceptions import RequestException
+from urllib3 import Retry
 
 from .errors import FetcherException
 
 if TYPE_CHECKING:
     from .path import PathArg
 
+HTTP_ADAPTER = HTTPAdapter(
+    max_retries=Retry(
+        total=3,
+        backoff_factor=1,
+        status_forcelist=[500, 502, 503, 504],
+    )
+)
 HTTP_SESSION = Session()
+HTTP_SESSION.mount("https://", HTTP_ADAPTER)
+
 LOG = getLogger("fuzzfetch")
 
 
