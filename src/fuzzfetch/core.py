@@ -14,11 +14,20 @@ from importlib.metadata import PackageNotFoundError, version
 from logging import DEBUG, INFO, WARNING, basicConfig, getLogger
 from pathlib import Path
 from platform import system
-from shutil import copy
+from shutil import copy, disk_usage
 from tempfile import mkstemp
 from typing import TYPE_CHECKING, Any
 
 from pytz import timezone
+
+try:
+    from psutil import virtual_memory
+    from sentry_sdk import Event, Hint
+    from sentry_sdk import init as sentry_init
+
+    HAVE_SENTRY = True
+except ImportError:
+    HAVE_SENTRY = False
 
 from .args import FetcherArgs
 from .download import download_url, get_url, resolve_url
@@ -40,6 +49,25 @@ except PackageNotFoundError:
 
 LOG = getLogger("fuzzfetch")
 BUG_URL = "https://github.com/MozillaSecurity/fuzzfetch/issues/"
+
+
+def _add_system_context(event: Event, hint: Hint) -> Event:
+    event.setdefault("contexts", {})
+    event["contexts"]["system_stats"] = {
+        "free_memory_mb": virtual_memory().available // 1024 // 1024,
+        "free_disk_mb": disk_usage("/").free // 1024 // 1024,
+    }
+
+    # add crashing module as a tag
+    exc_info = hint.get("exc_info")
+    if exc_info:
+        _, _, tb = exc_info
+        if tb:
+            mod_name = tb.tb_frame.f_globals.get("__name__")
+            if mod_name:
+                event.setdefault("tags", {})["origin_module"] = mod_name
+
+    return event
 
 
 class Fetcher:
@@ -731,6 +759,16 @@ class Fetcher:
 
         Run with --help for usage
         """
+        if (
+            HAVE_SENTRY
+            and "SENTRY_DSN" in os.environ
+            and "PYTEST_CURRENT_TEST" not in os.environ
+        ):
+            sentry_init(
+                dsn=os.environ["SENTRY_DSN"],
+                before_send=_add_system_context,
+            )
+
         log_level = INFO
         log_fmt = "%(message)s"
         if bool(os.getenv("DEBUG")):
