@@ -316,9 +316,13 @@ class Fetcher:
         """Return the build's mozinfo"""
         if "moz_info" not in self._memo:
             try:
-                self._memo["moz_info"] = get_url(
-                    self.artifact_url("mozinfo.json")
-                ).json()
+                resp = get_url(self.artifact_url("mozinfo.json"))
+                self._memo["moz_info"] = resp.json()
+                if (
+                    not isinstance(self._memo["moz_info"], dict)
+                    or "crashreporter" not in self._memo["moz_info"]
+                ):
+                    LOG.error("malformed response fetching mozinfo.json: %r", resp)
             except FetcherException:
                 # If mozinfo doesn't exist, set the default topsrcdir
                 self._memo["moz_info"] = {"topsrcdir": "/builds/worker/checkouts/gecko"}
