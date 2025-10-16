@@ -22,6 +22,7 @@ HDIUTIL_PATH = which("hdiutil")
 LBZIP2_PATH = which("lbzip2")
 XZ_PATH = which("xz")
 ZSTD_PATH = which("zstd")
+EXT_WARNINGS = {"bz2", "xz", "zst"}
 
 
 def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
@@ -105,17 +106,29 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
                     tar_fn,
                 )
 
-        if mode == "bz2" and LBZIP2_PATH:
-            # lbzip2 > bzip2
-            _external_decomp(LBZIP2_PATH)
+        if mode == "bz2":
+            if LBZIP2_PATH:
+                # lbzip2 is significantly faster than python's bzip2 module
+                _external_decomp(LBZIP2_PATH)
+            elif "bz2" in EXT_WARNINGS:
+                EXT_WARNINGS.remove("bz2")
+                LOG.warning("WARNING: Install lbzip2 for much faster extraction.")
 
-        elif mode == "xz" and XZ_PATH:
-            # xz > python
-            _external_decomp(XZ_PATH)
+        elif mode == "xz":
+            if XZ_PATH:
+                # xz is significantly faster than python's lzma module
+                _external_decomp(XZ_PATH)
+            elif "xz" in EXT_WARNINGS:
+                EXT_WARNINGS.remove("xz")
+                LOG.warning("WARNING: Install xz-utils for much faster extraction.")
 
-        elif mode == "zst" and ZSTD_PATH:
-            # zstd > python
-            _external_decomp(ZSTD_PATH)
+        elif mode == "zst":
+            if ZSTD_PATH:
+                # zstd is significantly faster than python's zstd module
+                _external_decomp(ZSTD_PATH)
+            elif "zst" in EXT_WARNINGS:
+                EXT_WARNINGS.remove("zst")
+                LOG.warning("WARNING: Install zstd for much faster extraction.")
 
         with tar_open(tar_fn, mode=f"r:{mode}") as tar:  # type: ignore
             members = []
