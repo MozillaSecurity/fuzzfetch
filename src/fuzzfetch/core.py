@@ -431,9 +431,11 @@ class Fetcher:
             resolve_url(self.artifact_url("mozsearch-distinclude.map"))
 
         for target in targets_remaining:
-            try:
-                resolve_url(self.artifact_url(f"{target}.tests.tar.gz"))
-            except FetcherException:  # noqa: PERF203
+            for ext in ("zst", "gz"):
+                with suppress(FetcherException):
+                    resolve_url(self.artifact_url(f"{target}.tests.tar.{ext}"))
+                    break
+            else:
                 resolve_url(self.artifact_url(f"{target}.tests.zip"))
 
     def extract_build(self, path: PathArg) -> None:
@@ -492,10 +494,12 @@ class Fetcher:
 
         if "gtest" in targets_remaining:
             targets_remaining.remove("gtest")
-            try:
-                self.extract_tar(self.artifact_url("gtest.tests.tar.gz"), path)
-            except FetcherException:
-                self.extract_zip(self.artifact_url("gtest.tests.zip"), path)
+            for ext in ("zst", "gz"):
+                with suppress(FetcherException):
+                    self.extract_tar(self.artifact_url(f"gtest.tests.tar.{ext}"))
+                    break
+            else:
+                self.extract_zip(self.artifact_url("gtest.tests.zip"))
             if self._platform.system == "Windows":
                 libxul = "xul.dll"
             elif self._platform.system == "Linux":
@@ -546,10 +550,12 @@ class Fetcher:
 
         # any still remaining targets are assumed to be test artifacts
         for target in targets_remaining:
-            try:
-                self.extract_tar(self.artifact_url(f"{target}.tests.tar.gz"), path=path)
-            except FetcherException:  # noqa: PERF203
-                self.extract_zip(self.artifact_url(f"{target}.tests.zip"), path=path)
+            for ext in ("zst", "gz"):
+                with suppress(FetcherException):
+                    self.extract_tar(self.artifact_url(f"{target}.tests.tar.{ext}"))
+                    break
+            else:
+                self.extract_zip(self.artifact_url(f"{target}.tests.zip"))
 
         # used by Pernosco to locate source ('\n' is expected)
         (path / "taskcluster-build-task").write_bytes(f"{self.task_id}\n".encode())
