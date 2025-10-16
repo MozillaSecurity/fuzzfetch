@@ -491,10 +491,10 @@ class Fetcher:
             targets_remaining.remove("gtest")
             for ext in ("zst", "gz"):
                 with suppress(FetcherException):
-                    self.extract_tar(self.artifact_url(f"gtest.tests.tar.{ext}"))
+                    self.extract_tar(self.artifact_url(f"gtest.tests.tar.{ext}"), path)
                     break
             else:
-                self.extract_zip(self.artifact_url("gtest.tests.zip"))
+                self.extract_zip(self.artifact_url("gtest.tests.zip"), path)
             if self._platform.system == "Windows":
                 libxul = "xul.dll"
             elif self._platform.system == "Linux":
@@ -547,10 +547,12 @@ class Fetcher:
         for target in targets_remaining:
             for ext in ("zst", "gz"):
                 with suppress(FetcherException):
-                    self.extract_tar(self.artifact_url(f"{target}.tests.tar.{ext}"))
+                    self.extract_tar(
+                        self.artifact_url(f"{target}.tests.tar.{ext}"), path
+                    )
                     break
             else:
-                self.extract_zip(self.artifact_url(f"{target}.tests.zip"))
+                self.extract_zip(self.artifact_url(f"{target}.tests.zip"), path)
 
         # used by Pernosco to locate source ('\n' is expected)
         (path / "taskcluster-build-task").write_bytes(f"{self.task_id}\n".encode())
