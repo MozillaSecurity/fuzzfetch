@@ -32,7 +32,7 @@ except ImportError:
 from .args import FetcherArgs
 from .download import download_url, get_url, resolve_url
 from .errors import FetcherException
-from .extract import LBZIP2_PATH, XZ_PATH, extract_dmg, extract_tar, extract_zip
+from .extract import extract_dmg, extract_tar, extract_zip
 from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platform
 from .path import PathArg
 from .path import rmtree as junction_rmtree
@@ -474,11 +474,6 @@ class Fetcher:
                     with suppress(FetcherException):
                         resolve_url(url)
                         break
-                # warn if we don't have a fast decompressor for bz2
-                if ext == "bz2" and LBZIP2_PATH is None:
-                    LOG.warning("WARNING: Install lbzip2 for much faster extraction.")
-                elif ext == "xz" and XZ_PATH is None:
-                    LOG.warning("WARNING: Install xz-utils for much faster extraction.")
                 self.extract_tar(url, path)
             elif self._platform.system == "Darwin":
                 self.extract_dmg(path)
