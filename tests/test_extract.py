@@ -3,23 +3,34 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch extract tests"""
 
+import subprocess
+import sys
 import tarfile
 import zipfile
 from unittest.mock import patch
 
 import pytest  # pylint: disable=import-error
 
-from fuzzfetch.extract import LBZIP2_PATH, XZ_PATH, extract_tar, extract_zip
+from fuzzfetch.extract import LBZIP2_PATH, XZ_PATH, ZSTD_PATH, extract_tar, extract_zip
 
 
 def create_test_archive(tmp_path, extension, mode):
     """Helper function to create a test archive with specified extension and mode."""
     (tmp_path / "empty").touch()
-    archive_path = tmp_path / f"test{extension}"
-    with tarfile.open(archive_path, f"w:{mode}" if mode != "r" else "w") as tar:
-        tar.add(tmp_path / "empty", arcname="firefox/a.txt")
-        tar.add(tmp_path / "empty", arcname="b.txt")
-        tar.add(tmp_path / "empty", arcname="gtest/c.txt")
+    if mode == "zst" and ZSTD_PATH is not None:
+        archive_path = tmp_path / "test.tar"
+        with tarfile.open(archive_path, "w") as tar:
+            tar.add(tmp_path / "empty", arcname="firefox/a.txt")
+            tar.add(tmp_path / "empty", arcname="b.txt")
+            tar.add(tmp_path / "empty", arcname="gtest/c.txt")
+        subprocess.run([ZSTD_PATH, "--rm", "-T0", archive_path], check=True)
+        archive_path = archive_path.with_suffix(".tar.zst")
+    else:
+        archive_path = tmp_path / f"test{extension}"
+        with tarfile.open(archive_path, f"w:{mode}" if mode != "tar" else "w") as tar:
+            tar.add(tmp_path / "empty", arcname="firefox/a.txt")
+            tar.add(tmp_path / "empty", arcname="b.txt")
+            tar.add(tmp_path / "empty", arcname="gtest/c.txt")
     return archive_path
 
 
@@ -51,12 +62,16 @@ def test_zipfile_extract(tmp_path):
         (".tar.bz2", "bz2"),
         (".tar.gz", "gz"),
         (".tar.xz", "xz"),
+        (".tar.zst", "zst"),
     ],
 )
 @patch("fuzzfetch.extract.LBZIP2_PATH", None)
 @patch("fuzzfetch.extract.XZ_PATH", None)
+@patch("fuzzfetch.extract.ZSTD_PATH", None)
 def test_tarfile_good(tmp_path, extension, mode):
     """Test extract_tar with different extensions."""
+    if mode == "zst" and sys.version_info[:2] < (3, 14):
+        pytest.skip("zstd support added in Python 3.14")
     archive_path = create_test_archive(tmp_path, extension, mode)
     extract_tar(archive_path, mode=mode, path=tmp_path / "out")
     assert set((tmp_path / "out").glob("**/*")) == {
@@ -72,8 +87,9 @@ def test_tarfile_good(tmp_path, extension, mode):
     [
         (".tar.bz2", "bz2", LBZIP2_PATH is None, "Could not find lbzip2 binary"),
         (".tar.xz", "xz", XZ_PATH is None, "Could not find xz binary"),
+        (".tar.zst", "zst", ZSTD_PATH is None, "Could not find zstd binary"),
     ],
-    ids=["tar.bz2", "tar.xz"],
+    ids=["tar.bz2", "tar.xz", "tar.zst"],
 )
 def test_extract_tar_modes(tmp_path, extension, mode, skip_if, reason):
     """Test extract_tar with different archive types and modes."""
