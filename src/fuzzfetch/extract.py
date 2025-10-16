@@ -21,6 +21,7 @@ LOG = getLogger("fuzzfetch")
 HDIUTIL_PATH = which("hdiutil")
 LBZIP2_PATH = which("lbzip2")
 XZ_PATH = which("xz")
+ZSTD_PATH = which("zstd")
 
 
 def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
@@ -81,12 +82,14 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
     tmp_fn = None
     try:
 
-        def _external_decomp(decomp: str, name: str) -> None:
+        def _external_decomp(decomp: str) -> None:
             nonlocal mode, tar_fn, tmp_fn
             tmp_fd, tmp_fn = mkstemp(prefix="fuzzfetch-", suffix=".tar")
+            args = ["-dc"]
+            if mode in {"xz", "zst"}:
+                args.append("-T0")
             result = run(  # pylint: disable=subprocess-run-check
-                [decomp, "-dc", tar_fn],
-                env={"XZ_DEFAULTS": "-T0"},
+                [decomp, *args, tar_fn],
                 stdout=tmp_fd,
                 stderr=PIPE,
             )
@@ -97,18 +100,22 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
             else:
                 LOG.warning(
                     "%s was found, but returned %d decompressing %r",
-                    name,
+                    Path(decomp).name,
                     result.returncode,
                     tar_fn,
                 )
 
         if mode == "bz2" and LBZIP2_PATH:
             # lbzip2 > bzip2
-            _external_decomp(LBZIP2_PATH, "lbzip2")
+            _external_decomp(LBZIP2_PATH)
 
         elif mode == "xz" and XZ_PATH:
             # xz > python
-            _external_decomp(XZ_PATH, "xz")
+            _external_decomp(XZ_PATH)
+
+        elif mode == "zst" and ZSTD_PATH:
+            # zstd > python
+            _external_decomp(ZSTD_PATH)
 
         with tar_open(tar_fn, mode=f"r:{mode}") as tar:  # type: ignore
             members = []
