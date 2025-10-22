@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass, fields
 from datetime import datetime
 from enum import Enum
-from itertools import product
+from itertools import chain, product
 from logging import getLogger
 from platform import machine as plat_machine
 from platform import system as plat_system
@@ -232,6 +232,18 @@ class BuildTask:
             task_path = f"/task/{build}"
             task_template_paths = ((cls.TASKCLUSTER_API, task_path),)
 
+        if target_platform == "linux":
+            old_template_paths = tuple(task_template_paths)
+            task_template_paths = tuple(
+                chain(
+                    old_template_paths,
+                    [
+                        (api, task_path.replace("linux-", "linux32-"))
+                        for (api, task_path) in old_template_paths
+                    ],
+                )
+            )
+
         for template_path, try_wo_opt in product(task_template_paths, (False, True)):
             template, path = template_path
 
@@ -427,10 +439,14 @@ class Platform:
         match: list[str] = []
         for system, platform in cls.SUPPORTED.items():
             for machine, platform_guess in platform.items():
-                if platform_guess in build_string and (
-                    not match or len(match[2]) < len(platform_guess)
-                ):
-                    match = [system, machine, platform_guess]
+                platform_guesses = [platform_guess]
+                if platform_guess == "linux":
+                    platform_guesses.append("linux32")
+                for platform_guess in platform_guesses:
+                    if platform_guess in build_string and (
+                        not match or len(match[2]) < len(platform_guess)
+                    ):
+                        match = [system, machine, platform_guess]
         if match:
             return cls(match[0], match[1])
         raise FetcherException(f"Could not extract platform from {build_string}")
