@@ -142,6 +142,8 @@ def test_platform_initialization_unsupported_machine():
         ("linux64", ("Linux", "x86_64", "linux64")),
         ("win64-aarch64", ("Windows", "arm64", "win64-aarch64")),
         ("android-aarch64", ("Android", "arm64", "android-aarch64")),
+        ("linux32", ("Linux", "x86", "linux")),
+        ("linux", ("Linux", "x86", "linux")),
     ],
 )
 def test_from_platform_guess(build_string, expected):
