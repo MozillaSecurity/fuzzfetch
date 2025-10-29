@@ -3,20 +3,15 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch argument parser"""
 
-from __future__ import annotations
-
 from argparse import ArgumentParser, Namespace
+from collections.abc import Sequence
 from itertools import chain
 from logging import getLogger
 from pathlib import Path
 from platform import machine, system
-from typing import TYPE_CHECKING
 
 from .models import BuildSearchOrder, Platform
 from .utils import extract_branch_from_ns, is_namespace
-
-if TYPE_CHECKING:
-    from collections.abc import Sequence
 
 LOG = getLogger("fuzzfetch")
 
