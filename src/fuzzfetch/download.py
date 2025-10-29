@@ -3,11 +3,8 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Fuzzfetch download utils"""
 
-from __future__ import annotations
-
 from logging import getLogger
 from time import perf_counter
-from typing import TYPE_CHECKING
 
 from requests import Response, Session
 from requests.adapters import HTTPAdapter
@@ -15,9 +12,7 @@ from requests.exceptions import RequestException
 from urllib3 import Retry
 
 from .errors import FetcherException
-
-if TYPE_CHECKING:
-    from .path import PathArg
+from .path import PathArg
 
 HTTP_ADAPTER = HTTPAdapter(
     max_retries=Retry(
