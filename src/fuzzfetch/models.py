@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass, fields
 from datetime import datetime
 from enum import Enum
+from functools import total_ordering
 from itertools import chain, product
 from logging import getLogger
 from platform import machine as plat_machine
@@ -105,6 +106,7 @@ class BuildSearchOrder(Enum):
     DESC = 2
 
 
+@total_ordering
 class BuildTask:
     """Class for storing TaskCluster build information"""
 
@@ -272,6 +274,26 @@ class BuildTask:
             return self._data[name]
         raise AttributeError(
             f"'{type(self).__name__}' object has no attribute '{name}'"
+        )
+
+    @property
+    def rank_as_date(self) -> datetime:
+        """Return task rank as date object"""
+        result = timezone("EST").localize(datetime.fromtimestamp(self.rank))
+        assert isinstance(result, datetime)
+        return result
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, BuildTask):
+            return self.rank_as_date == other.rank_as_date
+        return False
+
+    def __lt__(self, other: Any) -> bool:
+        if isinstance(other, BuildTask):
+            return self.rank_as_date < other.rank_as_date
+        raise TypeError(
+            "'<' not supported between instances of "
+            f"'{type(self).__name__}' and '{type(other).__name__}'"
         )
 
     @classmethod

@@ -121,14 +121,25 @@ class Fetcher:
             now = datetime.now(timezone("UTC"))
 
             try:
-                self._task = BuildTask(
-                    build,
-                    branch,
-                    self._flags,
-                    self._platform,
-                    self._simulated,
-                )
-                self.resolve_targets(self._targets)
+                for obj in sorted(
+                    BuildTask.iterall(
+                        build,
+                        branch,
+                        self._flags,
+                        platform=self._platform,
+                        simulated=self._simulated,
+                    ),
+                    reverse=True,
+                ):
+                    self._task = obj
+                    with suppress(FetcherException):
+                        self.resolve_targets(self._targets)
+                        break
+                else:
+                    raise FetcherException(
+                        "Unable to find usable archive for "
+                        f"{BuildTask._debug_str(build)}"
+                    )
             except FetcherException:
                 if not nearest:
                     raise
@@ -182,20 +193,17 @@ class Fetcher:
                         LOG.debug("trying %s", search_build)
                         # iterate over all builds for the day, and take the next
                         # older/newer build available
-                        build_tasks = BuildTask.iterall(
-                            search_build,
-                            branch,
-                            self._flags,
-                            self._platform,
-                            self._simulated,
-                        )
-                        if not asc:
-                            build_tasks = reversed(list(build_tasks))
-
-                        for task in build_tasks:
-                            task_date = timezone("EST").localize(
-                                datetime.fromtimestamp(task.rank)
-                            )
+                        for task in sorted(
+                            BuildTask.iterall(
+                                search_build,
+                                branch,
+                                self._flags,
+                                self._platform,
+                                self._simulated,
+                            ),
+                            reverse=not asc,
+                        ):
+                            task_date = task.rank_as_date
                             LOG.debug("got %s", task_date)
                             if (asc and task_date >= requested) or (
                                 not asc and task_date <= requested
