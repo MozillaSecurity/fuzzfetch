@@ -21,7 +21,7 @@ def test_extract_build_linux(tmp_path, mocker):
 
     flags = BuildFlags(debug=True, fuzzing=True)
     platform = Platform("Linux", "x86_64")
-    task = BuildTask("latest", "central", flags, platform)
+    task = next(BuildTask.iterall("latest", "central", flags, platform))
     fetcher = Fetcher("central", task, flags, ["firefox"], platform)
     fetcher.extract_build(tmp_path)
     assert set(tmp_path.glob("**/*")) == {
@@ -50,7 +50,7 @@ def test_extract_build_macos(tmp_path, mocker):
 
     flags = BuildFlags(debug=True, fuzzing=True)
     platform = Platform("Darwin", "x86_64")
-    task = BuildTask("latest", "central", flags, platform)
+    task = next(BuildTask.iterall("latest", "central", flags, platform))
     fetcher = Fetcher("central", task, flags, ["firefox"], platform)
     fetcher.extract_build(tmp_path)
     assert set(tmp_path.glob("**/*")) == {

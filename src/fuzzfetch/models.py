@@ -106,49 +106,16 @@ class BuildSearchOrder(Enum):
     DESC = 2
 
 
+@dataclass(eq=False, frozen=True)
 @total_ordering
 class BuildTask:
     """Class for storing TaskCluster build information"""
 
     TASKCLUSTER_API = "https://firefox-ci-tc.services.mozilla.com/api/%s/v1"
 
-    def __init__(
-        self,
-        build: str | None,
-        branch: str | None,
-        flags: BuildFlags | None,
-        platform: Platform | None = None,
-        simulated: str | None = None,
-        _blank: bool = False,
-    ) -> None:
-        """Retrieve the task JSON object
-
-        Requires first generating the task URL based on the specified build type and
-        platform
-        """
-        if _blank:
-            self.url: str | None = None
-            self.queue_server: str | None = None
-            self._data: dict[str, Any] = {}
-            return
-        assert build is not None
-        assert branch is not None
-        assert flags is not None
-        for obj in self.iterall(
-            build,
-            branch,
-            flags,
-            platform=platform,
-            simulated=simulated,
-        ):
-            self.url = obj.url
-            self.queue_server = obj.queue_server
-            self._data = obj._data  # pylint: disable=protected-access
-            break
-        else:
-            raise FetcherException(
-                f"Unable to find usable archive for {BuildTask._debug_str(build)}"
-            )
+    url: str
+    queue_server: str
+    _data: dict[str, Any]
 
     @staticmethod
     def _debug_str(build: str) -> str:
@@ -261,11 +228,7 @@ class BuildTask:
             except RequestException:
                 continue
 
-            obj = cls(None, None, None, _blank=True)
-            obj.url = url
-            obj.queue_server = template % ("queue",)
-            obj._data = data.json()  # pylint: disable=protected-access
-
+            obj = cls(url, template % ("queue",), data.json())
             LOG.debug("Found archive for %s", cls._debug_str(build))
             yield obj
 
