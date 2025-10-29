@@ -6,14 +6,15 @@
 import os
 import stat
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Union
+from typing import Any
 
 if sys.platform.startswith("win"):
     import _winapi  # pylint: disable=import-error
 
 
-PathArg = Union[str, Path]
+PathArg = Path | str
 
 
 def onerror(func: Callable[[PathArg], None], path: PathArg, _exc_info: Any) -> None:
