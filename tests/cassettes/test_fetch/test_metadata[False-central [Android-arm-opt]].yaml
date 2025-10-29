@@ -811,8 +811,6 @@ interactions:
       - openresty
       Strict-Transport-Security:
       - max-age=31536000
-      Transfer-Encoding:
-      - chunked
       Vary:
       - Accept-Encoding
       Via:
@@ -960,4 +958,443 @@ interactions:
     status:
       code: 200
       message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.latest.mobile.android-arm
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-10-29T17:51:00.460Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.shippable.latest.mobile.android-arm\"\n    },\n
+        \   \"payload\": {},\n    \"time\": \"2025-10-29T17:51:00.460Z\"\n  }\n}"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '408'
+      Date:
+      - Wed, 29 Oct 2025 17:51:00 GMT
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - 0, 0
+      X-Served-By:
+      - cache-chi-kigq8000172-CHI, cache-chi-kigq8000172-CHI
+      X-Timer:
+      - S1761760260.393204,VS0,VE93
+      accept-ranges:
+      - bytes
+      access-control-allow-headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      access-control-allow-methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      access-control-allow-origin:
+      - '*'
+      access-control-max-age:
+      - '900'
+      access-control-request-method:
+      - '*'
+      cache-control:
+      - no-store no-cache must-revalidate
+      content-security-policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"198-jtKjWp1qj7h0fue66J9uIrLk1Is"
+      server:
+      - openresty
+      strict-transport-security:
+      - max-age=31536000
+      via:
+      - 1.1 google, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 48bcc829-0bf7-4d0b-bc45-6a07b98fd2ad
+      x-for-trace-id:
+      - 61492f4067097386f634fa6c15522160
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.latest.mobile.sm-android-arm-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-10-29T17:51:00.597Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.shippable.latest.mobile.sm-android-arm-opt\"\n
+        \   },\n    \"payload\": {},\n    \"time\": \"2025-10-29T17:51:00.597Z\"\n
+        \ }\n}"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '415'
+      Date:
+      - Wed, 29 Oct 2025 17:51:00 GMT
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - 0, 0
+      X-Served-By:
+      - cache-chi-kigq8000172-CHI, cache-chi-kigq8000172-CHI
+      X-Timer:
+      - S1761760261.543418,VS0,VE88
+      accept-ranges:
+      - bytes
+      access-control-allow-headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      access-control-allow-methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      access-control-allow-origin:
+      - '*'
+      access-control-max-age:
+      - '900'
+      access-control-request-method:
+      - '*'
+      cache-control:
+      - no-store no-cache must-revalidate
+      content-security-policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"19f-cK1Bmn7+xo31fZ+KprxO5i0gk7E"
+      server:
+      - openresty
+      strict-transport-security:
+      - max-age=31536000
+      via:
+      - 1.1 google, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - d041a963-f948-4419-b727-7c87ba925faf
+      x-for-trace-id:
+      - 3006bcf26d4a3d52f224ff885569ec43
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.shippable.latest.mobile.sm-android-arm
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-10-29T17:51:00.730Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.shippable.latest.mobile.sm-android-arm\"\n    },\n
+        \   \"payload\": {},\n    \"time\": \"2025-10-29T17:51:00.730Z\"\n  }\n}"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '411'
+      Date:
+      - Wed, 29 Oct 2025 17:51:00 GMT
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - 0, 0
+      X-Served-By:
+      - cache-chi-kigq8000172-CHI, cache-chi-kigq8000172-CHI
+      X-Timer:
+      - S1761760261.667927,VS0,VE100
+      accept-ranges:
+      - bytes
+      access-control-allow-headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      access-control-allow-methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      access-control-allow-origin:
+      - '*'
+      access-control-max-age:
+      - '900'
+      access-control-request-method:
+      - '*'
+      cache-control:
+      - no-store no-cache must-revalidate
+      content-security-policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"19b-FTJG+Zzkn7JYZIUAK0WQ4z3RSPM"
+      server:
+      - openresty
+      strict-transport-security:
+      - max-age=31536000
+      via:
+      - 1.1 google, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 1b2cff95-7be2-46d1-b07c-9eed8bc538e3
+      x-for-trace-id:
+      - 392aa1661a9283cb838ff877f7c03514
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.latest.mobile.android-arm
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-10-29T17:51:00.866Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.latest.mobile.android-arm\"\n    },\n    \"payload\":
+        {},\n    \"time\": \"2025-10-29T17:51:00.866Z\"\n  }\n}"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '398'
+      Date:
+      - Wed, 29 Oct 2025 17:51:00 GMT
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - 0, 0
+      X-Served-By:
+      - cache-chi-kigq8000172-CHI, cache-chi-kigq8000172-CHI
+      X-Timer:
+      - S1761760261.815151,VS0,VE86
+      accept-ranges:
+      - bytes
+      access-control-allow-headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      access-control-allow-methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      access-control-allow-origin:
+      - '*'
+      access-control-max-age:
+      - '900'
+      access-control-request-method:
+      - '*'
+      cache-control:
+      - no-store no-cache must-revalidate
+      content-security-policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"18e-ZI0niUch+OP6Gyck2IEtluvm858"
+      server:
+      - openresty
+      strict-transport-security:
+      - max-age=31536000
+      via:
+      - 1.1 google, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 4360de17-921f-43dd-9b3b-6978653bbbc7
+      x-for-trace-id:
+      - 81d79e7f9c789652b338b9d770f69a66
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.latest.mobile.sm-android-arm-opt
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-10-29T17:51:01.023Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.latest.mobile.sm-android-arm-opt\"\n    },\n    \"payload\":
+        {},\n    \"time\": \"2025-10-29T17:51:01.023Z\"\n  }\n}"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '405'
+      Date:
+      - Wed, 29 Oct 2025 17:51:01 GMT
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - 0, 0
+      X-Served-By:
+      - cache-chi-kigq8000089-CHI, cache-chi-kigq8000172-CHI
+      X-Timer:
+      - S1761760261.956439,VS0,VE105
+      accept-ranges:
+      - bytes
+      access-control-allow-headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      access-control-allow-methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      access-control-allow-origin:
+      - '*'
+      access-control-max-age:
+      - '900'
+      access-control-request-method:
+      - '*'
+      cache-control:
+      - no-store no-cache must-revalidate
+      content-security-policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"195-5fpVQI8pNgcDovkkP5WRBbVVPU4"
+      server:
+      - openresty
+      strict-transport-security:
+      - max-age=31536000
+      via:
+      - 1.1 google, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 60525cb1-73c8-4f7c-b461-298aa2d4572a
+      x-for-trace-id:
+      - 8854e41d637bcaa98390cd08f4b2f881
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+    method: GET
+    uri: https://firefox-ci-tc.services.mozilla.com/api/index/v1/task/gecko.v2.mozilla-central.latest.mobile.sm-android-arm
+  response:
+    body:
+      string: "{\n  \"code\": \"ResourceNotFound\",\n  \"message\": \"Indexed task
+        not found\\n\\n---\\n\\n* method:     findTask\\n* errorCode:  ResourceNotFound\\n*
+        statusCode: 404\\n* time:       2025-10-29T17:51:01.150Z\",\n  \"requestInfo\":
+        {\n    \"method\": \"findTask\",\n    \"params\": {\n      \"indexPath\":
+        \"gecko.v2.mozilla-central.latest.mobile.sm-android-arm\"\n    },\n    \"payload\":
+        {},\n    \"time\": \"2025-10-29T17:51:01.150Z\"\n  }\n}"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '401'
+      Date:
+      - Wed, 29 Oct 2025 17:51:01 GMT
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - 0, 0
+      X-Served-By:
+      - cache-chi-kigq8000172-CHI, cache-chi-kigq8000172-CHI
+      X-Timer:
+      - S1761760261.104788,VS0,VE85
+      accept-ranges:
+      - bytes
+      access-control-allow-headers:
+      - X-Requested-With,Content-Type,Authorization,Accept,Origin,Cache-Control
+      access-control-allow-methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      access-control-allow-origin:
+      - '*'
+      access-control-max-age:
+      - '900'
+      access-control-request-method:
+      - '*'
+      cache-control:
+      - no-store no-cache must-revalidate
+      content-security-policy:
+      - report-uri /__cspreport__;default-src 'none';frame-ancestors 'none';
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"191-ZlPd8JHspqKr761zd8Ij6HeReQw"
+      server:
+      - openresty
+      strict-transport-security:
+      - max-age=31536000
+      via:
+      - 1.1 google, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-for-request-id:
+      - 4afd999e-6adc-40ea-b953-c0eefd908b76
+      x-for-trace-id:
+      - 6c5e6a9817541b12499fccdaa10c9d1c
+    status:
+      code: 404
+      message: Not Found
 version: 1
