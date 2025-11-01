@@ -25,7 +25,9 @@ ZSTD_PATH = which("zstd")
 EXT_WARNINGS = {"bz2", "xz", "zst"}
 
 
-def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
+def extract_zip(
+    zip_fn: PathArg, path: PathArg = ".", product_name: str | None = "firefox"
+) -> None:
     """Download and extract a zip artifact
 
     Arguments:
@@ -33,15 +35,17 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
         path: where to extract zip contents
     """
     dest_path = Path(path)
+    if product_name is None:
+        product_name = "firefox"
 
-    def _extract_entry(zip_fp: ZipFile, info: ZipInfo) -> None:
+    def _extract_entry(zip_fp: ZipFile, info: ZipInfo, product_name: str) -> None:
         """Extract entries while explicitly setting the proper permissions"""
         rel_path = Path(info.filename)
 
         # strip leading "firefox" from path
         if rel_path.parts[0] == ".":
             rel_path = Path(*rel_path.parts[1:])
-        if rel_path.parts[0] == "firefox":
+        if rel_path.parts[0] == product_name:
             rel_path = Path(*rel_path.parts[1:])
 
         out_path = dest_path / rel_path
@@ -59,7 +63,7 @@ def extract_zip(zip_fn: PathArg, path: PathArg = ".") -> None:
 
     with ZipFile(zip_fn) as zip_fp:
         for info in zip_fp.infolist():
-            _extract_entry(zip_fp, info)
+            _extract_entry(zip_fp, info, product_name)
 
 
 def _is_within_directory(directory: PathArg, target: PathArg) -> bool:
@@ -71,7 +75,12 @@ def _is_within_directory(directory: PathArg, target: PathArg) -> bool:
     return prefix == abs_directory
 
 
-def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
+def extract_tar(
+    tar_fn: PathArg,
+    mode: str = "",
+    path: PathArg = ".",
+    product_name: str | None = "firefox",
+) -> None:
     """Extract builds with .tar.(*) extension
     When unpacking a build archive, only extract the firefox directory
 
@@ -79,8 +88,11 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
         tar_fn: path to tar archive
         mode: compression type
         path: where to extract tar contents
+        product_name: name of the target product
     """
     tmp_fn = None
+    if product_name is None:
+        product_name = "firefox"
     try:
 
         def _external_decomp(decomp: str) -> None:
@@ -135,10 +147,10 @@ def extract_tar(tar_fn: PathArg, mode: str = "", path: PathArg = ".") -> None:
             for member in tar.getmembers():
                 if not _is_within_directory(path, Path(path) / member.name):
                     raise RuntimeError("Attempted Path Traversal in Tar File")
-                if member.name.startswith("firefox/"):
-                    member.name = member.name[8:]
+                if member.name.startswith(product_name + "/"):
+                    member.name = member.name[len(product_name) + 1 :]
                     members.append(member)
-                elif member.name != "firefox":
+                elif member.name != product_name:
                     # Ignore top-level build directory
                     members.append(member)
             tar.extractall(members=members, path=path)

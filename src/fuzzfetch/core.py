@@ -31,7 +31,14 @@ from .args import FetcherArgs
 from .download import download_url, get_url, resolve_url
 from .errors import FetcherException
 from .extract import extract_dmg, extract_tar, extract_zip
-from .models import BuildFlags, BuildSearchOrder, BuildTask, HgRevision, Platform
+from .models import (
+    BuildFlags,
+    BuildSearchOrder,
+    BuildTask,
+    HgRevision,
+    Platform,
+    Product,
+)
 from .path import PathArg
 from .path import rmtree as junction_rmtree
 from .utils import _create_utc_datetime, is_date, is_namespace, is_rev
@@ -63,6 +70,7 @@ class Fetcher:
         flags: Sequence[bool] | BuildFlags,
         targets: Sequence[str],
         platform: Platform | None = None,
+        product: str | Product = "firefox",
         simulated: str | None = None,
         nearest: BuildSearchOrder | None = None,
     ) -> None:
@@ -85,6 +93,7 @@ class Fetcher:
         self._platform = platform or Platform()
         self._simulated = simulated
         self._targets = targets
+        self._product = product if isinstance(product, Product) else Product(product)
         self._task: BuildTask | None = None
 
         if not isinstance(build, BuildTask):
@@ -105,6 +114,7 @@ class Fetcher:
                         build,
                         branch,
                         self._flags,
+                        self._product,
                         platform=self._platform,
                         simulated=self._simulated,
                     ),
@@ -134,7 +144,7 @@ class Fetcher:
                         date = datetime.strptime(build, "%Y%m%d%H%M%S")
                     requested = timezone("UTC").localize(date)
                 elif is_rev(build):
-                    requested = HgRevision(build, branch).pushdate
+                    requested = HgRevision(build, branch, self._product).pushdate
                 else:
                     # If no match, assume it's a TaskCluster namespace
                     if re.match(r".*[0-9]{4}\.[0-9]{2}\.[0-9]{2}.*", build) is not None:
@@ -145,7 +155,9 @@ class Fetcher:
                     elif re.match(r".*revision.*[0-9[a-f]{40}", build):
                         match = re.search(r"[0-9[a-f]{40}", build)
                         assert match is not None
-                        requested = HgRevision(match.group(0), branch).pushdate
+                        requested = HgRevision(
+                            match.group(0), branch, self._product
+                        ).pushdate
                 assert isinstance(requested, datetime)
 
                 # If start date is outside the range of the newest/oldest available
@@ -177,6 +189,7 @@ class Fetcher:
                                 search_build,
                                 branch,
                                 self._flags,
+                                self._product,
                                 self._platform,
                                 self._simulated,
                             ),
@@ -223,19 +236,27 @@ class Fetcher:
         if self._branch in {"autoland", "try"}:
             branch = self._branch
         else:
-            branch = f"m-{self._branch[0]}"
+            namespace_initial = (
+                self._product.namespace[0]
+                if self._product.namespace is not None
+                else ""
+            )
+            branch = f"{namespace_initial}-{self._branch[0]}"
         self._auto_name = (
             f"{self._platform.auto_name_prefix()}{branch}-{self.id}{options}"
         )
 
     @staticmethod
-    def resolve_esr(branch: str) -> str:
+    def resolve_esr(branch: str, product: str) -> str:
         """Retrieve esr version based on keyword"""
         if branch not in {"esr-stable", "esr-next"}:
             raise FetcherException(f"Invalid ESR branch specified: {branch}")
 
-        resp = get_url("https://product-details.mozilla.org/1.0/firefox_versions.json")
-        key = "FIREFOX_ESR" if branch == "esr-stable" else "FIREFOX_ESR_NEXT"
+        resp = get_url(
+            f"https://product-details.mozilla.org/1.0/{product}_versions.json"
+        )
+        prefix = product.upper()
+        key = f"{prefix}_ESR" if branch == "esr-stable" else f"{prefix}_ESR_NEXT"
         match = re.search(r"^\d+", resp.json()[key])
         if match is None:
             raise FetcherException(f"Unable to identify ESR version for {branch}")
@@ -370,13 +391,13 @@ class Fetcher:
             targets_remaining.remove("js")
             resolve_url(self.artifact_url("jsshell.zip"))
 
-        if "firefox" in targets_remaining:
+        if self._product.name in targets_remaining:
             have_exec = True
             # We only check that crashreporter symbols exist for builds where it is
-            # enabled and only if downloading firefox itself.
+            # enabled and only if downloading firefox/thunderbird itself.
             # Add --disable-crashreporter to mozconfig if you don't need them.
             syms_wanted = bool(self.moz_info["crashreporter"])
-            targets_remaining.remove("firefox")
+            targets_remaining.remove(self._product.name)
             if self._platform.system == "Linux":
                 for ext in ("xz", "bz2"):
                     url = self.artifact_url(f"tar.{ext}")
@@ -389,7 +410,7 @@ class Fetcher:
                 resolve_url(self.artifact_url("dmg"))
             elif self._platform.system == "Windows":
                 resolve_url(self.artifact_url("zip"))
-            elif self._platform.system == "Android":
+            elif self._platform.system == "Android" and self._product.name == "firefox":
                 artifact_path = "/".join(self._artifact_base.split("/")[:-1])
                 url = f"{self._artifacts_url}/{artifact_path}/geckoview_example.apk"
                 resolve_url(url)
@@ -448,10 +469,10 @@ class Fetcher:
             self.extract_zip(self.artifact_url("jsshell.zip"), _path)
             self._write_fuzzmanagerconf("js", path)
 
-        if "firefox" in targets_remaining:
-            targets_remaining.remove("firefox")
+        if self._product.name in targets_remaining:
+            targets_remaining.remove(self._product.name)
             # We only check that crashreporter symbols exist for builds where it is
-            # enabled and only if downloading firefox itself.
+            # enabled and only if downloading firefox/thunderbird itself.
             # Add --disable-crashreporter to mozconfig if you don't need them.
             syms_wanted = bool(self.moz_info["crashreporter"])
             have_exec = True
@@ -466,13 +487,13 @@ class Fetcher:
                 self.extract_dmg(path)
             elif self._platform.system == "Windows":
                 self.extract_zip(self.artifact_url("zip"), path)
-            elif self._platform.system == "Android":
+            elif self._platform.system == "Android" and self._product.name == "firefox":
                 self.download_apk(path)
             else:
                 raise FetcherException(
                     f"'{self._platform.system}' is not a supported platform"
                 )
-            self._write_fuzzmanagerconf("firefox", path)
+            self._write_fuzzmanagerconf(self._product.name, path)
 
         if "gtest" in targets_remaining:
             targets_remaining.remove("gtest")
@@ -559,7 +580,7 @@ class Fetcher:
         processor = self._platform.machine
         assert isinstance(processor, str)
         output.set("Main", "platform", processor.replace("_", "-"))
-        output.set("Main", "product", f"mozilla-{self._branch}")
+        output.set("Main", "product", f"{self._product.prefix}{self._branch}")
         output.set("Main", "product_version", f"{self.id:.8}-{self.changeset:.12}")
         if self._platform.system == "Android":
             output.set("Main", "os", "android")
@@ -610,14 +631,14 @@ class Fetcher:
         try:
             download_url(url, zip_fn)
             LOG.info(".. extracting")
-            extract_zip(zip_fn, path)
+            extract_zip(zip_fn, path, self._product.name)
         finally:
             os.unlink(zip_fn)
 
     def extract_tar(self, url: str, path: PathArg = ".") -> None:
         """
         Extract builds with .tar.(*) extension
-        When unpacking a build archive, only extract the firefox directory
+        When unpacking a build archive, only extract the product directory
 
         Arguments:
             url: artifact to download
@@ -629,7 +650,7 @@ class Fetcher:
         try:
             download_url(url, tar_fn)
             LOG.info(".. extracting")
-            extract_tar(tar_fn, mode, path)
+            extract_tar(tar_fn, mode, path, self._product.name)
         finally:
             os.unlink(tar_fn)
 
@@ -701,13 +722,21 @@ class Fetcher:
         )
         args = parser.parse_args(argv)
 
+        product = (
+            Product("thunderbird")
+            if "thunderbird" in args.target
+            else Product("firefox")
+        )
+
         # do this default manually so we can error if combined with --build namespace
         # parser.set_defaults(branch='central')
         if not is_namespace(args.build):
             if args.branch is None:
                 args.branch = "central"
             elif args.branch.startswith("esr"):
-                args.branch = Fetcher.resolve_esr(args.branch)
+                if product.name is None:
+                    raise AttributeError("no product name found for ESR branch")
+                args.branch = Fetcher.resolve_esr(args.branch, product.name)
 
         flags = BuildFlags(
             args.asan,
@@ -728,6 +757,7 @@ class Fetcher:
             flags,
             args.target,
             platform=Platform(args.os, args.cpu),
+            product=product,
             simulated=args.sim,
             nearest=args.nearest,
         )
