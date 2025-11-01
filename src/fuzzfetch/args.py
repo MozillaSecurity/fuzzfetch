@@ -55,7 +55,7 @@ class FetcherArgs:
             nargs="*",
             default=[],
             help="Specify the build artifacts to download. "
-            "Valid options: firefox js common gtest mozharness searchfox "
+            "Valid options: firefox js common gtest mozharness searchfox thunderbird "
             f"(default: {' '.join(FetcherArgs.DEFAULT_TARGETS)})",
         )
         target_group.add_argument(
@@ -185,6 +185,9 @@ class FetcherArgs:
 
         if args.branch is None:
             args.branch = "central"
+
+        if "thunderbird" in args.target and len(args.target) > 1:
+            self.parser.error("Cannot specify multiple targets with thunderbird")
 
         if "firefox" in args.target and args.fuzzilli:
             self.parser.error("Cannot specify --target firefox and --fuzzilli")

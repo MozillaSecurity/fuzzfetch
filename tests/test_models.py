@@ -10,7 +10,7 @@ from unittest.mock import patch
 import pytest  # pylint: disable=import-error
 
 from fuzzfetch import FetcherException
-from fuzzfetch.models import BuildFlags, HgRevision, Platform
+from fuzzfetch.models import BuildFlags, HgRevision, Platform, Product
 
 
 def test_build_flags_custom_initialization():
@@ -97,7 +97,9 @@ def test_build_flags_update_raises_on_mismatch(initial, build_string, missing):
 )
 def test_hgrevision_properties(known_branch, known_revision):
     """Test HgRevision properties with a real revision and branch."""
-    revision = HgRevision(revision=known_revision, branch=known_branch)
+    revision = HgRevision(
+        revision=known_revision, branch=known_branch, product=Product("firefox")
+    )
 
     assert isinstance(revision.pushdate, datetime)
     assert revision.pushdate.tzinfo is not None
