@@ -148,7 +148,7 @@ def test_metadata(branch, build_flags, os_, cpu, as_args):
         )[0]
     else:
         if branch.startswith("esr"):
-            branch = Fetcher.resolve_esr(branch)
+            branch = Fetcher.resolve_esr(branch, "firefox")
         fetcher = Fetcher(
             branch,
             "latest",
