@@ -336,6 +336,10 @@ class HgRevision:
             raise FetcherException(f"Can't lookup revision date for branch: {branch}")
 
         if branch == "autoland":
+            if product.name != "firefox":
+                raise FetcherException(
+                    f"Can't lookup autoland revision for product: {product}"
+                )
             branch = f"integration/{branch}"
         elif branch in {"release", "beta"} or branch.startswith("esr"):
             branch = f"releases/{product.prefix}{branch}"
