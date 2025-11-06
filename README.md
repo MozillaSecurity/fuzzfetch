@@ -8,7 +8,7 @@ Fuzzfetch is a python tool for retrieving builds from the [Firefox-CI](https://f
 Overview
 --------
 
-Fuzzfetch can be used to retrieve nearly any build type indexed by Firefox-CI.  This includes AddressSanitizer, ThreadSanitizer, Valgrind, debug, and Fuzzing builds for both Firefox and Spidermonkey.
+Fuzzfetch can be used to retrieve nearly any build type indexed by Firefox-CI.  This includes AddressSanitizer, ThreadSanitizer, Valgrind, debug, and Fuzzing builds for Firefox, Spidermonkey, and Thunderbird.
 
 Installation
 ------------
@@ -39,7 +39,7 @@ Target:
   --target [TARGET ...]
                         Specify the build artifacts to download. Valid
                         options: firefox js common gtest mozharness searchfox
-                        (default: firefox)
+                        thunderbird (default: firefox)
   --os {Android,Darwin,Linux,Windows}
                         Specify the target system. (default: Linux)
   --cpu {AMD64,ARM64,aarch64,arm,arm64,i686,x64,x86,x86_64}
@@ -72,8 +72,8 @@ Build Arguments:
   --searchfox           Download Searchfox data
 
 Misc. Arguments:
-  -n NAME, --name NAME  Specify a name (default=auto)
-  -o OUT, --out OUT     Specify output directory (default=.)
+  -n, --name NAME       Specify a name (default=auto)
+  -o, --out OUT         Specify output directory (default=.)
   --dry-run             Search for build and output metadata only, don't
                         download anything.
 
