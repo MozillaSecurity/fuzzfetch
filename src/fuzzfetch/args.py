@@ -186,8 +186,8 @@ class FetcherArgs:
         if args.branch is None:
             args.branch = "central"
 
-        if "thunderbird" in args.target and len(args.target) > 1:
-            self.parser.error("Cannot specify multiple targets with thunderbird")
+        if set(args.target) >= {"firefox", "thunderbird"}:
+            self.parser.error("Cannot combine --target firefox and thunderbird")
 
         if "firefox" in args.target and args.fuzzilli:
             self.parser.error("Cannot specify --target firefox and --fuzzilli")
