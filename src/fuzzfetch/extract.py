@@ -3,6 +3,8 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 """Code for extracting archives"""
 
+from __future__ import annotations
+
 import os
 from logging import getLogger
 from os.path import abspath, commonpath
