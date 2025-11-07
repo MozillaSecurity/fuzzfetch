@@ -87,7 +87,10 @@ def test_extract_build_macos(tmp_path, mocker):
         ("release", "thunderbird", "c-r-20251106212021-opt"),
     ],
 )
-def test_auto_name(branch, product, expected):
+def test_auto_name(branch, mocker, product, expected):
     """Test automatic output directory name"""
-    fetch = Fetcher(branch, "latest", BuildFlags(), [], product=product)
+    mocker.patch("fuzzfetch.models.plat_system", lambda: "Linux")
+    mocker.patch("fuzzfetch.models.plat_machine", lambda: "AMD64")
+    platform = Platform("Linux", "x86_64")
+    fetch = Fetcher(branch, "latest", BuildFlags(), [], platform, product=product)
     assert fetch.get_auto_name() == expected
