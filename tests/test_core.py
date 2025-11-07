@@ -4,6 +4,7 @@
 """Fuzzfetch tests"""
 
 import pytest  # pylint: disable=import-error
+from freezegun import freeze_time  # pylint: disable=import-error
 
 from fuzzfetch.core import Fetcher
 from fuzzfetch.models import BuildFlags, BuildTask, Platform, Product
@@ -66,3 +67,27 @@ def test_extract_build_macos(tmp_path, mocker):
         tmp_path / "Fake.app" / "Contents" / "MacOS" / "firefox.fuzzmanagerconf",
         tmp_path / "Fake.app" / "Contents" / "MacOS" / "symbols",
     }
+
+
+@freeze_time("2025-11-07")
+@pytest.mark.vcr()
+@pytest.mark.parametrize(
+    "branch, product, expected",
+    [
+        ("central", "firefox", "m-c-20251107164336-opt"),
+        ("try", "firefox", "try-20251107165543-opt"),
+        ("autoland", "firefox", "autoland-20251107165513-opt"),
+        ("esr140", "firefox", "m-esr140-20251106203603-opt"),
+        ("beta", "firefox", "m-b-20251107021527-opt"),
+        ("release", "firefox", "m-r-20251106194447-opt"),
+        ("central", "thunderbird", "c-c-20251106232556-opt"),
+        ("try", "thunderbird", "try-c-c-20251107030132-opt"),
+        ("esr140", "thunderbird", "c-esr140-20251107133303-opt"),
+        ("beta", "thunderbird", "c-b-20251103170853-opt"),
+        ("release", "thunderbird", "c-r-20251106212021-opt"),
+    ],
+)
+def test_auto_name(branch, product, expected):
+    """Test automatic output directory name"""
+    fetch = Fetcher(branch, "latest", BuildFlags(), [], product=product)
+    assert fetch.get_auto_name() == expected
