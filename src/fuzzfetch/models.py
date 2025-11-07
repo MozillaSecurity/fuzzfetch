@@ -477,12 +477,23 @@ class Product:
         }
     )
 
-    def __init__(self, product: str | None = None):
+    def __init__(self, product: str):
+        assert self.PREFIXES.keys() == self.NAMESPACES.keys()
+        if product not in self.NAMESPACES:
+            raise FetcherException(f"Unknown product: {product}")
         self.name = product
-        self.prefix = (
-            self.PREFIXES.get(product) if product and product in self.PREFIXES else ""
-        )
-        self.namespace = self.NAMESPACES.get(product) if product else None
+        self.prefix = self.PREFIXES[product]
+        self.namespace = self.NAMESPACES[product]
+
+    def prefix_branch_short(self, branch: str) -> str:
+        """shorter version of `prefix_branch` for output naming (eg. m-c)"""
+        parts = []
+        for part in self.prefix_branch(branch).split("-"):
+            if part in {"autoland", "try"} or part.startswith("esr"):
+                parts.append(part)
+            else:
+                parts.append(part[0])
+        return "-".join(parts)
 
     def prefix_branch(self, branch: str) -> str:
         """add the appropriate prefix to the branch name (e.g., beta -> mozilla-beta)"""

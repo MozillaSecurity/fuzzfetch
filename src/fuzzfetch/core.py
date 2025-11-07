@@ -233,15 +233,7 @@ class Fetcher:
             self._task = build
 
         options = self._flags.build_string()
-        if self._branch in {"autoland", "try"}:
-            branch = self._branch
-        else:
-            namespace_initial = (
-                self._product.namespace[0]
-                if self._product.namespace is not None
-                else ""
-            )
-            branch = f"{namespace_initial}-{self._branch[0]}"
+        branch = self._product.prefix_branch_short(self._branch)
         self._auto_name = (
             f"{self._platform.auto_name_prefix()}{branch}-{self.id}{options}"
         )
