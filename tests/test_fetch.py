@@ -172,18 +172,23 @@ def test_metadata(branch, build_flags, os_, cpu, as_args):
     "requested, expected, direction",
     (
         # Requested data is older than available (-365 days)
-        ("2024-06-10", "2024-06-11", BuildSearchOrder.ASC),
+        pytest.param("2024-06-10", "2024-06-11", BuildSearchOrder.ASC, id="old-date"),
         # Requested build is in the future (+1 days)
-        ("2025-06-12", "2025-06-11", BuildSearchOrder.DESC),
+        pytest.param(
+            "2025-06-12", "2025-06-11", BuildSearchOrder.DESC, id="future-date"
+        ),
         # Requested rev is older than available (-365)
-        (
+        pytest.param(
             "951502a5faeb2d4ede9d2cc7628091f76996d12c",
             "e1287caec454f439e2faf508a25643e95cbfe4fb",
             BuildSearchOrder.ASC,
+            id="old-rev",
         ),
     ),
 )
-@pytest.mark.parametrize("is_namespace", (True, False))
+@pytest.mark.parametrize(
+    "is_namespace", (pytest.param(True, id="ns"), pytest.param(False, id="non-ns"))
+)
 def test_nearest_retrieval(requested, expected, direction, is_namespace):
     """Attempt to retrieve a build near the supplied build_id."""
     build_str = requested
