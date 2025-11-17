@@ -57,6 +57,7 @@ class FetcherArgs:
                 "mozharness",
                 "searchfox",
                 "thunderbird",
+                "xpcshell",
             ),
             help="Specify the build artifacts to download. "
             f"(default: {' '.join(FetcherArgs.DEFAULT_TARGETS)})",
